@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EX_BoundingPolygon namespace="gex">
+    <element>
+        <name>extentTypeCode</name>
+        <obligation>O</obligation>
+        <occurrence>1</occurrence>
+        <configFile></configFile>
+        <namespace>gex</namespace>
+        <used>false</used>
+    </element>
+    <element>
+        <name>polygon</name>
+        <obligation>M</obligation>
+        <occurrence>N</occurrence>
+        <configFile></configFile>
+        <namespace>gex</namespace>
+        <used>true</used>
+    </element>
+</EX_BoundingPolygon>

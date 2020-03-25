@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MD_KeywordTypeCode codespace="http://standards.iso.org/iso/19115/-3/mri/1.0">
+    <entry>
+        <code>discipline</code>
+        <definition>keyword identifies a branch of instruction or specialized learning</definition>
+    </entry>
+    <entry>
+        <code>place</code>
+        <definition>keyword identifies a location</definition>
+    </entry>
+    <entry>
+        <code>stratum</code>
+        <definition>keyword identifies the layer(s) of any deposited substance or levels within an ordered system</definition>
+    </entry>
+    <entry>
+        <code>temporal</code>
+        <definition>keyword identifies a time period related to the resource</definition>
+    </entry>
+    <entry>
+        <code>theme</code>
+        <definition>keyword identifies a particular subject or topic</definition>
+    </entry>
+    <entry>
+        <code>dataCentre</code>
+        <definition>keyword identifies a repository or archive that manages and distributes data</definition>
+    </entry>
+    <entry>
+        <code>featureType</code>
+        <definition>keyword identifies a resource containing or about a collection of feature instances with common characteristics</definition>
+    </entry>
+    <entry>
+        <code>instrument</code>
+        <definition>keyword identifies a device used to measure or compare physical properties</definition>
+    </entry>
+    <entry>
+        <code>platform</code>
+        <definition>keyword identifies a structure upon which an instrument is mounted</definition>
+    </entry>
+    <entry>
+        <code>process</code>
+        <definition>keyword identifies a series of actions or natural occurrences</definition>
+    </entry>
+    <entry>
+        <code>project</code>
+        <definition>keyword identifies an endeavour undertaken to create or modify a product or service</definition>
+    </entry>
+    <entry>
+        <code>service</code>
+        <definition>keyword identifies an activity carried out by one party for the benefit of another</definition>
+    </entry>
+    <entry>
+        <code>product</code>
+        <definition>keyword identifies a type of product</definition>
+    </entry>
+    <entry>
+        <code>subTopicCategory</code>
+        <definition>refinement of a topic category for the purpose of geographic data classification</definition>
+    </entry>
+    <entry>
+        <code>taxon</code>
+        <definition>keyword identifies a taxonomy of the resource</definition>
+    </entry>
+</MD_KeywordTypeCode>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PT_FreeText namespace="lan">
+    <element>
+        <name>textGroup</name>
+        <obligation>M</obligation>
+        <occurrence>N</occurrence>
+        <configFile>config_LocalisedCharacterString.xml</configFile>
+        <namespace>lan</namespace>
+        <used>true</used>
+    </element>
+</PT_FreeText>

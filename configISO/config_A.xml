@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+< namespace="">
+    <element>
+        <name></name>
+        <obligation>O</obligation>
+        <occurrence>N</occurrence>
+        <configFile>config_.xml</configFile>
+        <namespace></namespace>
+        <used>true</used>
+    </element>
+</>

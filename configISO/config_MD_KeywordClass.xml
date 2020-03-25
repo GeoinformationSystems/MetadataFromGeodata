@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MD_KeywordClass namespace="mri">
+    <element>
+        <name>className</name>
+        <obligation>M</obligation>
+        <occurrence>1</occurrence>
+        <configFile></configFile>
+        <namespace>mri</namespace>
+        <used>true</used>
+    </element>
+    <element>
+        <name>conceptIdentifier</name>
+        <obligation>O</obligation>
+        <occurrence>1</occurrence>
+        <configFile></configFile>
+        <namespace>mri</namespace>
+        <used>true</used>
+    </element>
+    <element>
+        <name>ontology</name>
+        <obligation>M</obligation>
+        <occurrence>1</occurrence>
+        <configFile>config_CI_Citation.xml</configFile>
+        <namespace>mri</namespace>
+        <used>true</used>
+    </element>
+</MD_KeywordClass>

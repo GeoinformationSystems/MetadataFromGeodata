@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EX_GeographicDescription namespace="gex">
+    <element>
+        <name>extentTypeCode</name>
+        <obligation>O</obligation>
+        <occurrence>1</occurrence>
+        <configFile></configFile>
+        <namespace>gex</namespace>
+        <used>true</used>
+    </element>
+    <element>
+        <name>geographicIdentifier</name>
+        <obligation>M</obligation>
+        <occurrence>1</occurrence>
+        <configFile>config_MD_Identifier.xml</configFile>
+        <namespace>gex</namespace>
+        <used>true</used>
+    </element>
+</EX_GeographicDescription>

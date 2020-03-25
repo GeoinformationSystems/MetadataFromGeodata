@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CI_PresentationFormCode codespace="http://standards.iso.org/iso/19115/-3/cit/1.0">
+    <entry>
+        <code>documentDigital</code>
+        <definition>digital representation of a primarily textual item (can contain illustrations also)</definition>
+    </entry>
+    <entry>
+        <code>documentHardcopy</code>
+        <definition>representation of a primarily textual item (can contain illustrations also) on paper, photographic material, or other media</definition>
+    </entry>
+    <entry>
+        <code>imageDigital</code>
+        <definition>likeness of natural or man-made features, objects, and activities acquired through the sensing of visual or any other segment of the electromagnetic spectrum by sensors, such as thermal infrared, and high resolution radar and stored in digital format</definition>
+    </entry>
+    <entry>
+        <code>imageHardcopy</code>
+        <definition>likeness of natural or man-made features, objects, and activities acquired through the sensing of visual or any other segment of the electromagnetic spectrum by sensors, such as thermal infrared, and high resolution radar and reproduced on paper, photographic material, or other media for use directly by the human user</definition>
+    </entry>
+    <entry>
+        <code>mapDigital</code>
+        <definition>map represented in raster or vector form</definition>
+    </entry>
+    <entry>
+        <code>mapHardcopy</code>
+        <definition>map printed on paper, photographic material, or other media for use directly by the human user</definition>
+    </entry>
+    <entry>
+        <code>modelDigital</code>
+        <definition>multi-dimensional digital representation of a feature, process, etc.</definition>
+    </entry>
+    <entry>
+        <code>modelHardcopy</code>
+        <definition>3-dimensional, physical model</definition>
+    </entry>
+    <entry>
+        <code>profileDigital</code>
+        <definition>vertical cross-section in digital form</definition>
+    </entry>
+    <entry>
+        <code>profileHardcopy</code>
+        <definition>vertical cross-section printed on paper, etc.</definition>
+    </entry>
+    <entry>
+        <code>tableDigital</code>
+        <definition>digital representation of facts or figures systematically displayed, especially in columns</definition>
+    </entry>
+    <entry>
+        <code>tableHardcopy</code>
+        <definition>representation of facts or figures systematically displayed, especially in columns, printed on paper, photographic material, or other media</definition>
+    </entry>
+    <entry>
+        <code>videoDigital</code>
+        <definition>digital video recording</definition>
+    </entry>
+    <entry>
+        <code>videoHardcopy</code>
+        <definition>video recording on film</definition>
+    </entry>
+    <entry>
+        <code>audioDigital</code>
+        <definition>digital audio recording</definition>
+    </entry>
+    <entry>
+        <code>audioHardcopy</code>
+        <definition>audio recording delivered by analog media, such as a magnetic tape</definition>
+    </entry>
+    <entry>
+        <code>multimediaDigital</code>
+        <definition>information representation using simultaneously various digital modes for text, sound, image</definition>
+    </entry>
+    <entry>
+        <code>multimediaHardcopy</code>
+        <definition>information representation using simultaneously various analog modes for text, sound, image</definition>
+    </entry>
+    <entry>
+        <code>physicalSample</code>
+        <definition>a physical object, e.g. Rock or mineral sample, microscope slide</definition>
+    </entry>
+    <entry>
+        <code>diagramDigital</code>
+        <definition>information represented graphically by charts such as pie chart, bar chart, and other type of diagrams and recorded in digital format</definition>
+    </entry>
+    <entry>
+        <code>diagramHardcopy</code>
+        <definition>information represented graphically by charts such as pie chart, bar chart, and other type of diagrams and printed on paper, phototographic material, or other media</definition>
+    </entry>
+</CI_PresentationFormCode>

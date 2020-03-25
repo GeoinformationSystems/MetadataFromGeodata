@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MD_FeatureTypeInfo namespace="mrc">
+    <element>
+        <name>featureTypeName</name>
+        <obligation>M</obligation>
+        <occurrence>1</occurrence>
+        <configFile></configFile>
+        <namespace>mrc</namespace>
+        <used>true</used>
+    </element>
+    <element>
+        <name>featureInstanceCount</name>
+        <obligation>O</obligation>
+        <occurrence>1</occurrence>
+        <configFile></configFile>
+        <namespace>mrc</namespace>
+        <used>true</used>
+    </element>
+</MD_FeatureTypeInfo>

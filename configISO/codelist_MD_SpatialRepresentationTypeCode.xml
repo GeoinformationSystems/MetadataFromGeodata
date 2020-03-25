@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MD_SpatialRepresentationTypeCode codespace="http://standards.iso.org/iso/19115/-3/mcc/1.0">
+    <entry>
+        <code>vector</code>
+        <definition>vector data are used to represent geographic data</definition>
+    </entry>
+    <entry>
+        <code>grid</code>
+        <definition>grid data are used to represent geographic data</definition>
+    </entry>
+    <entry>
+        <code>textTable</code>
+        <definition>textual or tabular data are used to represent geographic data</definition>
+    </entry>
+    <entry>
+        <code>tin</code>
+        <definition>triangulated irregular network</definition>
+    </entry>
+    <entry>
+        <code>stereoModel</code>
+        <definition>three-dimensional view formed by the intersecting homologous rays of an overlapping pair of images</definition>
+    </entry>
+    <entry>
+        <code>video</code>
+        <definition>scene from a video recording</definition>
+    </entry>
+</MD_SpatialRepresentationTypeCode>

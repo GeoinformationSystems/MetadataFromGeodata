@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MD_TopicCategoryCode codespace="http://standards.iso.org/iso/19115/-3/mri/1.0">
+    <entry>
+        <code>farming</code>
+        <definition>rearing of animals and/or cultivation of plants. Examples: agriculture, irrigation, aquaculture, plantations, herding, pests and diseases affecting crops and livestock</definition>
+    </entry>
+    <entry>
+        <code>biota</code>
+        <definition>flora and/or fauna in natural environment. Examples: wildlife, vegetation, biological sciences, ecology, wilderness, sealife, wetlands, habitat</definition>
+    </entry>
+    <entry>
+        <code>boundaries</code>
+        <definition>legal land descriptions, maritime boundaries. Examples: political and administrative boundaries, territorial seas, EEZ, port security zones</definition>
+    </entry>
+    <entry>
+        <code>climatologyMeteorologyAtmosphere</code>
+        <definition>processes and phenomena of the atmosphere. Examples: cloud cover, weather, climate, atmospheric conditions, climate change, precipitation</definition>
+    </entry>
+    <entry>
+        <code>economy</code>
+        <definition>economic activities, conditions and employment. Examples: production, labour, revenue, commerce, industry, tourism and ecotourism, forestry, fisheries, commercial or subsistence hunting, exploration and exploitation of resources such as minerals, oil and gas</definition>
+    </entry>
+    <entry>
+        <code>elevation</code>
+        <definition>height above or below a vertical datum. Examples: altitude, bathymetry, digital elevation models, slope, derived products</definition>
+    </entry>
+    <entry>
+        <code>environment</code>
+        <definition>environmental resources, protection and conservation. Examples: environmental pollution, waste storage and treatment, environmental impact assessment, monitoring environmental risk, nature reserves, landscape</definition>
+    </entry>
+    <entry>
+        <code>geoscientificInformation</code>
+        <definition>information pertaining to earth sciences. Examples: geophysical features and processes, geology, minerals, sciences dealing with the composition, structure and origin of the earth's rocks, risks of earthquakes, volcanic activity, landslides, gravity information, soils, permafrost, hydrogeology, erosion</definition>
+    </entry>
+    <entry>
+        <code>health</code>
+        <definition>health, health services, human ecology, and safety. Examples: disease and illness, factors affecting health, hygiene, substance abuse, mental and physical health, health services</definition>
+    </entry>
+    <entry>
+        <code>imageryBaseMapsEarthCover</code>
+        <definition>base maps. Examples: land cover, topographic maps, imagery, unclassified images, annotations</definition>
+    </entry>
+    <entry>
+        <code>intelligenceMilitary</code>
+        <definition>military bases, structures, activities. Examples: barracks, training grounds, military transportation, information collection</definition>
+    </entry>
+    <entry>
+        <code>inlandWaters</code>
+        <definition>inland water features, drainage systems and their characteristics. Examples: rivers and glaciers, salt lakes, water utilization plans, dams, currents, floods, water quality, hydrologic information</definition>
+    </entry>
+    <entry>
+        <code>location</code>
+        <definition>positional information and services. Examples: addresses, geodetic networks, control points, postal zones and services, place names</definition>
+    </entry>
+    <entry>
+        <code>oceans</code>
+        <definition>features and characteristics of salt water bodies (excluding inland waters) Examples: tides, tsunamis, coastal information, reefs</definition>
+    </entry>
+    <entry>
+        <code>planningCadastre</code>
+        <definition>information used for appropriate actions for future use of the land. Examples: land use maps, zoning maps, cadastral surveys, land ownership</definition>
+    </entry>
+    <entry>
+        <code>society</code>
+        <definition>characteristics of society and cultures. Examples: settlements, anthropology, archaeology, education, traditional beliefs, manners and customs, demographic data, recreational areas and activities, social impact assessments, crime and justice, census information</definition>
+    </entry>
+    <entry>
+        <code>structure</code>
+        <definition>man-made construction. Examples: buildings, museums, churches, factories, housing, monuments, shops, towers</definition>
+    </entry>
+    <entry>
+        <code>transportation</code>
+        <definition>means and aids for conveying persons and/or goods. Examples: roads, airports/airstrips, shipping routes, tunnels, nautical charts, vehicle or vessel location, aeronautical charts, railways</definition>
+    </entry>
+    <entry>
+        <code>utilitiesCommunication</code>
+        <definition>energy, water and waste systems and communications infrastructure and services. Examples: hydroelectricity, geothermal, solar and nuclear sources of energy, water purification and distribution, sewage collection and disposal, electricity and gas distribution, data communication, telecommunication, radio, communication networks</definition>
+    </entry>
+    <entry>
+        <code>extraTerrestrial</code>
+        <definition>region more than 100 km above the surface of the Earth</definition>
+    </entry>
+    <entry>
+        <code>disaster</code>
+        <definition>Information related to disasters. Examples: site of the disaster, evacuation zone, disaster-prevention facility, disaster relief activities</definition>
+    </entry>
+</MD_TopicCategoryCode>

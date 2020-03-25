@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MD_FeatureCatalogue namespace="mrc">
+    <element>
+        <name>featureCatalogue</name>
+        <obligation>M</obligation>
+        <occurrence>N</occurrence>
+        <configFile></configFile>
+        <namespace>mrc</namespace>
+        <used>true</used>
+    </element>
+</MD_FeatureCatalogue>

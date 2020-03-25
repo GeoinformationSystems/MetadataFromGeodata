@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DQ_Result namespace="mdq">
+    <element>
+        <name>resultScope</name>
+        <obligation>O</obligation>
+        <occurrence>1</occurrence>
+        <configFile>config_MD_Scope.xml</configFile>
+        <namespace>mdq</namespace>
+        <used>true</used>
+    </element>
+    <element>
+        <name>dateTime</name>
+        <obligation>O</obligation>
+        <occurrence>1</occurrence>
+        <configFile></configFile>
+        <namespace>mdq</namespace>
+        <used>true</used>
+    </element>
+</DQ_Result>

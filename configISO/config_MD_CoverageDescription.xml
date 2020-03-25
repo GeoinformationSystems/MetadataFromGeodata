@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MD_CoverageDescription namespace="mrc">
+    <element>
+        <name>attributeDescription</name>
+        <obligation>M</obligation>
+        <occurrence>1</occurrence>
+        <configFile></configFile>
+        <namespace>mrc</namespace>
+        <used>true</used>
+    </element>
+    <element>
+        <name>processingLevelCode</name>
+        <obligation>O</obligation>
+        <occurrence>1</occurrence>
+        <configFile>config_MD_Identifier.xml</configFile>
+        <namespace>mrc</namespace>
+        <used>true</used>
+    </element>
+    <element>
+        <name>attributeGroup</name>
+        <obligation>O</obligation>
+        <occurrence>N</occurrence>
+        <configFile>config_MD_AttributeGroup.xml</configFile>
+        <namespace>mrc</namespace>
+        <used>true</used>
+    </element>
+</MD_CoverageDescription>

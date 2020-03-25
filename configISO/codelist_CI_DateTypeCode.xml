@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CI_DateTypeCode codespace="http://standards.iso.org/iso/19115/-3/cit/1.0">
+    <entry>
+        <code>creation</code>
+        <definition>date identifies when the resource was brought into existence</definition>
+    </entry>
+    <entry>
+        <code>publication</code>
+        <definition>date identifies when the resource was issued</definition>
+    </entry>
+    <entry>
+        <code>revision</code>
+        <definition>date identifies when the resource was examined or re-examined and improved or amended</definition>
+    </entry>
+    <entry>
+        <code>expiry</code>
+        <definition>date identifies when resource expires</definition>
+    </entry>
+    <entry>
+        <code>lastUpdate</code>
+        <definition>date identifies when resource was last updated</definition>
+    </entry>
+    <entry>
+        <code>lastRevision</code>
+        <definition>date identifies when resource was last reviewed</definition>
+    </entry>
+    <entry>
+        <code>nextUpdate</code>
+        <definition>date identifies when resource will be next updated</definition>
+    </entry>
+    <entry>
+        <code>unavailable</code>
+        <definition>date identifies when resource became not available or obtainable</definition>
+    </entry>
+    <entry>
+        <code>inForce</code>
+        <definition>date identifies when resource became in force</definition>
+    </entry>
+    <entry>
+        <code>adopted</code>
+        <definition>date identifies when resource was adopted</definition>
+    </entry>
+    <entry>
+        <code>deprecated</code>
+        <definition>date identifies when resource was deprecated</definition>
+    </entry>
+    <entry>
+        <code>superseded</code>
+        <definition>date identifies when resource was superseded or replaced by another resource</definition>
+    </entry>
+    <entry>
+        <code>validityBegins</code>
+        <definition>time at which the data are considered to become valid. NOTE: There could be quite a delay between creation and validity begins</definition>
+    </entry>
+    <entry>
+        <code>validityExpires</code>
+        <definition>time at which the data are no longer considered to be valid</definition>
+    </entry>
+    <entry>
+        <code>released</code>
+        <definition>the date that the resource shall be released for public access</definition>
+    </entry>
+    <entry>
+        <code>distribution</code>
+        <definition>date identifies when an instance of the resource was distributed</definition>
+    </entry>
+</CI_DateTypeCode>

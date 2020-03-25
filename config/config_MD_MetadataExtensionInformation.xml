@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MD_MetadataExtensionInformation namespace="mex">
+    <element>
+        <name>extensionInLineResource</name>
+        <obligation>O</obligation>
+        <occurrence>N</occurrence>
+        <configFile>config_CI_OnlineResource.xml</configFile>
+        <namespace>mex</namespace>
+        <used>true</used>
+    </element>
+    <element>
+        <name>extendedElementInformation</name>
+        <obligation>O</obligation>
+        <occurrence>N</occurrence>
+        <configFile>config_MD_ExtendedElementInformation.xml</configFile>
+        <namespace>mex</namespace>
+        <used>true</used>
+    </element>
+</MD_MetadataExtensionInformation>

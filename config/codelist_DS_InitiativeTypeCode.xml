@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DS_InitiativeTypeCode codespace="http://standards.iso.org/iso/19115/-3/mri/1.0">
+    <entry>
+        <code>campaign</code>
+        <definition>series of organized planned actions</definition>
+    </entry>
+    <entry>
+        <code>collection</code>
+        <definition>accumulation of resources assembled for a specific purpose</definition>
+    </entry>
+    <entry>
+        <code>exercise</code>
+        <definition>specific performance of a function or group of functions</definition>
+    </entry>
+    <entry>
+        <code>experiment</code>
+        <definition>process designed to find if something is effective or valid</definition>
+    </entry>
+    <entry>
+        <code>investigation</code>
+        <definition>search or systematic inquiry</definition>
+    </entry>
+    <entry>
+        <code>mission</code>
+        <definition>specific operation of a data collection system</definition>
+    </entry>
+    <entry>
+        <code>sensor</code>
+        <definition>device or piece of equipment which detects or records</definition>
+    </entry>
+    <entry>
+        <code>operation</code>
+        <definition>action that is part of a series of actions</definition>
+    </entry>
+    <entry>
+        <code>platform</code>
+        <definition>vehicle or other support base that holds a sensor</definition>
+    </entry>
+    <entry>
+        <code>process</code>
+        <definition>method of doing something involving a number of steps</definition>
+    </entry>
+    <entry>
+        <code>program</code>
+        <definition>specific planned activity</definition>
+    </entry>
+    <entry>
+        <code>project</code>
+        <definition>organized undertaking, research, or development</definition>
+    </entry>
+    <entry>
+        <code>study</code>
+        <definition>examination or investigation</definition>
+    </entry>
+    <entry>
+        <code>task</code>
+        <definition>piece of work</definition>
+    </entry>
+    <entry>
+        <code>trial</code>
+        <definition>process of testing to discover or demonstrate something</definition>
+    </entry>
+</DS_InitiativeTypeCode>

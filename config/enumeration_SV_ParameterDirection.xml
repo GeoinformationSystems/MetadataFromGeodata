@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SV_ParameterDirection codespace="http://standards.iso.org/iso/19115/-3/srv/2.0">
+    <entry>
+        <code>in</code>
+        <definition>the parameter is an input parameter to the service instance</definition>
+    </entry>
+    <entry>
+        <code>out</code>
+        <definition>the parameter is an output parameter to the service instance</definition>
+    </entry>
+    <entry>
+        <code>in/out</code>
+        <definition>the parameter is both an input and output parameter to the service instance</definition>
+    </entry>
+</SV_ParameterDirection>

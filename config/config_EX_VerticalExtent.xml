@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EX_VerticalExtent namespace="gex">
+    <element>
+        <name>minimumValue</name>
+        <obligation>M</obligation>
+        <occurrence>1</occurrence>
+        <configFile></configFile>
+        <namespace>gex</namespace>
+        <used>true</used>
+    </element>
+    <element>
+        <name>maximumValue</name>
+        <obligation>M</obligation>
+        <occurrence>1</occurrence>
+        <configFile></configFile>
+        <namespace>gex</namespace>
+        <used>true</used>
+    </element>
+    <element>
+        <name>verticalCRS</name>
+        <obligation>O</obligation>
+        <occurrence>1</occurrence>
+        <configFile></configFile>
+        <namespace>gex</namespace>
+        <used>true</used>
+    </element>
+    <element>
+        <name>verticalCRSId</name>
+        <obligation>O</obligation>
+        <occurrence>1</occurrence>
+        <configFile>config_MD_ReferenceSystem.xml</configFile>
+        <namespace>gex</namespace>
+        <used>true</used>
+    </element>
+</EX_VerticalExtent>
