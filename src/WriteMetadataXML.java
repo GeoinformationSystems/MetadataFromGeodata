@@ -63,88 +63,11 @@ public class WriteMetadataXML {
             ns.put(namespacesSet[i][0], namespacesList.get(i));
         }
 
-        ///////////////////////////////
-        // test content
-        // -> in future this comes out of Geopackage reading or similar
-/*
-        NestedMap<String, String> content = new NestedMap<>();
-
-        content.makeChild("MD_Metadata");
-        content.getChild("MD_Metadata").makeChild("metadataIdentifier");
-        content.getChild("MD_Metadata").getChild("metadataIdentifier").makeChild("MD_Identifier");
-        content.getChild("MD_Metadata").getChild("metadataIdentifier").getChild("MD_Identifier").makeChild("code");
-        content.getChild("MD_Metadata").getChild("metadataIdentifier").getChild("MD_Identifier").getChild("code").setValue("1. Mandatory");
-        content.getChild("MD_Metadata").makeChild("contact");
-        content.getChild("MD_Metadata").getChild("contact").makeChild("CI_Responsibility");
-        content.getChild("MD_Metadata").getChild("contact").getChild("CI_Responsibility").makeChild("role");
-//        content.getChild("MD_Metadata").getChild("contact").getChild("CI_Responsibility").getChild("role").setValue("2. Mandatory");
-        content.getChild("MD_Metadata").getChild("contact").getChild("CI_Responsibility").getChild("role").setValue("resourceProvider");
-        content.getChild("MD_Metadata").makeChild("dateInfo");
-        content.getChild("MD_Metadata").getChild("dateInfo").makeChild("CI_Date");
-        content.getChild("MD_Metadata").getChild("dateInfo").getChild("CI_Date").makeChild("date");
-        content.getChild("MD_Metadata").getChild("dateInfo").getChild("CI_Date").getChild("date").setValue("3. Mandatory");
-        content.getChild("MD_Metadata").getChild("dateInfo").getChild("CI_Date").makeChild("dateType");
-        content.getChild("MD_Metadata").getChild("dateInfo").getChild("CI_Date").getChild("dateType").setValue("4. Mandatory");
-        content.getChild("MD_Metadata").makeChild("alternativeMetadataReference");
-        content.getChild("MD_Metadata").getChild("alternativeMetadataReference").makeChild("CI_Citation");
-        content.getChild("MD_Metadata").getChild("alternativeMetadataReference").getChild("CI_Citation").makeChild("title");
-        content.getChild("MD_Metadata").getChild("alternativeMetadataReference").getChild("CI_Citation").getChild("title").setValue("5. Mandatory");
-        content.getChild("MD_Metadata").getChild("alternativeMetadataReference").getChild("CI_Citation").makeChild("date");
-        content.getChild("MD_Metadata").getChild("alternativeMetadataReference").getChild("CI_Citation").getChild("date").makeChild("CI_Date");
-        content.getChild("MD_Metadata").getChild("alternativeMetadataReference").getChild("CI_Citation").getChild("date").getChild("CI_Date").makeChild("date");
-        content.getChild("MD_Metadata").getChild("alternativeMetadataReference").getChild("CI_Citation").getChild("date").getChild("CI_Date").getChild("date").setValue("6. Mandatory");
-        content.getChild("MD_Metadata").getChild("alternativeMetadataReference").getChild("CI_Citation").getChild("date").getChild("CI_Date").makeChild("dateType");
-        content.getChild("MD_Metadata").getChild("alternativeMetadataReference").getChild("CI_Citation").getChild("date").getChild("CI_Date").getChild("dateType").setValue("7. Mandatory");
-        content.getChild("MD_Metadata").getChild("alternativeMetadataReference").getChild("CI_Citation").makeChild("identifier");
-        content.getChild("MD_Metadata").getChild("alternativeMetadataReference").getChild("CI_Citation").getChild("identifier").makeChild("MD_Identifier");
-        content.getChild("MD_Metadata").getChild("alternativeMetadataReference").getChild("CI_Citation").getChild("identifier").getChild("MD_Identifier").makeChild("code");
-        content.getChild("MD_Metadata").getChild("alternativeMetadataReference").getChild("CI_Citation").getChild("identifier").getChild("MD_Identifier").getChild("code").setValue("8. Mandatory");
-        content.getChild("MD_Metadata").getChild("alternativeMetadataReference").getChild("CI_Citation").makeChild("citedResponsibleParty");
-        content.getChild("MD_Metadata").getChild("alternativeMetadataReference").getChild("CI_Citation").getChild("citedResponsibleParty").makeChild("CI_Responsibility");
-        content.getChild("MD_Metadata").getChild("alternativeMetadataReference").getChild("CI_Citation").getChild("citedResponsibleParty").getChild("CI_Responsibility").makeChild("role");
-        content.getChild("MD_Metadata").getChild("alternativeMetadataReference").getChild("CI_Citation").getChild("citedResponsibleParty").getChild("CI_Responsibility").getChild("role").setValue("9. Mandatory");
-        content.getChild("MD_Metadata").makeChild("identificationInfo");
-        content.getChild("MD_Metadata").getChild("identificationInfo").makeChild("MD_Identification");
-        content.getChild("MD_Metadata").getChild("identificationInfo").getChild("MD_Identification").makeChild("citation");
-        content.getChild("MD_Metadata").getChild("identificationInfo").getChild("MD_Identification").getChild("citation").makeChild("CI_Citation");
-        content.getChild("MD_Metadata").getChild("identificationInfo").getChild("MD_Identification").getChild("citation").getChild("CI_Citation").makeChild("title");
-        content.getChild("MD_Metadata").getChild("identificationInfo").getChild("MD_Identification").getChild("citation").getChild("CI_Citation").getChild("title").setValue("10. Mandatory");
-        content.getChild("MD_Metadata").getChild("identificationInfo").getChild("MD_Identification").getChild("citation").getChild("CI_Citation").makeChild("date");
-        content.getChild("MD_Metadata").getChild("identificationInfo").getChild("MD_Identification").getChild("citation").getChild("CI_Citation").getChild("date").makeChild("CI_Date");
-        content.getChild("MD_Metadata").getChild("identificationInfo").getChild("MD_Identification").getChild("citation").getChild("CI_Citation").getChild("date").getChild("CI_Date").makeChild("date");
-        content.getChild("MD_Metadata").getChild("identificationInfo").getChild("MD_Identification").getChild("citation").getChild("CI_Citation").getChild("date").getChild("CI_Date").getChild("date").setValue("11. Mandatory");
-        content.getChild("MD_Metadata").getChild("identificationInfo").getChild("MD_Identification").getChild("citation").getChild("CI_Citation").getChild("date").getChild("CI_Date").makeChild("dateType");
-        content.getChild("MD_Metadata").getChild("identificationInfo").getChild("MD_Identification").getChild("citation").getChild("CI_Citation").getChild("date").getChild("CI_Date").getChild("dateType").setValue("12. Mandatory");
-        content.getChild("MD_Metadata").getChild("identificationInfo").getChild("MD_Identification").getChild("citation").getChild("CI_Citation").makeChild("identifier");
-        content.getChild("MD_Metadata").getChild("identificationInfo").getChild("MD_Identification").getChild("citation").getChild("CI_Citation").getChild("identifier").makeChild("MD_Identifier");
-        content.getChild("MD_Metadata").getChild("identificationInfo").getChild("MD_Identification").getChild("citation").getChild("CI_Citation").getChild("identifier").getChild("MD_Identifier").makeChild("code");
-        content.getChild("MD_Metadata").getChild("identificationInfo").getChild("MD_Identification").getChild("citation").getChild("CI_Citation").getChild("identifier").getChild("MD_Identifier").getChild("code").setValue("13. Mandatory");
-        content.getChild("MD_Metadata").getChild("identificationInfo").getChild("MD_Identification").getChild("citation").getChild("CI_Citation").makeChild("citedResponsibleParty");
-        content.getChild("MD_Metadata").getChild("identificationInfo").getChild("MD_Identification").getChild("citation").getChild("CI_Citation").getChild("citedResponsibleParty").makeChild("CI_Responsibility");
-        content.getChild("MD_Metadata").getChild("identificationInfo").getChild("MD_Identification").getChild("citation").getChild("CI_Citation").getChild("citedResponsibleParty").getChild("CI_Responsibility").makeChild("role");
-        content.getChild("MD_Metadata").getChild("identificationInfo").getChild("MD_Identification").getChild("citation").getChild("CI_Citation").getChild("citedResponsibleParty").getChild("CI_Responsibility").getChild("role").setValue("14. Mandatory");
-        content.getChild("MD_Metadata").getChild("identificationInfo").getChild("MD_Identification").makeChild("abstract");
-        content.getChild("MD_Metadata").getChild("identificationInfo").getChild("MD_Identification").getChild("abstract").setValue("15. Mandatory");
-
-        content.getChild("MD_Metadata").makeChild("dataQualityInfo");
-        content.getChild("MD_Metadata").getChild("dataQualityInfo").makeChild("DQ_DataQuality");
-        content.getChild("MD_Metadata").getChild("dataQualityInfo").getChild("DQ_DataQuality").makeChild("Scope");
-        content.getChild("MD_Metadata").getChild("dataQualityInfo").getChild("DQ_DataQuality").getChild("Scope").makeChild("MD_Scope");
-        content.getChild("MD_Metadata").getChild("dataQualityInfo").getChild("DQ_DataQuality").getChild("Scope").getChild("MD_Scope").makeChild("level");
-        content.getChild("MD_Metadata").getChild("dataQualityInfo").getChild("DQ_DataQuality").getChild("Scope").getChild("MD_Scope").getChild("level").setValue("16. Mandatory");
-
-        content.getChild("MD_Metadata").makeChild("metadataScope");
-        content.getChild("MD_Metadata").getChild("metadataScope").makeChild("MD_MetadataScope");
-        content.getChild("MD_Metadata").getChild("metadataScope").getChild("MD_MetadataScope").makeChild("name");
-        content.getChild("MD_Metadata").getChild("metadataScope").getChild("MD_MetadataScope").getChild("name").setValue("GeoKur Metadata Profile");
-
-//        content.getChild("MD_Metadata").getChild("identificationInfo").getChild("MD_Identification").makeChild("topicCategory");
-//        content.getChild("MD_Metadata").getChild("identificationInfo").getChild("MD_Identification").getChild("topicCategory").setValue("biota");
-*/
-
         // content from arbitrary geopackage
+        // one geopackage is one dataset - multiple content in one geopackage result in different MD_Metadata
         ReadGeopackage geopackageConnection = new ReadGeopackage();
-        Element content = geopackageConnection.getContent("NewZealandPacked.gpkg");
+        Integer contentNum = geopackageConnection.getContentNum("NewZealandPacked.gpkg"); //////////////////////////add different contents
+        Element content = geopackageConnection.getContent("NewZealandPacked.gpkg", 1);
 
         // start linked list with element names (as string)
         List<String> elementChain = new ArrayList<>();
