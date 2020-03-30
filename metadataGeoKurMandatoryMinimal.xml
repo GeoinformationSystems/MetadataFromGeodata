@@ -4,15 +4,13 @@
     <mdb:MD_Metadata>
       <mdb:metadataIdentifier>
         <mcc:MD_Identifier>
-          <mcc:code>regionalCouncil</mcc:code>
-          <mcc:code>territorialAuthority</mcc:code>
+          <mcc:code>RandomPoints</mcc:code>
         </mcc:MD_Identifier>
       </mdb:metadataIdentifier>
       <mdb:contact>
         <cit:CI_Responsibility>
           <cit:role>
-            <cat:CI_RoleCode codeList="http://standards.iso.org/iso/19115/-3/cit/1.0/codelists.html#CI_RoleCode" codeListValue="features" />
-            <cat:CI_RoleCode codeList="http://standards.iso.org/iso/19115/-3/cit/1.0/codelists.html#CI_RoleCode" codeListValue="features" />
+            <cat:CI_RoleCode codeList="http://standards.iso.org/iso/19115/-3/cit/1.0/codelists.html#CI_RoleCode" codeListValue="resourceProvider" />
           </cit:role>
         </cit:CI_Responsibility>
       </mdb:contact>

@@ -38,48 +38,58 @@ public class ReadGeopackage {
         Connection connection = gpkg.getConnection(fileName);
         Statement statement = gpkg.getStatement(connection);
 
+        geopackageStructure = ComplementNestedElement(geopackageStructure, new String[] {"root", "DS_Resource", "has", "MD_Metadata", "contact", "CI_Responsibility", "role"}, "resourceProvider");
+//        geopackageStructure = ComplementNestedElement(geopackageStructure, new String[] {"root", "DS_Resource", "has", "MD_Metadata", ""}, identifier);
+//        geopackageStructure = ComplementNestedElement(geopackageStructure, new String[] {"root", "DS_Resource", "has", "MD_Metadata", ""}, identifier);
+//        geopackageStructure = ComplementNestedElement(geopackageStructure, new String[] {"root", "DS_Resource", "has", "MD_Metadata", ""}, identifier);
+//        geopackageStructure = ComplementNestedElement(geopackageStructure, new String[] {"root", "DS_Resource", "has", "MD_Metadata", ""}, identifier);
+
+
         String tableName = gpkg.getTableName(statement, contentAct);
         geopackageStructure = ComplementNestedElement(geopackageStructure, new String[] {"root", "DS_Resource", "has", "MD_Metadata", "metadataIdentifier", "MD_Identifier", "code"}, tableName);
 
-        String dataTypes = gpkg.getDataType(statement, contentAct);
-        switch (dataTypes) {
+        String dataType = gpkg.getDataType(statement, contentAct);
+        switch (dataType) {
             case ("features"):
-                geopackageStructure = ComplementNestedElement(geopackageStructure, new String[] {"root", "DS_Resource", "has", "MD_Metadata", "contact", "CI_Responsibility", "role"}, dataTypes);
+                geopackageStructure = ComplementNestedElement(geopackageStructure, new String[] {"root", "DS_Resource", "has", "MD_Metadata", "contact", "CI_Responsibility", "party"}, dataType);
+                break;
+            case ("2d-gridded-coverage"):
+                geopackageStructure = ComplementNestedElement(geopackageStructure, new String[] {"root", "DS_Resource", "has", "MD_Metadata", "contact", "CI_Responsibility", "party"}, dataType);
                 break;
         }
 
-        String identifier = gpkg.getIdentifier(statement, contentAct);
-        geopackageStructure = ComplementNestedElement(geopackageStructure, new String[] {"root", "DS_Resource", "has", "MD_Metadata", "test1"}, identifier);
-
-        String description = gpkg.getDescription(statement, contentAct);
-        geopackageStructure = ComplementNestedElement(geopackageStructure, new String[] {"root", "DS_Resource", "has", "MD_Metadata", "test2"}, description);
-
-        String lastChange = gpkg.getLastChange(statement, contentAct);
-        geopackageStructure = ComplementNestedElement(geopackageStructure, new String[] {"root", "DS_Resource", "has", "MD_Metadata", "test3"}, lastChange);
-
-        Integer[] extent = gpkg.getExtent(statement, contentAct);
-        geopackageStructure = ComplementNestedElement(geopackageStructure, new String[] {"root", "DS_Resource", "has", "MD_Metadata"}, extent);
-
-        Integer srsID = gpkg.getSRSID(statement, contentAct);
-        geopackageStructure = ComplementNestedElement(geopackageStructure, new String[] {"root", "DS_Resource", "has", "MD_Metadata"}, srsID);
-
-        String srsName = gpkg.getSRSName(statement, srsID);
-        geopackageStructure = ComplementNestedElement(geopackageStructure, new String[] {"root", "DS_Resource", "has", "MD_Metadata"}, srsName);
-
-        String srsOrganization = gpkg.getSRSOrganization(statement, srsID);
-        geopackageStructure = ComplementNestedElement(geopackageStructure, new String[] {"root", "DS_Resource", "has", "MD_Metadata"}, srsOrganization);
-
-        Integer srsOrganizationCoordsysID = gpkg.getSRSOrganizationCoordsysID(statement, srsID);
-        geopackageStructure = ComplementNestedElement(geopackageStructure, new String[] {"root", "DS_Resource", "has", "MD_Metadata"}, srsOrganizationCoordsysID);
-
-        String srsDefinition = gpkg.getSRSDefinition(statement, srsID);
-        geopackageStructure = ComplementNestedElement(geopackageStructure, new String[] {"root", "DS_Resource", "has", "MD_Metadata"}, srsDefinition);
-
-        List<String> tableColNames = gpkg.getTableColNames(statement, tableName);
-        geopackageStructure = ComplementNestedElement(geopackageStructure, new String[] {"root", "DS_Resource", "has", "MD_Metadata"}, tableColNames);
-
-        Integer tableRowNum = gpkg.getTableRowNum(statement, tableName);
-        geopackageStructure = ComplementNestedElement(geopackageStructure, new String[] {"root", "DS_Resource", "has", "MD_Metadata"}, tableRowNum);
+//        String identifier = gpkg.getIdentifier(statement, contentAct);
+//        geopackageStructure = ComplementNestedElement(geopackageStructure, new String[] {"root", "DS_Resource", "has", "MD_Metadata", "test1"}, identifier);
+//
+//        String description = gpkg.getDescription(statement, contentAct);
+//        geopackageStructure = ComplementNestedElement(geopackageStructure, new String[] {"root", "DS_Resource", "has", "MD_Metadata", "test2"}, description);
+//
+//        String lastChange = gpkg.getLastChange(statement, contentAct);
+//        geopackageStructure = ComplementNestedElement(geopackageStructure, new String[] {"root", "DS_Resource", "has", "MD_Metadata", "test3"}, lastChange);
+//
+//        Integer[] extent = gpkg.getExtent(statement, contentAct);
+//        geopackageStructure = ComplementNestedElement(geopackageStructure, new String[] {"root", "DS_Resource", "has", "MD_Metadata"}, extent);
+//
+//        Integer srsID = gpkg.getSRSID(statement, contentAct);
+//        geopackageStructure = ComplementNestedElement(geopackageStructure, new String[] {"root", "DS_Resource", "has", "MD_Metadata"}, srsID);
+//
+//        String srsName = gpkg.getSRSName(statement, srsID);
+//        geopackageStructure = ComplementNestedElement(geopackageStructure, new String[] {"root", "DS_Resource", "has", "MD_Metadata"}, srsName);
+//
+//        String srsOrganization = gpkg.getSRSOrganization(statement, srsID);
+//        geopackageStructure = ComplementNestedElement(geopackageStructure, new String[] {"root", "DS_Resource", "has", "MD_Metadata"}, srsOrganization);
+//
+//        Integer srsOrganizationCoordsysID = gpkg.getSRSOrganizationCoordsysID(statement, srsID);
+//        geopackageStructure = ComplementNestedElement(geopackageStructure, new String[] {"root", "DS_Resource", "has", "MD_Metadata"}, srsOrganizationCoordsysID);
+//
+//        String srsDefinition = gpkg.getSRSDefinition(statement, srsID);
+//        geopackageStructure = ComplementNestedElement(geopackageStructure, new String[] {"root", "DS_Resource", "has", "MD_Metadata"}, srsDefinition);
+//
+//        List<String> tableColNames = gpkg.getTableColNames(statement, tableName);
+//        geopackageStructure = ComplementNestedElement(geopackageStructure, new String[] {"root", "DS_Resource", "has", "MD_Metadata"}, tableColNames);
+//
+//        Integer tableRowNum = gpkg.getTableRowNum(statement, tableName);
+//        geopackageStructure = ComplementNestedElement(geopackageStructure, new String[] {"root", "DS_Resource", "has", "MD_Metadata"}, tableRowNum);
 
 
         return geopackageStructure;
