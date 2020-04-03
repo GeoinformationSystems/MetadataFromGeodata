@@ -38,6 +38,6 @@
         <occurrence>1</occurrence>
         <configFile></configFile>
         <namespace>mcc</namespace>
-        <used>false</used>
+        <used>true</used>
     </element>
 </MD_Identifier>

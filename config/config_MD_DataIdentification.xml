@@ -22,7 +22,7 @@
         <occurrence>1</occurrence>
         <configFile></configFile>
         <namespace>mri</namespace>
-        <used>true</used>
+        <used>false</used>
     </element>
     <element>
         <name>credit</name>
@@ -30,7 +30,7 @@
         <occurrence>N</occurrence>
         <configFile></configFile>
         <namespace>mri</namespace>
-        <used>true</used>
+        <used>false</used>
     </element>
     <element>
         <name>status</name>
@@ -38,7 +38,7 @@
         <occurrence>N</occurrence>
         <configFile>codelist_MD_ProgressCode.xml</configFile>
         <namespace>mri</namespace>
-        <used>true</used>
+        <used>false</used>
     </element>
     <element>
         <name>pointOfContact</name>
@@ -54,7 +54,7 @@
         <occurrence>N</occurrence>
         <configFile>codelist_MD_SpatialRepresentationTypeCode.xml</configFile>
         <namespace>mri</namespace>
-        <used>true</used>
+        <used>false</used>
     </element>
     <element>
         <name>spatialResolution</name>
@@ -78,7 +78,7 @@
         <occurrence>N</occurrence>
         <configFile>enumeration_MD_TopicCategoryCode.xml</configFile>
         <namespace>mri</namespace>
-        <used>true</used>
+        <used>false</used>
     </element>
     <element>
         <name>extent</name>
@@ -94,7 +94,7 @@
         <occurrence>N</occurrence>
         <configFile>config_CI_Citation.xml</configFile>
         <namespace>mri</namespace>
-        <used>true</used>
+        <used>false</used>
     </element>
     <element>
         <name>processingLevel</name>
@@ -102,7 +102,7 @@
         <occurrence>1</occurrence>
         <configFile>config_MD_Identifier.xml</configFile>
         <namespace>mri</namespace>
-        <used>true</used>
+        <used>false</used>
     </element>
     <element>
         <name>resourceMaintenance</name>
@@ -110,7 +110,7 @@
         <occurrence>N</occurrence>
         <configFile>config_MD_MaintenanceInformation.xml</configFile>
         <namespace>mri</namespace>
-        <used>true</used>
+        <used>false</used>
     </element>
     <element>
         <name>graphicOverview</name>
@@ -118,7 +118,7 @@
         <occurrence>N</occurrence>
         <configFile>config_MD_BrowseGraphic.xml</configFile>
         <namespace>mri</namespace>
-        <used>true</used>
+        <used>false</used>
     </element>
     <element>
         <name>resourceFormat</name>
@@ -126,7 +126,7 @@
         <occurrence>N</occurrence>
         <configFile>config_MD_Format.xml</configFile>
         <namespace>mri</namespace>
-        <used>true</used>
+        <used>false</used>
     </element>
     <element>
         <name>descriptiveKeywords</name>
@@ -142,7 +142,7 @@
         <occurrence>N</occurrence>
         <configFile>config_MD_Usage.xml</configFile>
         <namespace>mri</namespace>
-        <used>true</used>
+        <used>false</used>
     </element>
     <element>
         <name>resourceConstraints</name>
@@ -154,7 +154,7 @@
             <configFileSpecified>config_MD_SecurityConstraints.xml</configFileSpecified>
         </configFile>
         <namespace>mri</namespace>
-        <used>true</used>
+        <used>false</used>
     </element>
     <element>
         <name>associatedResource</name>
@@ -162,7 +162,7 @@
         <occurrence>N</occurrence>
         <configFile>config_MD_AssociatedResource.xml</configFile>
         <namespace>mri</namespace>
-        <used>true</used>
+        <used>false</used>
     </element>
     <element>
         <name>defaultLocale</name>
@@ -170,7 +170,7 @@
         <occurrence>1</occurrence>
         <configFile>config_PT_Locale.xml</configFile>
         <namespace>mri</namespace>
-        <used>true</used>
+        <used>false</used>
     </element>
     <element>
         <name>otherLocale</name>
@@ -178,7 +178,7 @@
         <occurrence>N</occurrence>
         <configFile>config_PT_Locale.xml</configFile>
         <namespace>mri</namespace>
-        <used>true</used>
+        <used>false</used>
     </element>
     <element>
         <name>environmentalDescription</name>
@@ -186,7 +186,7 @@
         <occurrence>1</occurrence>
         <configFile></configFile>
         <namespace>mri</namespace>
-        <used>true</used>
+        <used>false</used>
     </element>
     <element>
         <name>supplementalInformation</name>
@@ -194,6 +194,6 @@
         <occurrence>1</occurrence>
         <configFile></configFile>
         <namespace>mri</namespace>
-        <used>true</used>
+        <used>false</used>
     </element>
 </MD_DataIdentification>

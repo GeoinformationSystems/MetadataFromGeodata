@@ -4,7 +4,7 @@
     <mdb:MD_Metadata>
       <mdb:metadataIdentifier>
         <mcc:MD_Identifier>
-          <mcc:code>RandomPoints</mcc:code>
+          <mcc:code>RandomPointsInterpolated</mcc:code>
         </mcc:MD_Identifier>
       </mdb:metadataIdentifier>
       <mdb:contact>
@@ -14,6 +14,50 @@
           </cit:role>
         </cit:CI_Responsibility>
       </mdb:contact>
+      <mdb:dateInfo>
+        <cit:CI_Date>
+          <cit:date>2020-03-31T05:53:31.128Z</cit:date>
+          <cit:dateType>
+            <cat:CI_DateTypeCode codeList="http://standards.iso.org/iso/19115/-3/cit/1.0/codelists.html#CI_DateTypeCode" codeListValue="creation" />
+          </cit:dateType>
+        </cit:CI_Date>
+      </mdb:dateInfo>
+      <mdb:spatialRepresentationInfo>
+        <msr:MD_GridSpatialRepresentation>
+          <msr:numberOfDimensions>2</msr:numberOfDimensions>
+          <msr:cellGeometry>
+            <cat:MD_CellGeometryCode codeList="http://standards.iso.org/iso/19115/-3/msr/1.0/codelists.html#MD_CellGeometryCode" codeListValue="area" />
+          </msr:cellGeometry>
+          <msr:transformationParameterAvailability>0</msr:transformationParameterAvailability>
+        </msr:MD_GridSpatialRepresentation>
+      </mdb:spatialRepresentationInfo>
+      <mdb:referenceSystemInfo>
+        <mrs:MD_ReferenceSystem>
+          <mrs:referenceSystemIdentifier>
+            <mcc:MD_Identifier>
+              <mcc:code>EPSG::4326</mcc:code>
+              <mcc:codeSpace>EPSG</mcc:codeSpace>
+              <mcc:description>WGS 84 geodetic</mcc:description>
+            </mcc:MD_Identifier>
+          </mrs:referenceSystemIdentifier>
+        </mrs:MD_ReferenceSystem>
+      </mdb:referenceSystemInfo>
+      <mdb:identificationInfo>
+        <mri:MD_DataIdentification>
+          <mri:extent>
+            <gex:EX_Extent>
+              <gex:geographicElement>
+                <gex:EX_GeographicBoundingBox>
+                  <gex:westBoundLongitude>161</gex:westBoundLongitude>
+                  <gex:eastBoundLongitude>181</gex:eastBoundLongitude>
+                  <gex:southBoundLatitude>-48</gex:southBoundLatitude>
+                  <gex:northBoundLatitude>-33</gex:northBoundLatitude>
+                </gex:EX_GeographicBoundingBox>
+              </gex:geographicElement>
+            </gex:EX_Extent>
+          </mri:extent>
+        </mri:MD_DataIdentification>
+      </mdb:identificationInfo>
     </mdb:MD_Metadata>
   </mda:has>
 </mda:DS_Resource>

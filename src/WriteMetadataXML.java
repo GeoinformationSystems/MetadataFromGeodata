@@ -40,9 +40,11 @@ public class WriteMetadataXML {
 
         // content from arbitrary geopackage
         // one geopackage is one dataset - multiple content in one geopackage result in different MD_Metadata
+//        String geopackageName = "NewZealandPacked.gpkg";
+        String geopackageName = "rasterExample.gpkg";
         ReadGeopackage geopackageConnection = new ReadGeopackage();
-        Integer contentNum = geopackageConnection.getContentNum("NewZealandPacked.gpkg"); //////////////////////////add different contents
-        Element content = geopackageConnection.getContent("NewZealandPacked.gpkg", 1);
+        Integer contentNum = geopackageConnection.getContentNum(geopackageName); //////////////////////////add different contents
+        Element content = geopackageConnection.getContent(geopackageName, 1);
 
         // start linked list with element names (as string)
         List<String> elementChain = new ArrayList<>();
