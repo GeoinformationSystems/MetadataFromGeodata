@@ -70,7 +70,8 @@ public class WriteMetadataXML {
 
         // create root element and add namespace declarations
         CreateInterface rootElementInst = new CreateFieldsXML();
-        Element rootElement = rootElementInst.getElement(ns, "config/config_DS_Resource.xml", content, elementChain, indexChain, logFileWriter);
+//        Element rootElement = rootElementInst.getElement(ns, "config/config_DS_Resource.xml", content, elementChain, indexChain, logFileWriter);
+        Element rootElement = rootElementInst.getElement(ns, "config/config_DS_Resource.xml", "M", "1", elementChain, indexChain, logFileWriter);
         for (Namespace namespace : namespacesList) {
             rootElement.addNamespaceDeclaration(namespace);
         }

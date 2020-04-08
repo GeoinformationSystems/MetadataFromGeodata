@@ -14,27 +14,28 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-class EnumerationException extends RuntimeException {
-    String enumerationName;
-    String entry;
-
-    public EnumerationException(String enumerationName, String entry) {
-        this.enumerationName = enumerationName;
-        this.entry = entry;
-    }
-
-    public String getMessage() {
-        return("\nEnumeration Exception occurred\n" +
-                entry + " no valid item in enumeration " + enumerationName +
-                "\nProgram exit");
-    }
-}
+//class EnumerationException extends RuntimeException {
+//    String enumerationName;
+//    String entry;
+//
+//    public EnumerationException(String enumerationName, String entry) {
+//        this.enumerationName = enumerationName;
+//        this.entry = entry;
+//    }
+//
+//    public String getMessage() {
+//        return("\nEnumeration Exception occurred\n" +
+//                entry + " no valid item in enumeration " + enumerationName +
+//                "\nProgram exit");
+//    }
+//}
 
 public class CreateFieldsXML implements CreateInterface {
 
     public CreateFieldsXML() {}
 
-    public Element getElement(Map<String, Namespace> ns, String configFile, Element content, List<String> elementChain, int indexChain, Writer logFileWriter) throws ClassNotFoundException, NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException, JDOMException, IOException {
+//    public Element getElement(Map<String, Namespace> ns, String configFile, Element content, List<String> elementChain, int indexChain, Writer logFileWriter) throws ClassNotFoundException, NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException, JDOMException, IOException {
+    public Element getElement(Map<String, Namespace> ns, String configFile, String obligation, String occurrence, List<String> elementChain, int indexChain, Writer logFileWriter) throws ClassNotFoundException, NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException, JDOMException, IOException {
 
         // read config file and define particular root element
         Document configDoc = new SAXBuilder().build(configFile);
@@ -47,17 +48,20 @@ public class CreateFieldsXML implements CreateInterface {
         elementActRoot.setNamespace(ns.get(elementActNamespace));
         List<Element> elementList = new ArrayList<>();
 
+        elementActRoot.setAttribute("obligation", obligation);
+        elementActRoot.setAttribute("occurrence", occurrence);
+
         // get actual relevant content
         // attention: nesting over each entry - class and subelement
         // -> here: first level
-        Element contentAct;
-        if (!(content.getChild(elementActName)==null)) {
-            contentAct = content.getChild(elementActName);
-
-        }
-        else {
-            contentAct = new Element("XXX");
-        }
+//        Element contentAct;
+//        if (!(content.getChild(elementActName)==null)) {
+//            contentAct = content.getChild(elementActName);
+//
+//        }
+//        else {
+//            contentAct = new Element("XXX");
+//        }
 
         // complement elementChain for finding circularity
         int elementChainSize = elementChain.size();
@@ -99,27 +103,32 @@ public class CreateFieldsXML implements CreateInterface {
                 Element meta = new Element(elementName);
                 meta.setNamespace(ns.get(elementNamespace));
 
+                String elementObligation = configElement.getChildren("obligation").get(0).getValue();
+                meta.setAttribute("obligation", elementObligation);
+                String elementOccurrence = configElement.getChildren("occurrence").get(0).getValue();
+                meta.setAttribute("occurrence", elementOccurrence);
+
                 // relevant content
                 // -> here: second level
                 // from here on the string array in the nested element can be relevant (multiple entries)
-                Element contentActSub;
-                if (!(contentAct.getChild(elementName)==null)) {
-                    contentActSub = contentAct.getChild(elementName);
-                }
-                else {
-                    contentActSub = new Element("XXX");
-                }
+//                Element contentActSub;
+//                if (!(contentAct.getChild(elementName)==null)) {
+//                    contentActSub = contentAct.getChild(elementName);
+//                }
+//                else {
+//                    contentActSub = new Element("XXX");
+//                }
 
-                boolean elementListAdd = true;
+//                boolean elementListAdd = true;
                 for (String elementConfigFileAct : elementConfigFile) {
                     String configFilename = elementConfigFileAct.toLowerCase();
-                    List<Content> contentActSubContent = contentActSub.getContent();
-                    List<String> contentActSubValues = new ArrayList<>();
-                    for (Content contentActSubContentAct : contentActSubContent) {
-                        if (!(contentActSubContentAct.getValue().length()==0)) {
-                            contentActSubValues.add(contentActSubContentAct.getValue());
-                        }
-                    }
+//                    List<Content> contentActSubContent = contentActSub.getContent();
+//                    List<String> contentActSubValues = new ArrayList<>();
+//                    for (Content contentActSubContentAct : contentActSubContent) {
+//                        if (!(contentActSubContentAct.getValue().length()==0)) {
+//                            contentActSubValues.add(contentActSubContentAct.getValue());
+//                        }
+//                    }
 
                     if (!(elementConfigFileAct.equals("") ||
                             (configFilename.contains("codelist") && configFilename.contains(".xml")) ||
@@ -129,8 +138,10 @@ public class CreateFieldsXML implements CreateInterface {
 
                         Class<?> classAct = Class.forName("CreateFieldsXML");
                         Object classActObj = classAct.newInstance();
-                        Method classMethodAct = classAct.getDeclaredMethod("getElement", Map.class, String.class, Element.class, List.class, int.class, Writer.class);
-                        Element testClassMethodObj = (Element) classMethodAct.invoke(classActObj, ns, "config/" + elementConfigFileAct, contentActSub, elementChain, indexChain, logFileWriter);
+//                        Method classMethodAct = classAct.getDeclaredMethod("getElement", Map.class, String.class, Element.class, List.class, int.class, Writer.class);
+//                        Element testClassMethodObj = (Element) classMethodAct.invoke(classActObj, ns, "config/" + elementConfigFileAct, contentActSub, elementChain, indexChain, logFileWriter);
+                        Method classMethodAct = classAct.getDeclaredMethod("getElement", Map.class, String.class, String.class, String.class, List.class, int.class, Writer.class);
+                        Element testClassMethodObj = (Element) classMethodAct.invoke(classActObj, ns, "config/" + elementConfigFileAct, elementObligation, elementOccurrence, elementChain, indexChain, logFileWriter);
                         meta.addContent(testClassMethodObj);
                     }
                     ///////////////////////////
@@ -143,6 +154,7 @@ public class CreateFieldsXML implements CreateInterface {
 //                        elementList.add(metaMultiple);
 //                    }
                     ///////////////////////////
+                    /*
                     else if (contentActSubValues.size()>0) {
                         // add content into xml element if available
                         if (configFilename.contains("codelist") && configFilename.contains(".xml")) {
@@ -212,10 +224,11 @@ public class CreateFieldsXML implements CreateInterface {
                             }
                         }
                     }
+                    */
                 }
-                if (elementListAdd) {
-                    elementList.add(meta);
-                }
+//                if (elementListAdd) {
+                elementList.add(meta);
+//                }
             }
         }
 
