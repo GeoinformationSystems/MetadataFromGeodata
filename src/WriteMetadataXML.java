@@ -44,7 +44,8 @@ public class WriteMetadataXML {
         String geopackageName = "rasterExample.gpkg";
         ReadGeopackage geopackageConnection = new ReadGeopackage();
         Integer contentNum = geopackageConnection.getContentNum(geopackageName); //////////////////////////add different contents
-        Element content = geopackageConnection.getContent(geopackageName, 1);
+//        Element content = geopackageConnection.getContent(geopackageName, 1);
+        List<Element> content = geopackageConnection.getContent(geopackageName, 1);
 
         // start linked list with element names (as string)
         List<String> elementChain = new ArrayList<>();
@@ -75,13 +76,19 @@ public class WriteMetadataXML {
         for (Namespace namespace : namespacesList) {
             rootElement.addNamespaceDeclaration(namespace);
         }
-        Document doc = new Document();
-        doc.setRootElement(rootElement);
 
         // close log file
         logFileWriter.close();
         double estimatedTime = (System.nanoTime() - startTime) / 1e9;
         System.out.println("estimated Time: " + estimatedTime + " s");
+
+        // fill metadata from geopackage into document object model from CreateFieldsXML
+        FillFieldsXML rootElementFilledInst = new FillFieldsXML();
+//        Element docFilled = docFilledInst.fillElements(doc.getRootElement(), content.getChild("DS_Resource"));
+        Element rootElementFilled = rootElementFilledInst.fillElements(rootElement, content);
+
+        Document doc = new Document();
+        doc.setRootElement(rootElementFilled);
 
         // remove elements without content from JDOM document
         // 1. mark for deletion

@@ -41,14 +41,6 @@
         <used>true</used>
     </element>
     <element>
-        <name></name>
-        <obligation>M</obligation>
-        <occurrence>N</occurrence>
-        <configFile>config_.xml</configFile>
-        <namespace>dqm</namespace>
-        <used>true</used>
-    </element>
-    <element>
         <name>description</name>
         <obligation>O</obligation>
         <occurrence>1</occurrence>

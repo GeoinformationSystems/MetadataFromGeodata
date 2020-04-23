@@ -11,7 +11,7 @@
       </mdb:metadataIdentifier>
       <mdb:contact obligation="M" occurrence="N">
         <cit:CI_Responsibility obligation="M" occurrence="N">
-          <cit:role obligation="M" occurrence="1" />
+          <cit:role obligation="M" occurrence="1">resourceProvider</cit:role>
           <cit:party obligation="M" occurrence="N">
             <cit:CI_Party obligation="M" occurrence="N">
               <cit:name obligation="O" occurrence="1" />
@@ -27,6 +27,9 @@
                 </cit:CI_Contact>
               </cit:contactInfo>
             </cit:CI_Party>
+            <CI_Individual UUID="dfe6c284-3a81-4be1-bdc3-00396055bc0d">
+              <name UUID="756f0bf1-de2c-40ec-84a2-2cd248f184aa">mwagner</name>
+            </CI_Individual>
           </cit:party>
         </cit:CI_Responsibility>
       </mdb:contact>
