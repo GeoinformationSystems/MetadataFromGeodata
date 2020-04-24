@@ -19,7 +19,7 @@ import java.util.*;
 
 import static org.jdom2.Namespace.getNamespace;
 
-public class WriteMetadataXML {
+public class Metadata {
     public static void main(String[] argv) throws IOException, ClassNotFoundException, NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException, JDOMException {
         // define all namespaces and root element MD_Metadata (27 from ISO 19115 and 3 from ISO 19157)
         FileReader nsFR = new FileReader("config/namespaces.txt");
@@ -42,7 +42,7 @@ public class WriteMetadataXML {
         // one geopackage is one dataset - multiple content in one geopackage result in different MD_Metadata
 //        String geopackageName = "NewZealandPacked.gpkg";
         String geopackageName = "rasterExample.gpkg";
-        ReadGeopackage geopackageConnection = new ReadGeopackage();
+        GeopackageMetadata geopackageConnection = new GeopackageMetadata();
         Integer contentNum = geopackageConnection.getContentNum(geopackageName); //////////////////////////add different contents
 //        Element content = geopackageConnection.getContent(geopackageName, 1);
         List<Element> content = geopackageConnection.getContent(geopackageName, 1);
@@ -70,7 +70,7 @@ public class WriteMetadataXML {
         long startTime = System.nanoTime();
 
         // create root element and add namespace declarations
-        CreateInterface rootElementInst = new CreateFieldsXML();
+        CreateInterface rootElementInst = new MetadataTreeTemplate();
 //        Element rootElement = rootElementInst.getElement(ns, "config/config_DS_Resource.xml", content, elementChain, indexChain, logFileWriter);
         Element rootElement = rootElementInst.getElement(ns, "config/config_DS_Resource.xml", "M", "1", elementChain, indexChain, logFileWriter);
         for (Namespace namespace : namespacesList) {
@@ -83,7 +83,7 @@ public class WriteMetadataXML {
         System.out.println("estimated Time: " + estimatedTime + " s");
 
         // fill metadata from geopackage into document object model from CreateFieldsXML
-        FillFieldsXML rootElementFilledInst = new FillFieldsXML();
+        MetadataTree rootElementFilledInst = new MetadataTree();
 //        Element docFilled = docFilledInst.fillElements(doc.getRootElement(), content.getChild("DS_Resource"));
         Element rootElementFilled = rootElementFilledInst.fillElements(rootElement, content);
 
@@ -92,12 +92,12 @@ public class WriteMetadataXML {
 
         // remove elements without content from JDOM document
         // 1. mark for deletion
-        DeleteInterface rootElementMarkedInst = new MarkForDeletionEmptyFieldsXML();
+        DeleteInterface rootElementMarkedInst = new EmptyFieldsTrimMark();
         Element rootElementMarked = rootElementMarkedInst.removeElements(rootElement.clone());
         Document docMarked = new Document();
         docMarked.setRootElement(rootElementMarked);
         // 2. delete
-        DeleteInterface rootElementMinimalInst = new DeleteEmptyFieldsXML();
+        DeleteInterface rootElementMinimalInst = new MetadataTreeTrimmed();
         Element rootElementMinimal = rootElementMinimalInst.removeElements(rootElementMarked.clone());
         Document docMinimal = new Document();
         docMinimal.setRootElement(rootElementMinimal);

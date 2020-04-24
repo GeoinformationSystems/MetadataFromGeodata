@@ -27,8 +27,8 @@
                 </cit:CI_Contact>
               </cit:contactInfo>
             </cit:CI_Party>
-            <CI_Individual UUID="de6f6786-b767-421c-992c-f095a49157ce">
-              <name UUID="ef453353-5b47-4ece-bc4c-232ff4fbc51a">mwagner</name>
+            <CI_Individual UUID="ce71879c-60fc-4cc7-95f0-de362c4d79a0">
+              <name UUID="56608314-2f34-46ff-86e6-5c5742f54eb9">mwagner</name>
             </CI_Individual>
           </cit:party>
         </cit:CI_Responsibility>

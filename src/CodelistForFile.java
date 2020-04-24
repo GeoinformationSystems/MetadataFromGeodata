@@ -19,7 +19,7 @@ class FileFilterExtension implements FileFilter
     }
 }
 
-public class BuildCodelistFile {
+public class CodelistForFile {
     public static void main(String[] argv) {
         try {
             File folder = new File("codelistsRaw");

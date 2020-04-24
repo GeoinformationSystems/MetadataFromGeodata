@@ -5,9 +5,9 @@
 
 import org.jdom2.Element;
 
-public class MarkForDeletionEmptyFieldsXML implements DeleteInterface {
+public class EmptyFieldsTrimMark implements DeleteInterface {
 
-    public MarkForDeletionEmptyFieldsXML() {}
+    public EmptyFieldsTrimMark() {}
 
     public Element removeElements(Element rootElement) {
 
@@ -15,7 +15,7 @@ public class MarkForDeletionEmptyFieldsXML implements DeleteInterface {
             Element rootElementAct = rootElement.getChildren().get(i);
             if (rootElementAct.getChildren().size()>0) {
                 // rootElementAct has children -> dive into these
-                DeleteInterface rootElementActChildrenInst = new MarkForDeletionEmptyFieldsXML();
+                DeleteInterface rootElementActChildrenInst = new EmptyFieldsTrimMark();
                 rootElementAct = rootElementActChildrenInst.removeElements(rootElementAct);
 
                 // if all children have attribute delete="true" - mark parent as delete="true"

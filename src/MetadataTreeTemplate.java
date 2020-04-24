@@ -30,9 +30,9 @@ import java.util.Map;
 //    }
 //}
 
-public class CreateFieldsXML implements CreateInterface {
+public class MetadataTreeTemplate implements CreateInterface {
 
-    public CreateFieldsXML() {}
+    public MetadataTreeTemplate() {}
 
 //    public Element getElement(Map<String, Namespace> ns, String configFile, Element content, List<String> elementChain, int indexChain, Writer logFileWriter) throws ClassNotFoundException, NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException, JDOMException, IOException {
     public Element getElement(Map<String, Namespace> ns, String configFile, String obligation, String occurrence, List<String> elementChain, int indexChain, Writer logFileWriter) throws ClassNotFoundException, NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException, JDOMException, IOException {
@@ -136,7 +136,7 @@ public class CreateFieldsXML implements CreateInterface {
                         // recursive call if nested element available (still no particular metadata content)
                         logFileWriter.append("   ").append(elementConfigFileAct).append("\n");
 
-                        Class<?> classAct = Class.forName("CreateFieldsXML");
+                        Class<?> classAct = Class.forName("MetadataTreeTemplate");
                         Object classActObj = classAct.newInstance();
 //                        Method classMethodAct = classAct.getDeclaredMethod("getElement", Map.class, String.class, Element.class, List.class, int.class, Writer.class);
 //                        Element testClassMethodObj = (Element) classMethodAct.invoke(classActObj, ns, "config/" + elementConfigFileAct, contentActSub, elementChain, indexChain, logFileWriter);
@@ -160,7 +160,7 @@ public class CreateFieldsXML implements CreateInterface {
                         if (configFilename.contains("codelist") && configFilename.contains(".xml")) {
                             // codelists contain normally allowed entries, but can be extended
                             // if field with codelist contains non-original element an information is thrown
-                            ReadCodelist codelist = new ReadCodelist("config/" + elementConfigFileAct);
+                            Codelist codelist = new Codelist("config/" + elementConfigFileAct);
                             List<List<String>> codelistProps = codelist.getEntries();
                             List<String> codelistRoot = codelistProps.get(0);
                             List<String> codelistEntries = codelistProps.get(1);
@@ -187,7 +187,7 @@ public class CreateFieldsXML implements CreateInterface {
                         else if (configFilename.contains("enumeration") && configFilename.contains(".xml")) {
                             // enumerations are similar to codelists, but cannot be extended
                             // if field with enumeration contains non-original element an error is thrown
-                            ReadCodelist enumeration = new ReadCodelist("config/" + elementConfigFileAct);
+                            Codelist enumeration = new Codelist("config/" + elementConfigFileAct);
                             List<List<String>> enumerationProps = enumeration.getEntries();
                             List<String> enumerationRoot = enumerationProps.get(0);
                             List<String> enumerationEntries = enumerationProps.get(1);

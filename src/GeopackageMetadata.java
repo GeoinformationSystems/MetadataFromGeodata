@@ -10,11 +10,11 @@ import java.sql.*;
 import java.time.Instant;
 import java.util.*;
 
-public class ReadGeopackage {
+public class GeopackageMetadata {
 
     public Integer getContentNum(String fileName) {
         // get number of contents in geopackage (later use in getContent)
-        ReadGeopackage gpkg = new ReadGeopackage();
+        GeopackageMetadata gpkg = new GeopackageMetadata();
         Connection connection = gpkg.getConnection(fileName);
         Statement statement = gpkg.getStatement(connection);
         Integer contentCt = 0;
@@ -39,7 +39,7 @@ public class ReadGeopackage {
         Element geopackageStructure = new Element("root");
         geopackageStructure.setAttribute("UUID", id_root.toString());
 
-        ReadGeopackage gpkg = new ReadGeopackage();
+        GeopackageMetadata gpkg = new GeopackageMetadata();
         Connection connection = gpkg.getConnection(fileName);
         Statement statement = gpkg.getStatement(connection);
 

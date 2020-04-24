@@ -12,10 +12,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ReadCodelist {
+public class Codelist {
     String filename;
 
-    public ReadCodelist(String filename) {
+    public Codelist(String filename) {
         this.filename = filename;
     }
 

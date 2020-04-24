@@ -26,9 +26,9 @@ class EnumerationException extends RuntimeException {
     }
 }
 
-public class FillFieldsXML {
+public class MetadataTree {
 
-    public FillFieldsXML() {}
+    public MetadataTree() {}
 
 //    public Element fillElements(Element allFields, Element metadata) {
     public Element fillElements(Element allFields, List<Element> metadata) {

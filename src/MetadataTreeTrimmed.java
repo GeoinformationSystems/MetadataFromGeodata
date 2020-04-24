@@ -8,9 +8,9 @@ import org.jdom2.Element;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DeleteEmptyFieldsXML implements DeleteInterface {
+public class MetadataTreeTrimmed implements DeleteInterface {
 
-    public DeleteEmptyFieldsXML() {}
+    public MetadataTreeTrimmed() {}
 
     public Element removeElements(Element rootElement) {
 
@@ -28,7 +28,7 @@ public class DeleteEmptyFieldsXML implements DeleteInterface {
                 }
                 else {
                     rootElementAct.removeAttribute("delete");
-                    DeleteInterface rootElementActChildrenInst = new DeleteEmptyFieldsXML();
+                    DeleteInterface rootElementActChildrenInst = new MetadataTreeTrimmed();
                     rootElementActChildrenInst.removeElements(rootElementAct);
                 }
             }
