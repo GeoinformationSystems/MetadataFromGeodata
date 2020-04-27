@@ -4,7 +4,7 @@
     <mdb:MD_Metadata obligation="M" occurrence="N">
       <mdb:metadataIdentifier obligation="O" occurrence="1">
         <mcc:MD_Identifier obligation="O" occurrence="1">
-          <mcc:code obligation="M" occurrence="1" />
+          <mcc:code obligation="M" occurrence="1">RandomPointsInterpolated</mcc:code>
           <mcc:codeSpace obligation="O" occurrence="1" />
           <mcc:description obligation="O" occurrence="1" />
         </mcc:MD_Identifier>
@@ -27,16 +27,18 @@
                 </cit:CI_Contact>
               </cit:contactInfo>
             </cit:CI_Party>
-            <CI_Individual UUID="ce71879c-60fc-4cc7-95f0-de362c4d79a0">
-              <name UUID="56608314-2f34-46ff-86e6-5c5742f54eb9">mwagner</name>
+            <CI_Individual UUID="4ab6aba3-3883-442b-9b50-1edcaaed1251">
+              <name UUID="97062d30-5b94-4c12-8c34-3afbd9b334b9">mwagner</name>
             </CI_Individual>
           </cit:party>
         </cit:CI_Responsibility>
       </mdb:contact>
       <mdb:dateInfo obligation="M" occurrence="N">
         <cit:CI_Date obligation="M" occurrence="N">
-          <cit:date obligation="M" occurrence="1" />
-          <cit:dateType obligation="M" occurrence="1" />
+          <cit:date obligation="M" occurrence="1">
+            <DateTime UUID="d2556d91-d9da-474a-a26e-7ff6cccd2b4f">2020-03-31T05:53:31.128Z</DateTime>
+          </cit:date>
+          <cit:dateType obligation="M" occurrence="1">creation</cit:dateType>
         </cit:CI_Date>
       </mdb:dateInfo>
       <mdb:alternativeMetadataReference obligation="O" occurrence="N">
@@ -88,16 +90,16 @@
       </mdb:alternativeMetadataReference>
       <mdb:spatialRepresentationInfo obligation="O" occurrence="N">
         <msr:MD_GridSpatialRepresentation obligation="O" occurrence="N">
-          <msr:numberOfDimensions obligation="M" occurrence="1" />
+          <msr:numberOfDimensions obligation="M" occurrence="1">2</msr:numberOfDimensions>
           <msr:axisDimensionProperties obligation="M" occurrence="N">
             <msr:MD_Dimension obligation="M" occurrence="N">
-              <msr:dimensionName obligation="M" occurrence="1" />
-              <msr:dimensionSize obligation="M" occurrence="1" />
+              <msr:dimensionName obligation="M" occurrence="1">rowcolumn</msr:dimensionName>
+              <msr:dimensionSize obligation="M" occurrence="1">3941</msr:dimensionSize>
               <msr:resolution obligation="O" occurrence="1" />
             </msr:MD_Dimension>
           </msr:axisDimensionProperties>
-          <msr:cellGeometry obligation="M" occurrence="1" />
-          <msr:transformationParameterAvailability obligation="M" occurrence="1" />
+          <msr:cellGeometry obligation="M" occurrence="1">area</msr:cellGeometry>
+          <msr:transformationParameterAvailability obligation="M" occurrence="1">0</msr:transformationParameterAvailability>
         </msr:MD_GridSpatialRepresentation>
         <msr:MD_Georectified obligation="O" occurrence="N">
           <msr:numberOfDimensions obligation="M" occurrence="1" />
@@ -130,9 +132,9 @@
         <mrs:MD_ReferenceSystem obligation="O" occurrence="N">
           <mrs:referenceSystemIdentifier obligation="O" occurrence="1">
             <mcc:MD_Identifier obligation="O" occurrence="1">
-              <mcc:code obligation="M" occurrence="1" />
-              <mcc:codeSpace obligation="O" occurrence="1" />
-              <mcc:description obligation="O" occurrence="1" />
+              <mcc:code obligation="M" occurrence="1">EPSG::4326</mcc:code>
+              <mcc:codeSpace obligation="O" occurrence="1">EPSG</mcc:codeSpace>
+              <mcc:description obligation="O" occurrence="1">WGS 84 geodetic</mcc:description>
             </mcc:MD_Identifier>
           </mrs:referenceSystemIdentifier>
         </mrs:MD_ReferenceSystem>
@@ -517,10 +519,10 @@
                   <gex:polygon obligation="M" occurrence="N" />
                 </gex:EX_BoundingPolygon>
                 <gex:EX_GeographicBoundingBox obligation="O" occurrence="N">
-                  <gex:westBoundLongitude obligation="M" occurrence="1" />
-                  <gex:eastBoundLongitude obligation="M" occurrence="1" />
-                  <gex:southBoundLatitude obligation="M" occurrence="1" />
-                  <gex:northBoundLatitude obligation="M" occurrence="1" />
+                  <gex:westBoundLongitude obligation="M" occurrence="1">161</gex:westBoundLongitude>
+                  <gex:eastBoundLongitude obligation="M" occurrence="1">181</gex:eastBoundLongitude>
+                  <gex:southBoundLatitude obligation="M" occurrence="1">-48</gex:southBoundLatitude>
+                  <gex:northBoundLatitude obligation="M" occurrence="1">-33</gex:northBoundLatitude>
                 </gex:EX_GeographicBoundingBox>
                 <gex:EX_GeographicDescription obligation="O" occurrence="N">
                   <gex:geographicIdentifier obligation="M" occurrence="1">
@@ -705,6 +707,7 @@
               </mri:keywordClass>
             </mri:MD_Keywords>
           </mri:descriptiveKeywords>
+          <spatialRepresentationType UUID="f5cf0958-47a3-4867-9054-da4d18365e88">grid</spatialRepresentationType>
         </mri:MD_DataIdentification>
         <srv:SV_ServiceIdentification obligation="M" occurrence="N">
           <mri:citation obligation="M" occurrence="1">
