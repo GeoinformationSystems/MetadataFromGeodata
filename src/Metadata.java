@@ -45,7 +45,7 @@ public class Metadata {
         GeopackageMetadata geopackageConnection = new GeopackageMetadata();
         Integer contentNum = geopackageConnection.getContentNum(geopackageName); //////////////////////////add different contents
 //        Element content = geopackageConnection.getContent(geopackageName, 1);
-        List<Element> content = geopackageConnection.getContent(geopackageName, 1);
+        List<Element> content = geopackageConnection.getContent(geopackageName, 1, ns);
 
         // start linked list with element names (as string)
         List<String> elementChain = new ArrayList<>();

@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<mda:DS_Resource xmlns:mda="http://standards.iso.org/iso/19115/-3/mda/1.0" xmlns:cat="http://standards.iso.org/iso/19115/-3/cat/1.0" xmlns:cit="http://standards.iso.org/iso/19115/-3/cit/1.0" xmlns:dqc="http://standards.iso.org/iso/19157/-2/dqc/1.0" xmlns:dqm="http://standards.iso.org/iso/19157/-2/dqm/1.0" xmlns:gco="http://standards.iso.org/iso/19115/-3/gco/1.0" xmlns:gcx="http://standards.iso.org/iso/19115/-3/gcx/1.0" xmlns:gex="http://standards.iso.org/iso/19115/-3/gex/1.0" xmlns:gmw="http://standards.iso.org/iso/19115/-3/gmw/1.0" xmlns:lan="http://standards.iso.org/iso/19115/-3/lan/1.0" xmlns:mac="http://standards.iso.org/iso/19115/-3/mac/1.0" xmlns:mas="http://standards.iso.org/iso/19115/-3/mas/1.0" xmlns:mcc="http://standards.iso.org/iso/19115/-3/mcc/1.0" xmlns:mco="http://standards.iso.org/iso/19115/-3/mco/1.0" xmlns:md1="http://standards.iso.org/iso/19115/-3/md1/1.0" xmlns:md2="http://standards.iso.org/iso/19115/-3/md2/1.0" xmlns:mdb="http://standards.iso.org/iso/19115/-3/mdb/1.0" xmlns:mdq="http://standards.iso.org/iso/19157/-2/mdq/1.0" xmlns:mds="http://standards.iso.org/iso/19115/-3/mds/1.0" xmlns:mdt="http://standards.iso.org/iso/19115/-3/mdt/1.0" xmlns:mex="http://standards.iso.org/iso/19115/-3/mex/1.0" xmlns:mmi="http://standards.iso.org/iso/19115/-3/mmi/1.0" xmlns:mpc="http://standards.iso.org/iso/19115/-3/mpc/1.0" xmlns:mrc="http://standards.iso.org/iso/19115/-3/mrc/1.0" xmlns:mrd="http://standards.iso.org/iso/19115/-3/mrd/1.0" xmlns:mri="http://standards.iso.org/iso/19115/-3/mri/1.0" xmlns:mrl="http://standards.iso.org/iso/19115/-3/mrl/1.0" xmlns:mrs="http://standards.iso.org/iso/19115/-3/mrs/1.0" xmlns:msr="http://standards.iso.org/iso/19115/-3/msr/1.0" xmlns:srv="http://standards.iso.org/iso/19115/-3/srv/2.0" obligation="M" occurrence="1">
-  <mda:has obligation="M" occurrence="N">
-    <mdb:MD_Metadata obligation="M" occurrence="N">
+<mda:DS_Resource xmlns:mda="http://standards.iso.org/iso/19115/-3/mda/1.0" xmlns:cat="http://standards.iso.org/iso/19115/-3/cat/1.0" xmlns:cit="http://standards.iso.org/iso/19115/-3/cit/1.0" xmlns:dqc="http://standards.iso.org/iso/19157/-2/dqc/1.0" xmlns:dqm="http://standards.iso.org/iso/19157/-2/dqm/1.0" xmlns:gco="http://standards.iso.org/iso/19115/-3/gco/1.0" xmlns:gcx="http://standards.iso.org/iso/19115/-3/gcx/1.0" xmlns:gex="http://standards.iso.org/iso/19115/-3/gex/1.0" xmlns:gmw="http://standards.iso.org/iso/19115/-3/gmw/1.0" xmlns:lan="http://standards.iso.org/iso/19115/-3/lan/1.0" xmlns:mac="http://standards.iso.org/iso/19115/-3/mac/1.0" xmlns:mas="http://standards.iso.org/iso/19115/-3/mas/1.0" xmlns:mcc="http://standards.iso.org/iso/19115/-3/mcc/1.0" xmlns:mco="http://standards.iso.org/iso/19115/-3/mco/1.0" xmlns:md1="http://standards.iso.org/iso/19115/-3/md1/1.0" xmlns:md2="http://standards.iso.org/iso/19115/-3/md2/1.0" xmlns:mdb="http://standards.iso.org/iso/19115/-3/mdb/1.0" xmlns:mdq="http://standards.iso.org/iso/19157/-2/mdq/1.0" xmlns:mds="http://standards.iso.org/iso/19115/-3/mds/1.0" xmlns:mdt="http://standards.iso.org/iso/19115/-3/mdt/1.0" xmlns:mex="http://standards.iso.org/iso/19115/-3/mex/1.0" xmlns:mmi="http://standards.iso.org/iso/19115/-3/mmi/1.0" xmlns:mpc="http://standards.iso.org/iso/19115/-3/mpc/1.0" xmlns:mrc="http://standards.iso.org/iso/19115/-3/mrc/1.0" xmlns:mrd="http://standards.iso.org/iso/19115/-3/mrd/1.0" xmlns:mri="http://standards.iso.org/iso/19115/-3/mri/1.0" xmlns:mrl="http://standards.iso.org/iso/19115/-3/mrl/1.0" xmlns:mrs="http://standards.iso.org/iso/19115/-3/mrs/1.0" xmlns:msr="http://standards.iso.org/iso/19115/-3/msr/1.0" xmlns:srv="http://standards.iso.org/iso/19115/-3/srv/2.0" obligation="M" occurrence="1" UUID="91f45143-c2d2-44b5-bd5b-25c407120af5">
+  <mda:has obligation="M" occurrence="N" UUID="99b93e42-161c-4a22-912e-a832f344d774">
+    <mdb:MD_Metadata obligation="M" occurrence="N" UUID="cfa1aa30-899d-49a9-a24e-30ee1bce2046">
       <mdb:metadataIdentifier obligation="O" occurrence="1">
         <mcc:MD_Identifier obligation="O" occurrence="1">
-          <mcc:code obligation="M" occurrence="1">RandomPointsInterpolated</mcc:code>
+          <mcc:code obligation="M" occurrence="1" />
           <mcc:codeSpace obligation="O" occurrence="1" />
           <mcc:description obligation="O" occurrence="1" />
         </mcc:MD_Identifier>
       </mdb:metadataIdentifier>
       <mdb:contact obligation="M" occurrence="N">
         <cit:CI_Responsibility obligation="M" occurrence="N">
-          <cit:role obligation="M" occurrence="1">resourceProvider</cit:role>
+          <cit:role obligation="M" occurrence="1" />
           <cit:party obligation="M" occurrence="N">
             <cit:CI_Party obligation="M" occurrence="N">
               <cit:name obligation="O" occurrence="1" />
@@ -27,18 +27,13 @@
                 </cit:CI_Contact>
               </cit:contactInfo>
             </cit:CI_Party>
-            <CI_Individual UUID="4ab6aba3-3883-442b-9b50-1edcaaed1251">
-              <name UUID="97062d30-5b94-4c12-8c34-3afbd9b334b9">mwagner</name>
-            </CI_Individual>
           </cit:party>
         </cit:CI_Responsibility>
       </mdb:contact>
       <mdb:dateInfo obligation="M" occurrence="N">
         <cit:CI_Date obligation="M" occurrence="N">
-          <cit:date obligation="M" occurrence="1">
-            <DateTime UUID="d2556d91-d9da-474a-a26e-7ff6cccd2b4f">2020-03-31T05:53:31.128Z</DateTime>
-          </cit:date>
-          <cit:dateType obligation="M" occurrence="1">creation</cit:dateType>
+          <cit:date obligation="M" occurrence="1" />
+          <cit:dateType obligation="M" occurrence="1" />
         </cit:CI_Date>
       </mdb:dateInfo>
       <mdb:alternativeMetadataReference obligation="O" occurrence="N">
@@ -88,18 +83,22 @@
           </cit:onlineResource>
         </cit:CI_Citation>
       </mdb:alternativeMetadataReference>
-      <mdb:spatialRepresentationInfo obligation="O" occurrence="N">
-        <msr:MD_GridSpatialRepresentation obligation="O" occurrence="N">
-          <msr:numberOfDimensions obligation="M" occurrence="1">2</msr:numberOfDimensions>
-          <msr:axisDimensionProperties obligation="M" occurrence="N">
-            <msr:MD_Dimension obligation="M" occurrence="N">
-              <msr:dimensionName obligation="M" occurrence="1">rowcolumn</msr:dimensionName>
-              <msr:dimensionSize obligation="M" occurrence="1">3941</msr:dimensionSize>
+      <mdb:spatialRepresentationInfo obligation="O" occurrence="N" UUID="a9354718-6561-4613-bab9-768e62015df4">
+        <msr:MD_GridSpatialRepresentation obligation="O" occurrence="N" UUID="45415703-5658-4a67-886b-19f828af022c">
+          <msr:numberOfDimensions obligation="M" occurrence="1" />
+          <msr:axisDimensionProperties obligation="M" occurrence="N" UUID="0937bfd6-7891-4bdd-bcd9-8a03669e1106">
+            <msr:MD_Dimension obligation="M" occurrence="N" UUID="aa3ce9e6-0bca-44a7-887c-0615d202c621">
+              <msr:dimensionName obligation="M" occurrence="1" UUID="29e4108b-3482-49aa-8ac1-e122c99e1d15">row</msr:dimensionName>
+              <msr:dimensionSize obligation="M" occurrence="1" UUID="b6fdbb76-f42b-4a07-a42c-618fb4935edf">39</msr:dimensionSize>
               <msr:resolution obligation="O" occurrence="1" />
             </msr:MD_Dimension>
+            <msr:MD_Dimension UUID="6b1fa029-0136-41fc-b34b-677329606fc2">
+              <msr:dimensionName UUID="c9e31793-0c9a-4bc2-bcef-8014e0c95eed">column</msr:dimensionName>
+              <msr:dimensionSize UUID="84599c66-5214-42ce-b6fc-3fa3f5b92c9d">41</msr:dimensionSize>
+            </msr:MD_Dimension>
           </msr:axisDimensionProperties>
-          <msr:cellGeometry obligation="M" occurrence="1">area</msr:cellGeometry>
-          <msr:transformationParameterAvailability obligation="M" occurrence="1">0</msr:transformationParameterAvailability>
+          <msr:cellGeometry obligation="M" occurrence="1" />
+          <msr:transformationParameterAvailability obligation="M" occurrence="1" />
         </msr:MD_GridSpatialRepresentation>
         <msr:MD_Georectified obligation="O" occurrence="N">
           <msr:numberOfDimensions obligation="M" occurrence="1" />
@@ -132,9 +131,9 @@
         <mrs:MD_ReferenceSystem obligation="O" occurrence="N">
           <mrs:referenceSystemIdentifier obligation="O" occurrence="1">
             <mcc:MD_Identifier obligation="O" occurrence="1">
-              <mcc:code obligation="M" occurrence="1">EPSG::4326</mcc:code>
-              <mcc:codeSpace obligation="O" occurrence="1">EPSG</mcc:codeSpace>
-              <mcc:description obligation="O" occurrence="1">WGS 84 geodetic</mcc:description>
+              <mcc:code obligation="M" occurrence="1" />
+              <mcc:codeSpace obligation="O" occurrence="1" />
+              <mcc:description obligation="O" occurrence="1" />
             </mcc:MD_Identifier>
           </mrs:referenceSystemIdentifier>
         </mrs:MD_ReferenceSystem>
@@ -519,10 +518,10 @@
                   <gex:polygon obligation="M" occurrence="N" />
                 </gex:EX_BoundingPolygon>
                 <gex:EX_GeographicBoundingBox obligation="O" occurrence="N">
-                  <gex:westBoundLongitude obligation="M" occurrence="1">161</gex:westBoundLongitude>
-                  <gex:eastBoundLongitude obligation="M" occurrence="1">181</gex:eastBoundLongitude>
-                  <gex:southBoundLatitude obligation="M" occurrence="1">-48</gex:southBoundLatitude>
-                  <gex:northBoundLatitude obligation="M" occurrence="1">-33</gex:northBoundLatitude>
+                  <gex:westBoundLongitude obligation="M" occurrence="1" />
+                  <gex:eastBoundLongitude obligation="M" occurrence="1" />
+                  <gex:southBoundLatitude obligation="M" occurrence="1" />
+                  <gex:northBoundLatitude obligation="M" occurrence="1" />
                 </gex:EX_GeographicBoundingBox>
                 <gex:EX_GeographicDescription obligation="O" occurrence="N">
                   <gex:geographicIdentifier obligation="M" occurrence="1">
@@ -707,7 +706,6 @@
               </mri:keywordClass>
             </mri:MD_Keywords>
           </mri:descriptiveKeywords>
-          <spatialRepresentationType UUID="f5cf0958-47a3-4867-9054-da4d18365e88">grid</spatialRepresentationType>
         </mri:MD_DataIdentification>
         <srv:SV_ServiceIdentification obligation="M" occurrence="N">
           <mri:citation obligation="M" occurrence="1">
