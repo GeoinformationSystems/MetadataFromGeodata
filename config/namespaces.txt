@@ -29,3 +29,4 @@ srv	http://standards.iso.org/iso/19115/-3/srv/2.0
 dqc	http://standards.iso.org/iso/19157/-2/dqc/1.0
 mdq	http://standards.iso.org/iso/19157/-2/mdq/1.0
 dqm	http://standards.iso.org/iso/19157/-2/dqm/1.0
+xs	http://www.w3.org/2001/XMLSchema

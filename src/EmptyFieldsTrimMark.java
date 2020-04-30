@@ -3,13 +3,20 @@
  * All rights reserved.
  */
 
+import org.jdom2.Attribute;
 import org.jdom2.Element;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class EmptyFieldsTrimMark implements DeleteInterface {
 
     public EmptyFieldsTrimMark() {}
 
     public Element removeElements(Element rootElement) {
+        List<String> nonProtectedAttributes = new ArrayList<>();
+        nonProtectedAttributes.add("obligation");
+        nonProtectedAttributes.add("occurrence");
 
         for (int i = 0; i < rootElement.getChildren().size(); i++) {
             Element rootElementAct = rootElement.getChildren().get(i);
@@ -36,7 +43,15 @@ public class EmptyFieldsTrimMark implements DeleteInterface {
             else {
                 // rootElementAct is the deepest Element on this branch
                 // -> check for content
-                if (rootElementAct.getValue().isEmpty() && rootElementAct.getAttributes().isEmpty()) {
+                // attributes that do not mark elements to be protected from deletion: obligation, occurrence
+                List<Attribute> rootElementActAtt = rootElementAct.getAttributes();
+                List<String> rootElementActAttName = new ArrayList<>();
+                for (Attribute rootElementActAttAct : rootElementActAtt) {
+                    rootElementActAttName.add(rootElementActAttAct.getName());
+                }
+                boolean attributeMarker = isOnlyMember(rootElementActAttName, nonProtectedAttributes);
+
+                if (rootElementAct.getValue().isEmpty() && attributeMarker) {
                     rootElementAct.setAttribute("delete", "true");
                 }
                 else {
@@ -47,5 +62,23 @@ public class EmptyFieldsTrimMark implements DeleteInterface {
         }
 
         return rootElement;
+    }
+
+
+    public boolean isOnlyMember(List<String> source, List<String> target) {
+        // Test whether a list of strings in source only contains strings from list target
+        boolean onlyMember = true;
+
+        for (String sourceAct : source) {
+            List<Boolean> sourceMarkAct = new ArrayList<>();
+            for (String targetAct : target) {
+                sourceMarkAct.add(sourceAct.equalsIgnoreCase(targetAct));
+            }
+            if (!sourceMarkAct.contains(true)) {
+                onlyMember = false;
+            }
+        }
+
+        return onlyMember;
     }
 }
