@@ -168,6 +168,8 @@ public class GeopackageMetadata {
         geopackageMeta.add(createNestedElement(new String[] {"DS_Resource", "has", "MD_Metadata", "referenceSystemInfo", "MD_ReferenceSystem", "referenceSystemIdentifier", "MD_Identifier", "description"},
                 new UUID[] {id_DS_Resource, id_has, id_MD_Metadata, id_referenceSystemInfo, id_MD_ReferenceSystem, id_referenceSystemIdentifier, id_MD_IdentifierSRS, id_descriptionSRS}, srsName, ns));
 
+
+
         return geopackageMeta;
 
         // code for building a complete tree with all available metadata fields included
@@ -229,12 +231,18 @@ public class GeopackageMetadata {
         int nameChainLength = nameChain.length;
 
         // get all namespaces from nameChain from original config files
+        // additional add information about obligation and occurrence
         List<Namespace> namespaceList = new ArrayList<>();
+        List<String> obligation = new ArrayList<>();
+        List<String> occurrence = new ArrayList<>();
         String configFile;
         Element configRootElement = null;
         String configRootNamespace = null;
 
-        for (int i = 0; i < java.lang.Math.floor(nameChainLength/2); i++) {
+        obligation.add("M"); // fill first entry for DS_Resource (not in files explicitly given)
+        occurrence.add("1");
+
+        for (int i = 0; i < java.lang.Math.floor((double) nameChainLength/2); i++) {
             configFile = "config/config_" + nameChain[i*2] + ".xml";
             try {
                 configRootElement = new SAXBuilder().build(configFile).getRootElement();
@@ -245,10 +253,17 @@ public class GeopackageMetadata {
 
             if (configRootElement != null) {
                 configRootNamespace = configRootElement.getAttributeValue("namespace");
+                List<Element> configRootChildren = configRootElement.getChildren("element");
+                List<String> obligationOccurrence = getObligationOccurrence(configRootChildren, nameChain[2*i + 1]);
+
+                obligation.add(obligationOccurrence.get(0)); // two times because subelements of classes have the same obligation and occurrence as the class itself
+                obligation.add(obligationOccurrence.get(0));
+                occurrence.add(obligationOccurrence.get(1));
+                occurrence.add(obligationOccurrence.get(1));
             }
 
-            namespaceList.add(ns.get(configRootNamespace));
             namespaceList.add(ns.get(configRootNamespace)); // two times because subelements of classes have the same namespace as the class itself
+            namespaceList.add(ns.get(configRootNamespace));
         }
         if (namespaceList.size()==nameChainLength-1) {
             // add one last element - uneven lengths occur in case of codelists and enumerations -> hard coded namespace xs
@@ -259,6 +274,8 @@ public class GeopackageMetadata {
         Element element = new Element(nameChain[nameChainLength - 1]);
         element.setNamespace(namespaceList.get(nameChainLength - 1));
         element.addContent(value);
+        element.setAttribute("obligation", obligation.get(nameChainLength - 1));
+        element.setAttribute("occurrence", occurrence.get(nameChainLength - 1));
         element.setAttribute("UUID", idChain[nameChainLength - 1].toString());
         Element elementTmp;
         for (int i = nameChainLength - 2; i >= 0; i--) {
@@ -267,10 +284,30 @@ public class GeopackageMetadata {
             element = new Element(nameChain[i]);
             element.setNamespace(namespaceList.get(i));
             element.addContent(elementTmp);
+            element.setAttribute("obligation", obligation.get(i));
+            element.setAttribute("occurrence", occurrence.get(i));
             element.setAttribute("UUID", idChain[i].toString());
         }
 
         return element;
+    }
+
+    private List<String> getObligationOccurrence(List<Element> inElement, String inElementName) {
+        // get obligation and occurrence properties of a particular element in a list
+        List<String> obligationOccurrence = new ArrayList<>();
+
+        for (Element inElementAct : inElement) {
+            if (inElementAct.getChildText("name").equals(inElementName)) {
+                obligationOccurrence.add(inElementAct.getChildText("obligation"));
+                obligationOccurrence.add(inElementAct.getChildText("occurrence"));
+                break;
+            }
+        }
+        if (obligationOccurrence.isEmpty()) {
+            System.out.println("For element " + inElementName + " no obligation and occurrence properties were found.");
+        }
+
+        return obligationOccurrence;
     }
 
     private Element complementNestedElement(Element nestedElement, String[] nameChain, UUID[] idChain, String value, Map<String, Namespace> ns) {

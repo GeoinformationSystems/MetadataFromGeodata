@@ -4,10 +4,14 @@
  */
 
 import org.jdom2.Element;
+import org.jdom2.JDOMException;
 import org.jdom2.Namespace;
+import org.jdom2.input.SAXBuilder;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 class EnumerationException extends RuntimeException {
     String enumerationName;
@@ -29,19 +33,21 @@ public class MetadataTree {
 
     public MetadataTree() {}
 
-    public Element fillElements(Element allFields, List<Element> metadata) {
+    public Element fillElements(Element allFields, List<Element> metadata, Map<String, Namespace> ns) {
         // Complement existing document with contents from Elements in metadata
+        // Here invoke complement for multiple single elements
 
         for (Element metadataAct : metadata) {
-            allFields = complementNestedElement(allFields, metadataAct);
+            allFields = complementNestedElement(allFields, metadataAct, ns);
         }
 
         return allFields;
     }
 
 
-    private Element complementNestedElement(Element allFields, Element metadata) {
-//        Namespace allFieldsNamespace = allFields.getNamespace();
+    private Element complementNestedElement(Element allFields, Element metadata, Map<String, Namespace> ns) {
+        // Complement of a single element into given element tree
+
         if (!allFields.getName().equals(metadata.getName())) {
             // allFields and metadata must have the same first element
             System.out.println("Metadata element " + metadata.getName() + " not equal to tree base " + allFields.getName());
@@ -57,6 +63,7 @@ public class MetadataTree {
             allFields.setAttribute("UUID", metadata.getAttributeValue("UUID"));
         }
 
+        // get name chain of the actual element
         List<String> nameChain = new ArrayList<>();
         List<String> idChain = new ArrayList<>();
 
@@ -73,9 +80,90 @@ public class MetadataTree {
             nameChain.add(metadataCopy.getName());
             idChain.add(metadataCopy.getAttributeValue("UUID"));
         }
+        String metadataValue = metadataCopy.getValue(); // last element
 
-        String metadataValue = metadataCopy.getValue();
+        // proof for codelist/enumeration compliance
+        Element configRootElement = null;
+        if (nameChain.size()%2==0) {
+            // some data fields contain uneven numbers of nameChain (e.g., date) -> these are never codelists or enumerations
+            String configFileLast = "config/config_" + nameChain.get(nameChain.size() - 2) + ".xml";
+            try {
+                configRootElement = new SAXBuilder().build(configFileLast).getRootElement();
+            } catch (JDOMException | IOException e) {
+                System.out.println(e.getMessage());
+            }
+        }
 
+        if (configRootElement != null) {
+            List<Element> configRootChildren = configRootElement.getChildren("element");
+            String configFile = getConfigFile(configRootChildren, nameChain.get(nameChain.size() - 1));
+
+            // codelist
+            if (configFile.contains("codelist") && configFile.contains(".xml")) {
+                // codelists contain normally allowed entries, but can be extended
+                // if field with codelist contains non-original element an information is thrown
+                Codelist codelist = new Codelist("config/" + configFile);
+                List<List<String>> codelistProps = codelist.getEntries();
+                List<String> codelistRoot = codelistProps.get(0);
+                List<String> codelistEntries = codelistProps.get(1);
+                if (!codelistEntries.contains(metadataValue)) {
+                    System.out.println("Entry for codelist " + codelistRoot.get(0) + " contains unknown element: " + metadataValue);
+                    System.out.println("\tAs codelists are extensible it is allowed but no regular case.");
+                }
+
+                // create subelement for codelist as codelists always have an extra element for its own
+                Element metaSub = new Element(codelistRoot.get(0));
+                metaSub.setNamespace(ns.get("cat"));
+                metaSub.setAttribute("codeList", codelistRoot.get(1) + "/codelists.html#" + codelistRoot.get(0));
+                metaSub.setAttribute("codeListValue", metadataValue);
+                metadataCopy.removeContent();
+                metadataCopy.addContent(metaSub);
+
+                // build up new metadata and nameChain variables with added codelist element
+                nameChain.add(codelistRoot.get(0));
+                while (metadataCopy.getParentElement()!=null) {
+                    metadataCopy = metadataCopy.getParentElement();
+                }
+                metadata = metadataCopy;
+            }
+
+            // enumeration
+            else if (configFile.contains("enumeration") && configFile.contains(".xml")) {
+                // enumerations are similar to codelists, but cannot be extended
+                // if field with enumeration contains non-original element an error is thrown
+                Codelist enumeration = new Codelist("config/" + configFile);
+                List<List<String>> enumerationProps = enumeration.getEntries();
+                List<String> enumerationRoot = enumerationProps.get(0);
+                List<String> enumerationEntries = enumerationProps.get(1);
+                try {
+                    if (!enumerationEntries.contains(metadataValue)) {
+                        throw new EnumerationException(enumerationRoot.get(0), metadataValue);
+                    }
+                }
+                catch (EnumerationException e) {
+                    System.out.println(e.getMessage());
+                    System.exit(8); // maybe change to exception propagation to main?
+                }
+
+                // create subelement for enumeration as enumerations always have an extra element for its own
+                Element metaSub = new Element(enumerationRoot.get(0));
+                metaSub.setNamespace(ns.get("cat"));
+                metaSub.setAttribute("codeList", enumerationRoot.get(1) + "/codelists.html#" + enumerationRoot.get(0));
+                metaSub.setAttribute("codeListValue", metadataValue);
+                metadataCopy.removeContent();
+                metadataCopy.addContent(metaSub);
+
+                // build up new metadata and nameChain variables with added codelist element
+                nameChain.add(enumerationRoot.get(0));
+                while (metadataCopy.getParentElement()!=null) {
+                    metadataCopy = metadataCopy.getParentElement();
+                }
+                metadata = metadataCopy;
+            }
+        }
+
+
+        // add element to overall list
         int nameChainLength = nameChain.size();
         List<String> allFieldsChildrenNames;
         List<Namespace> allFieldsChildrenNamespaces;
@@ -99,6 +187,7 @@ public class MetadataTree {
 
             if (idx==-1) {
                 // Element not available in overall list
+                // codelists/enumerations always land here as they are not included yet in MetadataTreeTemplate.java
                 allFields.addContent(metadata);
                 addValue = false;
                 break;
@@ -142,5 +231,20 @@ public class MetadataTree {
         }
 
         return allFields;
+    }
+
+
+    private String getConfigFile(List<Element> inElement, String inElementName) {
+        // get obligation and occurrence properties of a particular element in a list
+        String configFileName = null;
+
+        for (Element inElementAct : inElement) {
+            if (inElementAct.getChildText("name").equals(inElementName)) {
+                configFileName = inElementAct.getChildText("configFile");
+                break;
+            }
+        }
+
+        return configFileName;
     }
 }

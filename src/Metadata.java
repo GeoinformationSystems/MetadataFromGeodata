@@ -85,7 +85,7 @@ public class Metadata {
         // fill metadata from geopackage into document object model from CreateFieldsXML
         MetadataTree rootElementFilledInst = new MetadataTree();
 //        Element docFilled = docFilledInst.fillElements(doc.getRootElement(), content.getChild("DS_Resource"));
-        Element rootElementFilled = rootElementFilledInst.fillElements(rootElement, content);
+        Element rootElementFilled = rootElementFilledInst.fillElements(rootElement, content, ns);
 
         Document doc = new Document();
         doc.setRootElement(rootElementFilled);
