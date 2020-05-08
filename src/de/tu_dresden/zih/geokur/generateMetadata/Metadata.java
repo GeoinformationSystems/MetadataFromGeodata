@@ -3,6 +3,10 @@
  * All rights reserved.
  */
 
+package de.tu_dresden.zih.geokur.generateMetadata;
+
+import de.tu_dresden.zih.geokur.trimXML.*;
+
 import org.apache.commons.io.output.NullWriter;
 import org.jdom2.Document;
 import org.jdom2.Element;

@@ -3,6 +3,8 @@
  * All rights reserved.
  */
 
+package de.tu_dresden.zih.geokur.generateMetadata;
+
 import org.jdom2.Element;
 import org.jdom2.JDOMException;
 import org.jdom2.Namespace;
@@ -50,12 +52,12 @@ public class MetadataTree {
 
         if (!allFields.getName().equals(metadata.getName())) {
             // allFields and metadata must have the same first element
-            System.out.println("Metadata element " + metadata.getName() + " not equal to tree base " + allFields.getName());
+            System.out.println("de.tu_dresden.zih.geokur.generateMetadata.Metadata element " + metadata.getName() + " not equal to tree base " + allFields.getName());
             return allFields;
         }
         else if(metadata.getAttribute("UUID")==null) {
             // metadata must have an UUID for the first element (and for all other, although not relevant here)
-            System.out.println("Metadata element has no attribute UUID: not valid.");
+            System.out.println("de.tu_dresden.zih.geokur.generateMetadata.Metadata element has no attribute UUID: not valid.");
             return allFields;
         }
         else if (allFields.getAttribute("UUID")==null) {
@@ -187,7 +189,7 @@ public class MetadataTree {
 
             if (idx==-1) {
                 // Element not available in overall list
-                // codelists/enumerations always land here as they are not included yet in MetadataTreeTemplate.java
+                // codelists/enumerations always land here as they are not included yet in de.tu_dresden.zih.geokur.generateMetadata.MetadataTreeTemplate.java
                 allFields.addContent(metadata);
                 addValue = false;
                 break;

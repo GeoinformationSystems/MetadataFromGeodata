@@ -3,6 +3,8 @@
  * All rights reserved.
  */
 
+package de.tu_dresden.zih.geokur.trimXML;
+
 import org.jdom2.Attribute;
 import org.jdom2.Element;
 

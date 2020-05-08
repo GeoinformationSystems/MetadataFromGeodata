@@ -3,12 +3,15 @@
  * All rights reserved.
  */
 
+package de.tu_dresden.zih.geokur.generateMetadata;
+
 import org.jdom2.Element;
 import org.jdom2.JDOMException;
 import org.jdom2.Namespace;
 import org.jdom2.input.SAXBuilder;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.sql.*;
 import java.time.Instant;
 import java.util.*;
@@ -167,6 +170,9 @@ public class GeopackageMetadata {
         geopackageMeta.add(createNestedElement(new String[] {"DS_Resource", "has", "MD_Metadata", "referenceSystemInfo", "MD_ReferenceSystem", "referenceSystemIdentifier", "MD_Identifier", "description"},
                 new UUID[] {id_DS_Resource, id_has, id_MD_Metadata, id_referenceSystemInfo, id_MD_ReferenceSystem, id_referenceSystemIdentifier, id_MD_IdentifierSRS, id_descriptionSRS}, srsName, ns));
 
+
+        // read BLOB content of geopackage
+//        gpkg.getRasterContent(statement, tableName);
 
 
         return geopackageMeta;
@@ -583,26 +589,26 @@ public class GeopackageMetadata {
         return tableRowNum;
     }
 
-//    private void getRasterContent(Statement stmt, String tableName) {
-//        try {
-//            ResultSet tableContent = stmt.executeQuery("SELECT * FROM " + tableName);
-//            if (tableContent.next()) {
-//                Blob blobContent = tableContent.getBlob(4);
-//                long blobLength = blobContent.length();
-//
-//                int pos = 1; // position is 1-based
-//                int len = 10;
-//                byte[] bytes = blobContent.getBytes(pos, len);
-//
-//                InputStream is = blobContent.getBinaryStream();
-//                int b = is.read();
-//            }
-//
-//            System.out.println("yes");
-//        }
-//        catch (SQLException | IOException e) {
-//            System.out.println(e.getMessage());
-//        }
-//    }
+    private void getRasterContent(Statement stmt, String tableName) {
+        try {
+            ResultSet tableContent = stmt.executeQuery("SELECT * FROM " + tableName);
+            if (tableContent.next()) {
+                Blob blobContent = tableContent.getBlob(4);
+                long blobLength = blobContent.length();
+
+                int pos = 1; // position is 1-based
+                int len = 10;
+                byte[] bytes = blobContent.getBytes(pos, len);
+
+                InputStream is = blobContent.getBinaryStream();
+                int b = is.read();
+            }
+
+            System.out.println("yes");
+        }
+        catch (SQLException | IOException e) {
+            System.out.println(e.getMessage());
+        }
+    }
 
 }

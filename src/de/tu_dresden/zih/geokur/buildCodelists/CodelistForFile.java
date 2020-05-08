@@ -3,6 +3,7 @@
  * All rights reserved.
  */
 
+package de.tu_dresden.zih.geokur.buildCodelists;
 import java.io.*;
 
 class FileFilterExtension implements FileFilter
