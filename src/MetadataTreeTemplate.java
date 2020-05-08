@@ -14,27 +14,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-//class EnumerationException extends RuntimeException {
-//    String enumerationName;
-//    String entry;
-//
-//    public EnumerationException(String enumerationName, String entry) {
-//        this.enumerationName = enumerationName;
-//        this.entry = entry;
-//    }
-//
-//    public String getMessage() {
-//        return("\nEnumeration Exception occurred\n" +
-//                entry + " no valid item in enumeration " + enumerationName +
-//                "\nProgram exit");
-//    }
-//}
 
 public class MetadataTreeTemplate implements CreateInterface {
 
     public MetadataTreeTemplate() {}
 
-//    public Element getElement(Map<String, Namespace> ns, String configFile, Element content, List<String> elementChain, int indexChain, Writer logFileWriter) throws ClassNotFoundException, NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException, JDOMException, IOException {
     public Element getElement(Map<String, Namespace> ns, String configFile, String obligation, String occurrence, List<String> elementChain, int indexChain, Writer logFileWriter) throws ClassNotFoundException, NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException, JDOMException, IOException {
 
         // read config file and define particular root element
@@ -50,18 +34,6 @@ public class MetadataTreeTemplate implements CreateInterface {
 
         elementActRoot.setAttribute("obligation", obligation);
         elementActRoot.setAttribute("occurrence", occurrence);
-
-        // get actual relevant content
-        // attention: nesting over each entry - class and subelement
-        // -> here: first level
-//        Element contentAct;
-//        if (!(content.getChild(elementActName)==null)) {
-//            contentAct = content.getChild(elementActName);
-//
-//        }
-//        else {
-//            contentAct = new Element("XXX");
-//        }
 
         // complement elementChain for finding circularity
         int elementChainSize = elementChain.size();
@@ -108,27 +80,8 @@ public class MetadataTreeTemplate implements CreateInterface {
                 String elementOccurrence = configElement.getChildren("occurrence").get(0).getValue();
                 meta.setAttribute("occurrence", elementOccurrence);
 
-                // relevant content
-                // -> here: second level
-                // from here on the string array in the nested element can be relevant (multiple entries)
-//                Element contentActSub;
-//                if (!(contentAct.getChild(elementName)==null)) {
-//                    contentActSub = contentAct.getChild(elementName);
-//                }
-//                else {
-//                    contentActSub = new Element("XXX");
-//                }
-
-//                boolean elementListAdd = true;
                 for (String elementConfigFileAct : elementConfigFile) {
                     String configFilename = elementConfigFileAct.toLowerCase();
-//                    List<Content> contentActSubContent = contentActSub.getContent();
-//                    List<String> contentActSubValues = new ArrayList<>();
-//                    for (Content contentActSubContentAct : contentActSubContent) {
-//                        if (!(contentActSubContentAct.getValue().length()==0)) {
-//                            contentActSubValues.add(contentActSubContentAct.getValue());
-//                        }
-//                    }
 
                     if (!(elementConfigFileAct.equals("") ||
                             (configFilename.contains("codelist") && configFilename.contains(".xml")) ||
@@ -138,97 +91,12 @@ public class MetadataTreeTemplate implements CreateInterface {
 
                         Class<?> classAct = Class.forName("MetadataTreeTemplate");
                         Object classActObj = classAct.newInstance();
-//                        Method classMethodAct = classAct.getDeclaredMethod("getElement", Map.class, String.class, Element.class, List.class, int.class, Writer.class);
-//                        Element testClassMethodObj = (Element) classMethodAct.invoke(classActObj, ns, "config/" + elementConfigFileAct, contentActSub, elementChain, indexChain, logFileWriter);
                         Method classMethodAct = classAct.getDeclaredMethod("getElement", Map.class, String.class, String.class, String.class, List.class, int.class, Writer.class);
                         Element testClassMethodObj = (Element) classMethodAct.invoke(classActObj, ns, "config/" + elementConfigFileAct, elementObligation, elementOccurrence, elementChain, indexChain, logFileWriter);
                         meta.addContent(testClassMethodObj);
                     }
-                    ///////////////////////////
-                    // Just for finding all entry elements
-//                    else {
-//                        elementListAdd = false;
-//                        Element metaMultiple = new Element(elementName);
-//                        metaMultiple.setNamespace(ns.get(elementNamespace));
-//                        metaMultiple.addContent("XX_entry_XX");
-//                        elementList.add(metaMultiple);
-//                    }
-                    ///////////////////////////
-                    /*
-                    else if (contentActSubValues.size()>0) {
-                        // add content into xml element if available
-                        if (configFilename.contains("codelist") && configFilename.contains(".xml")) {
-                            // codelists contain normally allowed entries, but can be extended
-                            // if field with codelist contains non-original element an information is thrown
-                            Codelist codelist = new Codelist("config/" + elementConfigFileAct);
-                            List<List<String>> codelistProps = codelist.getEntries();
-                            List<String> codelistRoot = codelistProps.get(0);
-                            List<String> codelistEntries = codelistProps.get(1);
-                            List<Element> metaSubAll = new ArrayList<>();
-
-                            for (String contentActSubPart : contentActSubValues) {
-                                if (!codelistEntries.contains(contentActSubPart)) {
-                                    System.out.println("Entry for codelist " + codelistRoot.get(0) + " contains unknown element: " + contentActSubPart);
-                                    System.out.println("\tAs codelists are extensible it is allowed but no regular case.");
-                                }
-
-                                // create subelement(s) for codelist
-                                // possible as codelist always lowest element in one hierarchical branch
-                                Element metaSub = new Element(codelistRoot.get(0));
-                                metaSub.setNamespace(ns.get("cat"));
-                                metaSub.setAttribute("codeList", codelistRoot.get(1) + "/codelists.html#" + codelistRoot.get(0));
-                                metaSub.setAttribute("codeListValue", contentActSubPart);
-                                metaSubAll.add(metaSub);
-                            }
-
-                            meta.addContent(metaSubAll);
-
-                        }
-                        else if (configFilename.contains("enumeration") && configFilename.contains(".xml")) {
-                            // enumerations are similar to codelists, but cannot be extended
-                            // if field with enumeration contains non-original element an error is thrown
-                            Codelist enumeration = new Codelist("config/" + elementConfigFileAct);
-                            List<List<String>> enumerationProps = enumeration.getEntries();
-                            List<String> enumerationRoot = enumerationProps.get(0);
-                            List<String> enumerationEntries = enumerationProps.get(1);
-                            List<Element> metaSubAll = new ArrayList<>();
-
-                            for (String contentActSubPart : contentActSubValues) {
-                                try {
-                                    if (!enumerationEntries.contains(contentActSubPart)) {
-                                        throw new EnumerationException(enumerationRoot.get(0), contentActSubPart);
-                                    }
-                                }
-                                catch (EnumerationException ex) {
-                                    System.out.println(ex.getMessage());
-                                    System.exit(8); // maybe change to exception propagation to main?
-                                }
-
-                                // create subelement for codelist
-                                // possible as codelist always lowest element in one hierarchical branch
-                                Element metaSub = new Element(enumerationRoot.get(0));
-                                metaSub.setNamespace(ns.get("cat"));
-                                metaSub.addContent(contentActSubPart);
-                                metaSubAll.add(metaSub);
-                            }
-                            meta.addContent(metaSubAll);
-                        }
-                        else {
-                            // regular elements are always included (without attributes)
-                            for (String contentActSubPart : contentActSubValues) {
-                                elementListAdd = false;
-                                Element metaMultiple = new Element(elementName);
-                                metaMultiple.setNamespace(ns.get(elementNamespace));
-                                metaMultiple.addContent(contentActSubPart);
-                                elementList.add(metaMultiple);
-                            }
-                        }
-                    }
-                    */
                 }
-//                if (elementListAdd) {
                 elementList.add(meta);
-//                }
             }
         }
 
