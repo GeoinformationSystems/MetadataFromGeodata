@@ -6,7 +6,6 @@
 package de.tu_dresden.zih.geokur.gui;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -51,7 +50,7 @@ public class GeoKurGUI extends JFrame {
         super(title);
         this.setLayout(new GridBagLayout());
         this.setMinimumSize(new Dimension(330,300));
-        this.setPreferredSize(new Dimension(500,300));
+        this.setPreferredSize(new Dimension(600,400));
         this.setMaximumSize(new Dimension(800,500));
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 
@@ -64,6 +63,21 @@ public class GeoKurGUI extends JFrame {
         fileClose = new JMenuItem("Close Database");
         fileExit = new JMenuItem("Exit Program");
 
+        fileNew.addActionListener(new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                JFileChooser databaseChooser = new JFileChooser();
+                FileNameExtensionFilter filterDatabase = new FileNameExtensionFilter("databases", "db");
+                databaseChooser.setFileFilter(filterDatabase);
+                int i = databaseChooser.showSaveDialog(GeoKurGUI.this);
+                if(i==JFileChooser.APPROVE_OPTION) {
+                    File database = databaseChooser.getSelectedFile();
+                    String databasePath = database.getPath();
+                    String databaseName = database.getName();
+                    bottomLineLeftDatabase.setText("Database: " + databaseName);
+                }
+            }
+        });
         fileOpen.addActionListener(new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
@@ -79,6 +93,13 @@ public class GeoKurGUI extends JFrame {
                 }
             }
         });
+        fileClose.addActionListener(new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                bottomLineLeftDatabase.setText("Database: ");
+                bottomLineRightDataset.setText("File: ");
+            }
+        });
         fileExit.addActionListener(new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
@@ -87,6 +108,7 @@ public class GeoKurGUI extends JFrame {
         });
 
         file = new JMenu("File");
+        file.add(fileNew);
         file.add(fileOpen);
         file.add(fileClose);
         file.add(fileExit);
@@ -135,10 +157,12 @@ public class GeoKurGUI extends JFrame {
         centralPanel = new JPanel();
 
         // bottom line
+        bottomLineLeftDatabase.setToolTipText("Opened Database");
         bottomLineLeft = new JPanel();
         bottomLineLeft.setLayout(new FlowLayout(FlowLayout.LEFT));
         bottomLineLeft.add(bottomLineLeftDatabase);
 
+        bottomLineRightDataset.setToolTipText("Opened Geodata Dataset");
         bottomLineRight = new JPanel();
         bottomLineRight.setLayout(new FlowLayout(FlowLayout.RIGHT));
         bottomLineRight.add(bottomLineRightDataset);
