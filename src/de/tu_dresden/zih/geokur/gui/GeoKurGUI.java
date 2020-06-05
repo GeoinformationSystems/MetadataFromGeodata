@@ -93,13 +93,13 @@ public class GeoKurGUI extends JFrame {
                 }
             }
         });
-        fileClose.addActionListener(new AbstractAction() {
-            @Override
-            public void actionPerformed(ActionEvent actionEvent) {
-                bottomLineLeftDatabase.setText("Database: ");
-                bottomLineRightDataset.setText("File: ");
-            }
-        });
+//        fileClose.addActionListener(new AbstractAction() {
+//            @Override
+//            public void actionPerformed(ActionEvent actionEvent) {
+//                bottomLineLeftDatabase.setText("Database: ");
+//                bottomLineRightDataset.setText("File: ");
+//            }
+//        });
         fileExit.addActionListener(new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
