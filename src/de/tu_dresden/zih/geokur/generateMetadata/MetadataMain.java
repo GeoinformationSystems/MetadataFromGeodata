@@ -11,6 +11,7 @@ public class MetadataMain {
         String geopackageName = System.getProperty("geopackageName");
         boolean writeLogFile = Boolean.parseBoolean(System.getProperty("writeLogFile"));
 
+        System.out.println("-----------------");
         System.out.println("Generate Metadata");
         System.out.println("-----------------");
         System.out.println("File chosen: " + geopackageName);

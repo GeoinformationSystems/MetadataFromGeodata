@@ -12,6 +12,9 @@ import org.jdom2.input.SAXBuilder;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
+import java.nio.charset.StandardCharsets;
 import java.sql.*;
 import java.time.Instant;
 import java.util.*;
@@ -172,7 +175,7 @@ public class GeopackageMetadata {
 
 
         // read BLOB content of geopackage
-//        gpkg.getRasterContent(statement, tableName);
+        gpkg.getRasterContent(statement, tableName);
 
 
         return geopackageMeta;
@@ -589,26 +592,81 @@ public class GeopackageMetadata {
         return tableRowNum;
     }
 
+
     private void getRasterContent(Statement stmt, String tableName) {
         try {
-            ResultSet tableContent = stmt.executeQuery("SELECT * FROM " + tableName);
+            ResultSet tableContent = stmt.executeQuery("SELECT tile_data FROM " + tableName);
             if (tableContent.next()) {
-                Blob blobContent = tableContent.getBlob(4);
-                long blobLength = blobContent.length();
+                byte[] by = tableContent.getBytes(1);
+                byte[] magicByte = Arrays.copyOfRange(by, 0, 2);
+                String magic = new String(magicByte, StandardCharsets.UTF_8); // ascii GP
 
-                int pos = 1; // position is 1-based
-                int len = 10;
-                byte[] bytes = blobContent.getBytes(pos, len);
+                byte versionByte = by[2];
+                Integer version = (int) versionByte;
+                byte flagsByte = by[3];
+                byte[] flagsUnpack = unpack(flagsByte);
+                int envHeader = (int) ((int) flagsUnpack[6] * Math.pow(2, 0) + (int) flagsUnpack[5] * Math.pow(2, 1) + flagsUnpack[4] * Math.pow(2, 2)); // envelope contents indicator
+                String endianness;
+                if (flagsUnpack[7]==0) {
+                    // byte order for header values
+                    endianness = "BIG_ENDIAN";
+                }
+                else {
+                    endianness = "LITTLE_ENDIAN";
+                }
+                ByteBuffer srsIDByte = ByteBuffer.wrap(Arrays.copyOfRange(by, 4, 8));
+                switch (endianness) {
+                    case ("BIG_ENDIAN"):
+                        srsIDByte.order(ByteOrder.BIG_ENDIAN);
+                        break;
+                    case ("LITTLE_ENDIAN"):
+                        srsIDByte.order(ByteOrder.LITTLE_ENDIAN);
+                }
+                int srsID = srsIDByte.getInt();
 
-                InputStream is = blobContent.getBinaryStream();
-                int b = is.read();
+                System.out.println("yes");
+
+//            ByteBuffer bb = ByteBuffer.wrap(new byte[] {0,0,0,-128});
+//            bb.order(ByteOrder.BIG_ENDIAN);
+//            int v = bb.getInt();
+//            byte[] bs = BitSet.valueOf(bb).toByteArray();
+
+
+
+
+//                Blob blobContent = tableContent.getBlob("tile_data");
+//                long blobLength = blobContent.length();
+//
+//                int pos = 1; // position is 1-based
+//                int len = 10;
+//                byte[] bytes = blobContent.getBytes(pos, len);
+//
+//                InputStream is = blobContent.getBinaryStream();
+//                int b = is.read();
             }
 
             System.out.println("yes");
         }
-        catch (SQLException | IOException e) {
+        catch (SQLException e) {
             System.out.println(e.getMessage());
         }
+    }
+
+
+    public static byte[] unpack(byte val) {
+        byte[] result = new byte[8];
+        for(int i = 0; i < 8; i++) {
+            result[i] = (byte) ((val >> (7 - i)) & 1);
+        }
+        return result;
+    }
+
+
+    public static byte pack(byte[] vals) {
+        byte result = 0;
+        for (byte bit : vals)
+            result = (byte)((result << 1) | (bit & 1));
+        return result;
     }
 
 }
