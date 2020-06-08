@@ -7,9 +7,12 @@ package de.tu_dresden.zih.geokur.gui;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.xml.crypto.Data;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.io.File;
+import java.sql.*;
+import java.util.ArrayList;
 
 public class GeoKurGUI extends JFrame {
     JMenuBar menuBar;
@@ -43,7 +46,7 @@ public class GeoKurGUI extends JFrame {
     JPanel bottomLineLeft;
     JPanel bottomLineRight;
     JLabel bottomLineLeftDatabase = new JLabel("Database: ");
-    JLabel bottomLineRightDataset = new JLabel("File: ");
+    JLabel bottomLineRightDataset = new JLabel("Dataset: ");
 
 
     public GeoKurGUI (String title) {
@@ -53,6 +56,7 @@ public class GeoKurGUI extends JFrame {
         this.setPreferredSize(new Dimension(600,400));
         this.setMaximumSize(new Dimension(800,500));
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+        JFrame thisFrame = this; // for use in ActionListeners
 
         Image image = new ImageIcon("fig/GeoKurLogoSquare.png").getImage();
         this.setIconImage(image);
@@ -71,10 +75,17 @@ public class GeoKurGUI extends JFrame {
                 databaseChooser.setFileFilter(filterDatabase);
                 int i = databaseChooser.showSaveDialog(GeoKurGUI.this);
                 if(i==JFileChooser.APPROVE_OPTION) {
-                    File database = databaseChooser.getSelectedFile();
-                    String databasePath = database.getPath();
-                    String databaseName = database.getName();
-                    bottomLineLeftDatabase.setText("Database: " + databaseName);
+                    File databaseFile = databaseChooser.getSelectedFile();
+                    String databasePath = databaseFile.getPath();
+                    String databaseName = databaseFile.getName();
+                    if (databaseFile.exists()) {
+                        System.out.println("The specified file " + databaseFile.getPath() + " already exists.");
+                        JOptionPane.showMessageDialog(thisFrame, databaseName + " already exists. Nothing loaded.", "Warning", JOptionPane.WARNING_MESSAGE);
+                    }
+                    else {
+                        Connection connection = newDatabase(databasePath);
+                        bottomLineLeftDatabase.setText("Database: " + databaseName);
+                    }
                 }
             }
         });
@@ -86,18 +97,43 @@ public class GeoKurGUI extends JFrame {
                 databaseChooser.setFileFilter(filterDatabase);
                 int i = databaseChooser.showOpenDialog(GeoKurGUI.this);
                 if(i==JFileChooser.APPROVE_OPTION){
-                    File database = databaseChooser.getSelectedFile();
-                    String databasePath = database.getPath();
-                    String databaseName = database.getName();
+                    File databaseFile = databaseChooser.getSelectedFile();
+                    String databasePath = databaseFile.getPath();
+                    String databaseName = databaseFile.getName();
+                    Database database = openDatabase(databasePath);
                     bottomLineLeftDatabase.setText("Database: " + databaseName);
+
+                    // draw list of all datasets in opened database including a dataset choose button
+                    final DefaultListModel<String> listDatasetString = new DefaultListModel<>();
+                    for (String datasetAct : database.listAbsolutePath) {
+                        listDatasetString.addElement(datasetAct);
+                    }
+                    final JList<String> listDatasets = new JList<>(listDatasetString);
+                    listDatasets.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+                    listDatasets.setLayoutOrientation(JList.VERTICAL);
+                    listDatasets.setVisibleRowCount(12);
+                    JScrollPane listDatasetsScrolling = new JScrollPane(listDatasets);
+                    JButton openDatasetButton = new JButton("Open Dataset");
+                    openDatasetButton.addActionListener(new AbstractAction() {
+                        @Override
+                        public void actionPerformed(ActionEvent actionEvent) {
+                            if (listDatasets.getSelectedIndex() != -1 && listDatasets.getSelectedIndices().length==1) {
+                                bottomLineRightDataset.setText("Dataset: " + listDatasets.getSelectedValue());
+                                centralPanel.removeAll();
+                            }
+                        }
+                    });
+                    centralPanel.add(listDatasetsScrolling);
+                    centralPanel.add(openDatasetButton);
                 }
             }
         });
         fileClose.addActionListener(new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
+                centralPanel.removeAll();
                 bottomLineLeftDatabase.setText("Database: ");
-                bottomLineRightDataset.setText("File: ");
+                bottomLineRightDataset.setText("Dataset: ");
             }
         });
         fileExit.addActionListener(new AbstractAction() {
@@ -168,6 +204,8 @@ public class GeoKurGUI extends JFrame {
         bottomLineRight.add(bottomLineRightDataset);
 
 
+
+
         // add to frame
         this.setJMenuBar(menuBar);
 
@@ -190,6 +228,82 @@ public class GeoKurGUI extends JFrame {
         this.add(bottomLineLeft, cBottomLineLeft);
         this.add(bottomLineRight, cBottomLineRight);
 
+
+    }
+
+
+    public Connection newDatabase(String databasePath) {
+        String[] databasePathSplit = databasePath.split("/");
+        String databaseName = databasePathSplit[databasePathSplit.length - 1];
+
+        // create new sqlite database
+        Connection connection = null;
+        Statement statement;
+
+        String sql = "CREATE TABLE IF NOT EXISTS datasets (\n"
+                + "id integer NOT NULL PRIMARY KEY,\n"
+                + "file_name text NOT NULL,\n"
+                + "absolute_path text NOT NULL,\n"
+                + "table_name text NOT NULL\n"
+                + ");";
+
+        String sqlInsert = "INSERT INTO datasets(id, file_name, absolute_path, table_name) VALUES (?,?,?,?)";
+
+        try {
+            String url = "jdbc:sqlite:" + databasePath;
+            connection = DriverManager.getConnection(url);
+            if (connection != null) {
+                System.out.println("A new database has been created.");
+                statement = connection.createStatement();
+                statement.execute(sql);
+
+                for (int i = 1; i < 100; i++) {
+                    PreparedStatement preparedStatement = connection.prepareStatement(sqlInsert);
+                    preparedStatement.setInt(1, i);
+                    preparedStatement.setString(2, "dataset" + i);
+                    preparedStatement.setString(3, "dataset" + i + "_Path");
+                    preparedStatement.setString(4, i + "_" + "dataset" + i);
+                    preparedStatement.executeUpdate();
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return connection;
+    }
+
+
+    public Database openDatabase(String databasePath) {
+        Database database = new Database();
+
+        // connect to database
+        Connection connection;
+        Statement statement;
+        java.util.List<String> listFileName = new ArrayList<>();
+        java.util.List<String> listAbsolutePath = new ArrayList<>();
+        java.util.List<String> listTableName = new ArrayList<>();
+
+        try {
+            String url = "jdbc:sqlite:" + databasePath;
+            connection = DriverManager.getConnection(url);
+            database.connection = connection;
+            statement = connection.createStatement();
+            database.statement = statement;
+            ResultSet databaseContent = statement.executeQuery("SELECT * FROM datasets");
+            while (databaseContent.next()) {
+                listFileName.add(databaseContent.getString("file_name"));
+                listAbsolutePath.add(databaseContent.getString("absolute_path"));
+                listTableName.add(databaseContent.getString("table_name"));
+            }
+            database.listFileName = listFileName;
+            database.listAbsolutePath = listAbsolutePath;
+            database.listTableName = listTableName;
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+
+        return database;
     }
 
 
