@@ -18,9 +18,13 @@ public class Database {
 
     public Database(){}
 
-    public Database(Connection connection, Statement statement, List<String> listFileName, List<String> listAbsolutePath, List<String> listTableName){
+    public Database(Connection connection, Statement statement) {
         this.connection = connection;
         this.statement = statement;
+    }
+
+    public Database(Connection connection, Statement statement, List<String> listFileName, List<String> listAbsolutePath, List<String> listTableName){
+        this(connection, statement);
         this.listFileName = listFileName;
         this.listAbsolutePath = listAbsolutePath;
         this.listTableName = listTableName;

@@ -48,6 +48,15 @@ public class GeoKurGUI extends JFrame {
     JLabel bottomLineLeftDatabase = new JLabel("Database: ");
     JLabel bottomLineRightDataset = new JLabel("Dataset: ");
 
+    File databaseFile;
+    String databasePath;
+    String databaseName;
+    Database database;
+
+    File datasetFile;
+    String datasetPath;
+    String datasetName;
+
 
     public GeoKurGUI (String title) {
         super(title);
@@ -56,7 +65,6 @@ public class GeoKurGUI extends JFrame {
         this.setPreferredSize(new Dimension(600,400));
         this.setMaximumSize(new Dimension(800,500));
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-        JFrame thisFrame = this; // for use in ActionListeners
 
         Image image = new ImageIcon("fig/GeoKurLogoSquare.png").getImage();
         this.setIconImage(image);
@@ -75,19 +83,13 @@ public class GeoKurGUI extends JFrame {
                 databaseChooser.setFileFilter(filterDatabase);
                 int i = databaseChooser.showSaveDialog(GeoKurGUI.this);
                 if(i==JFileChooser.APPROVE_OPTION) {
-                    File databaseFile = databaseChooser.getSelectedFile();
-                    String databasePath = databaseFile.getPath();
-                    String databaseName = databaseFile.getName();
-                    if (databaseFile.exists()) {
-                        System.out.println("The specified file " + databaseFile.getPath() + " already exists.");
-                        JOptionPane.showMessageDialog(thisFrame, databaseName + " already exists. Nothing loaded.", "Warning", JOptionPane.WARNING_MESSAGE);
+                    GeoKurGUI.this.setDatabaseFile(databaseChooser.getSelectedFile());
+                    if (GeoKurGUI.this.getDatabaseFile().exists()) {
+                        System.out.println("The specified file " + GeoKurGUI.this.getDatabasePath() + " already exists.");
+                        JOptionPane.showMessageDialog(GeoKurGUI.this, GeoKurGUI.this.getDatabaseName() + " already exists. Nothing loaded.", "Warning", JOptionPane.WARNING_MESSAGE);
                     }
                     else {
-                        Connection connection = newDatabase(databasePath);
-                        bottomLineLeftDatabase.setText("Database: " + databaseName);
-                        bottomLineLeftDatabase.setToolTipText(databasePath);
-                        datasetAdd.setEnabled(true);
-                        datasetOpen.setEnabled(true);
+                        GeoKurGUI.this.setDatabase(newDatabase(GeoKurGUI.this.getDatabasePath()));
                     }
                 }
             }
@@ -100,18 +102,12 @@ public class GeoKurGUI extends JFrame {
                 databaseChooser.setFileFilter(filterDatabase);
                 int i = databaseChooser.showOpenDialog(GeoKurGUI.this);
                 if(i==JFileChooser.APPROVE_OPTION){
-                    File databaseFile = databaseChooser.getSelectedFile();
-                    String databasePath = databaseFile.getPath();
-                    String databaseName = databaseFile.getName();
-                    Database database = openDatabase(databasePath);
-                    bottomLineLeftDatabase.setText("Database: " + databaseName);
-                    bottomLineLeftDatabase.setToolTipText(databasePath);
-                    datasetAdd.setEnabled(true);
-                    datasetOpen.setEnabled(true);
+                    GeoKurGUI.this.setDatabaseFile(databaseChooser.getSelectedFile());
+                    GeoKurGUI.this.setDatabase(openDatabase(GeoKurGUI.this.getDatabaseFile().getPath()));
 
                     // draw list of all datasets in opened database including a dataset choose button
                     DefaultListModel<String> listDatasetString = new DefaultListModel<>();
-                    for (String datasetAct : database.listAbsolutePath) {
+                    for (String datasetAct : GeoKurGUI.this.getDatabase().listAbsolutePath) {
                         listDatasetString.addElement(datasetAct);
                     }
                     final JList<String> listDatasets = new JList<>(listDatasetString);
@@ -125,11 +121,10 @@ public class GeoKurGUI extends JFrame {
                         public void actionPerformed(ActionEvent actionEvent) {
                             if (listDatasets.getSelectedIndex() != -1 && listDatasets.getSelectedIndices().length==1) {
                                 bottomLineRightDataset.setText("Dataset: " + listDatasets.getSelectedValue());
-//                                centralPanel.removeAll();
                             }
                         }
                     });
-//                    centralPanel.add(listDatasetsScrolling);
+//                    centralPanelLeft.add(listDatasetsScrolling);
 //                    centralPanel.add(openDatasetButton);
                 }
             }
@@ -137,11 +132,7 @@ public class GeoKurGUI extends JFrame {
         fileClose.addActionListener(new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-//                centralPanel.removeAll();
-                bottomLineLeftDatabase.setText("Database: ");
-                bottomLineLeftDatabase.setToolTipText("");
-                bottomLineRightDataset.setText("Dataset: ");
-                bottomLineRightDataset.setToolTipText("");
+                GeoKurGUI.this.setDatabaseFile(null);
             }
         });
         fileExit.addActionListener(new AbstractAction() {
@@ -181,12 +172,26 @@ public class GeoKurGUI extends JFrame {
                 databaseChooser.setFileFilter(filterGeodata);
                 int i = databaseChooser.showOpenDialog(GeoKurGUI.this);
                 if(i==JFileChooser.APPROVE_OPTION){
-                    File datasetFile = databaseChooser.getSelectedFile();
-                    String datasetPath = datasetFile.getPath();
-                    String datasetName = datasetFile.getName();
-                    bottomLineRightDataset.setText("Dataset: " + datasetName);
-                    bottomLineRightDataset.setToolTipText(datasetPath);
+                    GeoKurGUI.this.setDatasetFile(databaseChooser.getSelectedFile());
                 }
+            }
+        });
+
+        datasetOpen.addActionListener(new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+//                Database database = openDatabase(databasePath);
+//                JList<String> listDatasets = new JList<>(listDatasetString);
+//                listDatasets.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+//                listDatasets.setLayoutOrientation(JList.VERTICAL);
+//                listDatasets.setVisibleRowCount(12);
+//                JScrollPane listDatasetsScrolling = new JScrollPane(listDatasets);
+            }
+        });
+        datasetClose.addActionListener(new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                GeoKurGUI.this.setDatasetFile(null);
             }
         });
 
@@ -201,21 +206,31 @@ public class GeoKurGUI extends JFrame {
         metadataEdit = new JMenuItem("Editing Metadata");
         metadataDataQualityInvestigate = new JMenuItem("Investigate Data Quality");
         metadataDataQualityEdit = new JMenuItem("Edit Data Quality");
+        metadataGenerate.setEnabled(false);
+        metadataInvestigate.setEnabled(false);
+        metadataEdit.setEnabled(false);
+        metadataDataQualityInvestigate.setEnabled(false);
+        metadataDataQualityEdit.setEnabled(false);
+
         metadata = new JMenu("Metadata");
         metadata.add(metadataGenerate);
         metadata.add(metadataInvestigate);
         metadata.add(metadataEdit);
-        metadata.add(new JSeparator());
+        metadata.addSeparator();
         metadata.add(metadataDataQualityInvestigate);
         metadata.add(metadataDataQualityEdit);
 
         // provenance menu
         provenanceShow = new JMenuItem("Show Provenance");
+        provenanceShow.setEnabled(false);
+
         provenance = new JMenu("Provenance");
         provenance.add(provenanceShow);
 
         // pangaea menu
         pangaeaExport = new JMenuItem("Export to pangaea.de");
+        pangaeaExport.setEnabled(false);
+
         pangaea = new JMenu("pangaea.de");
         pangaea.add(pangaeaExport);
 
@@ -234,6 +249,8 @@ public class GeoKurGUI extends JFrame {
         centralPanelLeft = new JPanel();
         centralPanelRight = new JPanel();
 
+        JSeparator sep = new JSeparator();
+
         bottomLineLeft = new JPanel();
         bottomLineRight = new JPanel();
 
@@ -241,6 +258,7 @@ public class GeoKurGUI extends JFrame {
         GridBagConstraints cPanel = new GridBagConstraints();
         GridBagConstraints cCentralPanelLeft = new GridBagConstraints();
         GridBagConstraints cCentralPanelRight = new GridBagConstraints();
+        GridBagConstraints cSep = new GridBagConstraints();
         GridBagConstraints cBottomLineLeft = new GridBagConstraints();
         GridBagConstraints cBottomLineRight = new GridBagConstraints();
 
@@ -259,63 +277,118 @@ public class GeoKurGUI extends JFrame {
         cCentralPanelRight.weightx = .7;
         cCentralPanelRight.weighty = 1;
         cCentralPanelRight.fill = GridBagConstraints.BOTH;
+        cSep.gridx = 0;
+        cSep.gridwidth = 2;
+        cSep.gridy = 1;
+        cSep.fill = GridBagConstraints.HORIZONTAL;
         cBottomLineLeft.gridx = 0;
-        cBottomLineLeft.gridy = 1;
+        cBottomLineLeft.gridy = 2;
         cBottomLineLeft.weightx = .5;
         cBottomLineLeft.fill = GridBagConstraints.BOTH;
         cBottomLineRight.gridx = 1;
-        cBottomLineRight.gridy = 1;
+        cBottomLineRight.gridy = 2;
         cBottomLineRight.weightx = .5;
         cBottomLineRight.fill = GridBagConstraints.BOTH;
 
         // bottom line
-        bottomLineLeftDatabase.setToolTipText("Opened Database");
+        bottomLineLeftDatabase.setToolTipText("path to opened database");
         bottomLineLeft.setLayout(new FlowLayout(FlowLayout.LEFT));
         bottomLineLeft.add(bottomLineLeftDatabase);
 
-        bottomLineRightDataset.setToolTipText("Opened Geodata Dataset");
+        bottomLineRightDataset.setToolTipText("path to opened geodata dataset");
         bottomLineRight.setLayout(new FlowLayout(FlowLayout.RIGHT));
         bottomLineRight.add(bottomLineRightDataset);
 
         // add to frame / main panel
-        this.setJMenuBar(menuBar);
-
         panel.add(centralPanelLeft, cCentralPanelLeft);
         panel.add(centralPanelRight, cCentralPanelRight);
+        panel.add(sep, cSep);
         panel.add(bottomLineLeft, cBottomLineLeft);
         panel.add(bottomLineRight, cBottomLineRight);
 
+        this.setJMenuBar(menuBar);
         this.add(panel, cPanel);
-
-//        GridBagConstraints cCentralPanel = new GridBagConstraints();
-//        cCentralPanel.gridy = 0;
-//        cCentralPanel.gridwidth = 1;
-//        cCentralPanel.weighty = 1;
-//        GridBagConstraints cBottomLineLeft = new GridBagConstraints();
-//        cBottomLineLeft.weightx = .5;
-//        cBottomLineLeft.gridx = 0;
-//        cBottomLineLeft.gridy = 1;
-//        cBottomLineLeft.fill = GridBagConstraints.HORIZONTAL;
-//        GridBagConstraints cBottomLineRight = new GridBagConstraints();
-//        cBottomLineRight.weightx = .5;
-//        cBottomLineRight.gridx = 1;
-//        cBottomLineRight.gridy = 1;
-//        cBottomLineRight.fill = GridBagConstraints.HORIZONTAL;
-
-//        this.add(centralPanel, cCentralPanel);
-//        this.add(bottomLineLeft, cBottomLineLeft);
-//        this.add(bottomLineRight, cBottomLineRight);
     }
 
+    // the following setter/getter methods enable a listener for the state of specific variables and actions to be
+    // performed for different cases (provide a central place for variables)
 
-    public Connection newDatabase(String databasePath) {
+    public void setDatabaseFile(File databaseFile) {
+        this.databaseFile = databaseFile;
+        if (databaseFile != null) {
+            this.databasePath = databaseFile.getPath();
+            this.databaseName = databaseFile.getName();
+            datasetAdd.setEnabled(true);
+            datasetOpen.setEnabled(true);
+        }
+        else {
+            this.databasePath = "path to opened database";
+            this.databaseName = "";
+            this.database = null;
+            datasetAdd.setEnabled(false);
+            datasetOpen.setEnabled(false);
+            this.setDatasetFile(null);
+        }
+        bottomLineLeftDatabase.setToolTipText(databasePath);
+        bottomLineLeftDatabase.setText("Database: " + databaseName);
+    }
+
+    public void setDatabase(Database database) {
+        this.database = database;
+    }
+
+    public void setDatasetFile(File datasetFile) {
+        this.datasetFile = datasetFile;
+        if (datasetFile != null) {
+            this.datasetPath = datasetFile.getPath();
+            this.datasetName = datasetFile.getName();
+            datasetClose.setEnabled(true);
+        }
+        else {
+            this.datasetPath = "path to opened geodata dataset";
+            this.datasetName = "";
+            datasetClose.setEnabled(false);
+        }
+        bottomLineRightDataset.setText("Dataset: " + datasetName);
+        bottomLineRightDataset.setToolTipText(datasetPath);
+    }
+
+    public File getDatabaseFile() {
+        return databaseFile;
+    }
+
+    public String getDatabasePath() {
+        return databasePath;
+    }
+
+    public String getDatabaseName() {
+        return databaseName;
+    }
+
+    public Database getDatabase() {
+        return database;
+    }
+
+    public File getDatasetFile() {
+        return datasetFile;
+    }
+
+    public String getDatasetPath() {
+        return datasetPath;
+    }
+
+    public String getDatasetName() {
+        return datasetName;
+    }
+
+    public Database newDatabase(String databasePath) {
         // establish new database and connect to it
-        String[] databasePathSplit = databasePath.split("/");
-        String databaseName = databasePathSplit[databasePathSplit.length - 1];
+//        String[] databasePathSplit = databasePath.split("/");
+//        String databaseName = databasePathSplit[databasePathSplit.length - 1];
 
         // create new sqlite database
         Connection connection = null;
-        Statement statement;
+        Statement statement = null;
 
         String sql = "CREATE TABLE IF NOT EXISTS datasets (\n"
                 + "id integer NOT NULL PRIMARY KEY,\n"
@@ -347,7 +420,7 @@ public class GeoKurGUI extends JFrame {
             e.printStackTrace();
         }
 
-        return connection;
+        return new Database(connection, statement);
     }
 
 
@@ -381,11 +454,6 @@ public class GeoKurGUI extends JFrame {
         }
 
         return database;
-    }
-
-
-    public void openDataset(Database database) {
-
     }
 
 
