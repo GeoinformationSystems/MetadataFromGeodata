@@ -24,9 +24,15 @@ import java.util.*;
 import static org.jdom2.Namespace.getNamespace;
 
 public class Metadata {
-//    public static void main(String[] argv) throws IOException, ClassNotFoundException, NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException, JDOMException {
-        // define all namespaces and root element MD_Metadata (27 from ISO 19115 and 3 from ISO 19157)
+    // define all namespaces and root element MD_Metadata (27 from ISO 19115 and 3 from ISO 19157)
     public static void create(String geopackageName, boolean writeLogFile) {
+        System.out.println("-----------------");
+        System.out.println("Generate Metadata");
+        System.out.println("-----------------");
+        System.out.println("File chosen: " + geopackageName);
+        System.out.println("Write log file: " + writeLogFile);
+        System.out.println();
+
         try {
             FileReader nsFR = new FileReader("config/namespaces.txt");
             BufferedReader nsBR = new BufferedReader(nsFR);
@@ -47,7 +53,7 @@ public class Metadata {
             // content from arbitrary geopackage
             // one geopackage is one dataset - multiple content in one geopackage result in different MD_Metadata
             GeopackageMetadata geopackageConnection = new GeopackageMetadata();
-            Integer contentNum = geopackageConnection.getContentNum(geopackageName); //////////////////////////add different contents
+            Integer contentNum = geopackageConnection.getContentNum(geopackageName); //todo: add different contents
             List<Element> content = geopackageConnection.getContent(geopackageName, 1, ns);
 
             // start linked list with element names (as string)
