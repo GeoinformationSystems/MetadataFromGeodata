@@ -11,9 +11,6 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
 
 public class GeoKurGUI extends JFrame {
     JMenuBar menuBar;
@@ -470,7 +467,6 @@ public class GeoKurGUI extends JFrame {
 
     public void newDatabase() {
         // establish new database and connect to it
-        // create new sqlite database
 
         JFileChooser databaseChooser = new JFileChooser();
         FileNameExtensionFilter filterDatabase = new FileNameExtensionFilter("databases", "db");
@@ -497,43 +493,25 @@ public class GeoKurGUI extends JFrame {
                         + "table_name text NOT NULL\n"
                         + ");";
 
-                String sqlInsert = "INSERT INTO datasets(number, uuid, file_name, file_path, table_name) VALUES (?,?,?,?,?)";
-
                 try {
-                    List<Integer> listFileNumber = new ArrayList<>();
-                    List<String> listFileUUID = new ArrayList<>();
-                    List<String> listFileName = new ArrayList<>();
-                    List<String> listFilePath = new ArrayList<>();
-                    List<String> listTableName = new ArrayList<>();
-
                     String url = "jdbc:sqlite:" + GeoKurGUI.this.databasePath;
                     connection = DriverManager.getConnection(url);
                     if (connection != null) {
                         statement = connection.createStatement();
                         statement.execute(sql);
-
-                        for (int i = 1; i < 36; i++) {
-                            PreparedStatement preparedStatement = connection.prepareStatement(sqlInsert);
-                            listFileNumber.add(i);
-                            listFileUUID.add(UUID.randomUUID().toString());
-                            listFileName.add("dataset" + i + ".gpkg");
-                            listFilePath.add("/path/to/dataset" + i + ".gpkg");
-                            listTableName.add("dataset" + i + ".gpkg_" + i);
-                            preparedStatement.setInt(1,listFileNumber.get(i - 1));
-                            preparedStatement.setString(2, listFileUUID.get(i - 1));
-                            preparedStatement.setString(3, listFileName.get(i - 1));
-                            preparedStatement.setString(4, listFilePath.get(i - 1));
-                            preparedStatement.setString(5, listTableName.get(i - 1));
-                            preparedStatement.executeUpdate();
-                        }
-                        GeoKurGUI.this.database = new Database(connection, statement, listFileNumber, listFileUUID, listFileName, listFilePath, listTableName);
-                        System.out.println("A new database has been created.");
+                        GeoKurGUI.this.database = new Database(connection, statement);
+                        System.out.println("A new empty database has been created.");
                     }
                 } catch (SQLException e) {
-                    e.printStackTrace();
+                    System.out.println(e.getMessage());
                 }
                 GeoKurGUI.this.databaseFile = databaseChooser.getSelectedFile();
                 GeoKurGUI.this.setDatabase();
+
+                // fill dummy data for testing purposes
+                for (int i = 1; i < 36; i++) {
+                    GeoKurGUI.this.setDatasetFile("/path/to/dataset" + i + ".gpkg");
+                }
             }
         }
     }
@@ -637,7 +615,10 @@ public class GeoKurGUI extends JFrame {
     public void removeDatasets() {
         // remove multiple datasets via checkmarks
 
-
+        JDialog removeFrame = new JDialog(GeoKurGUI.this, "Remove Datasets", true);
+        removeFrame.setMinimumSize(new Dimension(100,100));
+        removeFrame.pack();
+        removeFrame.setVisible(true);
     }
 
 
