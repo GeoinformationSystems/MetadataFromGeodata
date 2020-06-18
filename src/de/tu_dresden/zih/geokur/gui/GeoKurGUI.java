@@ -5,8 +5,6 @@
 
 package de.tu_dresden.zih.geokur.gui;
 
-import de.tu_dresden.zih.geokur.generateMetadata.Metadata;
-
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
@@ -14,6 +12,8 @@ import java.awt.event.*;
 import java.io.File;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 
 public class GeoKurGUI extends JFrame {
     JMenuBar menuBar;
@@ -29,6 +29,7 @@ public class GeoKurGUI extends JFrame {
     JMenuItem datasetOpen;
     JMenuItem datasetFind;
     JMenuItem datasetClose;
+    JMenuItem datasetRemoveCurrent;
     JMenuItem datasetRemove;
 
     JMenu metadataMenu;
@@ -45,6 +46,7 @@ public class GeoKurGUI extends JFrame {
     JMenuItem pangaeaExport;
 
     JPanel panel;
+    JSplitPane centralPanel;
     JPanel centralPanelLeft;
     DefaultListModel<String> listDatasetString;
     JList<String> listDataset;
@@ -96,19 +98,12 @@ public class GeoKurGUI extends JFrame {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 GeoKurGUI.this.openDatabase();
-//                JFileChooser databaseChooser = new JFileChooser();
-//                FileNameExtensionFilter filterDatabase = new FileNameExtensionFilter("databases", "db");
-//                databaseChooser.setFileFilter(filterDatabase);
-//                int i = databaseChooser.showOpenDialog(GeoKurGUI.this);
-//                if(i==JFileChooser.APPROVE_OPTION){
-//                    GeoKurGUI.this.setDatabase(databaseChooser.getSelectedFile());
-//                }
             }
         });
         fileClose.addActionListener(new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                GeoKurGUI.this.setDatabase(null);
+                GeoKurGUI.this.closeDatabase();
             }
         });
         fileExit.addActionListener(new AbstractAction() {
@@ -129,28 +124,14 @@ public class GeoKurGUI extends JFrame {
         datasetOpen = new JMenuItem("Open Geodata Dataset");
         datasetFind = new JMenuItem("Find moved Dataset");
         datasetClose = new JMenuItem("Close Dataset");
+        datasetRemoveCurrent = new JMenuItem("Remove current Dataset");
         datasetRemove = new JMenuItem("Remove Dataset");
         this.setDatasetEnable(false);
 
         datasetAdd.addActionListener(new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                JFileChooser databaseChooser = new JFileChooser();
-                // todo: change filter sorting, possibly using FileFilter and addChoosableFileFilter
-                FileNameExtensionFilter filterGeopackage = new FileNameExtensionFilter("geopackage", "gpkg");
-                FileNameExtensionFilter filterShape = new FileNameExtensionFilter("shapefile", "shp");
-                FileNameExtensionFilter filterNetcdf = new FileNameExtensionFilter("NetCDF", "nc");
-                FileNameExtensionFilter filterAsciigrid = new FileNameExtensionFilter("asciigrid", "asc");
-                FileNameExtensionFilter filterGeodata = new FileNameExtensionFilter("geodata", "gpkg", "shp", "nc", "asc");
-                databaseChooser.setFileFilter(filterGeopackage);
-                databaseChooser.setFileFilter(filterShape);
-                databaseChooser.setFileFilter(filterNetcdf);
-                databaseChooser.setFileFilter(filterAsciigrid);
-                databaseChooser.setFileFilter(filterGeodata);
-                int i = databaseChooser.showOpenDialog(GeoKurGUI.this);
-                if(i==JFileChooser.APPROVE_OPTION){
-                    GeoKurGUI.this.setDatasetFile(databaseChooser.getSelectedFile().toString());
-                }
+                GeoKurGUI.this.addDataset();
             }
         });
         datasetOpen.addActionListener(new AbstractAction() {
@@ -170,10 +151,16 @@ public class GeoKurGUI extends JFrame {
                 GeoKurGUI.this.setDatasetFile(null);
             }
         });
+        datasetRemoveCurrent.addActionListener(new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                GeoKurGUI.this.removeCurrentDataset();
+            }
+        });
         datasetRemove.addActionListener(new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                GeoKurGUI.this.database.removeFromDatabase("/home/mwagner/Arbeitszeiterfassung_ZIH.pdf");
+                GeoKurGUI.this.removeDatasets();
             }
         });
         // todo: add datasetFind for finding physically moved files -> incl. warning or metadata comparison, and update names in dataset table
@@ -184,6 +171,7 @@ public class GeoKurGUI extends JFrame {
         datasetMenu.add(datasetOpen);
         datasetMenu.add(datasetFind);
         datasetMenu.add(datasetClose);
+        datasetMenu.add(datasetRemoveCurrent);
         datasetMenu.add(datasetRemove);
 
         // metadata menu
@@ -235,6 +223,8 @@ public class GeoKurGUI extends JFrame {
         panel = new JPanel();
         panel.setLayout(new GridBagLayout());
 
+        centralPanel = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
+
         centralPanelLeft = new JPanel(new GridBagLayout());
         centralPanelRight = new JPanel(new GridBagLayout());
 
@@ -254,8 +244,9 @@ public class GeoKurGUI extends JFrame {
 
         // general layout
         GridBagConstraints cPanel = new GridBagConstraints();
-        GridBagConstraints cCentralPanelLeft = new GridBagConstraints();
-        GridBagConstraints cCentralPanelRight = new GridBagConstraints();
+        GridBagConstraints cCentralPanel = new GridBagConstraints();
+//        GridBagConstraints cCentralPanelLeft = new GridBagConstraints();
+//        GridBagConstraints cCentralPanelRight = new GridBagConstraints();
         GridBagConstraints cSep = new GridBagConstraints();
         GridBagConstraints cBottomLine = new GridBagConstraints();
         GridBagConstraints cBottomLineLeft = new GridBagConstraints();
@@ -265,17 +256,23 @@ public class GeoKurGUI extends JFrame {
         cPanel.weighty = 1;
         cPanel.fill = GridBagConstraints.BOTH;
 
-        cCentralPanelLeft.gridx = 0;
-        cCentralPanelLeft.gridy = 0;
-        cCentralPanelLeft.weightx = 1;
-        cCentralPanelLeft.weighty = 1;
-        cCentralPanelLeft.fill = GridBagConstraints.BOTH;
+        cCentralPanel.gridx = 0;
+        cCentralPanel.gridy = 0;
+        cCentralPanel.weightx = 1;
+        cCentralPanel.weighty = 1;
+        cCentralPanel.fill = GridBagConstraints.BOTH;
 
-        cCentralPanelRight.gridx = 1;
-        cCentralPanelRight.gridy = 0;
-        cCentralPanelRight.weightx = 1;
-        cCentralPanelRight.weighty = 1;
-        cCentralPanelRight.fill = GridBagConstraints.BOTH;
+//        cCentralPanelLeft.gridx = 0;
+//        cCentralPanelLeft.gridy = 0;
+//        cCentralPanelLeft.weightx = 1;
+//        cCentralPanelLeft.weighty = 1;
+//        cCentralPanelLeft.fill = GridBagConstraints.BOTH;
+//        cCentralPanelRight.gridx = 1;
+//        cCentralPanelRight.gridy = 0;
+//        cCentralPanelRight.weightx = 1;
+//        cCentralPanelRight.weighty = 1;
+//        cCentralPanelRight.fill = GridBagConstraints.BOTH;
+
         cSep.gridx = 0;
         cSep.gridwidth = 2;
         cSep.gridy = 1;
@@ -304,8 +301,14 @@ public class GeoKurGUI extends JFrame {
         bottomLine.add(bottomLineRight, cBottomLineRight);
 
         // add to frame / main panel
-        panel.add(centralPanelLeft, cCentralPanelLeft);
-        panel.add(centralPanelRight, cCentralPanelRight);
+//        panel.add(centralPanelLeft, cCentralPanelLeft);
+//        panel.add(centralPanelRight, cCentralPanelRight);
+        centralPanelLeft.setMinimumSize(new Dimension(50,0));
+        centralPanelRight.setMinimumSize(new Dimension(50,0));
+        centralPanel.setResizeWeight(0.3);
+        centralPanel.setLeftComponent(centralPanelLeft);
+        centralPanel.setRightComponent(centralPanelRight);
+        panel.add(centralPanel, cCentralPanel);
         panel.add(sep, cSep);
         panel.add(bottomLine, cBottomLine);
 
@@ -317,7 +320,7 @@ public class GeoKurGUI extends JFrame {
     // the following setter/getter methods enable a listener for the state of specific variables and actions to be
     // performed for different cases (provide a central place for variables)
 
-    public void setDatabase(File databaseFile) {
+    public void setDatabase() {
         // setting the database via file
         // get path and name and set bottomlines according to database state
         // enable/disable the dataset menu
@@ -325,10 +328,9 @@ public class GeoKurGUI extends JFrame {
         // put list in scrolling pane
         // as centralPanelLeft is in GridBagLayout also provide GridBagConstraints
 
-        this.databaseFile = databaseFile;
-        if (databaseFile != null) {
-            this.databasePath = databaseFile.getPath();
-            this.databaseName = databaseFile.getName();
+        if (this.databaseFile != null) {
+            this.databasePath = this.databaseFile.getPath();
+            this.databaseName = this.databaseFile.getName();
             this.setDatasetEnable(true);
 
             this.listDatasetString = new DefaultListModel<>();
@@ -352,7 +354,7 @@ public class GeoKurGUI extends JFrame {
                 public void mouseClicked(MouseEvent mouseEvent) {
                     if (mouseEvent.getClickCount() == 2 && mouseEvent.getButton()==MouseEvent.BUTTON1) {
                         // double click on actual dataset
-                        GeoKurGUI.this.setDatasetFile(GeoKurGUI.this.getDatabase().listAbsolutePath.get(listDataset.getSelectedIndex()));
+                        GeoKurGUI.this.setDatasetFile(GeoKurGUI.this.getDatabase().listFilePath.get(listDataset.getSelectedIndex()));
                     }
                 }
             });
@@ -361,7 +363,7 @@ public class GeoKurGUI extends JFrame {
                public void keyReleased(KeyEvent keyEvent) {
                    if (keyEvent.getKeyCode() == KeyEvent.VK_ENTER) {
                        // set actual dataset via Enter key
-                       GeoKurGUI.this.setDatasetFile(GeoKurGUI.this.getDatabase().listAbsolutePath.get(listDataset.getSelectedIndex()));
+                       GeoKurGUI.this.setDatasetFile(GeoKurGUI.this.getDatabase().listFilePath.get(listDataset.getSelectedIndex()));
                    }
                }
            });
@@ -398,13 +400,14 @@ public class GeoKurGUI extends JFrame {
             this.datasetPath = datasetFile.getPath();
             this.datasetName = datasetFile.getName();
             this.setMetadataEnable(true);
+            // todo: additional list with all pathnames as indicator for particular datasets as name twins should be allowed
             if (!this.listDatasetString.contains(datasetName)) {
-                String[] datasetFileName = datasetFilePath.split("/");
-                this.listDatasetString.addElement(datasetFileName[datasetFileName.length - 1]);
+                this.listDatasetString.addElement(this.datasetName);
                 this.database.addToDatabase(datasetFilePath);
             }
         }
         else {
+            this.datasetFile = null;
             this.datasetPath = "path to opened geodata dataset";
             this.datasetName = "";
             this.setMetadataEnable(false);
@@ -421,6 +424,7 @@ public class GeoKurGUI extends JFrame {
             datasetOpen.setEnabled(true);
             datasetFind.setEnabled(true);
             datasetClose.setEnabled(true);
+            datasetRemoveCurrent.setEnabled(true);
             datasetRemove.setEnabled(true);
         }
         else {
@@ -428,6 +432,7 @@ public class GeoKurGUI extends JFrame {
             datasetOpen.setEnabled(false);
             datasetFind.setEnabled(false);
             datasetClose.setEnabled(false);
+            datasetRemoveCurrent.setEnabled(false);
             datasetRemove.setEnabled(false);
         }
     }
@@ -463,7 +468,6 @@ public class GeoKurGUI extends JFrame {
         return database;
     }
 
-//    public void newDatabase(String databasePath) {
     public void newDatabase() {
         // establish new database and connect to it
         // create new sqlite database
@@ -475,7 +479,9 @@ public class GeoKurGUI extends JFrame {
         if(dc == JFileChooser.APPROVE_OPTION) {
             if (databaseChooser.getSelectedFile().exists()) {
                 System.out.println("The specified file " + GeoKurGUI.this.getDatabasePath() + " already exists.");
-                JOptionPane.showMessageDialog(GeoKurGUI.this, GeoKurGUI.this.getDatabaseName() + " already exists. Nothing loaded.", "Warning", JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(GeoKurGUI.this,
+                        GeoKurGUI.this.getDatabaseName() + " already exists. Nothing loaded.",
+                        "Warning", JOptionPane.WARNING_MESSAGE);
             }
             else {
                 GeoKurGUI.this.databasePath = databaseChooser.getSelectedFile().toString();
@@ -484,42 +490,56 @@ public class GeoKurGUI extends JFrame {
                 Statement statement;
 
                 String sql = "CREATE TABLE IF NOT EXISTS datasets (\n"
-                        + "id integer NOT NULL PRIMARY KEY,\n"
+                        + "number integer NOT NULL PRIMARY KEY UNIQUE,\n"
+                        + "uuid text NOT NULL UNIQUE,\n"
                         + "file_name text NOT NULL,\n"
-                        + "absolute_path text NOT NULL,\n"
+                        + "file_path text NOT NULL UNIQUE,\n"
                         + "table_name text NOT NULL\n"
                         + ");";
 
-                String sqlInsert = "INSERT INTO datasets(id, file_name, absolute_path, table_name) VALUES (?,?,?,?)";
+                String sqlInsert = "INSERT INTO datasets(number, uuid, file_name, file_path, table_name) VALUES (?,?,?,?,?)";
 
                 try {
+                    List<Integer> listFileNumber = new ArrayList<>();
+                    List<String> listFileUUID = new ArrayList<>();
+                    List<String> listFileName = new ArrayList<>();
+                    List<String> listFilePath = new ArrayList<>();
+                    List<String> listTableName = new ArrayList<>();
+
                     String url = "jdbc:sqlite:" + GeoKurGUI.this.databasePath;
                     connection = DriverManager.getConnection(url);
                     if (connection != null) {
                         statement = connection.createStatement();
                         statement.execute(sql);
 
-                        for (int i = 1; i < 35; i++) {
+                        for (int i = 1; i < 36; i++) {
                             PreparedStatement preparedStatement = connection.prepareStatement(sqlInsert);
-                            preparedStatement.setInt(1, i);
-                            preparedStatement.setString(2, "dataset" + i + ".gpkg");
-                            preparedStatement.setString(3, "/path/to/dataset" + i + ".gpkg");
-                            preparedStatement.setString(4, "dataset" + i + ".gpkg_" + i);
+                            listFileNumber.add(i);
+                            listFileUUID.add(UUID.randomUUID().toString());
+                            listFileName.add("dataset" + i + ".gpkg");
+                            listFilePath.add("/path/to/dataset" + i + ".gpkg");
+                            listTableName.add("dataset" + i + ".gpkg_" + i);
+                            preparedStatement.setInt(1,listFileNumber.get(i - 1));
+                            preparedStatement.setString(2, listFileUUID.get(i - 1));
+                            preparedStatement.setString(3, listFileName.get(i - 1));
+                            preparedStatement.setString(4, listFilePath.get(i - 1));
+                            preparedStatement.setString(5, listTableName.get(i - 1));
                             preparedStatement.executeUpdate();
                         }
+                        GeoKurGUI.this.database = new Database(connection, statement, listFileNumber, listFileUUID, listFileName, listFilePath, listTableName);
                         System.out.println("A new database has been created.");
                     }
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
-                GeoKurGUI.this.setDatabase(databaseChooser.getSelectedFile());
+                GeoKurGUI.this.databaseFile = databaseChooser.getSelectedFile();
+                GeoKurGUI.this.setDatabase();
             }
         }
     }
 
-//    public Database openDatabase(String databasePath) {
     public void openDatabase() {
-        // connect to existing database and fetch variables: statement, list of filenames, list of absolute paths, list of tablenames
+        // connect to existing database and fetch variables: statement, list of filenames, list of file paths, list of tablenames
 
         if (this.database != null) {
             this.database = null;
@@ -534,14 +554,12 @@ public class GeoKurGUI extends JFrame {
         int dc = databaseChooser.showOpenDialog(GeoKurGUI.this);
         if (dc == JFileChooser.APPROVE_OPTION) {
             GeoKurGUI.this.databasePath = databaseChooser.getSelectedFile().toString();
+            GeoKurGUI.this.databaseFile = databaseChooser.getSelectedFile();
 
             GeoKurGUI.this.database = new Database();
 
             Connection connection;
             Statement statement;
-            java.util.List<String> listFileName = new ArrayList<>();
-            java.util.List<String> listAbsolutePath = new ArrayList<>();
-            java.util.List<String> listTableName = new ArrayList<>();
 
             try {
                 String url = "jdbc:sqlite:" + GeoKurGUI.this.databasePath;
@@ -551,19 +569,75 @@ public class GeoKurGUI extends JFrame {
                 GeoKurGUI.this.database.statement = statement;
                 ResultSet databaseContent = statement.executeQuery("SELECT * FROM datasets");
                 while (databaseContent.next()) {
-                    listFileName.add(databaseContent.getString("file_name"));
-                    listAbsolutePath.add(databaseContent.getString("absolute_path"));
-                    listTableName.add(databaseContent.getString("table_name"));
+                    GeoKurGUI.this.database.listFileNumber.add(databaseContent.getInt("number"));
+                    GeoKurGUI.this.database.listFileUUID.add(databaseContent.getString("uuid"));
+                    GeoKurGUI.this.database.listFileName.add(databaseContent.getString("file_name"));
+                    GeoKurGUI.this.database.listFilePath.add(databaseContent.getString("file_path"));
+                    GeoKurGUI.this.database.listTableName.add(databaseContent.getString("table_name"));
                 }
-                GeoKurGUI.this.database.listFileName = listFileName;
-                GeoKurGUI.this.database.listAbsolutePath = listAbsolutePath;
-                GeoKurGUI.this.database.listTableName = listTableName;
             } catch (SQLException e) {
                 System.out.println(e.getMessage());
             }
 
-            GeoKurGUI.this.setDatabase(databaseChooser.getSelectedFile());
+            GeoKurGUI.this.setDatabase();
         }
+    }
+
+    public void closeDatabase() {
+        // close current database
+
+        GeoKurGUI.this.database = null;
+        GeoKurGUI.this.databaseFile = null;
+        GeoKurGUI.this.setDatabase();
+    }
+
+    public void addDataset() {
+        // add new dataset to database
+
+        JFileChooser databaseChooser = new JFileChooser();
+        // todo: change filter sorting, possibly using FileFilter and addChoosableFileFilter
+        FileNameExtensionFilter filterGeopackage = new FileNameExtensionFilter("geopackage", "gpkg");
+        FileNameExtensionFilter filterShape = new FileNameExtensionFilter("shapefile", "shp");
+        FileNameExtensionFilter filterNetcdf = new FileNameExtensionFilter("NetCDF", "nc");
+        FileNameExtensionFilter filterAsciigrid = new FileNameExtensionFilter("asciigrid", "asc");
+        FileNameExtensionFilter filterGeodata = new FileNameExtensionFilter("geodata", "gpkg", "shp", "nc", "asc");
+        databaseChooser.setFileFilter(filterGeopackage);
+        databaseChooser.setFileFilter(filterShape);
+        databaseChooser.setFileFilter(filterNetcdf);
+        databaseChooser.setFileFilter(filterAsciigrid);
+        databaseChooser.setFileFilter(filterGeodata);
+        int dc = databaseChooser.showOpenDialog(GeoKurGUI.this);
+        if(dc == JFileChooser.APPROVE_OPTION){
+            String datasetFilePath = databaseChooser.getSelectedFile().toString();
+            if (GeoKurGUI.this.database.listFilePath.contains(datasetFilePath)) {
+                System.out.println("The specified dataset " + datasetFilePath + " is already in the database.");
+                JOptionPane.showMessageDialog(GeoKurGUI.this,
+                        datasetFilePath + " already in the database. Nothing added.",
+                        "Warning", JOptionPane.WARNING_MESSAGE);
+            }
+            else {
+                GeoKurGUI.this.setDatasetFile(databaseChooser.getSelectedFile().toString());
+            }
+        }
+    }
+
+    public void removeCurrentDataset() {
+        // remove currently set dataset from database
+
+        int cd = JOptionPane.showConfirmDialog(GeoKurGUI.this,
+                "Do you really want to remove the dataset " + this.datasetName + "?",
+                "Warning", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+        if (cd == JOptionPane.YES_OPTION) {
+            this.database.removeFromDatabase(this.datasetPath);
+            GeoKurGUI.this.listDatasetString.removeElement(this.datasetName);
+            GeoKurGUI.this.setDatasetFile(null);
+        }
+    }
+
+    public void removeDatasets() {
+        // remove multiple datasets via checkmarks
+
+
     }
 
 
