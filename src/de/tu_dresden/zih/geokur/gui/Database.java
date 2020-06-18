@@ -6,10 +6,7 @@
 package de.tu_dresden.zih.geokur.gui;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 public class Database {
     public Connection connection;
@@ -42,7 +39,7 @@ public class Database {
         // adding dataset to database (new line in datasets table)
         // UUID for new dataset is assigned here
 
-        int numberAdd = 1;
+        int numberAdd = 0;
         String datasetUUID = UUID.randomUUID().toString();
 
         String sql1 = "SELECT number FROM datasets";
@@ -56,6 +53,8 @@ public class Database {
             numberAdd = Collections.max(numberList) + 1;
         } catch (SQLException e) {
             System.out.println(e.getMessage());
+        } catch (NoSuchElementException e) {
+            numberAdd = 1;
         }
 
         String[] tmp = datasetFilePath.split("/");
