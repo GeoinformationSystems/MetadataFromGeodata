@@ -11,6 +11,8 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class GeoKurGUI extends JFrame {
     JMenuBar menuBar;
@@ -134,12 +136,6 @@ public class GeoKurGUI extends JFrame {
         datasetOpen.addActionListener(new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-//                Database database = openDatabase(databasePath);
-//                JList<String> listDatasets = new JList<>(listDatasetString);
-//                listDatasets.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-//                listDatasets.setLayoutOrientation(JList.VERTICAL);
-//                listDatasets.setVisibleRowCount(12);
-//                JScrollPane listDatasetsScrolling = new JScrollPane(listDatasets);
             }
         });
         datasetClose.addActionListener(new AbstractAction() {
@@ -370,7 +366,6 @@ public class GeoKurGUI extends JFrame {
             cListDataset.weighty = 1;
             cListDataset.fill = GridBagConstraints.BOTH;
             this.listDatasetScrolling = new JScrollPane(listDataset);
-            centralPanelLeft.add(listDatasetScrolling);
             centralPanelLeft.add(listDatasetScrolling, cListDataset);
         }
         else {
@@ -602,23 +597,61 @@ public class GeoKurGUI extends JFrame {
     public void removeCurrentDataset() {
         // remove currently set dataset from database
 
-        int cd = JOptionPane.showConfirmDialog(GeoKurGUI.this,
-                "Do you really want to remove the dataset " + this.datasetName + "?",
-                "Warning", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
-        if (cd == JOptionPane.YES_OPTION) {
-            this.database.removeFromDatabase(this.datasetPath);
-            GeoKurGUI.this.listDatasetString.removeElement(this.datasetName);
-            GeoKurGUI.this.setDatasetFile(null);
+        if (this.datasetFile != null) {
+            Object[] options = {"Yes", "Cancel"};
+            int cd = JOptionPane.showOptionDialog(GeoKurGUI.this,
+                    "Do you really want to remove the dataset " + this.datasetName + "?",
+                    "Remove Dataset", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE, null, options, options[1]);
+            if (cd == JOptionPane.YES_OPTION) {
+                this.database.removeFromDatabase(this.datasetPath);
+                System.out.println(this.datasetName);
+                GeoKurGUI.this.listDatasetString.removeElement(this.datasetName);
+                GeoKurGUI.this.setDatasetFile(null);
+            }
+        }
+        else {
+            JOptionPane.showMessageDialog(GeoKurGUI.this,
+                    "Please choose the current dataset.",
+                    "Remove Dataset", JOptionPane.INFORMATION_MESSAGE);
         }
     }
 
     public void removeDatasets() {
-        // remove multiple datasets via checkmarks
+        // remove multiple datasets via list in extra window
+
+        JList<String> listDatasetRemove = new JList<>(listDatasetString);
+        listDatasetRemove.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+        listDatasetRemove.setLayoutOrientation(JList.VERTICAL);
 
         JDialog removeFrame = new JDialog(GeoKurGUI.this, "Remove Datasets", true);
-        removeFrame.setMinimumSize(new Dimension(100,100));
+        removeFrame.setLayout(new GridBagLayout());
+        JScrollPane listDatasetRemoveScrolled = new JScrollPane(listDatasetRemove);
+        JButton removeButton = new JButton("Remove");
+        removeButton.addActionListener(actionEvent -> {
+            int[] indexRemove = listDatasetRemove.getSelectedIndices();
+            if (indexRemove.length > 0) {
+                for (int i = indexRemove.length - 1; i >= 0; i--) {
+                    // todo: add removeFromDatabase for complete remove of datasets
+                    GeoKurGUI.this.listDatasetString.removeElement(indexRemove[i]);
+                }
+            }
+        });
+        GridBagConstraints cListDatasetRemoveScrolled = new GridBagConstraints();
+        GridBagConstraints cRemoveButton = new GridBagConstraints();
+        cListDatasetRemoveScrolled.gridy = 0;
+        cListDatasetRemoveScrolled.weightx = 1;
+        cListDatasetRemoveScrolled.weighty = 1;
+        cListDatasetRemoveScrolled.fill = GridBagConstraints.BOTH;
+        cRemoveButton.gridy = 1;
+        cRemoveButton.weightx = 1;
+        cRemoveButton.fill = GridBagConstraints.BOTH;
+
+        removeFrame.add(listDatasetRemoveScrolled, cListDatasetRemoveScrolled);
+        removeFrame.add(removeButton, cRemoveButton);
+        removeFrame.setMinimumSize(new Dimension(200,400));
         removeFrame.pack();
         removeFrame.setVisible(true);
+
     }
 
 
