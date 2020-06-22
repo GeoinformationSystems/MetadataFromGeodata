@@ -5,10 +5,22 @@
 
 package de.tu_dresden.zih.geokur.gui;
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.*;
 import java.util.*;
 
 public class Database {
+    // database class for use in GeoKur database management
+    // connection: database connection using jdbc
+    // statement: connection statement from jdbc
+    // listFileNumber: list of increasing numbers for each datasets
+    // listFileUUID: list of UUID for each dataset in database
+    // listFileName: list of filenames for each dataset in database
+    // listFilePath: list of paths including filenames for each dataset in database
+    // listTableName: list of table names for each dataset (built via filename_filenumber)
+    // pathtype: "absolute" or "relative" paths
+
     public Connection connection;
     public Statement statement;
     public List<Integer> listFileNumber = new ArrayList<>();
@@ -16,6 +28,8 @@ public class Database {
     public List<String> listFileName = new ArrayList<>();
     public List<String> listFilePath = new ArrayList<>();
     public List<String> listTableName = new ArrayList<>();
+    public String pathtype;
+
     // todo: allow for relative path for the ability to move a whole project
 
     public Database(){}
@@ -33,6 +47,31 @@ public class Database {
         this.listFileName = listFileName;
         this.listFilePath = listFilePath;
         this.listTableName = listTableName;
+    }
+
+    public void setPathtype(String pathtype, String referencePathString) {
+        // adjust path specification from absolute to relative or vice versa
+
+        Path referencePath = Paths.get(referencePathString);
+        if (!pathtype.isEmpty() && !pathtype.equals(this.pathtype)) {
+            if (pathtype.equals("relative")) {
+                // absolute to relative
+                for (String pathAct : listFilePath) {
+                    Path tmp = referencePath.relativize(Paths.get(pathAct));
+                    // todo: continue here
+                    System.out.println(tmp);
+                }
+            }
+            else {
+                // relative to absolute
+
+            }
+        }
+        this.pathtype = pathtype;
+    }
+
+    public String getPathtype() {
+        return pathtype;
     }
 
     public void addToDatabase(String datasetFilePath) {
