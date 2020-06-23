@@ -53,18 +53,39 @@ public class Database {
         // adjust path specification from absolute to relative or vice versa
 
         Path referencePath = Paths.get(referencePathString);
+        String sql = "UPDATE datasets SET file_path = ? WHERE file_path = ?";
         if (!pathtype.isEmpty() && !pathtype.equals(this.pathtype)) {
             if (pathtype.equals("relative")) {
                 // absolute to relative
                 for (String pathAct : listFilePath) {
-                    Path tmp = referencePath.relativize(Paths.get(pathAct));
-                    // todo: continue here
-                    System.out.println(tmp);
+                    Path relPath = referencePath.relativize(Paths.get(pathAct));
+                    try {
+                        PreparedStatement preparedStatement = this.connection.prepareStatement(sql);
+                        preparedStatement.setString(1, relPath.toString());
+                        preparedStatement.setString(2, pathAct);
+                        preparedStatement.executeUpdate();
+                        int index = listFilePath.indexOf(pathAct);
+                        listFilePath.set(index, relPath.toString());
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
             else {
                 // relative to absolute
-
+                for (String pathAct : listFilePath) {
+                    Path absPath = referencePath.resolve(Paths.get(pathAct)).normalize();
+                    try {
+                        PreparedStatement preparedStatement = this.connection.prepareStatement(sql);
+                        preparedStatement.setString(1, absPath.toString());
+                        preparedStatement.setString(2, pathAct);
+                        preparedStatement.executeUpdate();
+                        int index = listFilePath.indexOf(pathAct);
+                        listFilePath.set(index, absPath.toString());
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
+                }
             }
         }
         this.pathtype = pathtype;

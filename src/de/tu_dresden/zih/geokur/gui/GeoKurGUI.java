@@ -10,9 +10,8 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.sql.*;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class GeoKurGUI extends JFrame {
     JMenuBar menuBar;
@@ -67,7 +66,8 @@ public class GeoKurGUI extends JFrame {
     String databasePath;
     String databaseName;
     Database database;
-
+    String pathBase;
+    JLabel pathBaseName = new JLabel("Path Base: ");
 
     File datasetFile;
     String datasetPath;
@@ -93,11 +93,11 @@ public class GeoKurGUI extends JFrame {
         fileExit = new JMenuItem("Exit Program");
 
 
-        fileNew.addActionListener(actionEvent -> {GeoKurGUI.this.newDatabase();});
-        fileOpen.addActionListener(actionEvent -> {GeoKurGUI.this.openDatabase();});
-        fileClose.addActionListener(actionEvent -> {GeoKurGUI.this.closeDatabase();});
-        fileProperties.addActionListener(actionEvent -> {GeoKurGUI.this.setDatabaseProperties();});
-        fileExit.addActionListener(actionEvent -> {System.exit(0);});
+        fileNew.addActionListener(actionEvent -> GeoKurGUI.this.newDatabase());
+        fileOpen.addActionListener(actionEvent -> GeoKurGUI.this.openDatabase());
+        fileClose.addActionListener(actionEvent -> GeoKurGUI.this.closeDatabase());
+        fileProperties.addActionListener(actionEvent -> GeoKurGUI.this.setDatabaseProperties());
+        fileExit.addActionListener(actionEvent -> System.exit(0));
 
         fileMenu = new JMenu("File");
         fileMenu.add(fileNew);
@@ -124,11 +124,11 @@ public class GeoKurGUI extends JFrame {
 //        System.out.println(tmp1.resolve(tmp3));
 //        System.out.println(tmp1.resolve(tmp3).normalize());
 
-        datasetAdd.addActionListener(actionEvent -> {GeoKurGUI.this.addDataset();});
+        datasetAdd.addActionListener(actionEvent -> GeoKurGUI.this.addDataset());
         datasetOpen.addActionListener(actionEvent -> {});
-        datasetClose.addActionListener(actionEvent -> {GeoKurGUI.this.setDatasetFile(null);});
-        datasetRemoveCurrent.addActionListener(actionEvent -> {GeoKurGUI.this.removeCurrentDataset();});
-        datasetRemove.addActionListener(actionEvent -> {GeoKurGUI.this.removeDatasets();});
+        datasetClose.addActionListener(actionEvent -> GeoKurGUI.this.setDatasetFile(null));
+        datasetRemoveCurrent.addActionListener(actionEvent -> GeoKurGUI.this.removeCurrentDataset());
+        datasetRemove.addActionListener(actionEvent -> GeoKurGUI.this.removeDatasets());
         // todo: add datasetFind for finding physically moved files -> incl. warning or metadata comparison, and update names in dataset table
 
         datasetMenu = new JMenu("Dataset");
@@ -439,6 +439,7 @@ public class GeoKurGUI extends JFrame {
 
     public void newDatabase() {
         // establish new database and connect to it
+        // absolute paths are taken as standard
 
         JFileChooser databaseChooser = new JFileChooser();
         FileNameExtensionFilter filterDatabase = new FileNameExtensionFilter("databases", "db");
@@ -538,6 +539,8 @@ public class GeoKurGUI extends JFrame {
                     GeoKurGUI.this.database.listFilePath.add(databaseContent.getString("file_path"));
                     GeoKurGUI.this.database.listTableName.add(databaseContent.getString("table_name"));
                 }
+                ResultSet databaseProperties = statement.executeQuery("SELECT * FROM properties");
+                GeoKurGUI.this.database.pathtype = databaseProperties.getString("pathtype");
             } catch (SQLException e) {
                 System.out.println(e.getMessage());
             }
@@ -557,24 +560,52 @@ public class GeoKurGUI extends JFrame {
     public void setDatabaseProperties() {
         // set properties of current database
 
+        // absolute path (true) or relative path (false)
+        boolean absPathProp = GeoKurGUI.this.database.pathtype.equals("absolute");
+        AtomicBoolean pathtypeChange = new AtomicBoolean(false);
+
         // new window
         JDialog propertyFrame = new JDialog(GeoKurGUI.this, "Database Properties", true);
         propertyFrame.setLayout(new GridBagLayout());
 
-        // radio buttons in own JPanel in JScrollPane
+        // radio buttons and directory chooser in own JPanel in JScrollPane
         JRadioButton absolutePath = new JRadioButton("Use absolute path specifications");
         JRadioButton relativePath = new JRadioButton("Use relative path specifications");
-        absolutePath.setSelected(true);
-        relativePath.setSelected(false);
+        absolutePath.setSelected(absPathProp);
+        relativePath.setSelected(!absPathProp);
         ButtonGroup pathtype = new ButtonGroup();
         pathtype.add(absolutePath);
         pathtype.add(relativePath);
-        JScrollPane propertyScrollPane = new JScrollPane();
+        relativePath.addActionListener(actionEvent -> {
+            if (GeoKurGUI.this.database.pathtype.equals("absolute")) {
+                JFileChooser pathBaseChooser = new JFileChooser();
+                pathBaseChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+                int pbc = pathBaseChooser.showDialog(GeoKurGUI.this, "Choose Path Base");
+                if (pbc == JFileChooser.APPROVE_OPTION) {
+                    GeoKurGUI.this.pathBase = pathBaseChooser.getSelectedFile().toString();
+                    GeoKurGUI.this.pathBaseName.setText("Path Base: " + pathBase);
+                    pathtypeChange.set(true);
+                }
+            }
+        });
+        absolutePath.addActionListener(actionEvent -> {
+            if (GeoKurGUI.this.database.pathtype.equals("relative")) {
+                JFileChooser pathBaseChooser = new JFileChooser();
+                pathBaseChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+                int pbc = pathBaseChooser.showDialog(GeoKurGUI.this, "Choose Path Base");
+                if (pbc == JFileChooser.APPROVE_OPTION) {
+                    GeoKurGUI.this.pathBase = pathBaseChooser.getSelectedFile().toString();
+                    GeoKurGUI.this.pathBaseName.setText("Path Base: " + pathBase);
+                    pathtypeChange.set(true);
+                }
+            }
+        });
         JPanel propertyPane = new JPanel();
         propertyPane.setLayout(new GridBagLayout());
         GridBagConstraints cPropertyScrollPane = new GridBagConstraints();
         GridBagConstraints cAbsolutePath = new GridBagConstraints();
         GridBagConstraints cRelativePath = new GridBagConstraints();
+        GridBagConstraints cPathBaseName = new GridBagConstraints();
         cPropertyScrollPane.gridy = 0;
         cPropertyScrollPane.gridwidth = 2;
         cPropertyScrollPane.weightx = 1;
@@ -586,8 +617,13 @@ public class GeoKurGUI extends JFrame {
         cRelativePath.gridy = 1;
         cRelativePath.weightx = 1;
         cRelativePath.fill = GridBagConstraints.BOTH;
+        cPathBaseName.gridy = 2;
+        cPathBaseName.weightx = 1;
+        cPathBaseName.fill = GridBagConstraints.BOTH;
         propertyPane.add(absolutePath, cAbsolutePath);
         propertyPane.add(relativePath, cRelativePath);
+        propertyPane.add(pathBaseName, cPathBaseName);
+        JScrollPane propertyScrollPane = new JScrollPane();
         propertyScrollPane.setViewportView(propertyPane);
 
         // buttons
@@ -603,7 +639,14 @@ public class GeoKurGUI extends JFrame {
         cCancelButton.gridy = 1;
         cCancelButton.weightx = .5;
         cCancelButton.fill = GridBagConstraints.BOTH;
-        cancelButton.addActionListener(actionEvent -> {propertyFrame.dispose();});
+        applyButton.addActionListener(actionEvent -> {
+            if (pathtypeChange.get()) {
+                // todo: continue here
+//                GeoKurGUI.this.database.setPathtype("");
+                propertyFrame.dispose();
+            }
+        });
+        cancelButton.addActionListener(actionEvent -> propertyFrame.dispose());
 
         // whole property window
         propertyFrame.add(propertyScrollPane, cPropertyScrollPane);
@@ -613,6 +656,10 @@ public class GeoKurGUI extends JFrame {
         propertyFrame.pack();
         propertyFrame.setVisible(true);
     }
+
+//    public void setPathBaseName() {
+//
+//    }
 
     public void addDataset() {
         // add new dataset to database
