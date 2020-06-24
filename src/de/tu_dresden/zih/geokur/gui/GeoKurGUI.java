@@ -640,9 +640,14 @@ public class GeoKurGUI extends JFrame {
         cCancelButton.weightx = .5;
         cCancelButton.fill = GridBagConstraints.BOTH;
         applyButton.addActionListener(actionEvent -> {
-            if (pathtypeChange.get()) {
-                // todo: continue here
-//                GeoKurGUI.this.database.setPathtype("");
+            if (pathtypeChange.get() && GeoKurGUI.this.database.pathtype.equals("absolute")) {
+                // absolute to relative path specification
+                GeoKurGUI.this.database.setPathtype("relative", GeoKurGUI.this.pathBase);
+                propertyFrame.dispose();
+            }
+            else if (pathtypeChange.get() && GeoKurGUI.this.database.pathtype.equals("relative")) {
+                // relative to absolute path specification
+                GeoKurGUI.this.database.setPathtype("absolute", GeoKurGUI.this.pathBase);
                 propertyFrame.dispose();
             }
         });
@@ -656,10 +661,6 @@ public class GeoKurGUI extends JFrame {
         propertyFrame.pack();
         propertyFrame.setVisible(true);
     }
-
-//    public void setPathBaseName() {
-//
-//    }
 
     public void addDataset() {
         // add new dataset to database

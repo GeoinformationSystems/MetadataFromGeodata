@@ -49,13 +49,14 @@ public class Database {
         this.listTableName = listTableName;
     }
 
-    public void setPathtype(String pathtype, String referencePathString) {
+    public void setPathtype(String pathtypeNew, String referencePathString) {
         // adjust path specification from absolute to relative or vice versa
 
         Path referencePath = Paths.get(referencePathString);
         String sql = "UPDATE datasets SET file_path = ? WHERE file_path = ?";
-        if (!pathtype.isEmpty() && !pathtype.equals(this.pathtype)) {
-            if (pathtype.equals("relative")) {
+        String sqlPathtype = "UPDATE properties SET pathtype = ?";
+        if (!pathtypeNew.isEmpty() && !pathtypeNew.equals(this.pathtype)) {
+            if (pathtypeNew.equals("relative")) {
                 // absolute to relative
                 for (String pathAct : listFilePath) {
                     Path relPath = referencePath.relativize(Paths.get(pathAct));
@@ -67,7 +68,7 @@ public class Database {
                         int index = listFilePath.indexOf(pathAct);
                         listFilePath.set(index, relPath.toString());
                     } catch (SQLException e) {
-                        e.printStackTrace();
+                        System.out.println(e.getMessage());
                     }
                 }
             }
@@ -83,12 +84,19 @@ public class Database {
                         int index = listFilePath.indexOf(pathAct);
                         listFilePath.set(index, absPath.toString());
                     } catch (SQLException e) {
-                        e.printStackTrace();
+                        System.out.println(e.getMessage());
                     }
                 }
             }
+            try {
+                PreparedStatement preparedStatement = this.connection.prepareStatement(sqlPathtype);
+                preparedStatement.setString(1, pathtypeNew);
+                preparedStatement.executeUpdate();
+            } catch (SQLException e) {
+                System.out.println(e.getMessage());
+            }
         }
-        this.pathtype = pathtype;
+        this.pathtype = pathtypeNew;
     }
 
     public String getPathtype() {
