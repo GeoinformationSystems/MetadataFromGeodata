@@ -16,6 +16,8 @@ import java.util.List;
 import java.util.Map;
 
 public interface CreateInterface {
-//    Element getElement(Map<String, Namespace> ns, String configFile, Element content, List<String> elementChain, int indexChain, Writer logFileWriter) throws ClassNotFoundException, NoSuchMethodException, IllegalAccessException, InstantiationException, InvocationTargetException, JDOMException, IOException;
-    Element getElement(Map<String, Namespace> ns, String configFile, String obligation, String occurrence, List<String> elementChain, int indexChain, Writer logFileWriter) throws ClassNotFoundException, NoSuchMethodException, IllegalAccessException, InstantiationException, InvocationTargetException, JDOMException, IOException;
+    Element getElement(Map<String, Namespace> ns, String configFile, String obligation, String occurrence,
+                       List<String> elementChain, int indexChain, Writer logFileWriter)
+            throws ClassNotFoundException, NoSuchMethodException, IllegalAccessException, InstantiationException,
+            InvocationTargetException, JDOMException, IOException;
 }

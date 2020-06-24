@@ -25,13 +25,38 @@ import static org.jdom2.Namespace.getNamespace;
 
 public class Metadata {
     // define all namespaces and root element MD_Metadata (27 from ISO 19115 and 3 from ISO 19157)
-    public static void create(String geopackageName, boolean writeLogFile) {
+
+    public Document create(String geodataFileName, String documentVariant, boolean writeLogFile, boolean writeXMLFile) {
+        // creation of a jdom2 document with all nested metadata fields
+        // geodataFileName is the filename
+        // documentVariant: either "all", "marked" or "minimal"
+        // writeLogFile: if true a log file with all classes gone through is written
+        // writeXMLFile: if true accompanying xml files are written
+
+        Document doc = new Document();
+        Document docMarked = new Document();
+        Document docMinimal = new Document();
+        String geodataType;
+
         System.out.println("-----------------");
         System.out.println("Generate Metadata");
         System.out.println("-----------------");
-        System.out.println("File chosen: " + geopackageName);
+        System.out.println("File chosen: " + geodataFileName);
         System.out.println("Write log file: " + writeLogFile);
         System.out.println();
+
+        // todo: allow externally given geodata type for cases where file extension is not self-explanatory
+        String[] geodataFileNameSplit = geodataFileName.split("\\.");
+        switch (geodataFileNameSplit[geodataFileNameSplit.length - 1]) {
+            case "gpkg": geodataType = "geopackage";
+                break;
+            case "shp":  geodataType = "shape";
+                break;
+            default:
+                // file format not supported -> return empty document
+                return doc;
+        }
+
 
         try {
             FileReader nsFR = new FileReader("config/namespaces.txt");
@@ -50,11 +75,20 @@ public class Metadata {
                 ns.put(value.getPrefix(), value);
             }
 
-            // content from arbitrary geopackage
-            // one geopackage is one dataset - multiple content in one geopackage result in different MD_Metadata
-            GeopackageMetadata geopackageConnection = new GeopackageMetadata();
-            Integer contentNum = geopackageConnection.getContentNum(geopackageName); //todo: add different contents
-            List<Element> content = geopackageConnection.getContent(geopackageName, 1, ns);
+            // todo: add other geodata types
+            List<Element> content = null;
+            switch (geodataType) {
+                case "geopackage":
+                    // content from geopackage
+                    // one geopackage is one dataset - multiple content in one geopackage result in different MD_Metadata
+                    GeopackageMetadata geopackageConnection = new GeopackageMetadata();
+//                    Integer contentNum = geopackageConnection.getContentNum(geodataFileName); //todo: add different contents
+                    content = geopackageConnection.getContent(geodataFileName, 1, ns);
+                    break;
+                case "shape":
+                    // content from shape file
+                    break;
+            }
 
             // start linked list with element names (as string)
             List<String> elementChain = new ArrayList<>();
@@ -79,7 +113,6 @@ public class Metadata {
 
             // create root element and add namespace declarations
             CreateInterface rootElementInst = new MetadataTreeTemplate();
-//        Element rootElement = rootElementInst.getElement(ns, "config/config_DS_Resource.xml", content, elementChain, indexChain, logFileWriter);
             Element rootElement = rootElementInst.getElement(ns, "config/config_DS_Resource.xml", "M", "1", elementChain, indexChain, logFileWriter);
             for (Namespace namespace : namespacesList) {
                 rootElement.addNamespaceDeclaration(namespace);
@@ -92,41 +125,43 @@ public class Metadata {
 
             // fill metadata from geopackage into document object model from CreateFieldsXML
             MetadataTree rootElementFilledInst = new MetadataTree();
+            assert content != null; //todo: possibly remove assertion in production version
             Element rootElementFilled = rootElementFilledInst.fillElements(rootElement, content, ns);
-
-            Document doc = new Document();
             doc.setRootElement(rootElementFilled);
 
             // remove elements without content from JDOM document
             // 1. mark for deletion
             DeleteInterface rootElementMarkedInst = new EmptyFieldsTrimMark();
             Element rootElementMarked = rootElementMarkedInst.removeElements(rootElement.clone());
-            Document docMarked = new Document();
             docMarked.setRootElement(rootElementMarked);
             // 2. delete
             DeleteInterface rootElementMinimalInst = new MetadataTreeTrimmed();
             Element rootElementMinimal = rootElementMinimalInst.removeElements(rootElementMarked.clone());
-            Document docMinimal = new Document();
             docMinimal.setRootElement(rootElementMinimal);
 
 
-            // output to file
-            XMLOutputter out = new XMLOutputter();
-            Format outFormat = Format.getPrettyFormat();
-            outFormat.setEncoding("UTF-8");
-            out.setFormat(outFormat);
-            // write to file
-            out.output(docMinimal, new FileOutputStream("metadataGeoKurMandatoryMinimal.xml"));
-            out.output(doc, new FileOutputStream("metadataGeoKurMandatory.xml"));
-//        System.out.println();
-//        out.output(doc, System.out);
-//        System.out.println();
-//        out.output(docMarked, System.out);
-//        System.out.println();
-//        out.output(docMinimal, System.out);
+            if (writeXMLFile) {
+                // output to file
+                XMLOutputter out = new XMLOutputter();
+                Format outFormat = Format.getPrettyFormat();
+                outFormat.setEncoding("UTF-8");
+                out.setFormat(outFormat);
+                // write to file
+                out.output(docMinimal, new FileOutputStream("metadataGeoKurMandatoryMinimal.xml"));
+                out.output(doc, new FileOutputStream("metadataGeoKurMandatory.xml"));
+                //out.output(docMinimal, System.out);
+            }
+
         }
         catch (IOException | ClassNotFoundException | NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException | JDOMException e) {
             System.out.println(e.getMessage());
+        }
+
+
+        switch (documentVariant) {
+            case "all": return doc;
+            case "marked": return docMarked;
+            default: return docMinimal;
         }
     }
 }

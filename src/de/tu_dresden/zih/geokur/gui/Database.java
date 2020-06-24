@@ -30,7 +30,6 @@ public class Database {
     public List<String> listTableName = new ArrayList<>();
     public String pathtype;
 
-    // todo: allow for relative path for the ability to move a whole project
 
     public Database(){}
 
@@ -39,15 +38,15 @@ public class Database {
         this.statement = statement;
     }
 
-    public Database(Connection connection, Statement statement, List<Integer> listFileNumber, List<String> listFileUUID,
-                    List<String> listFileName, List<String> listFilePath, List<String> listTableName){
-        this(connection, statement);
-        this.listFileNumber = listFileNumber;
-        this.listFileUUID = listFileUUID;
-        this.listFileName = listFileName;
-        this.listFilePath = listFilePath;
-        this.listTableName = listTableName;
-    }
+//    public Database(Connection connection, Statement statement, List<Integer> listFileNumber, List<String> listFileUUID,
+//                    List<String> listFileName, List<String> listFilePath, List<String> listTableName){
+//        this(connection, statement);
+//        this.listFileNumber = listFileNumber;
+//        this.listFileUUID = listFileUUID;
+//        this.listFileName = listFileName;
+//        this.listFilePath = listFilePath;
+//        this.listTableName = listTableName;
+//    }
 
     public void setPathtype(String pathtypeNew, String referencePathString) {
         // adjust path specification from absolute to relative or vice versa

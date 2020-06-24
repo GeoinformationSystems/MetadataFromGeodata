@@ -45,7 +45,7 @@ public class MetadataTreeTemplate implements CreateInterface {
                 elementChain.remove(elementChain.size()-1);
             }
         }
-        if (elementChain.indexOf(elementActRoot.getName())!=-1 && elementChain.indexOf(elementActRoot.getName()) < indexChain) {
+        if (elementChain.contains(elementActRoot.getName()) && elementChain.indexOf(elementActRoot.getName()) < indexChain) {
             // circularity elements will just be called, but no step inside is taken
             logFileWriter.append(String.valueOf(elementChain.indexOf(elementActRoot.getName()))).append(": ").append(String.valueOf(indexChain)).append(" -> removed circle\n");
             return elementActRoot;

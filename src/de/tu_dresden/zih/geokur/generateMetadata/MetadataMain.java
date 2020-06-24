@@ -5,11 +5,15 @@
 
 package de.tu_dresden.zih.geokur.generateMetadata;
 
+import org.jdom2.Document;
+
 public class MetadataMain {
     public static void main(String[] argv) {
         // main method to generate metadata from geodata
-        String geopackageName = System.getProperty("geopackageName");
-        boolean writeLogFile = Boolean.parseBoolean(System.getProperty("writeLogFile"));
+        String geopackageName = "rasterExample.gpkg";
+        String documentVariant = "minimal";
+        boolean writeLogFile = false;
+        boolean writeXMLFile = false;
 
         System.out.println("-----------------");
         System.out.println("Generate Metadata");
@@ -18,6 +22,7 @@ public class MetadataMain {
         System.out.println("Write log file: " + writeLogFile);
         System.out.println();
 
-        Metadata.create(geopackageName, writeLogFile);
+        Metadata tmp = new Metadata();
+        Document doc = tmp.create(geopackageName, documentVariant, writeLogFile, writeXMLFile);
     }
 }

@@ -5,6 +5,10 @@
 
 package de.tu_dresden.zih.geokur.gui;
 
+import de.tu_dresden.zih.geokur.generateMetadata.Metadata;
+import de.tu_dresden.zih.geokur.generateMetadata.MetadataDatabase;
+import org.jdom2.Document;
+
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
@@ -73,6 +77,9 @@ public class GeoKurGUI extends JFrame {
     String datasetPath;
     String datasetName;
 
+    Metadata metadata;
+    MetadataDatabase metadataDatabase;
+
 
     public GeoKurGUI (String title) {
         super(title);
@@ -91,7 +98,6 @@ public class GeoKurGUI extends JFrame {
         fileClose = new JMenuItem("Close Database");
         fileProperties = new JMenuItem("Database Properties");
         fileExit = new JMenuItem("Exit Program");
-
 
         fileNew.addActionListener(actionEvent -> GeoKurGUI.this.newDatabase());
         fileOpen.addActionListener(actionEvent -> GeoKurGUI.this.openDatabase());
@@ -115,15 +121,6 @@ public class GeoKurGUI extends JFrame {
         datasetRemove = new JMenuItem("Remove multiple Datasets");
         this.setDatasetEnable(false);
 
-//        Path tmp1 = Paths.get("/path/to/home/");
-//        Path tmp2 = Paths.get("/path/to/the/desired/dataset");
-//        Path tmp3 = tmp1.relativize(tmp2);
-//        System.out.println(tmp1);
-//        System.out.println(tmp2);
-//        System.out.println(tmp3);
-//        System.out.println(tmp1.resolve(tmp3));
-//        System.out.println(tmp1.resolve(tmp3).normalize());
-
         datasetAdd.addActionListener(actionEvent -> GeoKurGUI.this.addDataset());
         datasetOpen.addActionListener(actionEvent -> {});
         datasetClose.addActionListener(actionEvent -> GeoKurGUI.this.setDatasetFile(null));
@@ -146,13 +143,12 @@ public class GeoKurGUI extends JFrame {
         metadataDataQualityInvestigate = new JMenuItem("Investigate Data Quality");
         metadataDataQualityEdit = new JMenuItem("Edit Data Quality");
         this.setMetadataEnable(false);
-        metadataGenerate.addActionListener(new AbstractAction() {
-            @Override
-            public void actionPerformed(ActionEvent actionEvent) {
-                // todo: proper adding of metadata
-//                Metadata.create(GeoKurGUI.this.datasetPath, false);
-            }
-        });
+
+        metadataGenerate.addActionListener(actionEvent -> GeoKurGUI.this.generateMetadata());
+        metadataInvestigate.addActionListener(actionEvent -> GeoKurGUI.this.investigateMetadata());
+        metadataEdit.addActionListener(actionEvent -> GeoKurGUI.this.editMetadata());
+        metadataDataQualityInvestigate.addActionListener(actionEvent -> GeoKurGUI.this.investigateDataQuality());
+        metadataDataQualityEdit.addActionListener(actionEvent -> GeoKurGUI.this.editDataQuality());
 
         metadataMenu = new JMenu("Metadata");
         metadataMenu.add(metadataGenerate);
@@ -210,8 +206,6 @@ public class GeoKurGUI extends JFrame {
         // general layout
         GridBagConstraints cPanel = new GridBagConstraints();
         GridBagConstraints cCentralPanel = new GridBagConstraints();
-//        GridBagConstraints cCentralPanelLeft = new GridBagConstraints();
-//        GridBagConstraints cCentralPanelRight = new GridBagConstraints();
         GridBagConstraints cSep = new GridBagConstraints();
         GridBagConstraints cBottomLine = new GridBagConstraints();
         GridBagConstraints cBottomLineLeft = new GridBagConstraints();
@@ -226,17 +220,6 @@ public class GeoKurGUI extends JFrame {
         cCentralPanel.weightx = 1;
         cCentralPanel.weighty = 1;
         cCentralPanel.fill = GridBagConstraints.BOTH;
-
-//        cCentralPanelLeft.gridx = 0;
-//        cCentralPanelLeft.gridy = 0;
-//        cCentralPanelLeft.weightx = 1;
-//        cCentralPanelLeft.weighty = 1;
-//        cCentralPanelLeft.fill = GridBagConstraints.BOTH;
-//        cCentralPanelRight.gridx = 1;
-//        cCentralPanelRight.gridy = 0;
-//        cCentralPanelRight.weightx = 1;
-//        cCentralPanelRight.weighty = 1;
-//        cCentralPanelRight.fill = GridBagConstraints.BOTH;
 
         cSep.gridx = 0;
         cSep.gridwidth = 2;
@@ -266,8 +249,6 @@ public class GeoKurGUI extends JFrame {
         bottomLine.add(bottomLineRight, cBottomLineRight);
 
         // add to frame / main panel
-//        panel.add(centralPanelLeft, cCentralPanelLeft);
-//        panel.add(centralPanelRight, cCentralPanelRight);
         centralPanelLeft.setMinimumSize(new Dimension(50,0));
         centralPanelRight.setMinimumSize(new Dimension(50,0));
         centralPanel.setResizeWeight(0.3);
@@ -462,12 +443,17 @@ public class GeoKurGUI extends JFrame {
                         + "pathtype text NOT NULL\n"
                         + ");";
 
-                String sql = "CREATE TABLE IF NOT EXISTS datasets (\n"
+                String sqlData = "CREATE TABLE datasets (\n"
                         + "number integer NOT NULL PRIMARY KEY UNIQUE,\n"
                         + "uuid text NOT NULL UNIQUE,\n"
                         + "file_name text NOT NULL,\n"
                         + "file_path text NOT NULL UNIQUE,\n"
                         + "table_name text NOT NULL\n"
+                        + ");";
+
+                String sqlNamespace = "CREATE TABLE namespaces (\n"
+                        + "name text NOT NULL UNIQUE,\n"
+                        + "link text NOT NULL UNIQUE\n"
                         + ");";
 
                 String sqlPathtype = "INSERT INTO properties(pathtype) VALUES(?)";
@@ -478,7 +464,8 @@ public class GeoKurGUI extends JFrame {
                     if (connection != null) {
                         statement = connection.createStatement();
                         statement.execute(sqlProp);
-                        statement.execute(sql);
+                        statement.execute(sqlData);
+                        statement.execute(sqlNamespace);
                         GeoKurGUI.this.database = new Database(connection, statement);
 
                         PreparedStatement preparedStatement = connection.prepareStatement(sqlPathtype);
@@ -560,6 +547,7 @@ public class GeoKurGUI extends JFrame {
     public void setDatabaseProperties() {
         // set properties of current database
 
+        // todo: add a button for choosing whether or not an xml file alongside the geodata file(s) is generated
         // absolute path (true) or relative path (false)
         boolean absPathProp = GeoKurGUI.this.database.pathtype.equals("absolute");
         AtomicBoolean pathtypeChange = new AtomicBoolean(false);
@@ -754,6 +742,39 @@ public class GeoKurGUI extends JFrame {
         removeFrame.setMinimumSize(new Dimension(200,400));
         removeFrame.pack();
         removeFrame.setVisible(true);
+    }
+
+    public void generateMetadata() {
+        // generating and collection of metadata
+
+        metadata = new Metadata();
+        Document metadataDoc = metadata.create(GeoKurGUI.this.datasetPath, "minimal", false, false);
+        if (metadataDoc.getContentSize() == 0) {
+            JOptionPane.showMessageDialog(GeoKurGUI.this,
+                    "No metadata available.",
+                    "Warning", JOptionPane.WARNING_MESSAGE);
+        }
+        else {
+            metadataDatabase = new MetadataDatabase();
+            metadataDatabase.generateFromDocument(metadataDoc.getRootElement());
+        }
+        System.out.println("yes");
+    }
+
+    public void investigateMetadata() {
+        // investigate metadata
+    }
+
+    public void editMetadata() {
+        // edit metadata
+    }
+
+    public void investigateDataQuality() {
+        // investigate data quality metadata
+    }
+
+    public void editDataQuality() {
+        // edit data quality metadata
     }
 
 
