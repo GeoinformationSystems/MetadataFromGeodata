@@ -76,6 +76,7 @@ public class Metadata {
             }
 
             // todo: add other geodata types
+            // todo: in the case of geopackage: allow metadata generation for multiple datasets in one gpkg, but also allow subsequent additions from the same gpkg
             List<Element> content = null;
             switch (geodataType) {
                 case "geopackage":

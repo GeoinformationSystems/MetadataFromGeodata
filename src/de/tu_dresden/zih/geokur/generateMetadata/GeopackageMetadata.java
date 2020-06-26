@@ -624,7 +624,6 @@ public class GeopackageMetadata {
                 }
                 int srsID = srsIDByte.getInt();
 
-                System.out.println("yes");
 
 //            ByteBuffer bb = ByteBuffer.wrap(new byte[] {0,0,0,-128});
 //            bb.order(ByteOrder.BIG_ENDIAN);
@@ -645,7 +644,6 @@ public class GeopackageMetadata {
 //                int b = is.read();
             }
 
-            System.out.println("yes");
         }
         catch (SQLException e) {
             System.out.println(e.getMessage());

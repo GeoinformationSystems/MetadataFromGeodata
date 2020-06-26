@@ -758,7 +758,6 @@ public class GeoKurGUI extends JFrame {
             metadataDatabase = new MetadataDatabase();
             metadataDatabase.generateFromDocument(metadataDoc.getRootElement());
         }
-        System.out.println("yes");
     }
 
     public void investigateMetadata() {
