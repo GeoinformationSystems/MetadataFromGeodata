@@ -21,6 +21,7 @@ public class Database {
     // listTableName: list of table names for each dataset (built via filename_filenumber)
     // pathtype: "absolute" or "relative" paths
 
+    public String databasePath;
     public Connection connection;
     public Statement statement;
     public List<Integer> listFileNumber = new ArrayList<>();
@@ -31,12 +32,16 @@ public class Database {
     public String pathtype;
 
 
-    public Database(){}
+//    public Database(){}
 
-    public Database(Connection connection, Statement statement) {
-        this.connection = connection;
-        this.statement = statement;
+    public Database(String databasePath) {
+        this.databasePath = databasePath;
     }
+
+//    public Database(Connection connection, Statement statement) {
+//        this.connection = connection;
+//        this.statement = statement;
+//    }
 
 //    public Database(Connection connection, Statement statement, List<Integer> listFileNumber, List<String> listFileUUID,
 //                    List<String> listFileName, List<String> listFilePath, List<String> listTableName){
@@ -47,6 +52,70 @@ public class Database {
 //        this.listFilePath = listFilePath;
 //        this.listTableName = listTableName;
 //    }
+
+    public void createNewDatabase() {
+        // create new database with necessary tables
+
+        String sqlProp = "CREATE TABLE properties (\n"
+                + "pathtype text NOT NULL\n"
+                + ");";
+
+        String sqlData = "CREATE TABLE datasets (\n"
+                + "number integer NOT NULL PRIMARY KEY UNIQUE,\n"
+                + "uuid text NOT NULL UNIQUE,\n"
+                + "file_name text NOT NULL,\n"
+                + "file_path text NOT NULL UNIQUE,\n"
+                + "table_name text NOT NULL\n"
+                + ");";
+
+        String sqlNamespace = "CREATE TABLE namespaces (\n"
+                + "name text NOT NULL UNIQUE,\n"
+                + "link text NOT NULL UNIQUE\n"
+                + ");";
+
+        String sqlPathtype = "INSERT INTO properties(pathtype) VALUES(?)";
+
+        try {
+            String url = "jdbc:sqlite:" + this.databasePath;
+            connection = DriverManager.getConnection(url);
+            statement = connection.createStatement();
+
+            statement.execute(sqlProp);
+            statement.execute(sqlData);
+            statement.execute(sqlNamespace);
+
+            PreparedStatement preparedStatement = connection.prepareStatement(sqlPathtype);
+            this.pathtype = "absolute";
+            preparedStatement.setString(1, this.pathtype);
+            preparedStatement.executeUpdate();
+
+            System.out.println("A new empty database has been created.");
+        } catch(SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public void openDatabase() {
+        // open available database
+
+        try {
+            String url = "jdbc:sqlite:" + this.databasePath;
+            connection = DriverManager.getConnection(url);
+            statement = connection.createStatement();
+            ResultSet databaseContent = statement.executeQuery("SELECT * FROM datasets");
+            while (databaseContent.next()) {
+                listFileNumber.add(databaseContent.getInt("number"));
+                listFileUUID.add(databaseContent.getString("uuid"));
+                listFileName.add(databaseContent.getString("file_name"));
+                listFilePath.add(databaseContent.getString("file_path"));
+                listTableName.add(databaseContent.getString("table_name"));
+            }
+            ResultSet databaseProperties = statement.executeQuery("SELECT * FROM properties");
+            pathtype = databaseProperties.getString("pathtype");
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
 
     public void setPathtype(String pathtypeNew, String referencePathString) {
         // adjust path specification from absolute to relative or vice versa
@@ -96,10 +165,6 @@ public class Database {
             }
         }
         this.pathtype = pathtypeNew;
-    }
-
-    public String getPathtype() {
-        return pathtype;
     }
 
     public void addToDatabase(String datasetFilePath) {

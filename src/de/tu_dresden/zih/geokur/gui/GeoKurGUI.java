@@ -14,7 +14,6 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
-import java.sql.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class GeoKurGUI extends JFrame {
@@ -375,23 +374,6 @@ public class GeoKurGUI extends JFrame {
         datasetClose.setEnabled(enableOn);
         datasetRemoveCurrent.setEnabled(enableOn);
         datasetRemove.setEnabled(enableOn);
-
-//        if (enableOn) {
-//            datasetAdd.setEnabled(true);
-//            datasetOpen.setEnabled(true);
-//            datasetFind.setEnabled(true);
-//            datasetClose.setEnabled(true);
-//            datasetRemoveCurrent.setEnabled(true);
-//            datasetRemove.setEnabled(true);
-//        }
-//        else {
-//            datasetAdd.setEnabled(false);
-//            datasetOpen.setEnabled(false);
-//            datasetFind.setEnabled(false);
-//            datasetClose.setEnabled(false);
-//            datasetRemoveCurrent.setEnabled(false);
-//            datasetRemove.setEnabled(false);
-//        }
     }
 
     public void setMetadataEnable(boolean enableOn) {
@@ -402,21 +384,6 @@ public class GeoKurGUI extends JFrame {
         metadataEdit.setEnabled(enableOn);
         metadataDataQualityInvestigate.setEnabled(enableOn);
         metadataDataQualityEdit.setEnabled(enableOn);
-
-//        if (enableOn) {
-//            metadataGenerate.setEnabled(true);
-//            metadataInvestigate.setEnabled(true);
-//            metadataEdit.setEnabled(true);
-//            metadataDataQualityInvestigate.setEnabled(true);
-//            metadataDataQualityEdit.setEnabled(true);
-//        }
-//        else {
-//            metadataGenerate.setEnabled(false);
-//            metadataInvestigate.setEnabled(false);
-//            metadataEdit.setEnabled(false);
-//            metadataDataQualityInvestigate.setEnabled(false);
-//            metadataDataQualityEdit.setEnabled(false);
-//        }
     }
 
     public String getDatabasePath() {
@@ -448,51 +415,8 @@ public class GeoKurGUI extends JFrame {
             }
             else {
                 GeoKurGUI.this.databasePath = databaseChooser.getSelectedFile().toString();
-
-
-                Connection connection;
-                Statement statement;
-                // todo: move all sql commands out of GeoKurGUI class (possibly in Database class) for easier use without GUI later on
-
-                String sqlProp = "CREATE TABLE properties (\n"
-                        + "pathtype text NOT NULL\n"
-                        + ");";
-
-                String sqlData = "CREATE TABLE datasets (\n"
-                        + "number integer NOT NULL PRIMARY KEY UNIQUE,\n"
-                        + "uuid text NOT NULL UNIQUE,\n"
-                        + "file_name text NOT NULL,\n"
-                        + "file_path text NOT NULL UNIQUE,\n"
-                        + "table_name text NOT NULL\n"
-                        + ");";
-
-                String sqlNamespace = "CREATE TABLE namespaces (\n"
-                        + "name text NOT NULL UNIQUE,\n"
-                        + "link text NOT NULL UNIQUE\n"
-                        + ");";
-
-                String sqlPathtype = "INSERT INTO properties(pathtype) VALUES(?)";
-
-                try {
-                    String url = "jdbc:sqlite:" + GeoKurGUI.this.databasePath;
-                    connection = DriverManager.getConnection(url);
-                    if (connection != null) {
-                        statement = connection.createStatement();
-                        statement.execute(sqlProp);
-                        statement.execute(sqlData);
-                        statement.execute(sqlNamespace);
-                        GeoKurGUI.this.database = new Database(connection, statement);
-
-                        PreparedStatement preparedStatement = connection.prepareStatement(sqlPathtype);
-                        GeoKurGUI.this.database.pathtype = "absolute";
-                        preparedStatement.setString(1, GeoKurGUI.this.database.getPathtype());
-                        preparedStatement.executeUpdate();
-
-                        System.out.println("A new empty database has been created.");
-                    }
-                } catch (SQLException e) {
-                    System.out.println(e.getMessage());
-                }
+                GeoKurGUI.this.database = new Database(GeoKurGUI.this.databasePath);
+                GeoKurGUI.this.database.createNewDatabase();
                 GeoKurGUI.this.databaseFile = databaseChooser.getSelectedFile();
                 GeoKurGUI.this.setDatabase();
 
@@ -522,31 +446,8 @@ public class GeoKurGUI extends JFrame {
             GeoKurGUI.this.databasePath = databaseChooser.getSelectedFile().toString();
             GeoKurGUI.this.databaseFile = databaseChooser.getSelectedFile();
 
-            GeoKurGUI.this.database = new Database();
-
-            Connection connection;
-            Statement statement;
-
-            try {
-                String url = "jdbc:sqlite:" + GeoKurGUI.this.databasePath;
-                connection = DriverManager.getConnection(url);
-                GeoKurGUI.this.database.connection = connection;
-                statement = connection.createStatement();
-                GeoKurGUI.this.database.statement = statement;
-                ResultSet databaseContent = statement.executeQuery("SELECT * FROM datasets");
-                while (databaseContent.next()) {
-                    GeoKurGUI.this.database.listFileNumber.add(databaseContent.getInt("number"));
-                    GeoKurGUI.this.database.listFileUUID.add(databaseContent.getString("uuid"));
-                    GeoKurGUI.this.database.listFileName.add(databaseContent.getString("file_name"));
-                    GeoKurGUI.this.database.listFilePath.add(databaseContent.getString("file_path"));
-                    GeoKurGUI.this.database.listTableName.add(databaseContent.getString("table_name"));
-                }
-                ResultSet databaseProperties = statement.executeQuery("SELECT * FROM properties");
-                GeoKurGUI.this.database.pathtype = databaseProperties.getString("pathtype");
-            } catch (SQLException e) {
-                System.out.println(e.getMessage());
-            }
-
+            GeoKurGUI.this.database = new Database(GeoKurGUI.this.databasePath);
+            GeoKurGUI.this.database.openDatabase();
             GeoKurGUI.this.setDatabase();
         }
     }
