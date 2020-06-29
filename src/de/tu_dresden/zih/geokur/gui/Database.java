@@ -126,7 +126,7 @@ public class Database {
 
         String[] tmp = datasetFilePath.split("/");
         String datasetFileName = tmp[tmp.length - 1];
-        String datasetTableName = datasetFileName + "_" + numberAdd;
+        String datasetTableName = datasetFileName.replace(".", "_").replace(" ", "_") + "_" + numberAdd;
 
         listFileNumber.add(numberAdd);
         listFileUUID.add(datasetUUID);
@@ -146,18 +146,47 @@ public class Database {
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
+
+        // add data specific table for metadata objects and metadata content
+        String sql3 = "CREATE TABLE " + datasetTableName + "(\n"
+                + "id integer NOT NULL PRIMARY KEY UNIQUE,\n"
+                + "name text NOT NULL,\n"
+                + "namespace text NOT NULL,\n"
+                + "parent_id integer NOT NULL,\n"
+                + "parent_name text NOT NULL,\n"
+                + "metadata_id integer NOT NULL,\n"
+                + "obligation text,\n"
+                + "occurrence text\n"
+                + ");";
+        String sql4 = "CREATE TABLE " + datasetTableName + "_metadata" + "(\n"
+                + "id integer NOT NULL PRIMARY KEY UNIQUE,\n"
+                + "name text NOT NULL,\n"
+                + "content text\n"
+                + ");";
+        try {
+            this.statement.execute(sql3);
+            this.statement.execute(sql4);
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     public void removeFromDatabase(String datasetFilePath) {
-        // todo: change to uuid as dataset identifier
+        // todo: change to uuid as dataset identifier(?)
         // remove dataset from database
 
         int indexRemove = listFilePath.indexOf(datasetFilePath);
-        String sql = "DELETE FROM datasets WHERE file_path = ?";
+        String sql = "DELETE FROM datasets WHERE file_path = ?;";
         try {
             PreparedStatement preparedStatement = this.connection.prepareStatement(sql);
             preparedStatement.setString(1, datasetFilePath);
             preparedStatement.executeUpdate();
+
+            String sqlRemoveTable = "DROP TABLE " + listTableName.get(indexRemove) + ";";
+            String sqlRemoveTableMetadata = "DROP TABLE " + listTableName.get(indexRemove) + "_metadata;";
+            this.statement.execute(sqlRemoveTable);
+            this.statement.execute(sqlRemoveTableMetadata);
+
             listFileNumber.remove(indexRemove);
             listFileUUID.remove(indexRemove);
             listFileName.remove(indexRemove);

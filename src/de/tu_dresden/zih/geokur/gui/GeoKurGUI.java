@@ -369,41 +369,54 @@ public class GeoKurGUI extends JFrame {
     public void setDatasetEnable(boolean enableOn) {
         // enable/disable the dataset menu items
 
-        if (enableOn) {
-            datasetAdd.setEnabled(true);
-            datasetOpen.setEnabled(true);
-            datasetFind.setEnabled(true);
-            datasetClose.setEnabled(true);
-            datasetRemoveCurrent.setEnabled(true);
-            datasetRemove.setEnabled(true);
-        }
-        else {
-            datasetAdd.setEnabled(false);
-            datasetOpen.setEnabled(false);
-            datasetFind.setEnabled(false);
-            datasetClose.setEnabled(false);
-            datasetRemoveCurrent.setEnabled(false);
-            datasetRemove.setEnabled(false);
-        }
+        datasetAdd.setEnabled(enableOn);
+        datasetOpen.setEnabled(enableOn);
+        datasetFind.setEnabled(enableOn);
+        datasetClose.setEnabled(enableOn);
+        datasetRemoveCurrent.setEnabled(enableOn);
+        datasetRemove.setEnabled(enableOn);
+
+//        if (enableOn) {
+//            datasetAdd.setEnabled(true);
+//            datasetOpen.setEnabled(true);
+//            datasetFind.setEnabled(true);
+//            datasetClose.setEnabled(true);
+//            datasetRemoveCurrent.setEnabled(true);
+//            datasetRemove.setEnabled(true);
+//        }
+//        else {
+//            datasetAdd.setEnabled(false);
+//            datasetOpen.setEnabled(false);
+//            datasetFind.setEnabled(false);
+//            datasetClose.setEnabled(false);
+//            datasetRemoveCurrent.setEnabled(false);
+//            datasetRemove.setEnabled(false);
+//        }
     }
 
     public void setMetadataEnable(boolean enableOn) {
         // enable/disable the metadata menu items
 
-        if (enableOn) {
-            metadataGenerate.setEnabled(true);
-            metadataInvestigate.setEnabled(true);
-            metadataEdit.setEnabled(true);
-            metadataDataQualityInvestigate.setEnabled(true);
-            metadataDataQualityEdit.setEnabled(true);
-        }
-        else {
-            metadataGenerate.setEnabled(false);
-            metadataInvestigate.setEnabled(false);
-            metadataEdit.setEnabled(false);
-            metadataDataQualityInvestigate.setEnabled(false);
-            metadataDataQualityEdit.setEnabled(false);
-        }
+        metadataGenerate.setEnabled(enableOn);
+        metadataInvestigate.setEnabled(enableOn);
+        metadataEdit.setEnabled(enableOn);
+        metadataDataQualityInvestigate.setEnabled(enableOn);
+        metadataDataQualityEdit.setEnabled(enableOn);
+
+//        if (enableOn) {
+//            metadataGenerate.setEnabled(true);
+//            metadataInvestigate.setEnabled(true);
+//            metadataEdit.setEnabled(true);
+//            metadataDataQualityInvestigate.setEnabled(true);
+//            metadataDataQualityEdit.setEnabled(true);
+//        }
+//        else {
+//            metadataGenerate.setEnabled(false);
+//            metadataInvestigate.setEnabled(false);
+//            metadataEdit.setEnabled(false);
+//            metadataDataQualityInvestigate.setEnabled(false);
+//            metadataDataQualityEdit.setEnabled(false);
+//        }
     }
 
     public String getDatabasePath() {
@@ -420,7 +433,7 @@ public class GeoKurGUI extends JFrame {
 
     public void newDatabase() {
         // establish new database and connect to it
-        // absolute paths are taken as standard
+        // absolute paths are taken as standard in a new database
 
         JFileChooser databaseChooser = new JFileChooser();
         FileNameExtensionFilter filterDatabase = new FileNameExtensionFilter("databases", "db");
@@ -436,8 +449,10 @@ public class GeoKurGUI extends JFrame {
             else {
                 GeoKurGUI.this.databasePath = databaseChooser.getSelectedFile().toString();
 
+
                 Connection connection;
                 Statement statement;
+                // todo: move all sql commands out of GeoKurGUI class (possibly in Database class) for easier use without GUI later on
 
                 String sqlProp = "CREATE TABLE properties (\n"
                         + "pathtype text NOT NULL\n"
@@ -713,12 +728,13 @@ public class GeoKurGUI extends JFrame {
         JDialog removeFrame = new JDialog(GeoKurGUI.this, "Remove Datasets", true);
         removeFrame.setLayout(new GridBagLayout());
         JScrollPane listDatasetRemoveScrolled = new JScrollPane(listDatasetRemove);
+        JButton cancelButton = new JButton("Cancel");
         JButton removeButton = new JButton("Remove");
+        cancelButton.addActionListener(actionEvent -> removeFrame.dispose());
         removeButton.addActionListener(actionEvent -> {
             int[] indexRemove = listDatasetRemove.getSelectedIndices();
             if (indexRemove.length > 0) {
                 for (int i = indexRemove.length - 1; i >= 0; i--) {
-                    System.out.println(listDatasetString.get(indexRemove[i]));
                     GeoKurGUI.this.database.removeFromDatabase(GeoKurGUI.this.listDatasetPathString.get(indexRemove[i]));
                     GeoKurGUI.this.listDatasetString.removeElementAt(indexRemove[i]);
                     GeoKurGUI.this.listDatasetPathString.removeElementAt(indexRemove[i]);
@@ -728,16 +744,24 @@ public class GeoKurGUI extends JFrame {
             removeFrame.dispose();
         });
         GridBagConstraints cListDatasetRemoveScrolled = new GridBagConstraints();
+        GridBagConstraints cCancelButton = new GridBagConstraints();
         GridBagConstraints cRemoveButton = new GridBagConstraints();
+        cListDatasetRemoveScrolled.gridwidth = 2;
         cListDatasetRemoveScrolled.gridy = 0;
         cListDatasetRemoveScrolled.weightx = 1;
         cListDatasetRemoveScrolled.weighty = 1;
         cListDatasetRemoveScrolled.fill = GridBagConstraints.BOTH;
+        cCancelButton.gridx = 0;
+        cCancelButton.gridy = 1;
+        cCancelButton.weightx = 1;
+        cCancelButton.fill = GridBagConstraints.BOTH;
+        cRemoveButton.gridx = 1;
         cRemoveButton.gridy = 1;
         cRemoveButton.weightx = 1;
         cRemoveButton.fill = GridBagConstraints.BOTH;
 
         removeFrame.add(listDatasetRemoveScrolled, cListDatasetRemoveScrolled);
+        removeFrame.add(cancelButton, cCancelButton);
         removeFrame.add(removeButton, cRemoveButton);
         removeFrame.setMinimumSize(new Dimension(200,400));
         removeFrame.pack();

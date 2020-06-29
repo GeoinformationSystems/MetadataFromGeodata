@@ -18,10 +18,10 @@ public class MetadataDatabase {
     int childIdAct = 1;
     public List<Integer> objId = new ArrayList<>();
     public List<String> objName = new ArrayList<>();
+    public List<String> objNamespace = new ArrayList<>();
     public List<Integer> objParentId = new ArrayList<>();
     public List<String> objParentName = new ArrayList<>();
     public List<Integer> objMetadataId = new ArrayList<>();
-    public List<String> objNamespace = new ArrayList<>();
     public List<String> objObligation = new ArrayList<>();
     public List<String> objOccurrence = new ArrayList<>();
 
@@ -76,6 +76,7 @@ public class MetadataDatabase {
 
         objId.add(childIdAct);
         objName.add(childAct.getName());
+        objNamespace.add(childAct.getNamespacePrefix());
         if (parentAct != null) {
             objParentId.add(parentIdAct);
             objParentName.add(parentAct.getName());
@@ -85,7 +86,6 @@ public class MetadataDatabase {
             objParentName.add(null);
         }
         objMetadataId.add(metadataId);
-        objNamespace.add(childAct.getNamespacePrefix());
         objObligation.add(childAct.getAttributeValue("obligation"));
         objOccurrence.add(childAct.getAttributeValue("occurrence"));
     }
