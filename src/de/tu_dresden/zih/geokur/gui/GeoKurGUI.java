@@ -41,6 +41,7 @@ public class GeoKurGUI extends JFrame {
     JMenuItem metadataEdit;
     JMenuItem metadataDataQualityInvestigate;
     JMenuItem metadataDataQualityEdit;
+    JMenuItem metadataRemove;
 
     JMenu provenanceMenu;
     JMenuItem provenanceShow;
@@ -108,6 +109,7 @@ public class GeoKurGUI extends JFrame {
         fileMenu.add(fileNew);
         fileMenu.add(fileOpen);
         fileMenu.add(fileClose);
+        fileMenu.addSeparator();
         fileMenu.add(fileProperties);
         fileMenu.add(fileExit);
 
@@ -132,6 +134,7 @@ public class GeoKurGUI extends JFrame {
         datasetMenu.add(datasetOpen);
         datasetMenu.add(datasetFind);
         datasetMenu.add(datasetClose);
+        datasetMenu.addSeparator();
         datasetMenu.add(datasetRemoveCurrent);
         datasetMenu.add(datasetRemove);
 
@@ -141,6 +144,7 @@ public class GeoKurGUI extends JFrame {
         metadataEdit = new JMenuItem("Editing Metadata");
         metadataDataQualityInvestigate = new JMenuItem("Investigate Data Quality");
         metadataDataQualityEdit = new JMenuItem("Edit Data Quality");
+        metadataRemove = new JMenuItem("Remove all Metadata");
         this.setMetadataEnable(false);
 
         metadataGenerate.addActionListener(actionEvent -> GeoKurGUI.this.generateMetadata());
@@ -148,7 +152,9 @@ public class GeoKurGUI extends JFrame {
         metadataEdit.addActionListener(actionEvent -> GeoKurGUI.this.editMetadata());
         metadataDataQualityInvestigate.addActionListener(actionEvent -> GeoKurGUI.this.investigateDataQuality());
         metadataDataQualityEdit.addActionListener(actionEvent -> GeoKurGUI.this.editDataQuality());
+        metadataRemove.addActionListener(actionEvent -> GeoKurGUI.this.removeMetadata());
 
+        // todo: add menu item with remove metadata functionality
         metadataMenu = new JMenu("Metadata");
         metadataMenu.add(metadataGenerate);
         metadataMenu.add(metadataInvestigate);
@@ -156,6 +162,8 @@ public class GeoKurGUI extends JFrame {
         metadataMenu.addSeparator();
         metadataMenu.add(metadataDataQualityInvestigate);
         metadataMenu.add(metadataDataQualityEdit);
+        metadataMenu.addSeparator();
+        metadataMenu.add(metadataRemove);
 
         // provenance menu
         provenanceShow = new JMenuItem("Show Provenance");
@@ -601,11 +609,11 @@ public class GeoKurGUI extends JFrame {
 
         if (this.datasetFile != null) {
             Object[] options = {"Yes", "Cancel"};
-            int cd = JOptionPane.showOptionDialog(GeoKurGUI.this,
+            int chosenOption = JOptionPane.showOptionDialog(GeoKurGUI.this,
                     "Do you really want to remove the dataset " + this.datasetName + "?",
                     "Remove Dataset", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE,
                     null, options, options[1]);
-            if (cd == JOptionPane.YES_OPTION) {
+            if (chosenOption == JOptionPane.YES_OPTION) {
                 this.database.removeFromDatabase(this.datasetPath);
                 GeoKurGUI.this.listDatasetString.removeElement(this.datasetName);
                 GeoKurGUI.this.listDatasetPathString.removeElement(this.datasetPath);
@@ -681,7 +689,8 @@ public class GeoKurGUI extends JFrame {
         }
         else {
             metadataDatabase = new MetadataDatabase();
-            metadataDatabase.generateFromDocument(metadataDoc.getRootElement());
+            metadataDatabase.generateFlatFromElement(metadataDoc.getRootElement());
+            GeoKurGUI.this.database.writeMetadataToDatabase(GeoKurGUI.this.datasetPath, metadataDatabase);
         }
     }
 
@@ -699,6 +708,19 @@ public class GeoKurGUI extends JFrame {
 
     public void editDataQuality() {
         // edit data quality metadata
+    }
+
+    public void removeMetadata() {
+        // remove all metadata fields
+
+        Object[] options = {"Yes", "Cancel"};
+        int chosenOption = JOptionPane.showOptionDialog(GeoKurGUI.this,
+                "Do you really want to remove all metadata from " + this.datasetName + "?",
+                "Remove Metadata", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE,
+                null, options, options[1]);
+        if (chosenOption == JOptionPane.YES_OPTION) {
+            GeoKurGUI.this.database.removeMetadataFromDatabase(GeoKurGUI.this.datasetPath);
+        }
     }
 
 

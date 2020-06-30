@@ -12,7 +12,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MetadataDatabase {
-//    public Element metadataDocRoot;
 
     // list variables for table with object links
     int childIdAct = 1;
@@ -36,8 +35,8 @@ public class MetadataDatabase {
     public List<String> namespacePrefix = new ArrayList<>();
     public List<String> namespaceURI = new ArrayList<>();
 
-    public void generateFromDocument(Element metadataParent) {
-        // generate flat tables for use in database from nested document
+    public void generateFlatFromElement(Element metadataParent) {
+        // generate flat tables for use in database from nested elements
 
         int parentIdAct = childIdAct;
         if (childIdAct == 1) {
@@ -64,9 +63,10 @@ public class MetadataDatabase {
                     fillMdLists(childAct);
                     fillObjLists(metadataParent, childAct, parentIdAct, mdIdAct);
                 }
-
-                fillObjLists(metadataParent, childAct, parentIdAct, null);
-                generateFromDocument(childAct);
+                else {
+                    fillObjLists(metadataParent, childAct, parentIdAct, null);
+                }
+                generateFlatFromElement(childAct);
             }
         }
     }
@@ -95,7 +95,14 @@ public class MetadataDatabase {
 
         mdId.add(mdIdAct);
         mdName.add(childAct.getName());
-        mdContent.add(childAct.getValue());
+        if (childAct.getAttribute("codeList") != null) {
+            // codelists and enumerations do not have a metadata value but feature special attributes
+            mdContent.add("codeList: " + childAct.getAttributeValue("codeList") + "\n"
+                    + "codeListValue: " + childAct.getAttributeValue("codeListValue"));
+        }
+        else {
+            mdContent.add(childAct.getValue());
+        }
     }
 
 //    public void exportToDocument() {

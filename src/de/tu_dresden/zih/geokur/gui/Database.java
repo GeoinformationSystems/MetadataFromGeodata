@@ -5,6 +5,8 @@
 
 package de.tu_dresden.zih.geokur.gui;
 
+import de.tu_dresden.zih.geokur.generateMetadata.MetadataDatabase;
+
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.*;
@@ -217,9 +219,9 @@ public class Database {
                 + "id integer NOT NULL PRIMARY KEY UNIQUE,\n"
                 + "name text NOT NULL,\n"
                 + "namespace text NOT NULL,\n"
-                + "parent_id integer NOT NULL,\n"
-                + "parent_name text NOT NULL,\n"
-                + "metadata_id integer NOT NULL,\n"
+                + "parent_id integer,\n"
+                + "parent_name text,\n"
+                + "metadata_id integer,\n"
                 + "obligation text,\n"
                 + "occurrence text\n"
                 + ");";
@@ -257,6 +259,62 @@ public class Database {
             listFileName.remove(indexRemove);
             listFilePath.remove(indexRemove);
             listTableName.remove(indexRemove);
+        } catch(SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public void writeMetadataToDatabase(String datasetFilePath, MetadataDatabase metadataDatabase) {
+        // save flat metadata from MetadataDatabase class (method generateFromDocument) to database
+
+        int indexMetadataAdd = listFilePath.indexOf(datasetFilePath);
+        String tableName = listTableName.get(indexMetadataAdd);
+        String tableNameMetadata = tableName + "_metadata";
+
+        String sql = "INSERT INTO " + tableName + "(id, name, namespace, parent_id, parent_name, metadata_id, obligation, occurrence) VALUES(?,?,?,?,?,?,?,?)";
+        String sql2 = "INSERT INTO " + tableNameMetadata + "(id, name, content) VALUES(?,?,?)";
+
+        try {
+            PreparedStatement preparedStatementObj = this.connection.prepareStatement(sql);
+            PreparedStatement preparedStatementMd = this.connection.prepareStatement(sql2);
+
+            // write table with object links
+            for (int i = 0; i < metadataDatabase.objId.size(); i++) {
+                preparedStatementObj.setObject(1, metadataDatabase.objId.get(i));
+                preparedStatementObj.setObject(2, metadataDatabase.objName.get(i));
+                preparedStatementObj.setObject(3, metadataDatabase.objNamespace.get(i));
+                preparedStatementObj.setObject(4, metadataDatabase.objParentId.get(i));
+                preparedStatementObj.setObject(5, metadataDatabase.objParentName.get(i));
+                preparedStatementObj.setObject(6, metadataDatabase.objMetadataId.get(i));
+                preparedStatementObj.setObject(7, metadataDatabase.objObligation.get(i));
+                preparedStatementObj.setObject(8, metadataDatabase.objOccurrence.get(i));
+                preparedStatementObj.executeUpdate();
+            }
+
+            // write table with metadata content
+            for (int i = 0; i < metadataDatabase.mdId.size(); i++) {
+                preparedStatementMd.setObject(1, metadataDatabase.mdId.get(i));
+                preparedStatementMd.setObject(2, metadataDatabase.mdName.get(i));
+                preparedStatementMd.setObject(3, metadataDatabase.mdContent.get(i));
+                preparedStatementMd.executeUpdate();
+            }
+        } catch(SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public void removeMetadataFromDatabase(String datasetFilePath) {
+        // remove all metadata from database
+
+        int indexMetadataRemove = listFilePath.indexOf(datasetFilePath);
+        String tableName = listTableName.get(indexMetadataRemove);
+        String tableNameMetadata = tableName + "_metadata";
+
+        String sql = "DELETE FROM " + tableName + ";";
+        String sql2 = "DELETE FROM " + tableNameMetadata + ";";
+        try {
+            this.statement.execute(sql);
+            this.statement.execute(sql2);
         } catch(SQLException e) {
             System.out.println(e.getMessage());
         }
