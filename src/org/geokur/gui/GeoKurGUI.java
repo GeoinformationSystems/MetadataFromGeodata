@@ -3,10 +3,10 @@
  * All rights reserved.
  */
 
-package de.tu_dresden.zih.geokur.gui;
+package org.geokur.gui;
 
-import de.tu_dresden.zih.geokur.generateMetadata.Metadata;
-import de.tu_dresden.zih.geokur.generateMetadata.MetadataDatabase;
+import org.geokur.generateMetadata.Metadata;
+import org.geokur.generateMetadata.MetadataDatabase;
 import org.jdom2.Document;
 
 import javax.swing.*;
@@ -429,7 +429,7 @@ public class GeoKurGUI extends JFrame {
                 GeoKurGUI.this.setDatabase();
 
                 // fill dummy data for testing purposes
-                for (int i = 1; i < 36; i++) {
+                for (int i = 1; i < 6; i++) {
                     GeoKurGUI.this.setDatasetFile("/path/to/dataset" + i + ".gpkg");
                 }
             }
@@ -455,8 +455,17 @@ public class GeoKurGUI extends JFrame {
             GeoKurGUI.this.databaseFile = databaseChooser.getSelectedFile();
 
             GeoKurGUI.this.database = new Database(GeoKurGUI.this.databasePath);
-            GeoKurGUI.this.database.openDatabase();
-            GeoKurGUI.this.setDatabase();
+            int rc = GeoKurGUI.this.database.openDatabase();
+            if (rc == 0) {
+                // set database if valid database format
+                GeoKurGUI.this.setDatabase();
+            }
+            else {
+                // throw warning of invalid database format
+                JOptionPane.showMessageDialog(GeoKurGUI.this,
+                        GeoKurGUI.this.getDatabasePath() + " has not the valid database format. Nothing loaded.",
+                        "Warning", JOptionPane.WARNING_MESSAGE);
+            }
         }
     }
 
@@ -578,17 +587,14 @@ public class GeoKurGUI extends JFrame {
         // add new dataset to database
 
         JFileChooser databaseChooser = new JFileChooser();
-        // todo: change filter sorting, possibly using FileFilter and addChoosableFileFilter
         FileNameExtensionFilter filterGeopackage = new FileNameExtensionFilter("geopackage", "gpkg");
         FileNameExtensionFilter filterShape = new FileNameExtensionFilter("shapefile", "shp");
         FileNameExtensionFilter filterNetcdf = new FileNameExtensionFilter("NetCDF", "nc");
         FileNameExtensionFilter filterAsciigrid = new FileNameExtensionFilter("asciigrid", "asc");
-        FileNameExtensionFilter filterGeodata = new FileNameExtensionFilter("geodata", "gpkg", "shp", "nc", "asc");
         databaseChooser.setFileFilter(filterGeopackage);
-        databaseChooser.setFileFilter(filterShape);
-        databaseChooser.setFileFilter(filterNetcdf);
-        databaseChooser.setFileFilter(filterAsciigrid);
-        databaseChooser.setFileFilter(filterGeodata);
+        databaseChooser.addChoosableFileFilter(filterShape);
+        databaseChooser.addChoosableFileFilter(filterNetcdf);
+        databaseChooser.addChoosableFileFilter(filterAsciigrid);
         int dc = databaseChooser.showOpenDialog(GeoKurGUI.this);
         if(dc == JFileChooser.APPROVE_OPTION){
             String datasetFilePath = databaseChooser.getSelectedFile().toString();
@@ -679,6 +685,8 @@ public class GeoKurGUI extends JFrame {
 
     public void generateMetadata() {
         // generating and collection of metadata
+        // todo: possibly add nested metadata document into datasets table as BLOB data
+        // todo: evaluate geotools.xxx
 
         metadata = new Metadata();
         Document metadataDoc = metadata.create(GeoKurGUI.this.datasetPath, "minimal", false, false);
@@ -716,7 +724,7 @@ public class GeoKurGUI extends JFrame {
         Object[] options = {"Yes", "Cancel"};
         int chosenOption = JOptionPane.showOptionDialog(GeoKurGUI.this,
                 "Do you really want to remove all metadata from " + this.datasetName + "?",
-                "Remove Metadata", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE,
+                "Remove Metadata from current Dataset", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE,
                 null, options, options[1]);
         if (chosenOption == JOptionPane.YES_OPTION) {
             GeoKurGUI.this.database.removeMetadataFromDatabase(GeoKurGUI.this.datasetPath);

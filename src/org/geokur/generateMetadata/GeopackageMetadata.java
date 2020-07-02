@@ -3,7 +3,7 @@
  * All rights reserved.
  */
 
-package de.tu_dresden.zih.geokur.generateMetadata;
+package org.geokur.generateMetadata;
 
 import org.jdom2.Element;
 import org.jdom2.JDOMException;
@@ -11,7 +11,6 @@ import org.jdom2.Namespace;
 import org.jdom2.input.SAXBuilder;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.charset.StandardCharsets;

@@ -3,7 +3,7 @@
  * All rights reserved.
  */
 
-package de.tu_dresden.zih.geokur.generateMetadata;
+package org.geokur.generateMetadata;
 
 import org.jdom2.Document;
 

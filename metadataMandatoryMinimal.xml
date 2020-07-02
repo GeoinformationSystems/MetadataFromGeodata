@@ -74,7 +74,7 @@
   </mdb:dataQualityInfo>
   <mdb:metadataScope>
     <mdb:MD_MetadataScope>
-      <mdb:name>GeoKur de.tu_dresden.zih.geokur.generateMetadata.Metadata Profile</mdb:name>
+      <mdb:name>GeoKur org.geokur.generateMetadata.Metadata Profile</mdb:name>
     </mdb:MD_MetadataScope>
   </mdb:metadataScope>
 </mdb:MD_Metadata>

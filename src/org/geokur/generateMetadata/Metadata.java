@@ -3,11 +3,14 @@
  * All rights reserved.
  */
 
-package de.tu_dresden.zih.geokur.generateMetadata;
+package org.geokur.generateMetadata;
 
 import de.tu_dresden.zih.geokur.trimXML.*;
 
 import org.apache.commons.io.output.NullWriter;
+import org.geokur.trimXML.DeleteInterface;
+import org.geokur.trimXML.EmptyFieldsTrimMark;
+import org.geokur.trimXML.MetadataTreeTrimmed;
 import org.jdom2.Document;
 import org.jdom2.Element;
 import org.jdom2.JDOMException;

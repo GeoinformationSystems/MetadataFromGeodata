@@ -3,7 +3,7 @@
  * All rights reserved.
  */
 
-package de.tu_dresden.zih.geokur.generateMetadata;
+package org.geokur.generateMetadata;
 
 import org.jdom2.*;
 import org.jdom2.input.SAXBuilder;
@@ -91,7 +91,7 @@ public class MetadataTreeTemplate implements CreateInterface {
                         // recursive call if nested element available (still no particular metadata content)
                         logFileWriter.append("   ").append(elementConfigFileAct).append("\n");
 
-                        Class<?> classAct = Class.forName("de.tu_dresden.zih.geokur.generateMetadata.MetadataTreeTemplate");
+                        Class<?> classAct = Class.forName("org.geokur.generateMetadata.MetadataTreeTemplate");
                         Object classActObj = classAct.newInstance();
                         Method classMethodAct = classAct.getDeclaredMethod("getElement", Map.class, String.class, String.class, String.class, List.class, int.class, Writer.class);
                         Element testClassMethodObj = (Element) classMethodAct.invoke(classActObj, ns, "config/" + elementConfigFileAct, elementObligation, elementOccurrence, elementChain, indexChain, logFileWriter);

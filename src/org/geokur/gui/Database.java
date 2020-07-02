@@ -3,9 +3,9 @@
  * All rights reserved.
  */
 
-package de.tu_dresden.zih.geokur.gui;
+package org.geokur.gui;
 
-import de.tu_dresden.zih.geokur.generateMetadata.MetadataDatabase;
+import org.geokur.generateMetadata.MetadataDatabase;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -67,7 +67,8 @@ public class Database {
                 + "uuid text NOT NULL UNIQUE,\n"
                 + "file_name text NOT NULL,\n"
                 + "file_path text NOT NULL UNIQUE,\n"
-                + "table_name text NOT NULL\n"
+                + "table_name text NOT NULL,\n"
+                + "metadata blob\n"
                 + ");";
 
         String sqlNamespace = "CREATE TABLE namespaces (\n"
@@ -97,7 +98,7 @@ public class Database {
         }
     }
 
-    public void openDatabase() {
+    public int openDatabase() {
         // open available database
 
         try {
@@ -116,7 +117,10 @@ public class Database {
             pathtype = databaseProperties.getString("pathtype");
         } catch (SQLException e) {
             System.out.println(e.getMessage());
+            System.out.println("File " + databasePath + " is no valid database.");
+            return 8;
         }
+        return 0;
     }
 
     public void setPathtype(String pathtypeNew, String referencePathString) {
