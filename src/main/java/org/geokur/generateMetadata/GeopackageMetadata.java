@@ -9,6 +9,12 @@ import org.jdom2.Element;
 import org.jdom2.JDOMException;
 import org.jdom2.Namespace;
 import org.jdom2.input.SAXBuilder;
+import org.locationtech.jts.geom.*;
+import org.locationtech.jts.geom.impl.PackedCoordinateSequence;
+import org.locationtech.jts.geom.util.GeometryTransformer;
+import org.locationtech.jts.io.InStream;
+import org.locationtech.jts.io.ParseException;
+import org.locationtech.jts.io.WKBReader;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
@@ -80,7 +86,12 @@ public class GeopackageMetadata {
             case ("features"):
                 geopackageMeta.add(createNestedElement(new String[] {"DS_Resource", "has", "MD_Metadata", "identificationInfo", "MD_DataIdentification", "spatialRepresentationType"},
                         new UUID[] {id_DS_Resource, id_has, id_MD_Metadata, id_identificationInfo, id_MD_DataIdentification, id_spatialRepresentationType}, "vector", ns));
+
+                // read BLOB content of vector data in geopackage
+                List<Geometry> geometries = gpkg.getVectorGeometry(statement, tableName);
+                List<Point> corners = getOuterRectangle(geometries);
                 break;
+
             case ("2d-gridded-coverage"):
                 UUID id_spatialRepresentationInfo = UUID.randomUUID();
                 UUID id_MD_GridSpatialRepresentation = UUID.randomUUID();
@@ -173,8 +184,6 @@ public class GeopackageMetadata {
                 new UUID[] {id_DS_Resource, id_has, id_MD_Metadata, id_referenceSystemInfo, id_MD_ReferenceSystem, id_referenceSystemIdentifier, id_MD_IdentifierSRS, id_descriptionSRS}, srsName, ns));
 
 
-        // read BLOB content of geopackage
-        gpkg.getRasterContent(statement, tableName);
 
 
         return geopackageMeta;
@@ -591,14 +600,24 @@ public class GeopackageMetadata {
         return tableRowNum;
     }
 
+    private List<Geometry> getVectorGeometry(Statement stmt, String tableName) {
+        // get all vector geometries from a table
 
-    private void getRasterContent(Statement stmt, String tableName) {
+        List<Geometry> geometries = new ArrayList<>();
+        int position;
         try {
-            ResultSet tableContent = stmt.executeQuery("SELECT tile_data FROM " + tableName);
-            if (tableContent.next()) {
+            ResultSet tableContent = stmt.executeQuery("SELECT geometry FROM " + tableName);
+            while (tableContent.next()) {
                 byte[] by = tableContent.getBytes(1);
                 byte[] magicByte = Arrays.copyOfRange(by, 0, 2);
-                String magic = new String(magicByte, StandardCharsets.UTF_8); // ascii GP
+                String magic = new String(magicByte, StandardCharsets.UTF_8); // must be ascii GP
+                if (!magic.equals("GP")) {
+                    // no proper geopackage geometry BLOB
+                    System.out.println("Table " + tableName + " has invalid geometry column.");
+                    System.out.println("Geometry not loaded.");
+                    geometries.add(null);
+                    continue;
+                }
 
                 byte versionByte = by[2];
                 Integer version = (int) versionByte;
@@ -609,42 +628,97 @@ public class GeopackageMetadata {
                 if (flagsUnpack[7]==0) {
                     // byte order for header values
                     endianness = "BIG_ENDIAN";
-                }
-                else {
+                } else {
                     endianness = "LITTLE_ENDIAN";
                 }
-                ByteBuffer srsIDByte = ByteBuffer.wrap(Arrays.copyOfRange(by, 4, 8));
+
+                // wrap bytes into ByteBuffer for enable byte order change
+                ByteBuffer byBuffer = ByteBuffer.wrap(by);
+                byBuffer.position(4); // forward to actual position
+
                 switch (endianness) {
-                    case ("BIG_ENDIAN"):
-                        srsIDByte.order(ByteOrder.BIG_ENDIAN);
+                    case "BIG_ENDIAN":
+                        byBuffer.order(ByteOrder.BIG_ENDIAN);
                         break;
-                    case ("LITTLE_ENDIAN"):
-                        srsIDByte.order(ByteOrder.LITTLE_ENDIAN);
+                    case "LITTLE_ENDIAN":
+                        byBuffer.order(ByteOrder.LITTLE_ENDIAN);
                 }
-                int srsID = srsIDByte.getInt();
+                int srsID = byBuffer.getInt();
+                position = 8;
 
+                double[] envelope;
+                if (envHeader == 0) {
+                    // 0: no envelope
+                    envelope = null;
+                } else if (envHeader == 1) {
+                    // 1: envelope is [minx, maxx, miny, maxy], 32 bytes
+                    envelope = new double[]{byBuffer.getDouble(), byBuffer.getDouble(), byBuffer.getDouble(), byBuffer.getDouble()};
+                    position = position + 32;
+                } else if (envHeader == 2 || envHeader == 3) {
+                    // 2: envelope is [minx, maxx, miny, maxy, minm, maxm], 48 bytes
+                    // 3: envelope is [minx, maxx, miny, maxy, minz, maxz], 48 bytes
+                    envelope = new double[]{byBuffer.getDouble(), byBuffer.getDouble(), byBuffer.getDouble(), byBuffer.getDouble(), byBuffer.getDouble(), byBuffer.getDouble()};
+                    position = position + 48;
+                } else if (envHeader == 4) {
+                    // 4: envelope is [minx, maxx, miny, maxy, minz, maxz, minm, maxm], 64 bytes
+                    envelope = new double[]{byBuffer.getDouble(), byBuffer.getDouble(), byBuffer.getDouble(), byBuffer.getDouble(), byBuffer.getDouble(), byBuffer.getDouble(), byBuffer.getDouble(), byBuffer.getDouble()};
+                    position = position + 64;
+                } else {
+                    // invalid envHeader
+                    System.out.println("Invalid envelope contents indicator code");
+                    geometries.add(null);
+                    continue;
+                }
 
-//            ByteBuffer bb = ByteBuffer.wrap(new byte[] {0,0,0,-128});
-//            bb.order(ByteOrder.BIG_ENDIAN);
-//            int v = bb.getInt();
-//            byte[] bs = BitSet.valueOf(bb).toByteArray();
-
-
-
-
-//                Blob blobContent = tableContent.getBlob("tile_data");
-//                long blobLength = blobContent.length();
-//
-//                int pos = 1; // position is 1-based
-//                int len = 10;
-//                byte[] bytes = blobContent.getBytes(pos, len);
-//
-//                InputStream is = blobContent.getBinaryStream();
-//                int b = is.read();
+                byte[] wkbBytes;
+                // define precision and forward the spatial reference system ID to all geometries
+                GeometryFactory geometryFactory = new GeometryFactory(new PrecisionModel(PrecisionModel.FLOATING), srsID);
+                WKBReader wkbReader = new WKBReader(geometryFactory);
+                wkbBytes = Arrays.copyOfRange(by, position, by.length);
+                try {
+                    geometries.add(wkbReader.read(wkbBytes));
+                } catch (ParseException e) {
+                    System.out.println(e.getMessage());
+                }
             }
-
+        } catch(SQLException e) {
+            System.out.println(e.getMessage());
         }
-        catch (SQLException e) {
+        return geometries;
+    }
+
+    private List<Point> getOuterRectangle(List<Geometry> geometries) {
+        // get the LL and UR corner coordinates incl. SRS ID
+
+        List<Point> corners = new ArrayList<>();
+        List<Double> x = new ArrayList<>();
+        List<Double> y = new ArrayList<>();
+        for (Geometry geometry : geometries) {
+            Envelope envelope = geometry.getEnvelopeInternal();
+            x.add(envelope.getMaxX());
+            x.add(envelope.getMinX());
+            y.add(envelope.getMaxY());
+            y.add(envelope.getMinY());
+        }
+        Point ll;
+        // define precision and forward the spatial reference system ID to all geometries
+        GeometryFactory geometryFactory = new GeometryFactory(new PrecisionModel(PrecisionModel.FLOATING), geometries.get(0).getSRID());
+        ll = geometryFactory.createPoint(new Coordinate(Collections.min(x),Collections.min(y)));
+        Point ur;
+        ur = geometryFactory.createPoint(new Coordinate(Collections.max(x),Collections.max(y)));
+        corners.add(ll);
+        corners.add(ur);
+
+        return corners;
+    }
+
+
+    private void getRasterContent(Statement stmt, String tableName) {
+        // get raster geometry and content
+
+        try {
+            ResultSet tableContent = stmt.executeQuery("SELECT tile_data FROM " + tableName);
+        } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
     }
@@ -659,9 +733,9 @@ public class GeopackageMetadata {
     }
 
 
-    public static byte pack(byte[] vals) {
+    public static byte pack(byte[] val) {
         byte result = 0;
-        for (byte bit : vals)
+        for (byte bit : val)
             result = (byte)((result << 1) | (bit & 1));
         return result;
     }
