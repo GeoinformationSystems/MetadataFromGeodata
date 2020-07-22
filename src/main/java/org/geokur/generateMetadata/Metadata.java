@@ -5,8 +5,6 @@
 
 package org.geokur.generateMetadata;
 
-import org.geokur.trimXML.*;
-
 import org.apache.commons.io.output.NullWriter;
 import org.geokur.trimXML.DeleteInterface;
 import org.geokur.trimXML.EmptyFieldsTrimMark;
@@ -35,6 +33,9 @@ public class Metadata {
         // documentVariant: either "all", "marked" or "minimal"
         // writeLogFile: if true a log file with all classes gone through is written
         // writeXMLFile: if true accompanying xml files are written
+
+        // Setting the system-wide default at startup time
+        System.setProperty("org.geotools.referencing.forceXY", "true");
 
         Document doc = new Document();
         Document docMarked = new Document();
@@ -91,6 +92,8 @@ public class Metadata {
                     break;
                 case "shape":
                     // content from shape file
+                    ShapeMetadata shapeConnection = new ShapeMetadata();
+                    content = shapeConnection.getContent(geodataFileName, 0, ns);
                     break;
             }
 

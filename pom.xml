@@ -46,17 +46,17 @@
             <version>${jts.version}</version>
         </dependency>
         <!-- Provides support for shapefiles -->
-        <!-- dependency>
+        <dependency>
             <groupId>org.geotools</groupId>
             <artifactId>gt-shapefile</artifactId>
             <version>${geotools.version}</version>
-        </dependency-->
+        </dependency>
         <!-- Provides support for geopackages-->
-        <!-- dependency>
+        <dependency>
             <groupId>org.geotools</groupId>
             <artifactId>gt-geopkg</artifactId>
             <version>${geotools.version}</version>
-        </dependency-->
+        </dependency>
         <!-- Provides GUI components-->
         <!-- dependency>
             <groupId>org.geotools</groupId>
@@ -64,11 +64,11 @@
             <version>${geotools.version}</version>
         </dependency-->
         <!-- Provides map projections-->
-        <!-- dependency>
+        <dependency>
             <groupId>org.geotools</groupId>
             <artifactId>gt-epsg-hsql</artifactId>
             <version>${geotools.version}</version>
-        </dependency-->
+        </dependency>
         <!-- dependency>
             <groupId>mil.nga.geopackage</groupId>
             <artifactId>geopackage</artifactId>

@@ -602,6 +602,7 @@ public class GeopackageMetadata {
 
     private List<Geometry> getVectorGeometry(Statement stmt, String tableName) {
         // get all vector geometries from a table
+        // using only JTS library
 
         List<Geometry> geometries = new ArrayList<>();
         int position;
