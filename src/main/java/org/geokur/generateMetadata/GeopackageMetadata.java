@@ -5,18 +5,17 @@
 
 package org.geokur.generateMetadata;
 
+import org.geotools.data.simple.SimpleFeatureCollection;
+import org.geotools.data.store.ReprojectingFeatureCollection;
+import org.geotools.referencing.CRS;
 import org.jdom2.Element;
-import org.jdom2.JDOMException;
 import org.jdom2.Namespace;
-import org.jdom2.input.SAXBuilder;
 import org.locationtech.jts.geom.*;
-import org.locationtech.jts.geom.impl.PackedCoordinateSequence;
-import org.locationtech.jts.geom.util.GeometryTransformer;
-import org.locationtech.jts.io.InStream;
 import org.locationtech.jts.io.ParseException;
 import org.locationtech.jts.io.WKBReader;
+import org.opengis.referencing.FactoryException;
 
-import java.io.IOException;
+import java.io.File;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.charset.StandardCharsets;
@@ -49,9 +48,17 @@ public class GeopackageMetadata {
     public List<Element> getContent(String fileName, Integer contentAct, Map<String, Namespace> ns) {
         // read geopackage file and put its metadata into list of elements
 
+        List<Element> content = new ArrayList<>();
+
+        File file = new File(fileName);
+
+        // open geopackage as sqlite database
         GeopackageMetadata gpkg = new GeopackageMetadata();
         Connection connection = gpkg.getConnection(fileName);
         Statement statement = gpkg.getStatement(connection);
+
+        NestedElement nestedElement = new NestedElement();
+        // TODO: get knowledge of shape file handling to geopackage reading
 
         UUID id_DS_Resource = UUID.randomUUID();
         UUID id_has = UUID.randomUUID();
@@ -63,19 +70,18 @@ public class GeopackageMetadata {
         UUID id_CI_Individual = UUID.randomUUID();
         UUID id_name = UUID.randomUUID();
 
-        List<Element> geopackageMeta = new ArrayList<>();
-        geopackageMeta.add(createNestedElement(new String[] {"DS_Resource", "has", "MD_Metadata", "contact", "CI_Responsibility", "role"},
-                new UUID[] {id_DS_Resource, id_has, id_MD_Metadata, id_contact, id_CI_Responsibility, id_role}, "resourceProvider", ns));
-        geopackageMeta.add(createNestedElement(new String[] {"DS_Resource", "has", "MD_Metadata", "contact", "CI_Responsibility", "party", "CI_Individual", "name"},
-                new UUID[] {id_DS_Resource, id_has, id_MD_Metadata, id_contact, id_CI_Responsibility, id_party, id_CI_Individual, id_name}, System.getProperty("user.name"), ns));
+        content.add(nestedElement.create(new String[]{"DS_Resource", "has", "MD_Metadata", "contact", "CI_Responsibility", "role"},
+                new UUID[]{id_DS_Resource, id_has, id_MD_Metadata, id_contact, id_CI_Responsibility, id_role}, "resourceProvider", ns));
+        content.add(nestedElement.create(new String[]{"DS_Resource", "has", "MD_Metadata", "contact", "CI_Responsibility", "party", "CI_Individual", "name"},
+                new UUID[]{id_DS_Resource, id_has, id_MD_Metadata, id_contact, id_CI_Responsibility, id_party, id_CI_Individual, id_name}, System.getProperty("user.name"), ns));
 
         UUID id_metadataIdentifier = UUID.randomUUID();
         UUID id_MD_Identifier = UUID.randomUUID();
         UUID id_code = UUID.randomUUID();
 
         String tableName = gpkg.getTableName(statement, contentAct);
-        geopackageMeta.add(createNestedElement(new String[] {"DS_Resource", "has", "MD_Metadata", "metadataIdentifier", "MD_Identifier", "code"},
-                new UUID[] {id_DS_Resource, id_has, id_MD_Metadata, id_metadataIdentifier, id_MD_Identifier, id_code}, tableName, ns));
+        content.add(nestedElement.create(new String[]{"DS_Resource", "has", "MD_Metadata", "metadataIdentifier", "MD_Identifier", "code"},
+                new UUID[]{id_DS_Resource, id_has, id_MD_Metadata, id_metadataIdentifier, id_MD_Identifier, id_code}, tableName, ns));
 
         UUID id_identificationInfo = UUID.randomUUID();
         UUID id_MD_DataIdentification = UUID.randomUUID();
@@ -84,8 +90,8 @@ public class GeopackageMetadata {
         String dataType = gpkg.getDataType(statement, contentAct);
         switch (dataType) {
             case ("features"):
-                geopackageMeta.add(createNestedElement(new String[] {"DS_Resource", "has", "MD_Metadata", "identificationInfo", "MD_DataIdentification", "spatialRepresentationType"},
-                        new UUID[] {id_DS_Resource, id_has, id_MD_Metadata, id_identificationInfo, id_MD_DataIdentification, id_spatialRepresentationType}, "vector", ns));
+                content.add(nestedElement.create(new String[]{"DS_Resource", "has", "MD_Metadata", "identificationInfo", "MD_DataIdentification", "spatialRepresentationType"},
+                        new UUID[]{id_DS_Resource, id_has, id_MD_Metadata, id_identificationInfo, id_MD_DataIdentification, id_spatialRepresentationType}, "vector", ns));
 
                 // read BLOB content of vector data in geopackage
                 List<Geometry> geometries = gpkg.getVectorGeometry(statement, tableName);
@@ -106,30 +112,30 @@ public class GeopackageMetadata {
                 UUID id_cellGeometry = UUID.randomUUID();
                 UUID id_transformationParameterAvailability = UUID.randomUUID();
 
-                geopackageMeta.add(createNestedElement(new String[] {"DS_Resource", "has", "MD_Metadata", "identificationInfo", "MD_DataIdentification", "spatialRepresentationType"},
-                        new UUID[] {id_DS_Resource, id_has, id_MD_Metadata, id_identificationInfo, id_MD_DataIdentification, id_spatialRepresentationType}, "grid", ns));
-                geopackageMeta.add(createNestedElement(new String[] {"DS_Resource", "has", "MD_Metadata", "spatialRepresentationInfo", "MD_GridSpatialRepresentation", "numberOfDimensions"},
-                        new UUID[] {id_DS_Resource, id_has, id_MD_Metadata, id_spatialRepresentationInfo, id_MD_GridSpatialRepresentation, id_numberOfDimensions}, "2", ns));
-                geopackageMeta.add(createNestedElement(new String[] {"DS_Resource", "has", "MD_Metadata", "spatialRepresentationInfo", "MD_GridSpatialRepresentation", "axisDimensionProperties", "MD_Dimension", "dimensionName"},
-                        new UUID[] {id_DS_Resource, id_has, id_MD_Metadata, id_spatialRepresentationInfo, id_MD_GridSpatialRepresentation, id_axisDimensionProperties, id_MD_DimensionRow, id_dimensionNameRow}, "row", ns));
-                geopackageMeta.add(createNestedElement(new String[] {"DS_Resource", "has", "MD_Metadata", "spatialRepresentationInfo", "MD_GridSpatialRepresentation", "axisDimensionProperties", "MD_Dimension", "dimensionSize"},
-                        new UUID[] {id_DS_Resource, id_has, id_MD_Metadata, id_spatialRepresentationInfo, id_MD_GridSpatialRepresentation, id_axisDimensionProperties, id_MD_DimensionRow, id_dimensionSizeRow}, "39", ns));
-                geopackageMeta.add(createNestedElement(new String[] {"DS_Resource", "has", "MD_Metadata", "spatialRepresentationInfo", "MD_GridSpatialRepresentation", "axisDimensionProperties", "MD_Dimension", "dimensionName"},
-                        new UUID[] {id_DS_Resource, id_has, id_MD_Metadata, id_spatialRepresentationInfo, id_MD_GridSpatialRepresentation, id_axisDimensionProperties, id_MD_DimensionCol, id_dimensionNameCol}, "column", ns));
-                geopackageMeta.add(createNestedElement(new String[] {"DS_Resource", "has", "MD_Metadata", "spatialRepresentationInfo", "MD_GridSpatialRepresentation", "axisDimensionProperties", "MD_Dimension", "dimensionSize"},
-                        new UUID[] {id_DS_Resource, id_has, id_MD_Metadata, id_spatialRepresentationInfo, id_MD_GridSpatialRepresentation, id_axisDimensionProperties, id_MD_DimensionCol, id_dimensionSizeCol}, "41", ns));
-                geopackageMeta.add(createNestedElement(new String[] {"DS_Resource", "has", "MD_Metadata", "spatialRepresentationInfo", "MD_GridSpatialRepresentation", "cellGeometry"},
-                        new UUID[] {id_DS_Resource, id_has, id_MD_Metadata, id_spatialRepresentationInfo, id_MD_GridSpatialRepresentation, id_cellGeometry}, "area", ns));
-                geopackageMeta.add(createNestedElement(new String[] {"DS_Resource", "has", "MD_Metadata", "spatialRepresentationInfo", "MD_GridSpatialRepresentation", "transformationParameterAvailability"},
-                        new UUID[] {id_DS_Resource, id_has, id_MD_Metadata, id_spatialRepresentationInfo, id_MD_GridSpatialRepresentation, id_transformationParameterAvailability}, "0", ns));
+                content.add(nestedElement.create(new String[]{"DS_Resource", "has", "MD_Metadata", "identificationInfo", "MD_DataIdentification", "spatialRepresentationType"},
+                        new UUID[]{id_DS_Resource, id_has, id_MD_Metadata, id_identificationInfo, id_MD_DataIdentification, id_spatialRepresentationType}, "grid", ns));
+                content.add(nestedElement.create(new String[]{"DS_Resource", "has", "MD_Metadata", "spatialRepresentationInfo", "MD_GridSpatialRepresentation", "numberOfDimensions"},
+                        new UUID[]{id_DS_Resource, id_has, id_MD_Metadata, id_spatialRepresentationInfo, id_MD_GridSpatialRepresentation, id_numberOfDimensions}, "2", ns));
+                content.add(nestedElement.create(new String[]{"DS_Resource", "has", "MD_Metadata", "spatialRepresentationInfo", "MD_GridSpatialRepresentation", "axisDimensionProperties", "MD_Dimension", "dimensionName"},
+                        new UUID[]{id_DS_Resource, id_has, id_MD_Metadata, id_spatialRepresentationInfo, id_MD_GridSpatialRepresentation, id_axisDimensionProperties, id_MD_DimensionRow, id_dimensionNameRow}, "row", ns));
+                content.add(nestedElement.create(new String[]{"DS_Resource", "has", "MD_Metadata", "spatialRepresentationInfo", "MD_GridSpatialRepresentation", "axisDimensionProperties", "MD_Dimension", "dimensionSize"},
+                        new UUID[]{id_DS_Resource, id_has, id_MD_Metadata, id_spatialRepresentationInfo, id_MD_GridSpatialRepresentation, id_axisDimensionProperties, id_MD_DimensionRow, id_dimensionSizeRow}, "39", ns));
+                content.add(nestedElement.create(new String[]{"DS_Resource", "has", "MD_Metadata", "spatialRepresentationInfo", "MD_GridSpatialRepresentation", "axisDimensionProperties", "MD_Dimension", "dimensionName"},
+                        new UUID[]{id_DS_Resource, id_has, id_MD_Metadata, id_spatialRepresentationInfo, id_MD_GridSpatialRepresentation, id_axisDimensionProperties, id_MD_DimensionCol, id_dimensionNameCol}, "column", ns));
+                content.add(nestedElement.create(new String[]{"DS_Resource", "has", "MD_Metadata", "spatialRepresentationInfo", "MD_GridSpatialRepresentation", "axisDimensionProperties", "MD_Dimension", "dimensionSize"},
+                        new UUID[]{id_DS_Resource, id_has, id_MD_Metadata, id_spatialRepresentationInfo, id_MD_GridSpatialRepresentation, id_axisDimensionProperties, id_MD_DimensionCol, id_dimensionSizeCol}, "41", ns));
+                content.add(nestedElement.create(new String[]{"DS_Resource", "has", "MD_Metadata", "spatialRepresentationInfo", "MD_GridSpatialRepresentation", "cellGeometry"},
+                        new UUID[]{id_DS_Resource, id_has, id_MD_Metadata, id_spatialRepresentationInfo, id_MD_GridSpatialRepresentation, id_cellGeometry}, "area", ns));
+                content.add(nestedElement.create(new String[]{"DS_Resource", "has", "MD_Metadata", "spatialRepresentationInfo", "MD_GridSpatialRepresentation", "transformationParameterAvailability"},
+                        new UUID[]{id_DS_Resource, id_has, id_MD_Metadata, id_spatialRepresentationInfo, id_MD_GridSpatialRepresentation, id_transformationParameterAvailability}, "0", ns));
                 break;
         }
 
         UUID id_description = UUID.randomUUID();
 
         String description = gpkg.getDescription(statement, contentAct);
-        geopackageMeta.add(createNestedElement(new String[] {"DS_Resource", "has", "MD_Metadata", "metadataIdentifier", "MD_Identifier", "description"},
-                new UUID[] {id_DS_Resource, id_has, id_MD_Metadata, id_metadataIdentifier, id_MD_Identifier, id_description}, description, ns));
+        content.add(nestedElement.create(new String[]{"DS_Resource", "has", "MD_Metadata", "metadataIdentifier", "MD_Identifier", "description"},
+                new UUID[]{id_DS_Resource, id_has, id_MD_Metadata, id_metadataIdentifier, id_MD_Identifier, id_description}, description, ns));
 
         UUID id_dateInfo = UUID.randomUUID();
         UUID id_CI_Date = UUID.randomUUID();
@@ -138,10 +144,10 @@ public class GeopackageMetadata {
         UUID id_DateTime = UUID.randomUUID();
 
         Instant lastChange = gpkg.getLastChange(statement, contentAct); // ISO 8601 date
-        geopackageMeta.add(createNestedElement(new String[] {"DS_Resource", "has", "MD_Metadata", "dateInfo", "CI_Date", "dateType"},
-                new UUID[] {id_DS_Resource, id_has, id_MD_Metadata, id_dateInfo, id_CI_Date, id_dateType}, "creation", ns));
-        geopackageMeta.add(createNestedElement(new String[] {"DS_Resource", "has", "MD_Metadata", "dateInfo", "CI_Date", "date", "DateTime"},
-                new UUID[] {id_DS_Resource, id_has, id_MD_Metadata, id_dateInfo, id_CI_Date, id_date, id_DateTime}, lastChange.toString(), ns));
+        content.add(nestedElement.create(new String[]{"DS_Resource", "has", "MD_Metadata", "dateInfo", "CI_Date", "dateType"},
+                new UUID[]{id_DS_Resource, id_has, id_MD_Metadata, id_dateInfo, id_CI_Date, id_dateType}, "creation", ns));
+        content.add(nestedElement.create(new String[]{"DS_Resource", "has", "MD_Metadata", "dateInfo", "CI_Date", "date", "DateTime"},
+                new UUID[]{id_DS_Resource, id_has, id_MD_Metadata, id_dateInfo, id_CI_Date, id_date, id_DateTime}, lastChange.toString(), ns));
 
         UUID id_extent = UUID.randomUUID();
         UUID id_EX_Extent = UUID.randomUUID();
@@ -153,14 +159,14 @@ public class GeopackageMetadata {
         UUID id_northBoundLatitude = UUID.randomUUID();
 
         Integer[] extent = gpkg.getExtent(statement, contentAct);
-        geopackageMeta.add(createNestedElement(new String[] {"DS_Resource", "has", "MD_Metadata", "identificationInfo", "MD_DataIdentification", "extent", "EX_Extent", "geographicElement", "EX_GeographicBoundingBox", "westBoundLongitude"},
-                new UUID[] {id_DS_Resource, id_has, id_MD_Metadata, id_identificationInfo, id_MD_DataIdentification, id_extent, id_EX_Extent, id_geographicElement, id_EX_GeographicBoundingBox, id_westBoundLongitude}, extent[0].toString(), ns));
-        geopackageMeta.add(createNestedElement(new String[] {"DS_Resource", "has", "MD_Metadata", "identificationInfo", "MD_DataIdentification", "extent", "EX_Extent", "geographicElement", "EX_GeographicBoundingBox", "eastBoundLongitude"},
-                new UUID[] {id_DS_Resource, id_has, id_MD_Metadata, id_identificationInfo, id_MD_DataIdentification, id_extent, id_EX_Extent, id_geographicElement, id_EX_GeographicBoundingBox, id_eastBoundLongitude}, extent[1].toString(), ns));
-        geopackageMeta.add(createNestedElement(new String[] {"DS_Resource", "has", "MD_Metadata", "identificationInfo", "MD_DataIdentification", "extent", "EX_Extent", "geographicElement", "EX_GeographicBoundingBox", "southBoundLatitude"},
-                new UUID[] {id_DS_Resource, id_has, id_MD_Metadata, id_identificationInfo, id_MD_DataIdentification, id_extent, id_EX_Extent, id_geographicElement, id_EX_GeographicBoundingBox, id_southBoundLatitude}, extent[2].toString(), ns));
-        geopackageMeta.add(createNestedElement(new String[] {"DS_Resource", "has", "MD_Metadata", "identificationInfo", "MD_DataIdentification", "extent", "EX_Extent", "geographicElement", "EX_GeographicBoundingBox", "northBoundLatitude"},
-                new UUID[] {id_DS_Resource, id_has, id_MD_Metadata, id_identificationInfo, id_MD_DataIdentification, id_extent, id_EX_Extent, id_geographicElement, id_EX_GeographicBoundingBox, id_northBoundLatitude}, extent[3].toString(), ns));
+        content.add(nestedElement.create(new String[]{"DS_Resource", "has", "MD_Metadata", "identificationInfo", "MD_DataIdentification", "extent", "EX_Extent", "geographicElement", "EX_GeographicBoundingBox", "westBoundLongitude"},
+                new UUID[]{id_DS_Resource, id_has, id_MD_Metadata, id_identificationInfo, id_MD_DataIdentification, id_extent, id_EX_Extent, id_geographicElement, id_EX_GeographicBoundingBox, id_westBoundLongitude}, extent[0].toString(), ns));
+        content.add(nestedElement.create(new String[]{"DS_Resource", "has", "MD_Metadata", "identificationInfo", "MD_DataIdentification", "extent", "EX_Extent", "geographicElement", "EX_GeographicBoundingBox", "eastBoundLongitude"},
+                new UUID[]{id_DS_Resource, id_has, id_MD_Metadata, id_identificationInfo, id_MD_DataIdentification, id_extent, id_EX_Extent, id_geographicElement, id_EX_GeographicBoundingBox, id_eastBoundLongitude}, extent[1].toString(), ns));
+        content.add(nestedElement.create(new String[]{"DS_Resource", "has", "MD_Metadata", "identificationInfo", "MD_DataIdentification", "extent", "EX_Extent", "geographicElement", "EX_GeographicBoundingBox", "southBoundLatitude"},
+                new UUID[]{id_DS_Resource, id_has, id_MD_Metadata, id_identificationInfo, id_MD_DataIdentification, id_extent, id_EX_Extent, id_geographicElement, id_EX_GeographicBoundingBox, id_southBoundLatitude}, extent[2].toString(), ns));
+        content.add(nestedElement.create(new String[]{"DS_Resource", "has", "MD_Metadata", "identificationInfo", "MD_DataIdentification", "extent", "EX_Extent", "geographicElement", "EX_GeographicBoundingBox", "northBoundLatitude"},
+                new UUID[]{id_DS_Resource, id_has, id_MD_Metadata, id_identificationInfo, id_MD_DataIdentification, id_extent, id_EX_Extent, id_geographicElement, id_EX_GeographicBoundingBox, id_northBoundLatitude}, extent[3].toString(), ns));
 
         UUID id_referenceSystemInfo = UUID.randomUUID();
         UUID id_MD_ReferenceSystem = UUID.randomUUID();
@@ -172,140 +178,32 @@ public class GeopackageMetadata {
         Integer srsID = gpkg.getSRSID(statement, contentAct);
         String srsOrganization = gpkg.getSRSOrganization(statement, srsID);
         Integer srsOrganizationCoordsysID = gpkg.getSRSOrganizationCoordsysID(statement, srsID);
-        geopackageMeta.add(createNestedElement(new String[] {"DS_Resource", "has", "MD_Metadata", "referenceSystemInfo", "MD_ReferenceSystem", "referenceSystemIdentifier", "MD_Identifier", "code"},
-                new UUID[] {id_DS_Resource, id_has, id_MD_Metadata, id_referenceSystemInfo, id_MD_ReferenceSystem, id_referenceSystemIdentifier, id_MD_IdentifierSRS, id_codeSRS}, srsOrganization + "::" + srsOrganizationCoordsysID, ns));
-        geopackageMeta.add(createNestedElement(new String[] {"DS_Resource", "has", "MD_Metadata", "referenceSystemInfo", "MD_ReferenceSystem", "referenceSystemIdentifier", "MD_Identifier", "codeSpace"},
-                new UUID[] {id_DS_Resource, id_has, id_MD_Metadata, id_referenceSystemInfo, id_MD_ReferenceSystem, id_referenceSystemIdentifier, id_MD_IdentifierSRS, id_codeSpaceSRS}, srsOrganization, ns));
+        content.add(nestedElement.create(new String[]{"DS_Resource", "has", "MD_Metadata", "referenceSystemInfo", "MD_ReferenceSystem", "referenceSystemIdentifier", "MD_Identifier", "code"},
+                new UUID[]{id_DS_Resource, id_has, id_MD_Metadata, id_referenceSystemInfo, id_MD_ReferenceSystem, id_referenceSystemIdentifier, id_MD_IdentifierSRS, id_codeSRS}, srsOrganization + "::" + srsOrganizationCoordsysID, ns));
+        content.add(nestedElement.create(new String[]{"DS_Resource", "has", "MD_Metadata", "referenceSystemInfo", "MD_ReferenceSystem", "referenceSystemIdentifier", "MD_Identifier", "codeSpace"},
+                new UUID[]{id_DS_Resource, id_has, id_MD_Metadata, id_referenceSystemInfo, id_MD_ReferenceSystem, id_referenceSystemIdentifier, id_MD_IdentifierSRS, id_codeSpaceSRS}, srsOrganization, ns));
 
         UUID id_descriptionSRS = UUID.randomUUID();
 
         String srsName = gpkg.getSRSName(statement, srsID);
-        geopackageMeta.add(createNestedElement(new String[] {"DS_Resource", "has", "MD_Metadata", "referenceSystemInfo", "MD_ReferenceSystem", "referenceSystemIdentifier", "MD_Identifier", "description"},
-                new UUID[] {id_DS_Resource, id_has, id_MD_Metadata, id_referenceSystemInfo, id_MD_ReferenceSystem, id_referenceSystemIdentifier, id_MD_IdentifierSRS, id_descriptionSRS}, srsName, ns));
+        content.add(nestedElement.create(new String[]{"DS_Resource", "has", "MD_Metadata", "referenceSystemInfo", "MD_ReferenceSystem", "referenceSystemIdentifier", "MD_Identifier", "description"},
+                new UUID[]{id_DS_Resource, id_has, id_MD_Metadata, id_referenceSystemInfo, id_MD_ReferenceSystem, id_referenceSystemIdentifier, id_MD_IdentifierSRS, id_descriptionSRS}, srsName, ns));
 
+        return content;
 
-
-
-        return geopackageMeta;
-
-        // code for building a complete tree with all available metadata fields included
-        // get one content of a geopackage and build a DOM with metadata according to ISO 19115
-//        UUID id_root = UUID.randomUUID();
-//        Element geopackageStructure = new Element("root");
-//        geopackageStructure.setAttribute("UUID", id_root.toString());
-
-//        geopackageStructure = complementNestedElement(geopackageStructure, new String[] {"root", "DS_Resource", "has", "MD_Metadata", "contact", "CI_Responsibility", "role"},
-//                new UUID[] {id_root, id_DS_Resource, id_has, id_MD_Metadata, id_contact, id_CI_Responsibility, id_role}, "resourceProvider");
-//        geopackageStructure = complementNestedElement(geopackageStructure, new String[] {"root", "DS_Resource", "has", "MD_Metadata", "contact", "CI_Responsibility", "party", "CI_Individual", "name"},
-//                new UUID[] {id_root, id_DS_Resource, id_has, id_MD_Metadata, id_contact, id_CI_Responsibility, id_party, id_CI_Individual, id_name}, System.getProperty("user.name"));
-//        geopackageStructure = complementNestedElement(geopackageStructure, new String[] {"root", "DS_Resource", "has", "MD_Metadata", "metadataIdentifier", "MD_Identifier", "code"},
-//                new UUID[] {id_root, id_DS_Resource, id_has, id_MD_Metadata, id_metadataIdentifier, id_MD_Identifier, id_code}, tableName);
-//                geopackageStructure = complementNestedElement(geopackageStructure, new String[] {"root", "DS_Resource", "has", "MD_Metadata", "identificationInfo", "MD_DataIdentification", "spatialRepresentationType"},
-//                        new UUID[] {id_root, id_DS_Resource, id_has, id_MD_Metadata, id_identificationInfo, id_MD_DataIdentification, id_spatialRepresentationType}, "vector");
-//                geopackageStructure = complementNestedElement(geopackageStructure, new String[] {"root", "DS_Resource", "has", "MD_Metadata", "identificationInfo", "MD_DataIdentification", "spatialRepresentationType"},
-//                        new UUID[] {id_root, id_DS_Resource, id_has, id_MD_Metadata, id_identificationInfo, id_MD_DataIdentification, id_spatialRepresentationType}, "grid");
-//                geopackageStructure = complementNestedElement(geopackageStructure, new String[] {"root", "DS_Resource", "has", "MD_Metadata", "spatialRepresentationInfo", "MD_GridSpatialRepresentation", "numberOfDimensions"},
-//                        new UUID[] {id_root, id_DS_Resource, id_has, id_MD_Metadata, id_spatialRepresentationInfo, id_MD_GridSpatialRepresentation, id_numberOfDimensions}, "2");
-//                geopackageStructure = complementNestedElement(geopackageStructure, new String[] {"root", "DS_Resource", "has", "MD_Metadata", "spatialRepresentationInfo", "MD_GridSpatialRepresentation", "axisDimensionProperties", "MD_Dimension", "dimensionName"},
-//                        new UUID[] {id_root, id_DS_Resource, id_has, id_MD_Metadata, id_spatialRepresentationInfo, id_MD_GridSpatialRepresentation, id_axisDimensionProperties, id_MD_DimensionRow, id_dimensionNameRow}, "row");
-//                geopackageStructure = complementNestedElement(geopackageStructure, new String[] {"root", "DS_Resource", "has", "MD_Metadata", "spatialRepresentationInfo", "MD_GridSpatialRepresentation", "axisDimensionProperties", "MD_Dimension", "dimensionSize"},
-//                        new UUID[] {id_root, id_DS_Resource, id_has, id_MD_Metadata, id_spatialRepresentationInfo, id_MD_GridSpatialRepresentation, id_axisDimensionProperties, id_MD_DimensionRow, id_dimensionSizeRow}, "39");
-//                geopackageStructure = complementNestedElement(geopackageStructure, new String[] {"root", "DS_Resource", "has", "MD_Metadata", "spatialRepresentationInfo", "MD_GridSpatialRepresentation", "axisDimensionProperties", "MD_Dimension", "dimensionName"},
-//                        new UUID[] {id_root, id_DS_Resource, id_has, id_MD_Metadata, id_spatialRepresentationInfo, id_MD_GridSpatialRepresentation, id_axisDimensionProperties, id_MD_DimensionCol, id_dimensionNameCol}, "column");
-//                geopackageStructure = complementNestedElement(geopackageStructure, new String[] {"root", "DS_Resource", "has", "MD_Metadata", "spatialRepresentationInfo", "MD_GridSpatialRepresentation", "axisDimensionProperties", "MD_Dimension", "dimensionSize"},
-//                        new UUID[] {id_root, id_DS_Resource, id_has, id_MD_Metadata, id_spatialRepresentationInfo, id_MD_GridSpatialRepresentation, id_axisDimensionProperties, id_MD_DimensionRow, id_dimensionSizeCol}, "41");
-//                geopackageStructure = complementNestedElement(geopackageStructure, new String[] {"root", "DS_Resource", "has", "MD_Metadata", "spatialRepresentationInfo", "MD_GridSpatialRepresentation", "cellGeometry"},
-//                        new UUID[] {id_root, id_DS_Resource, id_has, id_MD_Metadata, id_spatialRepresentationInfo, id_MD_GridSpatialRepresentation, id_cellGeometry}, "area");
-//                geopackageStructure = complementNestedElement(geopackageStructure, new String[] {"root", "DS_Resource", "has", "MD_Metadata", "spatialRepresentationInfo", "MD_GridSpatialRepresentation", "transformationParameterAvailability"},
-//                        new UUID[] {id_root, id_DS_Resource, id_has, id_MD_Metadata, id_spatialRepresentationInfo, id_MD_GridSpatialRepresentation, id_transformationParameterAvailability}, "0");
-//        geopackageStructure = complementNestedElement(geopackageStructure, new String[] {"root", "DS_Resource", "has", "MD_Metadata", "metadataIdentifier", "MD_Identifier", "description"},
-//                new UUID[] {id_root, id_DS_Resource, id_has, id_MD_Metadata, id_metadataIdentifier, id_MD_Identifier, id_description}, description);
-//        geopackageStructure = complementNestedElement(geopackageStructure, new String[] {"root", "DS_Resource", "has", "MD_Metadata", "dateInfo", "CI_Date", "dateType"},
-//                new UUID[] {id_root, id_DS_Resource, id_has, id_MD_Metadata, id_dateInfo, id_CI_Date, id_dateType}, "creation");
-//        geopackageStructure = complementNestedElement(geopackageStructure, new String[] {"root", "DS_Resource", "has", "MD_Metadata", "dateInfo", "CI_Date", "date", "DateTime"},
-//                new UUID[] {id_root, id_DS_Resource, id_has, id_MD_Metadata, id_dateInfo, id_CI_Date, id_date, id_DateTime}, lastChange.toString());
-//        geopackageStructure = complementNestedElement(geopackageStructure, new String[] {"root", "DS_Resource", "has", "MD_Metadata", "identificationInfo", "MD_DataIdentification", "extent", "EX_Extent", "geographicElement", "EX_GeographicBoundingBox", "westBoundLongitude"},
-//                new UUID[] {id_root, id_DS_Resource, id_has, id_MD_Metadata, id_identificationInfo, id_MD_DataIdentification, id_extent, id_EX_Extent, id_geographicElement, id_EX_GeographicBoundingBox, id_westBoundLongitude}, extent[0].toString());
-//        geopackageStructure = complementNestedElement(geopackageStructure, new String[] {"root", "DS_Resource", "has", "MD_Metadata", "identificationInfo", "MD_DataIdentification", "extent", "EX_Extent", "geographicElement", "EX_GeographicBoundingBox", "eastBoundLongitude"},
-//                new UUID[] {id_root, id_DS_Resource, id_has, id_MD_Metadata, id_identificationInfo, id_MD_DataIdentification, id_extent, id_EX_Extent, id_geographicElement, id_EX_GeographicBoundingBox, id_eastBoundLongitude}, extent[1].toString());
-//        geopackageStructure = complementNestedElement(geopackageStructure, new String[] {"root", "DS_Resource", "has", "MD_Metadata", "identificationInfo", "MD_DataIdentification", "extent", "EX_Extent", "geographicElement", "EX_GeographicBoundingBox", "southBoundLatitude"},
-//                new UUID[] {id_root, id_DS_Resource, id_has, id_MD_Metadata, id_identificationInfo, id_MD_DataIdentification, id_extent, id_EX_Extent, id_geographicElement, id_EX_GeographicBoundingBox, id_southBoundLatitude}, extent[2].toString());
-//        geopackageStructure = complementNestedElement(geopackageStructure, new String[] {"root", "DS_Resource", "has", "MD_Metadata", "identificationInfo", "MD_DataIdentification", "extent", "EX_Extent", "geographicElement", "EX_GeographicBoundingBox", "northBoundLatitude"},
-//                new UUID[] {id_root, id_DS_Resource, id_has, id_MD_Metadata, id_identificationInfo, id_MD_DataIdentification, id_extent, id_EX_Extent, id_geographicElement, id_EX_GeographicBoundingBox, id_northBoundLatitude}, extent[3].toString());
-//        geopackageStructure = complementNestedElement(geopackageStructure, new String[] {"root", "DS_Resource", "has", "MD_Metadata", "referenceSystemInfo", "MD_ReferenceSystem", "referenceSystemIdentifier", "MD_Identifier", "code"},
-//                new UUID[] {id_root, id_DS_Resource, id_has, id_MD_Metadata, id_referenceSystemInfo, id_MD_ReferenceSystem, id_referenceSystemIdentifier, id_MD_IdentifierSRS, id_codeSRS}, srsOrganization + "::" + srsOrganizationCoordsysID);
-//        geopackageStructure = complementNestedElement(geopackageStructure, new String[] {"root", "DS_Resource", "has", "MD_Metadata", "referenceSystemInfo", "MD_ReferenceSystem", "referenceSystemIdentifier", "MD_Identifier", "codeSpace"},
-//                new UUID[] {id_root, id_DS_Resource, id_has, id_MD_Metadata, id_referenceSystemInfo, id_MD_ReferenceSystem, id_referenceSystemIdentifier, id_MD_IdentifierSRS, id_codeSpaceSRS}, srsOrganization);
-//        geopackageStructure = complementNestedElement(geopackageStructure, new String[] {"root", "DS_Resource", "has", "MD_Metadata", "referenceSystemInfo", "MD_ReferenceSystem", "referenceSystemIdentifier", "MD_Identifier", "description"},
-//                new UUID[] {id_root, id_DS_Resource, id_has, id_MD_Metadata, id_referenceSystemInfo, id_MD_ReferenceSystem, id_referenceSystemIdentifier, id_MD_IdentifierSRS, id_descriptionSRS}, srsName);
-
-//        return geopackageStructure;
     }
 
-    private Element createNestedElement(String[] nameChain, UUID[] idChain, String value, Map<String, Namespace> ns) {
-        // creation of one metadata entry (whole nested chain to be included in overall metadata using ComplementNestedElement)
-        int nameChainLength = nameChain.length;
+    private SimpleFeatureCollection project(SimpleFeatureCollection collection, String epsgIdentifier) {
+        // reprojecting SimpleFeatureCollection to desired EPSG Identifier
+        // epsgIdentifier is given in the form "epsg:4326" (or any other valid ID)
 
-        // get all namespaces from nameChain from original config files
-        // additional add information about obligation and occurrence
-        List<Namespace> namespaceList = new ArrayList<>();
-        List<String> obligation = new ArrayList<>();
-        List<String> occurrence = new ArrayList<>();
-        String configFile;
-        Element configRootElement = null;
-        String configRootNamespace = null;
-
-        obligation.add("M"); // fill first entry for DS_Resource (not in files explicitly given)
-        occurrence.add("1");
-
-        for (int i = 0; i < java.lang.Math.floor((double) nameChainLength/2); i++) {
-            configFile = "config/config_" + nameChain[i*2] + ".xml";
-            try {
-                configRootElement = new SAXBuilder().build(configFile).getRootElement();
-            }
-            catch (JDOMException | IOException e) {
-                System.out.println(e.getMessage());
-            }
-
-            if (configRootElement != null) {
-                configRootNamespace = configRootElement.getAttributeValue("namespace");
-                List<Element> configRootChildren = configRootElement.getChildren("element");
-                List<String> obligationOccurrence = getObligationOccurrence(configRootChildren, nameChain[2*i + 1]);
-
-                obligation.add(obligationOccurrence.get(0)); // two times because subelements of classes have the same obligation and occurrence as the class itself
-                obligation.add(obligationOccurrence.get(0));
-                occurrence.add(obligationOccurrence.get(1));
-                occurrence.add(obligationOccurrence.get(1));
-            }
-
-            namespaceList.add(ns.get(configRootNamespace)); // two times because subelements of classes have the same namespace as the class itself
-            namespaceList.add(ns.get(configRootNamespace));
+        SimpleFeatureCollection outCollection = null;
+        try {
+            outCollection = new ReprojectingFeatureCollection(collection, CRS.decode(epsgIdentifier));
+        } catch(FactoryException e) {
+            System.out.println(e.getMessage());
         }
-        if (namespaceList.size()==nameChainLength-1) {
-            // add one last element - uneven lengths occur in case of codelists and enumerations -> hard coded namespace xs
-            namespaceList.add(ns.get("xs"));
-        }
-
-        // build element chain with particular metadata
-        Element element = new Element(nameChain[nameChainLength - 1]);
-        element.setNamespace(namespaceList.get(nameChainLength - 1));
-        element.addContent(value);
-        element.setAttribute("obligation", obligation.get(nameChainLength - 1));
-        element.setAttribute("occurrence", occurrence.get(nameChainLength - 1));
-        element.setAttribute("UUID", idChain[nameChainLength - 1].toString());
-        Element elementTmp;
-        for (int i = nameChainLength - 2; i >= 0; i--) {
-            elementTmp = element;
-            element.removeChild(nameChain[i + 1]);
-            element = new Element(nameChain[i]);
-            element.setNamespace(namespaceList.get(i));
-            element.addContent(elementTmp);
-            element.setAttribute("obligation", obligation.get(i));
-            element.setAttribute("occurrence", occurrence.get(i));
-            element.setAttribute("UUID", idChain[i].toString());
-        }
-
-        return element;
+        return outCollection;
     }
 
     private List<String> getObligationOccurrence(List<Element> inElement, String inElementName) {
@@ -325,40 +223,6 @@ public class GeopackageMetadata {
 
         return obligationOccurrence;
     }
-
-    private Element complementNestedElement(Element nestedElement, String[] nameChain, UUID[] idChain, String value, Map<String, Namespace> ns) {
-        // create actual metadata and add to overall structure in nested elements (DOM)
-        int nameChainLength = nameChain.length;
-        Element complementElementTmp = createNestedElement(nameChain, idChain, value, ns);
-        for (int i = 1; i < nameChainLength; i++) {
-            if (nestedElement.getChild(nameChain[i])==null) {
-                // the actual element is not available -> stop here and complement element
-                nestedElement.addContent(complementElementTmp.getChild(nameChain[i]).clone());
-
-                while (!(nestedElement.getParent()==null)) {
-                    nestedElement = nestedElement.getParentElement();
-                }
-                break;
-            }
-            else if (!nestedElement.getChild(nameChain[i]).getAttributeValue("UUID").equals(idChain[i].toString())) {
-                // the actual element is available, but with a wrong UUID -> stop here and complement element
-                nestedElement.addContent(complementElementTmp.getChild(nameChain[i]).clone());
-
-                while (!(nestedElement.getParent()==null)) {
-                    nestedElement = nestedElement.getParentElement();
-                }
-                break;
-            }
-            else {
-                // the actual element with the correct UUID is available -> dive into child
-                complementElementTmp = complementElementTmp.getChild(nameChain[i]);
-                nestedElement = nestedElement.getChild(nameChain[i]);
-            }
-        }
-
-        return nestedElement;
-    }
-
 
     private Connection getConnection(String fileName) {
         Connection connection = null;
@@ -716,6 +580,7 @@ public class GeopackageMetadata {
 
     private void getRasterContent(Statement stmt, String tableName) {
         // get raster geometry and content
+        // TODO: reading geopackage raster data (tiles) for getting additional metadata
 
         try {
             ResultSet tableContent = stmt.executeQuery("SELECT tile_data FROM " + tableName);

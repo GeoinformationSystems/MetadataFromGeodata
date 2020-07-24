@@ -17,14 +17,7 @@ public class MetadataMain {
         boolean writeLogFile = false;
         boolean writeXMLFile = true;
 
-        System.out.println("-----------------");
-        System.out.println("Generate Metadata");
-        System.out.println("-----------------");
-        System.out.println("File chosen: " + fileName);
-        System.out.println("Write log file: " + writeLogFile);
-        System.out.println();
-
-        Metadata tmp = new Metadata();
-        Document doc = tmp.create(fileName, documentVariant, writeLogFile, writeXMLFile);
+        Metadata metadata = new Metadata();
+        Document doc = metadata.create(fileName, documentVariant, writeLogFile, writeXMLFile);
     }
 }

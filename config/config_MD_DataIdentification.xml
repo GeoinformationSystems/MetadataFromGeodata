@@ -186,7 +186,7 @@
         <occurrence>1</occurrence>
         <configFile></configFile>
         <namespace>mri</namespace>
-        <used>false</used>
+        <used>true</used>
     </element>
     <element>
         <name>supplementalInformation</name>

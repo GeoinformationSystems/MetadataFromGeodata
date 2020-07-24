@@ -84,6 +84,41 @@ public class NestedElement {
         return element;
     }
 
+    public Element complementNestedElement(Element nestedElement, String[] nameChain, UUID[] idChain, String value, Map<String, Namespace> ns) {
+        // create actual metadata and add to overall structure in nested elements (DOM)
+        
+        int nameChainLength = nameChain.length;
+        NestedElement nestedElementHere = new NestedElement();
+        Element complementElementTmp = nestedElementHere.create(nameChain, idChain, value, ns);
+        for (int i = 1; i < nameChainLength; i++) {
+            if (nestedElement.getChild(nameChain[i])==null) {
+                // the actual element is not available -> stop here and complement element
+                nestedElement.addContent(complementElementTmp.getChild(nameChain[i]).clone());
+
+                while (!(nestedElement.getParent()==null)) {
+                    nestedElement = nestedElement.getParentElement();
+                }
+                break;
+            }
+            else if (!nestedElement.getChild(nameChain[i]).getAttributeValue("UUID").equals(idChain[i].toString())) {
+                // the actual element is available, but with a wrong UUID -> stop here and complement element
+                nestedElement.addContent(complementElementTmp.getChild(nameChain[i]).clone());
+
+                while (!(nestedElement.getParent()==null)) {
+                    nestedElement = nestedElement.getParentElement();
+                }
+                break;
+            }
+            else {
+                // the actual element with the correct UUID is available -> dive into child
+                complementElementTmp = complementElementTmp.getChild(nameChain[i]);
+                nestedElement = nestedElement.getChild(nameChain[i]);
+            }
+        }
+
+        return nestedElement;
+    }
+
     private List<String> getObligationOccurrence(List<Element> inElement, String inElementName) {
         // get obligation and occurrence properties of a particular element in a list
         List<String> obligationOccurrence = new ArrayList<>();
