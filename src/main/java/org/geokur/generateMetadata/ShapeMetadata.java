@@ -140,6 +140,7 @@ public class ShapeMetadata {
             UUID id_codeSpaceCRS = UUID.randomUUID();
             UUID id_descriptionCRS = UUID.randomUUID();
 
+            // find correct epsg code for existing data
             String authority = "EPSG";
             String srcCRSepsg;
             if (markerTransform) {
@@ -156,6 +157,7 @@ public class ShapeMetadata {
                 for (String supportedCode : supportedCodes) {
                     ct++;
                     if (!supportedCode.matches("[0-9]+")) {
+                        // only interpret numerical epsg codes (the first supported code might be WGS84 as text)
                         continue;
                     }
                     if ((ct % (supportedCodes.size() / 10)) == 0) {
