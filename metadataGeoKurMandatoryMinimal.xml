@@ -1,88 +1,258 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<mda:DS_Resource xmlns:mda="http://standards.iso.org/iso/19115/-3/mda/1.0" xmlns:cat="http://standards.iso.org/iso/19115/-3/cat/1.0" xmlns:cit="http://standards.iso.org/iso/19115/-3/cit/1.0" xmlns:dqc="http://standards.iso.org/iso/19157/-2/dqc/1.0" xmlns:dqm="http://standards.iso.org/iso/19157/-2/dqm/1.0" xmlns:gco="http://standards.iso.org/iso/19115/-3/gco/1.0" xmlns:gcx="http://standards.iso.org/iso/19115/-3/gcx/1.0" xmlns:gex="http://standards.iso.org/iso/19115/-3/gex/1.0" xmlns:gmw="http://standards.iso.org/iso/19115/-3/gmw/1.0" xmlns:lan="http://standards.iso.org/iso/19115/-3/lan/1.0" xmlns:mac="http://standards.iso.org/iso/19115/-3/mac/1.0" xmlns:mas="http://standards.iso.org/iso/19115/-3/mas/1.0" xmlns:mcc="http://standards.iso.org/iso/19115/-3/mcc/1.0" xmlns:mco="http://standards.iso.org/iso/19115/-3/mco/1.0" xmlns:md1="http://standards.iso.org/iso/19115/-3/md1/1.0" xmlns:md2="http://standards.iso.org/iso/19115/-3/md2/1.0" xmlns:mdb="http://standards.iso.org/iso/19115/-3/mdb/1.0" xmlns:mdq="http://standards.iso.org/iso/19157/-2/mdq/1.0" xmlns:mds="http://standards.iso.org/iso/19115/-3/mds/1.0" xmlns:mdt="http://standards.iso.org/iso/19115/-3/mdt/1.0" xmlns:mex="http://standards.iso.org/iso/19115/-3/mex/1.0" xmlns:mmi="http://standards.iso.org/iso/19115/-3/mmi/1.0" xmlns:mpc="http://standards.iso.org/iso/19115/-3/mpc/1.0" xmlns:mrc="http://standards.iso.org/iso/19115/-3/mrc/1.0" xmlns:mrd="http://standards.iso.org/iso/19115/-3/mrd/1.0" xmlns:mri="http://standards.iso.org/iso/19115/-3/mri/1.0" xmlns:mrl="http://standards.iso.org/iso/19115/-3/mrl/1.0" xmlns:mrs="http://standards.iso.org/iso/19115/-3/mrs/1.0" xmlns:msr="http://standards.iso.org/iso/19115/-3/msr/1.0" xmlns:srv="http://standards.iso.org/iso/19115/-3/srv/2.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" obligation="M" occurrence="1" UUID="5a4f542d-ffa9-4c70-adc4-774e6f6b4f2f">
-  <mda:has obligation="M" occurrence="N" UUID="30d7feb0-d48e-47e4-a313-9e632c242b46">
-    <mdb:MD_Metadata obligation="M" occurrence="N" UUID="cf6e0e6e-1c13-47a5-ab67-68adfd8da647">
-      <mdb:metadataIdentifier obligation="O" occurrence="1" UUID="1b11ffba-cc55-4a16-b2eb-59cdab9842f7">
-        <mcc:MD_Identifier obligation="O" occurrence="1" UUID="3809f614-6573-4d76-a691-3acada4b0f39">
-          <mcc:code obligation="M" occurrence="1" UUID="83abf8d1-1459-476c-a559-3d241a555095">TestLines</mcc:code>
+<mda:DS_Resource xmlns:mda="http://standards.iso.org/iso/19115/-3/mda/1.0" xmlns:cat="http://standards.iso.org/iso/19115/-3/cat/1.0" xmlns:cit="http://standards.iso.org/iso/19115/-3/cit/1.0" xmlns:dqc="http://standards.iso.org/iso/19157/-2/dqc/1.0" xmlns:dqm="http://standards.iso.org/iso/19157/-2/dqm/1.0" xmlns:gco="http://standards.iso.org/iso/19115/-3/gco/1.0" xmlns:gcx="http://standards.iso.org/iso/19115/-3/gcx/1.0" xmlns:gex="http://standards.iso.org/iso/19115/-3/gex/1.0" xmlns:gmw="http://standards.iso.org/iso/19115/-3/gmw/1.0" xmlns:lan="http://standards.iso.org/iso/19115/-3/lan/1.0" xmlns:mac="http://standards.iso.org/iso/19115/-3/mac/1.0" xmlns:mas="http://standards.iso.org/iso/19115/-3/mas/1.0" xmlns:mcc="http://standards.iso.org/iso/19115/-3/mcc/1.0" xmlns:mco="http://standards.iso.org/iso/19115/-3/mco/1.0" xmlns:md1="http://standards.iso.org/iso/19115/-3/md1/1.0" xmlns:md2="http://standards.iso.org/iso/19115/-3/md2/1.0" xmlns:mdb="http://standards.iso.org/iso/19115/-3/mdb/1.0" xmlns:mdq="http://standards.iso.org/iso/19157/-2/mdq/1.0" xmlns:mds="http://standards.iso.org/iso/19115/-3/mds/1.0" xmlns:mdt="http://standards.iso.org/iso/19115/-3/mdt/1.0" xmlns:mex="http://standards.iso.org/iso/19115/-3/mex/1.0" xmlns:mmi="http://standards.iso.org/iso/19115/-3/mmi/1.0" xmlns:mpc="http://standards.iso.org/iso/19115/-3/mpc/1.0" xmlns:mrc="http://standards.iso.org/iso/19115/-3/mrc/1.0" xmlns:mrd="http://standards.iso.org/iso/19115/-3/mrd/1.0" xmlns:mri="http://standards.iso.org/iso/19115/-3/mri/1.0" xmlns:mrl="http://standards.iso.org/iso/19115/-3/mrl/1.0" xmlns:mrs="http://standards.iso.org/iso/19115/-3/mrs/1.0" xmlns:msr="http://standards.iso.org/iso/19115/-3/msr/1.0" xmlns:srv="http://standards.iso.org/iso/19115/-3/srv/2.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" obligation="M" occurrence="1" UUID="233e781e-bd2d-4af9-9db6-e1de9d089ea4">
+  <mda:has obligation="M" occurrence="N" UUID="e5e8e732-b87d-4989-a14d-74c52e273509">
+    <mdb:MD_Metadata obligation="M" occurrence="N" UUID="c8693c5b-7afa-4d92-9712-8230da208599">
+      <mdb:metadataIdentifier obligation="O" occurrence="1" UUID="f4306031-82a9-48fe-8f9b-db7407f55766">
+        <mcc:MD_Identifier obligation="O" occurrence="1" UUID="de4b7c11-f7a4-400d-8663-404f613ec764">
+          <mcc:code obligation="M" occurrence="1" UUID="1dd4ba5a-ff09-4d5c-b7f6-63af582ee941">level_1</mcc:code>
         </mcc:MD_Identifier>
       </mdb:metadataIdentifier>
-      <mdb:contact obligation="M" occurrence="N" UUID="7f5c25be-11e6-4dc0-94cf-88e442282b83">
-        <cit:CI_Responsibility obligation="M" occurrence="N" UUID="e8d5481d-8b76-4f34-966a-959aa9efabca">
-          <cit:role obligation="M" occurrence="1" UUID="e2c81399-e93c-42f1-bcab-80cac2ecff5a">
+      <mdb:contact obligation="M" occurrence="N" UUID="07e8f633-92c4-412a-addb-5452e95fcab0">
+        <cit:CI_Responsibility obligation="M" occurrence="N" UUID="0f738f64-a0a5-4c7f-a18d-609000e58e43">
+          <cit:role obligation="M" occurrence="1" UUID="26990e4d-0a8b-47cf-ae89-661c10d616d8">
             <cat:CI_RoleCode codeList="http://standards.iso.org/iso/19115/-3/cit/1.0/codelists.html#CI_RoleCode" codeListValue="resourceProvider" />
           </cit:role>
-          <cit:party obligation="M" occurrence="N" UUID="33591451-4084-4004-a885-8f0f8e5b49f5">
-            <cit:CI_Individual obligation="M" occurrence="N" UUID="2eb8f1c9-4d38-4bd7-ad62-f29efbcfbb2f">
-              <cit:name obligation="O" occurrence="1" UUID="35d7217c-150a-47ae-96e9-83c3111a2ea2">mwagner</cit:name>
+          <cit:party obligation="M" occurrence="N" UUID="df057d90-e2b4-4250-a5cc-714c8f22128d">
+            <cit:CI_Individual obligation="M" occurrence="N" UUID="0dd55143-37a9-4391-92c8-e99cb66e1454">
+              <cit:name obligation="O" occurrence="1" UUID="934b0098-b7f9-4e1e-b377-dfac7d1e60c8">mwagner</cit:name>
             </cit:CI_Individual>
           </cit:party>
         </cit:CI_Responsibility>
       </mdb:contact>
-      <mdb:dateInfo obligation="M" occurrence="N" UUID="71ac9c6c-c581-4f13-a6d8-09be35b3f3d4">
-        <cit:CI_Date obligation="M" occurrence="N" UUID="2a752162-9923-4f24-b99d-de3a3397f1c8">
-          <cit:date obligation="M" occurrence="1" UUID="03a87614-7fe6-4e02-8a60-d1b7c125fb00">
-            <xs:DateTime obligation="M" occurrence="1" UUID="3fe49f94-ebc9-44dc-8262-7ce4cbdf2fb6">2020-07-08T14:44:45.004Z</xs:DateTime>
+      <mdb:dateInfo obligation="M" occurrence="N" UUID="90a92f73-a39e-40da-8c1b-175e56f16ae9">
+        <cit:CI_Date obligation="M" occurrence="N" UUID="54b01eeb-4e7e-4c8e-bf36-747b9c2ef733">
+          <cit:date obligation="M" occurrence="1" UUID="85e2e379-86ff-4dac-9d5c-ad0cb5d04df0">
+            <xs:DateTime obligation="M" occurrence="1" UUID="fc0d78aa-8232-4ad9-9b8e-a8abc8f79c64">2020-06-11T09:51:24.374Z</xs:DateTime>
           </cit:date>
-          <cit:dateType obligation="M" occurrence="1" UUID="60d1ff7b-610a-4223-b693-f9e1551fb467">
+          <cit:dateType obligation="M" occurrence="1" UUID="3668a427-f253-4284-9774-d1227dbaefd0">
             <cat:CI_DateTypeCode codeList="http://standards.iso.org/iso/19115/-3/cit/1.0/codelists.html#CI_DateTypeCode" codeListValue="creation" />
           </cit:dateType>
         </cit:CI_Date>
-        <cit:CI_Date obligation="M" occurrence="N" UUID="a1991b40-5279-4abb-9857-60e06239240f">
-          <cit:dateType obligation="M" occurrence="1" UUID="1216111b-d0bc-4d63-b180-4c91194051fd">
+        <cit:CI_Date obligation="M" occurrence="N" UUID="de21cb44-bcdc-43e8-95a9-4ee1e9f49bb2">
+          <cit:dateType obligation="M" occurrence="1" UUID="dafaab1b-f383-4b42-badb-2430ff5fbc04">
             <cat:CI_DateTypeCode codeList="http://standards.iso.org/iso/19115/-3/cit/1.0/codelists.html#CI_DateTypeCode" codeListValue="lastUpdate" />
           </cit:dateType>
-          <cit:date obligation="M" occurrence="1" UUID="5d09a123-74f6-4b44-8c56-6c2dd67b4dd2">
-            <xs:DateTime obligation="M" occurrence="1" UUID="647b0952-691f-463c-b572-aa07f99a8202">2020-07-16T15:06:30.444Z</xs:DateTime>
+          <cit:date obligation="M" occurrence="1" UUID="672273c3-f75e-470b-8314-7ce5410d713b">
+            <xs:DateTime obligation="M" occurrence="1" UUID="7d6e5451-6584-4db6-bd6f-36c371b81f27">2020-08-11T06:42:08.899Z</xs:DateTime>
           </cit:date>
         </cit:CI_Date>
       </mdb:dateInfo>
-      <mdb:referenceSystemInfo obligation="O" occurrence="N" UUID="6fe136f4-1dcd-4463-b535-02f5d7fdc567">
-        <mrs:MD_ReferenceSystem obligation="O" occurrence="N" UUID="7967ba0f-ecdf-4e54-b4b0-1065f08f4544">
-          <mrs:referenceSystemIdentifier obligation="O" occurrence="1" UUID="67b8cc2a-9131-4449-a4af-01bf0cd9760d">
-            <mcc:MD_Identifier obligation="O" occurrence="1" UUID="edd7bea4-9191-4b8e-b944-ea24ddb3fca9">
-              <mcc:code obligation="M" occurrence="1" UUID="b466cda0-bb74-4448-88f0-b21facbcb0ac">EPSG::4326</mcc:code>
-              <mcc:codeSpace obligation="O" occurrence="1" UUID="d14d442b-eeeb-49a7-9127-ffbd199704da">EPSG</mcc:codeSpace>
-              <mcc:description obligation="O" occurrence="1" UUID="1c38e16c-8bda-4234-b391-1eaf8263273b">WGS 84 geodetic</mcc:description>
+      <mdb:referenceSystemInfo obligation="O" occurrence="N" UUID="016e0294-b2e3-4c37-a52e-2e5eead5f673">
+        <mrs:MD_ReferenceSystem obligation="O" occurrence="N" UUID="03ae2d50-ceac-4c86-922a-e2a18c07fdb6">
+          <mrs:referenceSystemIdentifier obligation="O" occurrence="1" UUID="c264031f-20ee-4d54-b1d6-cb28e7c97b70">
+            <mcc:MD_Identifier obligation="O" occurrence="1" UUID="c257883a-3a70-4603-bf23-e19bc18170a4">
+              <mcc:code obligation="M" occurrence="1" UUID="6d6af3c0-e17b-48dc-bb30-e4cbb151e8a4">EPSG::4326</mcc:code>
+              <mcc:codeSpace obligation="O" occurrence="1" UUID="50085ed5-bcce-48e6-b77a-455fabe1ecfe">EPSG</mcc:codeSpace>
+              <mcc:description obligation="O" occurrence="1" UUID="198e6765-96be-429e-a8de-87c8f61e08e6">WGS 84 geodetic</mcc:description>
             </mcc:MD_Identifier>
           </mrs:referenceSystemIdentifier>
         </mrs:MD_ReferenceSystem>
       </mdb:referenceSystemInfo>
-      <mdb:identificationInfo obligation="M" occurrence="N" UUID="d834b409-cf5c-43b8-81d8-60af0fb5592e">
-        <mri:MD_DataIdentification obligation="M" occurrence="N" UUID="5e1a7103-1e60-4334-bef4-de55beef5d72">
-          <mri:extent obligation="O" occurrence="N" UUID="206d7500-09bb-49fc-8280-48e3a09b4d13">
-            <gex:EX_Extent obligation="O" occurrence="N" UUID="0fb51adf-1fe2-411d-9c6d-043e140d2ecd">
-              <gex:description obligation="O" occurrence="1" UUID="3efcf80f-abf0-4165-ac45-56db09ba88ab">geographical extent in WGS84, EPSG:4326</gex:description>
-              <gex:geographicElement obligation="O" occurrence="N" UUID="5f518eec-bd0f-4ab1-8afe-4d9d1ec7e88b">
-                <gex:EX_GeographicBoundingBox obligation="O" occurrence="N" UUID="871862cd-ec58-45fe-82ac-cbd7bfcd2d8b">
-                  <gex:westBoundLongitude obligation="M" occurrence="1" UUID="5bba04aa-dd39-4f74-8a00-1328bae70c40">-75.61942107604311</gex:westBoundLongitude>
-                  <gex:eastBoundLongitude obligation="M" occurrence="1" UUID="91ce93aa-3e09-4b6a-95f3-5a04d7fd3542">175.02914244125566</gex:eastBoundLongitude>
-                  <gex:southBoundLatitude obligation="M" occurrence="1" UUID="2629cbc3-0f71-48e2-8f8d-853705edf4dc">-52.17475837741408</gex:southBoundLatitude>
-                  <gex:northBoundLatitude obligation="M" occurrence="1" UUID="7864a968-14aa-4428-9b91-2f5eb20f8d0c">51.309937127462526</gex:northBoundLatitude>
+      <mdb:identificationInfo obligation="M" occurrence="N" UUID="0901ced8-2d24-423f-889d-4f7a7e73396e">
+        <mri:MD_DataIdentification obligation="M" occurrence="N" UUID="09b3a775-734d-45e6-937a-da797ca550c6">
+          <mri:extent obligation="O" occurrence="N" UUID="f49d4332-4d47-4b21-b724-1731ea49477f">
+            <gex:EX_Extent obligation="O" occurrence="N" UUID="5fde58ad-c455-4854-8a33-0f6c7177095b">
+              <gex:description obligation="O" occurrence="1" UUID="4f5cb8c8-64aa-4dae-b50c-8816201f9129">geographical extent in WGS84, EPSG:4326</gex:description>
+              <gex:geographicElement obligation="O" occurrence="N" UUID="fb3c9b07-f999-482a-b004-50b4da404e2d">
+                <gex:EX_GeographicBoundingBox obligation="O" occurrence="N" UUID="c316c25f-a16d-4cdd-8bd6-b8bc718dbeaa">
+                  <gex:westBoundLongitude obligation="M" occurrence="1" UUID="06c58c89-369c-4e40-94f8-6d7f87fd08ac">-62.64651871</gex:westBoundLongitude>
+                  <gex:eastBoundLongitude obligation="M" occurrence="1" UUID="295e1178-3910-46eb-af61-fb201b89f1ba">-54.25863266</gex:eastBoundLongitude>
+                  <gex:southBoundLatitude obligation="M" occurrence="1" UUID="86e4026a-d88c-444e-bfa8-127f9a16f3d2">-27.60873794555664</gex:southBoundLatitude>
+                  <gex:northBoundLatitude obligation="M" occurrence="1" UUID="f11a7c27-10db-44ea-8031-67a3cb8f8b15">-19.289560317993164</gex:northBoundLatitude>
                 </gex:EX_GeographicBoundingBox>
               </gex:geographicElement>
             </gex:EX_Extent>
-            <gex:EX_Extent obligation="O" occurrence="N" UUID="37149046-07db-4ea8-94ac-744e906d88a1">
-              <gex:description obligation="O" occurrence="1" UUID="3a0ddac8-4a73-437b-bea4-56946de7b69f">geographical extent in data CRS, EPSG:4326</gex:description>
-              <gex:geographicElement obligation="O" occurrence="N" UUID="f41bcde3-9718-4295-b926-cd125a8b941a">
-                <gex:EX_GeographicBoundingBox obligation="O" occurrence="N" UUID="5edc2b61-a3d3-414e-82fb-42da7a4e0205">
-                  <gex:westBoundLongitude obligation="M" occurrence="1" UUID="7c707387-dec6-4a90-bc5a-5419f6a4b502">-75.61942107604311</gex:westBoundLongitude>
-                  <gex:eastBoundLongitude obligation="M" occurrence="1" UUID="9c44efd2-7f54-4c2d-8213-2dd83bb9fde7">175.02914244125566</gex:eastBoundLongitude>
-                  <gex:southBoundLatitude obligation="M" occurrence="1" UUID="dcd06cde-bcbd-43ed-a695-53d1d1cfe89f">-52.17475837741408</gex:southBoundLatitude>
-                  <gex:northBoundLatitude obligation="M" occurrence="1" UUID="425b8df8-6031-4949-a702-5e3d1ac22c31">51.309937127462526</gex:northBoundLatitude>
+            <gex:EX_Extent obligation="O" occurrence="N" UUID="07f968d4-c52f-4e83-8a64-c69527e389b5">
+              <gex:description obligation="O" occurrence="1" UUID="56648ea2-114e-402e-995a-46439ed6260c">geographical extent in data CRS, EPSG:4326</gex:description>
+              <gex:geographicElement obligation="O" occurrence="N" UUID="cb27e4b4-ae19-4691-827d-c8ec40890858">
+                <gex:EX_GeographicBoundingBox obligation="O" occurrence="N" UUID="397c403e-1a22-4360-b4f4-3261c0888cc5">
+                  <gex:westBoundLongitude obligation="M" occurrence="1" UUID="8ebf415e-bd87-4e21-ac71-94bd9c152332">-62.64651871</gex:westBoundLongitude>
+                  <gex:eastBoundLongitude obligation="M" occurrence="1" UUID="1e366f50-f99d-49e0-b184-93b53e8ace10">-54.25863266</gex:eastBoundLongitude>
+                  <gex:southBoundLatitude obligation="M" occurrence="1" UUID="4961c846-f45d-40ac-b885-3273de429e69">-27.60873794555664</gex:southBoundLatitude>
+                  <gex:northBoundLatitude obligation="M" occurrence="1" UUID="74870091-5537-41a6-b04e-a8c668ac6819">-19.289560317993164</gex:northBoundLatitude>
                 </gex:EX_GeographicBoundingBox>
               </gex:geographicElement>
             </gex:EX_Extent>
           </mri:extent>
-          <mri:environmentalDescription obligation="O" occurrence="1" UUID="d553ff7a-b140-4a37-9e4b-91b975d508b9">file name: TestGeopackage.gpkg
-layer name: TestLines
-file size: 163840 B
+          <mri:environmentalDescription obligation="O" occurrence="1" UUID="9a5d7ed7-fb57-4a61-bb00-36031554eaef">file name: paraguay.gpkg
+layer name: level_1
+file size: 4022272 B
 os: Linux</mri:environmentalDescription>
-          <mri:spatialRepresentationType obligation="O" occurrence="N" UUID="5028f15d-cfc1-4e82-9e61-2733dcceade9">
+          <mri:spatialRepresentationType obligation="O" occurrence="N" UUID="2b9f067c-d22a-4b2b-a18f-fb1c753f70b7">
             <cat:MD_SpatialRepresentationTypeCode codeList="http://standards.iso.org/iso/19115/-3/mcc/1.0/codelists.html#MD_SpatialRepresentationTypeCode" codeListValue="vector" />
           </mri:spatialRepresentationType>
         </mri:MD_DataIdentification>
       </mdb:identificationInfo>
+    </mdb:MD_Metadata>
+  </mda:has>
+  <mda:has obligation="M" occurrence="N" UUID="8cad5ba8-7e41-410a-a374-c5e2270988d5">
+    <mdb:MD_Metadata obligation="M" occurrence="N" UUID="fd17acf2-d07b-4ed6-bd67-c935bf5dd7fb">
+      <mdb:contact obligation="M" occurrence="N" UUID="b6dceaca-0ba3-4ff1-80df-09a5032eb83b">
+        <cit:CI_Responsibility obligation="M" occurrence="N" UUID="13075231-4494-4c65-b73e-110bf7ae6d08">
+          <cit:role obligation="M" occurrence="1" UUID="a9741d0a-cda7-49b7-a2e4-d09a089cded5">
+            <cat:CI_RoleCode codeList="http://standards.iso.org/iso/19115/-3/cit/1.0/codelists.html#CI_RoleCode" codeListValue="resourceProvider" />
+          </cit:role>
+          <cit:party obligation="M" occurrence="N" UUID="832bbf96-09f0-48e8-910f-1d04d8dc9189">
+            <cit:CI_Individual obligation="M" occurrence="N" UUID="c41c6f6e-53d1-4005-b854-bc55273db91d">
+              <cit:name obligation="O" occurrence="1" UUID="1393cc84-e7ec-411e-89f3-7f2455442d51">mwagner</cit:name>
+            </cit:CI_Individual>
+          </cit:party>
+        </cit:CI_Responsibility>
+      </mdb:contact>
+      <mdb:metadataIdentifier obligation="O" occurrence="1" UUID="882010fc-d4c1-45ee-b620-1faef25652e5">
+        <mcc:MD_Identifier obligation="O" occurrence="1" UUID="d7405511-8b7b-4971-9053-af208ea8f809">
+          <mcc:code obligation="M" occurrence="1" UUID="769e7499-9bf0-4f78-9318-508b65016529">level_2</mcc:code>
+        </mcc:MD_Identifier>
+      </mdb:metadataIdentifier>
+      <mdb:identificationInfo obligation="M" occurrence="N" UUID="4d99cc76-4ccc-4a7b-a030-85e3afe89660">
+        <mri:MD_DataIdentification obligation="M" occurrence="N" UUID="89a27c87-6815-42d6-b0a3-1dc9a7fdaba7">
+          <mri:environmentalDescription obligation="O" occurrence="1" UUID="7e609cc7-cfb5-4f9a-b585-40bbb9334393">file name: paraguay.gpkg
+layer name: level_2
+file size: 4022272 B
+os: Linux</mri:environmentalDescription>
+          <mri:spatialRepresentationType obligation="O" occurrence="N" UUID="f233f934-caef-415f-981e-8fce8efb6de1">
+            <cat:MD_SpatialRepresentationTypeCode codeList="http://standards.iso.org/iso/19115/-3/mcc/1.0/codelists.html#MD_SpatialRepresentationTypeCode" codeListValue="vector" />
+          </mri:spatialRepresentationType>
+          <mri:extent obligation="O" occurrence="N" UUID="4d900623-57cb-4249-bfd6-c920549f54e6">
+            <gex:EX_Extent obligation="O" occurrence="N" UUID="3a4dc39c-523b-4535-933b-de38a6288143">
+              <gex:description obligation="O" occurrence="1" UUID="ef9933b7-8f7d-4b53-ae20-1b70373e6299">geographical extent in WGS84, EPSG:4326</gex:description>
+              <gex:geographicElement obligation="O" occurrence="N" UUID="5c9baf2f-9475-4ec9-ab2a-53eb3d2d2251">
+                <gex:EX_GeographicBoundingBox obligation="O" occurrence="N" UUID="dd6f0e12-3a8a-481d-a588-41e284554a2b">
+                  <gex:westBoundLongitude obligation="M" occurrence="1" UUID="50cb11b1-080f-4a4c-a89f-9c1ce176545b">-62.64651871</gex:westBoundLongitude>
+                  <gex:eastBoundLongitude obligation="M" occurrence="1" UUID="6332aec4-36c0-47fc-96f7-3e5b49ec5fe0">-54.25863266</gex:eastBoundLongitude>
+                  <gex:southBoundLatitude obligation="M" occurrence="1" UUID="8c938851-81b7-4b9a-8f97-ab783dd88aee">-27.60873794555664</gex:southBoundLatitude>
+                  <gex:northBoundLatitude obligation="M" occurrence="1" UUID="846faedc-8bc5-46e2-8bbf-ce94eaa62a4a">-19.289560317993164</gex:northBoundLatitude>
+                </gex:EX_GeographicBoundingBox>
+              </gex:geographicElement>
+            </gex:EX_Extent>
+            <gex:EX_Extent obligation="O" occurrence="N" UUID="54308eba-6cec-443f-9661-c6e417ed8cee">
+              <gex:description obligation="O" occurrence="1" UUID="2143e5ae-3d94-4564-b0ac-bd4ee65d4a4a">geographical extent in data CRS, EPSG:4326</gex:description>
+              <gex:geographicElement obligation="O" occurrence="N" UUID="44359c3a-79b6-4b3e-96fc-dce02d4b89e6">
+                <gex:EX_GeographicBoundingBox obligation="O" occurrence="N" UUID="c292fdb7-c224-4fef-8f60-6b644f76b6cd">
+                  <gex:westBoundLongitude obligation="M" occurrence="1" UUID="ebe2e438-eac0-4958-bc84-01e772c2af3c">-62.64651871</gex:westBoundLongitude>
+                  <gex:eastBoundLongitude obligation="M" occurrence="1" UUID="4619d12c-2bbb-4475-b135-9d4cc9ce2f9e">-54.25863266</gex:eastBoundLongitude>
+                  <gex:southBoundLatitude obligation="M" occurrence="1" UUID="b6004c31-8700-423e-986a-a27551f8d578">-27.60873794555664</gex:southBoundLatitude>
+                  <gex:northBoundLatitude obligation="M" occurrence="1" UUID="a7d57f1e-3963-44d2-a3fd-344f4d342cc4">-19.289560317993164</gex:northBoundLatitude>
+                </gex:EX_GeographicBoundingBox>
+              </gex:geographicElement>
+            </gex:EX_Extent>
+          </mri:extent>
+        </mri:MD_DataIdentification>
+      </mdb:identificationInfo>
+      <mdb:dateInfo obligation="M" occurrence="N" UUID="09348bb1-26b3-4fbf-983d-a351eb2b0ce0">
+        <cit:CI_Date obligation="M" occurrence="N" UUID="a5ef884b-61b7-4452-b8b5-66de83fd5020">
+          <cit:dateType obligation="M" occurrence="1" UUID="fe59d29a-ab2c-445d-9c6e-a1dddac58e41">
+            <cat:CI_DateTypeCode codeList="http://standards.iso.org/iso/19115/-3/cit/1.0/codelists.html#CI_DateTypeCode" codeListValue="creation" />
+          </cit:dateType>
+          <cit:date obligation="M" occurrence="1" UUID="23949195-4e06-4433-8f68-9e700e5669d4">
+            <xs:DateTime obligation="M" occurrence="1" UUID="d208aa05-6c2b-4bec-a397-97bb8a6fc2f7">2020-06-11T09:51:24.374Z</xs:DateTime>
+          </cit:date>
+        </cit:CI_Date>
+        <cit:CI_Date obligation="M" occurrence="N" UUID="36156fb4-2b1a-41c4-b2dc-bd097bb60435">
+          <cit:dateType obligation="M" occurrence="1" UUID="cb923e9f-c925-42cd-8240-235471d44a69">
+            <cat:CI_DateTypeCode codeList="http://standards.iso.org/iso/19115/-3/cit/1.0/codelists.html#CI_DateTypeCode" codeListValue="lastUpdate" />
+          </cit:dateType>
+          <cit:date obligation="M" occurrence="1" UUID="66962428-740f-437e-a21e-3222fe3c6bd1">
+            <xs:DateTime obligation="M" occurrence="1" UUID="cc1c678d-d9ea-4654-99fe-78e8124bb5f0">2020-08-11T06:42:08.899Z</xs:DateTime>
+          </cit:date>
+        </cit:CI_Date>
+      </mdb:dateInfo>
+      <mdb:referenceSystemInfo obligation="O" occurrence="N" UUID="ef16bb6d-5534-49eb-abf1-0b479fa14279">
+        <mrs:MD_ReferenceSystem obligation="O" occurrence="N" UUID="d533a586-dfc7-4364-8411-d03d17f3fa08">
+          <mrs:referenceSystemIdentifier obligation="O" occurrence="1" UUID="3f0fa1e7-9836-4696-91b0-5091a06dc57b">
+            <mcc:MD_Identifier obligation="O" occurrence="1" UUID="88a64ab1-70d0-48cb-a736-8834fd63c7cf">
+              <mcc:code obligation="M" occurrence="1" UUID="1096f7f4-15e2-4dcd-8285-26139688bf1d">EPSG::4326</mcc:code>
+              <mcc:codeSpace obligation="O" occurrence="1" UUID="c5de32b7-7d74-41c6-8a75-4773b8f7338f">EPSG</mcc:codeSpace>
+              <mcc:description obligation="O" occurrence="1" UUID="e0c1bbe5-1176-42d0-8ba1-d6459df4098d">WGS 84 geodetic</mcc:description>
+            </mcc:MD_Identifier>
+          </mrs:referenceSystemIdentifier>
+        </mrs:MD_ReferenceSystem>
+      </mdb:referenceSystemInfo>
+    </mdb:MD_Metadata>
+  </mda:has>
+  <mda:has obligation="M" occurrence="N" UUID="df7db7c2-d582-4e80-ae24-e759976fe832">
+    <mdb:MD_Metadata obligation="M" occurrence="N" UUID="74e317d1-aab5-4868-817d-fe119abb54d3">
+      <mdb:contact obligation="M" occurrence="N" UUID="8eaff2b5-ed50-46de-8c92-3a5d50a67bfe">
+        <cit:CI_Responsibility obligation="M" occurrence="N" UUID="a531bc78-c2f8-48d5-8984-31fef7903191">
+          <cit:role obligation="M" occurrence="1" UUID="9a09e7af-ad41-4f9d-b799-89c52fb17e46">
+            <cat:CI_RoleCode codeList="http://standards.iso.org/iso/19115/-3/cit/1.0/codelists.html#CI_RoleCode" codeListValue="resourceProvider" />
+          </cit:role>
+          <cit:party obligation="M" occurrence="N" UUID="ebbeab1a-2e60-4307-9476-8a72569f93b1">
+            <cit:CI_Individual obligation="M" occurrence="N" UUID="4ad68895-7995-47ae-b49b-80e3d50dd0d0">
+              <cit:name obligation="O" occurrence="1" UUID="5d5d704c-c1f2-4604-80e6-f0ef8849a69e">mwagner</cit:name>
+            </cit:CI_Individual>
+          </cit:party>
+        </cit:CI_Responsibility>
+      </mdb:contact>
+      <mdb:metadataIdentifier obligation="O" occurrence="1" UUID="d11f1e92-5156-4232-9be7-37429caea4d9">
+        <mcc:MD_Identifier obligation="O" occurrence="1" UUID="b714923d-274d-4013-8b34-b2f5a228b7b0">
+          <mcc:code obligation="M" occurrence="1" UUID="2329e78b-0d2d-408c-a376-765227a0ba1a">level_3</mcc:code>
+        </mcc:MD_Identifier>
+      </mdb:metadataIdentifier>
+      <mdb:identificationInfo obligation="M" occurrence="N" UUID="279673c7-adea-456b-aa71-5624a11d4ff9">
+        <mri:MD_DataIdentification obligation="M" occurrence="N" UUID="1b714434-e2bc-4701-95bc-70d0ff88971d">
+          <mri:environmentalDescription obligation="O" occurrence="1" UUID="c1bbadf2-d172-49e6-8d40-a89d5e28ba1e">file name: paraguay.gpkg
+layer name: level_3
+file size: 4022272 B
+os: Linux</mri:environmentalDescription>
+          <mri:spatialRepresentationType obligation="O" occurrence="N" UUID="fc07373d-4e4e-4142-b5ea-b1320b4cc765">
+            <cat:MD_SpatialRepresentationTypeCode codeList="http://standards.iso.org/iso/19115/-3/mcc/1.0/codelists.html#MD_SpatialRepresentationTypeCode" codeListValue="vector" />
+          </mri:spatialRepresentationType>
+          <mri:extent obligation="O" occurrence="N" UUID="493a4381-c118-4948-9998-331fef34c367">
+            <gex:EX_Extent obligation="O" occurrence="N" UUID="b5252c67-2387-4a5d-b5f3-035ecd52aac0">
+              <gex:description obligation="O" occurrence="1" UUID="22d4bb31-50bb-484a-ae9b-eb802ccc638b">geographical extent in WGS84, EPSG:4326</gex:description>
+              <gex:geographicElement obligation="O" occurrence="N" UUID="be8e8518-419b-4f7b-a337-96319e64729c">
+                <gex:EX_GeographicBoundingBox obligation="O" occurrence="N" UUID="60b5c231-84a8-4355-adc8-2903543a01b4">
+                  <gex:westBoundLongitude obligation="M" occurrence="1" UUID="5f691239-8003-4cc2-a56e-58f3ab5f385d">-62.64651870727539</gex:westBoundLongitude>
+                  <gex:eastBoundLongitude obligation="M" occurrence="1" UUID="487b50ea-7a9f-48e4-b2c7-51d1efef4ebf">-54.25863265991205</gex:eastBoundLongitude>
+                  <gex:southBoundLatitude obligation="M" occurrence="1" UUID="49004453-c812-40e7-ae24-9c7565850a14">-27.60873794555664</gex:southBoundLatitude>
+                  <gex:northBoundLatitude obligation="M" occurrence="1" UUID="f6e3412d-0553-4389-925c-d05c792ac81d">-19.289560317993164</gex:northBoundLatitude>
+                </gex:EX_GeographicBoundingBox>
+              </gex:geographicElement>
+            </gex:EX_Extent>
+            <gex:EX_Extent obligation="O" occurrence="N" UUID="1c568797-d9ba-4c48-98bb-b2a54ccb5b55">
+              <gex:description obligation="O" occurrence="1" UUID="23c75cce-6d9a-45cb-9ce7-5346d42b7437">geographical extent in data CRS, EPSG:4326</gex:description>
+              <gex:geographicElement obligation="O" occurrence="N" UUID="82aa9eb6-52c3-4460-b899-0134ce75f830">
+                <gex:EX_GeographicBoundingBox obligation="O" occurrence="N" UUID="ec6f7d8e-14d4-49a4-b9ba-337bfefc308a">
+                  <gex:westBoundLongitude obligation="M" occurrence="1" UUID="969bf58c-4e09-41a3-96a4-f92602dd24b1">-62.64651870727539</gex:westBoundLongitude>
+                  <gex:eastBoundLongitude obligation="M" occurrence="1" UUID="8c2ff429-0aa1-4198-b40d-29d0cfeb5eb9">-54.25863265991205</gex:eastBoundLongitude>
+                  <gex:southBoundLatitude obligation="M" occurrence="1" UUID="2cb30f95-5c3e-45ae-ad1b-3d3cd86c0b49">-27.60873794555664</gex:southBoundLatitude>
+                  <gex:northBoundLatitude obligation="M" occurrence="1" UUID="dd2ec060-15ca-467e-8268-8bc16d24b20c">-19.289560317993164</gex:northBoundLatitude>
+                </gex:EX_GeographicBoundingBox>
+              </gex:geographicElement>
+            </gex:EX_Extent>
+          </mri:extent>
+        </mri:MD_DataIdentification>
+      </mdb:identificationInfo>
+      <mdb:dateInfo obligation="M" occurrence="N" UUID="93f679b9-027f-4c77-806d-325b85df9ba3">
+        <cit:CI_Date obligation="M" occurrence="N" UUID="ff3d7bdb-65f7-457c-8ac1-4b9a3f8f3171">
+          <cit:dateType obligation="M" occurrence="1" UUID="c3dce6ed-505a-4822-9a2f-427f0bdec188">
+            <cat:CI_DateTypeCode codeList="http://standards.iso.org/iso/19115/-3/cit/1.0/codelists.html#CI_DateTypeCode" codeListValue="creation" />
+          </cit:dateType>
+          <cit:date obligation="M" occurrence="1" UUID="1ae97087-32ea-4250-ae57-69b07a094b11">
+            <xs:DateTime obligation="M" occurrence="1" UUID="327cf7fe-979e-4fdc-8e88-471e70dc4979">2020-06-11T09:51:43.815Z</xs:DateTime>
+          </cit:date>
+        </cit:CI_Date>
+        <cit:CI_Date obligation="M" occurrence="N" UUID="99165389-b4bc-4aef-8dfe-9cf1b08d7db1">
+          <cit:dateType obligation="M" occurrence="1" UUID="fd03c01a-bbaf-432c-8ea3-a3d276b74400">
+            <cat:CI_DateTypeCode codeList="http://standards.iso.org/iso/19115/-3/cit/1.0/codelists.html#CI_DateTypeCode" codeListValue="lastUpdate" />
+          </cit:dateType>
+          <cit:date obligation="M" occurrence="1" UUID="5abf4b99-0aa2-4029-9801-37bb35975a5d">
+            <xs:DateTime obligation="M" occurrence="1" UUID="63731d99-21fc-43bc-90c9-989f07c9a592">2020-08-11T06:42:08.899Z</xs:DateTime>
+          </cit:date>
+        </cit:CI_Date>
+      </mdb:dateInfo>
+      <mdb:referenceSystemInfo obligation="O" occurrence="N" UUID="6a89f965-00d4-4daa-9d68-46e1fae03ad3">
+        <mrs:MD_ReferenceSystem obligation="O" occurrence="N" UUID="b6a3fa07-1b8c-4583-8f33-0b49db1ef921">
+          <mrs:referenceSystemIdentifier obligation="O" occurrence="1" UUID="4739d396-7b01-4e5b-9dd2-c96a07ee93e2">
+            <mcc:MD_Identifier obligation="O" occurrence="1" UUID="b7c13d6e-9735-4683-a044-4717af6edc97">
+              <mcc:code obligation="M" occurrence="1" UUID="894f392e-9000-4e8b-a492-ab6e4d6aafab">EPSG::4326</mcc:code>
+              <mcc:codeSpace obligation="O" occurrence="1" UUID="033cf7c0-8007-47a7-94a8-2900b731dbf2">EPSG</mcc:codeSpace>
+              <mcc:description obligation="O" occurrence="1" UUID="db3e7c61-837d-4d11-811f-f5eaa5210e30">WGS 84 geodetic</mcc:description>
+            </mcc:MD_Identifier>
+          </mrs:referenceSystemIdentifier>
+        </mrs:MD_ReferenceSystem>
+      </mdb:referenceSystemInfo>
     </mdb:MD_Metadata>
   </mda:has>
 </mda:DS_Resource>

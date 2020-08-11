@@ -80,15 +80,20 @@ public class Metadata {
             }
 
             // todo: add other geodata types
-            // todo: in the case of geopackage: allow metadata generation for multiple datasets in one gpkg, but also allow subsequent additions from the same gpkg
+            // todo: in the case of geopackage: allow adding information to existing dataset (according to UUID?)
             List<Element> content = null;
             switch (geodataType) {
                 case "geopackage":
                     // content from geopackage
-                    // one geopackage is one dataset - multiple content in one geopackage result in different MD_Metadata
+                    // one geopackage is one dataset - multiple content in one geopackage result in multiple MD_Metadata
+
+                    content = new ArrayList<>();
+
                     GeopackageMetadata geopackageConnection = new GeopackageMetadata();
-//                    Integer contentNum = geopackageConnection.getContentNum(geodataFileName); //todo: add different contents
-                    content = geopackageConnection.getContent(geodataFileName, 1, ns);
+                    Integer contentNum = geopackageConnection.getContentNum(geodataFileName);
+                    for (int i = 0; i < contentNum; i++) {
+                        content = geopackageConnection.getContent(geodataFileName, i, content, ns);
+                    }
                     break;
                 case "shape":
                     // content from shape file

@@ -11,7 +11,8 @@ public class MetadataMain {
     public static void main(String[] argv) {
         // main method to generate metadata from geodata
 //        String fileName = "rasterExample.gpkg";
-        String fileName = "TestGeopackage.gpkg";
+//        String fileName = "TestGeopackage.gpkg";
+        String fileName = "paraguay.gpkg";
 //        String fileName = "TestPointsShapeETRS.shp";
         String documentVariant = "minimal";
         boolean writeLogFile = false;

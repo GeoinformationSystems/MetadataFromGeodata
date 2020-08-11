@@ -58,10 +58,10 @@ public class GeopackageMetadata {
         return contentCt;
     }
 
-    public List<Element> getContent(String fileName, Integer contentAct, Map<String, Namespace> ns) {
+    public List<Element> getContent(String fileName, Integer contentAct, List<Element> content, Map<String, Namespace> ns) {
         // read geopackage file and put its metadata into list of elements
 
-        List<Element> content = new ArrayList<>();
+//        List<Element> content = new ArrayList<>();
 
         File geopackageFile = new File(fileName);
 
@@ -349,6 +349,9 @@ public class GeopackageMetadata {
             content.add(nestedElement.create(new String[]{"DS_Resource", "has", "MD_Metadata", "referenceSystemInfo", "MD_ReferenceSystem", "referenceSystemIdentifier", "MD_Identifier", "description"},
                     new UUID[]{id_DS_Resource, id_has, id_MD_Metadata, id_referenceSystemInfo, id_MD_ReferenceSystem, id_referenceSystemIdentifier, id_MD_IdentifierSRS, id_descriptionSRS}, srsName, ns));
 
+            // close/dispose database -> no more connection to collections
+            dataStore.dispose();
+
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }
@@ -416,7 +419,7 @@ public class GeopackageMetadata {
         String tableName = null;
         try {
             ResultSet tableContent = stmt.executeQuery("SELECT table_name FROM gpkg_contents");
-            for (int i = 0; i < contentAct; i++) {
+            for (int i = 0; i <= contentAct; i++) {
                 tableContent.next();
             }
             tableName = tableContent.getString(1);
