@@ -22,17 +22,16 @@ import org.opengis.referencing.operation.MathTransform;
 
 import java.io.IOException;
 import java.io.File;
-import java.nio.file.*;
 import java.time.Instant;
 import java.time.ZoneId;
+import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 public class ShapeMetadata {
-    public List<Element> getContent(String fileName, Integer contentAct, Map<String, Namespace> ns) {
+    public List<Element> getContent(String fileName, Map<String, Namespace> ns) {
         // read shape file and put its metadata into list of elements
-        // contentAct should always be 0 in the case of shapefiles
 
         List<Element> content = new ArrayList<>();
 
@@ -40,7 +39,7 @@ public class ShapeMetadata {
 
         try {
             FileDataStore dataStore = FileDataStoreFinder.getDataStore(file);
-            String typeName = dataStore.getTypeNames()[contentAct];
+//            String typeName = dataStore.getTypeNames()[0];
             SimpleFeatureCollection collection = dataStore.getFeatureSource().getFeatures();
             CoordinateReferenceSystem srcCRS = collection.getSchema().getCoordinateReferenceSystem();
             SimpleFeatureCollection collectionTransform = collection;
@@ -75,6 +74,7 @@ public class ShapeMetadata {
 
             NestedElement nestedElement = new NestedElement();
             // TODO: further look into ISO19115_Workbook for getting additional metadata out of shapefile
+            // TODO: restructure code following GeopackageMetadata.java
 
             UUID id_DS_Resource = UUID.randomUUID();
             UUID id_has = UUID.randomUUID();
@@ -95,13 +95,30 @@ public class ShapeMetadata {
             UUID id_MD_Identifier = UUID.randomUUID();
             UUID id_code = UUID.randomUUID();
 
+            String identifierCode = "pid:" + UUID.randomUUID().toString();
             content.add(nestedElement.create(new String[] {"DS_Resource", "has", "MD_Metadata", "metadataIdentifier", "MD_Identifier", "code"},
-                    new UUID[] {id_DS_Resource, id_has, id_MD_Metadata, id_metadataIdentifier, id_MD_Identifier, id_code}, typeName, ns));
+                    new UUID[] {id_DS_Resource, id_has, id_MD_Metadata, id_metadataIdentifier, id_MD_Identifier, id_code}, identifierCode, ns));
+
+            String now = ZonedDateTime.now(ZoneOffset.UTC).format(DateTimeFormatter.ISO_INSTANT);
 
             UUID id_identificationInfo = UUID.randomUUID();
             UUID id_MD_DataIdentification = UUID.randomUUID();
-            UUID id_environmentDescription = UUID.randomUUID();
-            UUID id_spatialRepresentationType = UUID.randomUUID();
+            UUID id_citation = UUID.randomUUID();
+            UUID id_CI_Citation = UUID.randomUUID();
+            UUID id_title = UUID.randomUUID();
+            UUID id_date = UUID.randomUUID();
+            UUID id_CI_Date = UUID.randomUUID();
+            UUID id_dateType = UUID.randomUUID();
+            UUID id_date2 = UUID.randomUUID();
+            UUID id_DateTime = UUID.randomUUID();
+
+            // TODO: informative title available?
+            content.add(nestedElement.create(new String[]{"DS_Resource", "has", "MD_Metadata", "identificationInfo", "MD_DataIdentification", "citation", "CI_Citation", "title"},
+                    new UUID[]{id_DS_Resource, id_has, id_MD_Metadata, id_identificationInfo, id_MD_DataIdentification, id_citation, id_CI_Citation, id_title}, "", ns));
+            content.add(nestedElement.create(new String[]{"DS_Resource", "has", "MD_Metadata", "identificationInfo", "MD_DataIdentification", "citation", "CI_Citation", "date", "CI_Date", "dateType"},
+                    new UUID[]{id_DS_Resource, id_has, id_MD_Metadata, id_identificationInfo, id_MD_DataIdentification, id_citation, id_CI_Citation, id_date, id_CI_Date, id_dateType}, "creation", ns));
+            content.add(nestedElement.create(new String[]{"DS_Resource", "has", "MD_Metadata", "identificationInfo", "MD_DataIdentification", "citation", "CI_Citation", "date", "CI_Date", "date", "dateTime"},
+                    new UUID[]{id_DS_Resource, id_has, id_MD_Metadata, id_identificationInfo, id_MD_DataIdentification, id_citation, id_CI_Citation, id_date, id_CI_Date, id_date2, id_DateTime}, now, ns));
 
             // find all files belonging to actual shape file -> base name plus allowed extensions
             Shape shape = new Shape(file);
@@ -111,16 +128,20 @@ public class ShapeMetadata {
                     + "all shape format files: " + shape.allFiles + "\n"
                     + "file size: " + (int) shape.size + " B\n"
                     + "os: " + System.getProperty("os.name");
+
+            UUID id_environmentDescription = UUID.randomUUID();
+            UUID id_spatialRepresentationType = UUID.randomUUID();
+
             content.add(nestedElement.create(new String[] {"DS_Resource", "has", "MD_Metadata", "identificationInfo", "MD_DataIdentification", "environmentalDescription"},
                     new UUID[] {id_DS_Resource, id_has, id_MD_Metadata, id_identificationInfo, id_MD_DataIdentification, id_environmentDescription}, environmentalDescription, ns));
             content.add(nestedElement.create(new String[] {"DS_Resource", "has", "MD_Metadata", "identificationInfo", "MD_DataIdentification", "spatialRepresentationType"},
                     new UUID[] {id_DS_Resource, id_has, id_MD_Metadata, id_identificationInfo, id_MD_DataIdentification, id_spatialRepresentationType}, "vector", ns));
 
             UUID id_dateInfo = UUID.randomUUID();
-            UUID id_CI_Date = UUID.randomUUID();
-            UUID id_dateType = UUID.randomUUID();
-            UUID id_date = UUID.randomUUID();
-            UUID id_DateTime = UUID.randomUUID();
+            id_CI_Date = UUID.randomUUID();
+            id_dateType = UUID.randomUUID();
+            id_date = UUID.randomUUID();
+            id_DateTime = UUID.randomUUID();
 
             ZonedDateTime lastModified = ZonedDateTime.ofInstant(Instant.ofEpochMilli(file.lastModified()), ZoneId.systemDefault()); // local timezone
             lastModified = lastModified.withZoneSameInstant(ZoneId.of("UTC")); // convert to UTC timezone

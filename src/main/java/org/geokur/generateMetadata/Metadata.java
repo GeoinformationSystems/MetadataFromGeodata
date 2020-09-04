@@ -56,6 +56,8 @@ public class Metadata {
                 break;
             case "shp":  geodataType = "shape";
                 break;
+            case "csv": geodataType = "ascii";
+                break;
             default:
                 // file format not supported -> return empty document
                 return doc;
@@ -98,7 +100,10 @@ public class Metadata {
                 case "shape":
                     // content from shape file
                     ShapeMetadata shapeConnection = new ShapeMetadata();
-                    content = shapeConnection.getContent(geodataFileName, 0, ns);
+                    content = shapeConnection.getContent(geodataFileName, ns);
+                    break;
+                case "ascii":
+                    // content from ascii file spatially referring to a geofile (e.g., geopackage)
                     break;
             }
 
@@ -125,7 +130,7 @@ public class Metadata {
 
             // create root element and add namespace declarations
             CreateInterface rootElementInst = new MetadataTreeTemplate();
-            Element rootElement = rootElementInst.getElement(ns, "config/config_DS_Resource.xml", "M", "1", elementChain, indexChain, logFileWriter);
+            Element rootElement = rootElementInst.getElement(ns, "config/config_DS_DataSet.xml", "M", "1", elementChain, indexChain, logFileWriter);
             for (Namespace namespace : namespacesList) {
                 rootElement.addNamespaceDeclaration(namespace);
             }

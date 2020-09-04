@@ -13,7 +13,8 @@ public class MetadataMain {
 //        String fileName = "rasterExample.gpkg";
 //        String fileName = "TestGeopackage.gpkg";
         String fileName = "paraguay.gpkg";
-//        String fileName = "TestPointsShapeETRS.shp";
+//        String fileName = "TestPointsShape.shp";
+//        String fileName = "paraguay.csv";
         String documentVariant = "minimal";
         boolean writeLogFile = false;
         boolean writeXMLFile = true;

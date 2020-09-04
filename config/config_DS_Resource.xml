@@ -13,6 +13,7 @@
         <obligation>O</obligation>
         <occurrence>N</occurrence>
         <configFile>
+            <configFileSpecified>config_DS_Aggregate.xml</configFileSpecified>
             <configFileSpecified>config_DS_OtherAggregate.xml</configFileSpecified>
             <configFileSpecified>config_DS_StereoMate.xml</configFileSpecified>
             <configFileSpecified>config_DS_Initiative.xml</configFileSpecified>

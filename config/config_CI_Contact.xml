@@ -41,7 +41,7 @@
         <used>false</used>
     </element>
     <element>
-        <name>contaceType</name>
+        <name>contactType</name>
         <obligation>O</obligation>
         <occurrence>1</occurrence>
         <configFile></configFile>
