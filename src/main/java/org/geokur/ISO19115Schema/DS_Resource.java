@@ -29,50 +29,10 @@ public abstract class DS_Resource {
     @XmlElementRef
     public List<DS_Aggregate> partOf;
 
-    @XmlElementWrapper(name = "composedOf", namespace = "http://standards.iso.org/iso/19115/-3/mda/1.0")
-    @XmlElementRef
-    public List<DS_Resource> composedOf;
-
     // variables for correct marshalling of specified classes
-    @XmlElementWrapper(name = "dataSet", namespace = "http://standards.iso.org/iso/19115/-3/mda/1.0")
-    @XmlElementRef
     public List<DS_DataSet> dataSet;
 
-    @XmlElementWrapper(name = "service", namespace = "http://standards.iso.org/iso/19115/-3/mda/1.0")
-    @XmlElementRef
     public List<SV_Service> service;
-
-    @XmlElementWrapper(name = "aggregate", namespace = "http://standards.iso.org/iso/19115/-3/mda/1.0")
-    @XmlElementRef
-    public List<DS_Aggregate> aggregate;
-
-    @XmlElementWrapper(name = "otherAggregate", namespace = "http://standards.iso.org/iso/19115/-3/mda/1.0")
-    @XmlElementRef
-    public List<DS_OtherAggregate> otherAggregate;
-
-    @XmlElementWrapper(name = "stereoMate", namespace = "http://standards.iso.org/iso/19115/-3/mda/1.0")
-    @XmlElementRef
-    public List<DS_StereoMate> stereoMate;
-
-    @XmlElementWrapper(name = "initiative", namespace = "http://standards.iso.org/iso/19115/-3/mda/1.0")
-    @XmlElementRef
-    public List<DS_Initiative> initiative;
-
-    @XmlElementWrapper(name = "series", namespace = "http://standards.iso.org/iso/19115/-3/mda/1.0")
-    @XmlElementRef
-    public List<DS_Series> series;
-
-    @XmlElementWrapper(name = "platform", namespace = "http://standards.iso.org/iso/19115/-3/mda/1.0")
-    @XmlElementRef
-    public List<DS_Platform> platform;
-
-    @XmlElementWrapper(name = "sensor", namespace = "http://standards.iso.org/iso/19115/-3/mda/1.0")
-    @XmlElementRef
-    public List<DS_Sensor> sensor;
-
-    @XmlElementWrapper(name = "productionSeries", namespace = "http://standards.iso.org/iso/19115/-3/mda/1.0")
-    @XmlElementRef
-    public List<DS_ProductionSeries> productionSeries;
 
     // methods
     public void createHas() {

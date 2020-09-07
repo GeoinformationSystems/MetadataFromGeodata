@@ -14,7 +14,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @XmlRootElement(name = "DQ_ConformanceResult", namespace = "http://standards.iso.org/iso/19157/-2/mdq/1.0")
-public class DQ_ConformanceResult {
+public class DQ_ConformanceResult extends DQ_Result {
 
     // occurrence and obligation
     private final String[] elementName = {"resultScope", "dateTime", "specification", "explanation", "pass"};
@@ -25,13 +25,6 @@ public class DQ_ConformanceResult {
     private final boolean[] elementUsed = new boolean[elementName.length];
 
     // class variables
-    @XmlElementWrapper(name = "resultScope", namespace = "http://standards.iso.org/iso/19157/-2/mdq/1.0")
-    @XmlElementRef
-    public List<MD_Scope> resultScope;
-
-    @XmlElement(name = "dateTime", namespace = "http://standards.iso.org/iso/19157/-2/mdq/1.0")
-    public List<String> dateTime;
-
     @XmlElementWrapper(name = "specification", namespace = "http://standards.iso.org/iso/19157/-2/mdq/1.0")
     @XmlElementRef
     public List<CI_Citation> specification;
@@ -65,18 +58,6 @@ public class DQ_ConformanceResult {
         }
     }
 
-    public void createResultScope() {
-        if (this.resultScope == null) {
-            this.resultScope = new ArrayList<>();
-        }
-    }
-
-    public void createDateTime() {
-        if (this.dateTime == null) {
-            this.dateTime = new ArrayList<>();
-        }
-    }
-
     public void createSpecification() {
         if (this.specification == null) {
             this.specification = new ArrayList<>();
@@ -92,34 +73,6 @@ public class DQ_ConformanceResult {
     public void createPass() {
         if (this.pass == null) {
             this.pass = new ArrayList<>();
-        }
-    }
-
-    public void addResultScope(MD_Scope resultScope) {
-        int elementNum = 0;
-        try {
-            List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
-            if (tempList.size() >= elementMax[elementNum]) {
-                throw new MaximumOccurrenceException(className + " - " + elementName[elementNum], elementMax[elementNum]);
-            } else {
-                this.resultScope.add(resultScope);
-            }
-        } catch (MaximumOccurrenceException | NoSuchFieldException | IllegalAccessException e) {
-            System.out.println(e.getMessage());
-        }
-    }
-
-    public void addDateTime(String dateTime) {
-        int elementNum = 1;
-        try {
-            List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
-            if (tempList.size() >= elementMax[elementNum]) {
-                throw new MaximumOccurrenceException(className + " - " + elementName[elementNum], elementMax[elementNum]);
-            } else {
-                this.dateTime.add(dateTime);
-            }
-        } catch (MaximumOccurrenceException | NoSuchFieldException | IllegalAccessException e) {
-            System.out.println(e.getMessage());
         }
     }
 

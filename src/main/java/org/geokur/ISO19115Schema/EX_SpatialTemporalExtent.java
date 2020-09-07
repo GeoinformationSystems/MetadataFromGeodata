@@ -14,7 +14,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @XmlRootElement(name = "EX_SpatialTemporalExtent", namespace = "http://standards.iso.org/iso/19115/-3/gex/1.0")
-public class EX_SpatialTemporalExtent {
+public class EX_SpatialTemporalExtent extends EX_TemporalExtent {
 
     // occurrence and obligation
     private final String[] elementName = {"extent", "verticalExtent", "spatialExtent"};
@@ -25,9 +25,6 @@ public class EX_SpatialTemporalExtent {
     private final boolean[] elementUsed = new boolean[elementName.length];
 
     // class variables
-    @XmlElement(name = "extent", namespace = "http://standards.iso.org/iso/19115/-3/gex/1.0")
-    public List<String> extent;
-
     @XmlElementWrapper(name = "verticalExtent", namespace = "http://standards.iso.org/iso/19115/-3/gex/1.0")
     @XmlElementRef
     public List<EX_VerticalExtent> verticalExtent;
@@ -59,12 +56,6 @@ public class EX_SpatialTemporalExtent {
         }
     }
 
-    public void createExtent() {
-        if (this.extent == null) {
-            this.extent = new ArrayList<>();
-        }
-    }
-
     public void createVerticalExtent() {
         if (this.verticalExtent == null) {
             this.verticalExtent = new ArrayList<>();
@@ -74,20 +65,6 @@ public class EX_SpatialTemporalExtent {
     public void createSpatialExtent() {
         if (this.spatialExtent == null) {
             this.spatialExtent = new ArrayList<>();
-        }
-    }
-
-    public void addExtent(String extent) {
-        int elementNum = 0;
-        try {
-            List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
-            if (tempList.size() >= elementMax[elementNum]) {
-                throw new MaximumOccurrenceException(className + " - " + elementName[elementNum], elementMax[elementNum]);
-            } else {
-                this.extent.add(extent);
-            }
-        } catch (MaximumOccurrenceException | NoSuchFieldException | IllegalAccessException e) {
-            System.out.println(e.getMessage());
         }
     }
 

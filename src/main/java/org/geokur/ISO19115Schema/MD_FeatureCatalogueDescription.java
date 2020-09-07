@@ -14,7 +14,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @XmlRootElement(name = "MD_FeatureCatalogueDescription", namespace = "http://standards.iso.org/iso/19115/-3/mrc/1.0")
-public class MD_FeatureCatalogueDescription {
+public class MD_FeatureCatalogueDescription extends MD_ContentInformation {
 
     // occurrence and obligation
     private final String[] elementName = {"complianceCode", "locale", "includedWithDataset", "featureTypes", "featureCatalogueCitation"};

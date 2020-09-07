@@ -6,15 +6,13 @@
 package org.geokur.ISO19115Schema;
 
 import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlElementRef;
-import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 @XmlRootElement(name = "DQ_DescriptiveResult", namespace = "http://standards.iso.org/iso/19157/-2/mdq/1.0")
-public class DQ_DescriptiveResult {
+public class DQ_DescriptiveResult extends DQ_Result {
 
     // occurrence and obligation
     private final String[] elementName = {"resultScope", "dateTime", "statement"};
@@ -25,13 +23,6 @@ public class DQ_DescriptiveResult {
     private final boolean[] elementUsed = new boolean[elementName.length];
 
     // class variables
-    @XmlElementWrapper(name = "resultScope", namespace = "http://standards.iso.org/iso/19157/-2/mdq/1.0")
-    @XmlElementRef
-    public List<MD_Scope> resultScope;
-
-    @XmlElement(name = "dateTime", namespace = "http://standards.iso.org/iso/19157/-2/mdq/1.0")
-    public List<String> dateTime;
-
     @XmlElement(name = "statement", namespace = "http://standards.iso.org/iso/19157/-2/mdq/1.0")
     public List<String> statement;
 
@@ -58,49 +49,9 @@ public class DQ_DescriptiveResult {
         }
     }
 
-    public void createResultScope() {
-        if (this.resultScope == null) {
-            this.resultScope = new ArrayList<>();
-        }
-    }
-
-    public void createDateTime() {
-        if (this.dateTime == null) {
-            this.dateTime = new ArrayList<>();
-        }
-    }
-
     public void createStatement() {
         if (this.statement == null) {
             this.statement = new ArrayList<>();
-        }
-    }
-
-    public void addResultScope(MD_Scope resultScope) {
-        int elementNum = 0;
-        try {
-            List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
-            if (tempList.size() >= elementMax[elementNum]) {
-                throw new MaximumOccurrenceException(className + " - " + elementName[elementNum], elementMax[elementNum]);
-            } else {
-                this.resultScope.add(resultScope);
-            }
-        } catch (MaximumOccurrenceException | NoSuchFieldException | IllegalAccessException e) {
-            System.out.println(e.getMessage());
-        }
-    }
-
-    public void addDateTime(String dateTime) {
-        int elementNum = 1;
-        try {
-            List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
-            if (tempList.size() >= elementMax[elementNum]) {
-                throw new MaximumOccurrenceException(className + " - " + elementName[elementNum], elementMax[elementNum]);
-            } else {
-                this.dateTime.add(dateTime);
-            }
-        } catch (MaximumOccurrenceException | NoSuchFieldException | IllegalAccessException e) {
-            System.out.println(e.getMessage());
         }
     }
 

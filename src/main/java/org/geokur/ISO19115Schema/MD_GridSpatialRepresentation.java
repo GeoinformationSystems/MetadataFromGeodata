@@ -14,7 +14,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @XmlRootElement(name = "MD_GridSpatialRepresentation", namespace = "http://standards.iso.org/iso/19115/-3/msr/1.0")
-public class MD_GridSpatialRepresentation {
+public class MD_GridSpatialRepresentation extends MD_SpatialRepresentation {
 
     // occurrence and obligation
     private final String[] elementName = {"numberOfDimensions", "axisDimensionProperties", "cellGeometry", "transformationParameterAvailability"};
@@ -38,6 +38,11 @@ public class MD_GridSpatialRepresentation {
 
     @XmlElement(name = "transformationParameterAvailability", namespace = "http://standards.iso.org/iso/19115/-3/msr/1.0")
     public List<String> transformationParameterAvailability;
+
+    // variables for correct marshalling of specified classes
+    public List<MD_Georectified> georectified;
+
+    public List<MD_Georeferenceable> georeferenceable;
 
     // methods
     public MD_GridSpatialRepresentation(){

@@ -33,7 +33,7 @@ public class MD_ExtendedElementInformation {
 
     @XmlElementWrapper(name = "obligation", namespace = "http://standards.iso.org/iso/19115/-3/mex/1.0")
     @XmlElementRef
-    public List<enumeration_MD_ObligationCode> obligation;
+    public List<MD_ObligationCode> obligation;
 
     @XmlElement(name = "condition", namespace = "http://standards.iso.org/iso/19115/-3/mex/1.0")
     public List<String> condition;
@@ -196,7 +196,7 @@ public class MD_ExtendedElementInformation {
         }
     }
 
-    public void addObligation(enumeration_MD_ObligationCode obligation) {
+    public void addObligation(MD_ObligationCode obligation) {
         int elementNum = 2;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);

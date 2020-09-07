@@ -10,19 +10,16 @@ import javax.xml.bind.annotation.XmlElementRef;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @XmlRootElement(name = "MD_Identification", namespace = "http://standards.iso.org/iso/19115/-3/mri/1.0")
-public class MD_Identification {
+public abstract class MD_Identification {
 
     // occurrence and obligation
-    private final String[] elementName = {"citation", "abstract", "purpose", "credit", "status", "pointOfContact", "spatialRepresentationType", "spatialResolution", "temporalResolution", "topicCategory", "extent", "additionalDocumentation", "processingLevel", "resourceMaintenance", "graphicOverview", "resourceFormat", "descriptiveKeywords", "resourceSpecificUsage", "resourceConstraints", "associatedResource"};
+    private final String[] elementName = {"citation", "abstractElement", "purpose", "credit", "status", "pointOfContact", "spatialRepresentationType", "spatialResolution", "temporalResolution", "topicCategory", "extent", "additionalDocumentation", "processingLevel", "resourceMaintenance", "graphicOverview", "resourceFormat", "descriptiveKeywords", "resourceSpecificUsage", "resourceConstraints", "associatedResource"};
     private final int[] elementMax = {1, 1, 1, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, 1, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE};
-    private final boolean[] elementObligation = {true, true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false};
 
     private final String className = this.getClass().getSimpleName();
-    private final boolean[] elementUsed = new boolean[elementName.length];
 
     // class variables
     @XmlElementWrapper(name = "citation", namespace = "http://standards.iso.org/iso/19115/-3/mri/1.0")
@@ -30,7 +27,7 @@ public class MD_Identification {
     public List<CI_Citation> citation;
 
     @XmlElement(name = "abstract", namespace = "http://standards.iso.org/iso/19115/-3/mri/1.0")
-    public List<String> abstract;
+    public List<String> abstractElement;
 
     @XmlElement(name = "purpose", namespace = "http://standards.iso.org/iso/19115/-3/mri/1.0")
     public List<String> purpose;
@@ -59,7 +56,7 @@ public class MD_Identification {
 
     @XmlElementWrapper(name = "topicCategory", namespace = "http://standards.iso.org/iso/19115/-3/mri/1.0")
     @XmlElementRef
-    public List<enumeration_MD_TopicCategoryCode> topicCategory;
+    public List<MD_TopicCategoryCode> topicCategory;
 
     @XmlElementWrapper(name = "extent", namespace = "http://standards.iso.org/iso/19115/-3/mri/1.0")
     @XmlElementRef
@@ -101,29 +98,12 @@ public class MD_Identification {
     @XmlElementRef
     public List<MD_AssociatedResource> associatedResource;
 
+    // variables for correct marshalling of specified classes
+    public List<MD_DataIdentification> dataIdentification;
+
+    public List<SV_ServiceIdentification> serviceIdentification;
+
     // methods
-    public MD_Identification(){
-        for (int i = 0; i < elementName.length; i++) {
-            elementUsed[i] = true;
-        }
-
-        // use profile (used elements and their obligation)
-        if (ProfileReader.profile != null) {
-            for (int i = 0; i < elementName.length; i++) {
-                List<String> tempList = Arrays.asList(ProfileReader.profile.used.MD_Identification);
-                if (!tempList.contains(elementName[i])) {
-                    // element not used
-                    elementUsed[i] = false;
-                }
-                tempList = Arrays.asList(ProfileReader.profile.obligation.MD_Identification);
-                if (!tempList.contains(elementName[i])) {
-                    // element not mandatory
-                    elementObligation[i] = false;
-                }
-            }
-        }
-    }
-
     public void createCitation() {
         if (this.citation == null) {
             this.citation = new ArrayList<>();
@@ -131,8 +111,8 @@ public class MD_Identification {
     }
 
     public void createAbstract() {
-        if (this.abstract == null) {
-            this.abstract = new ArrayList<>();
+        if (this.abstractElement == null) {
+            this.abstractElement = new ArrayList<>();
         }
     }
 
@@ -258,14 +238,14 @@ public class MD_Identification {
         }
     }
 
-    public void addAbstract(String abstract) {
+    public void addAbstract(String abstractElement) {
         int elementNum = 1;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
             if (tempList.size() >= elementMax[elementNum]) {
                 throw new MaximumOccurrenceException(className + " - " + elementName[elementNum], elementMax[elementNum]);
             } else {
-                this.abstract.add(abstract);
+                this.abstractElement.add(abstractElement);
             }
         } catch (MaximumOccurrenceException | NoSuchFieldException | IllegalAccessException e) {
             System.out.println(e.getMessage());
@@ -370,7 +350,7 @@ public class MD_Identification {
         }
     }
 
-    public void addTopicCategory(enumeration_MD_TopicCategoryCode topicCategory) {
+    public void addTopicCategory(MD_TopicCategoryCode topicCategory) {
         int elementNum = 9;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -521,24 +501,6 @@ public class MD_Identification {
             }
         } catch (MaximumOccurrenceException | NoSuchFieldException | IllegalAccessException e) {
             System.out.println(e.getMessage());
-        }
-    }
-
-    public void finalizeClass() {
-        for (int i = 0; i < elementName.length; i++) {
-            try {
-                List<?> tempList = (List<?>) this.getClass().getField(elementName[i]).get(this);
-                if (!elementUsed[i] && tempList != null && !tempList.isEmpty()) {
-                    // test profile use
-                    throw new ProfileException(className + " - " + elementName[i]);
-                }
-                if (elementObligation[i] && (tempList == null || tempList.isEmpty())) {
-                    // test filling and obligation of all variable lists
-                    throw new ObligationException(className + " - " + elementName[i]);
-                }
-            } catch (ProfileException | ObligationException | NoSuchFieldException | IllegalAccessException e) {
-                System.out.println(e.getMessage());
-            }
         }
     }
 }

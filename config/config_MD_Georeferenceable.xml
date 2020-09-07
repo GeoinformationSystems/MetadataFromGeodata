@@ -57,7 +57,7 @@
         <used>true</used>
     </element>
     <element>
-        <name>georeferencesParameters</name>
+        <name>georeferencedParameters</name>
         <obligation>M</obligation>
         <occurrence>1</occurrence>
         <configFile></configFile>

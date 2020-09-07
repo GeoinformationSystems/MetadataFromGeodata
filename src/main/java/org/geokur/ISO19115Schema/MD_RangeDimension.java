@@ -35,6 +35,9 @@ public class MD_RangeDimension {
     @XmlElementRef
     public List<MD_Identifier> name;
 
+    // variables for correct marshalling of specified classes
+    public List<MD_SampleDimension> sampleDimension;
+
     // methods
     public MD_RangeDimension(){
         for (int i = 0; i < elementName.length; i++) {

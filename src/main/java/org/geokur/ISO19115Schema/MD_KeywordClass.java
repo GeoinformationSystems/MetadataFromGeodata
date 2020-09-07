@@ -17,7 +17,8 @@ import java.util.List;
 public class MD_KeywordClass {
 
     // occurrence and obligation
-    private final String[] elementName = {"className", "conceptIdentifier", "ontology"};
+    private final String[] elementName = {"classNameElement", "conceptIdentifier", "ontology"};
+    private final String[] elementNameProfile = {"className", "conceptIdentifier", "ontology"}; // true profile name of elements
     private final int[] elementMax = {1, 1, 1};
     private final boolean[] elementObligation = {true, false, true};
 
@@ -26,7 +27,7 @@ public class MD_KeywordClass {
 
     // class variables
     @XmlElement(name = "className", namespace = "http://standards.iso.org/iso/19115/-3/mri/1.0")
-    public List<String> className;
+    public List<String> classNameElement;
 
     @XmlElement(name = "conceptIdentifier", namespace = "http://standards.iso.org/iso/19115/-3/mri/1.0")
     public List<String> conceptIdentifier;
@@ -45,12 +46,12 @@ public class MD_KeywordClass {
         if (ProfileReader.profile != null) {
             for (int i = 0; i < elementName.length; i++) {
                 List<String> tempList = Arrays.asList(ProfileReader.profile.used.MD_KeywordClass);
-                if (!tempList.contains(elementName[i])) {
+                if (!tempList.contains(elementNameProfile[i])) {
                     // element not used
                     elementUsed[i] = false;
                 }
                 tempList = Arrays.asList(ProfileReader.profile.obligation.MD_KeywordClass);
-                if (!tempList.contains(elementName[i])) {
+                if (!tempList.contains(elementNameProfile[i])) {
                     // element not mandatory
                     elementObligation[i] = false;
                 }
@@ -59,8 +60,8 @@ public class MD_KeywordClass {
     }
 
     public void createClassName() {
-        if (this.className == null) {
-            this.className = new ArrayList<>();
+        if (this.classNameElement == null) {
+            this.classNameElement = new ArrayList<>();
         }
     }
 
@@ -76,14 +77,14 @@ public class MD_KeywordClass {
         }
     }
 
-    public void addClassName(String className) {
+    public void addClassName(String classNameElement) {
         int elementNum = 0;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
             if (tempList.size() >= elementMax[elementNum]) {
                 throw new MaximumOccurrenceException(className + " - " + elementName[elementNum], elementMax[elementNum]);
             } else {
-                this.className.add(className);
+                this.classNameElement.add(classNameElement);
             }
         } catch (MaximumOccurrenceException | NoSuchFieldException | IllegalAccessException e) {
             System.out.println(e.getMessage());
@@ -124,11 +125,11 @@ public class MD_KeywordClass {
                 List<?> tempList = (List<?>) this.getClass().getField(elementName[i]).get(this);
                 if (!elementUsed[i] && tempList != null && !tempList.isEmpty()) {
                     // test profile use
-                    throw new ProfileException(className + " - " + elementName[i]);
+                    throw new ProfileException(className + " - " + elementNameProfile[i]);
                 }
                 if (elementObligation[i] && (tempList == null || tempList.isEmpty())) {
                     // test filling and obligation of all variable lists
-                    throw new ObligationException(className + " - " + elementName[i]);
+                    throw new ObligationException(className + " - " + elementNameProfile[i]);
                 }
             } catch (ProfileException | ObligationException | NoSuchFieldException | IllegalAccessException e) {
                 System.out.println(e.getMessage());

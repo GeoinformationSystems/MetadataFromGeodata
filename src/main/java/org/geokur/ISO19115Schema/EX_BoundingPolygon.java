@@ -12,7 +12,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @XmlRootElement(name = "EX_BoundingPolygon", namespace = "http://standards.iso.org/iso/19115/-3/gex/1.0")
-public class EX_BoundingPolygon {
+public class EX_BoundingPolygon extends EX_GeographicExtent {
 
     // occurrence and obligation
     private final String[] elementName = {"extentTypeCode", "polygon"};
@@ -23,9 +23,6 @@ public class EX_BoundingPolygon {
     private final boolean[] elementUsed = new boolean[elementName.length];
 
     // class variables
-    @XmlElement(name = "extentTypeCode", namespace = "http://standards.iso.org/iso/19115/-3/gex/1.0")
-    public List<String> extentTypeCode;
-
     @XmlElement(name = "polygon", namespace = "http://standards.iso.org/iso/19115/-3/gex/1.0")
     public List<String> polygon;
 
@@ -52,29 +49,9 @@ public class EX_BoundingPolygon {
         }
     }
 
-    public void createExtentTypeCode() {
-        if (this.extentTypeCode == null) {
-            this.extentTypeCode = new ArrayList<>();
-        }
-    }
-
     public void createPolygon() {
         if (this.polygon == null) {
             this.polygon = new ArrayList<>();
-        }
-    }
-
-    public void addExtentTypeCode(String extentTypeCode) {
-        int elementNum = 0;
-        try {
-            List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
-            if (tempList.size() >= elementMax[elementNum]) {
-                throw new MaximumOccurrenceException(className + " - " + elementName[elementNum], elementMax[elementNum]);
-            } else {
-                this.extentTypeCode.add(extentTypeCode);
-            }
-        } catch (MaximumOccurrenceException | NoSuchFieldException | IllegalAccessException e) {
-            System.out.println(e.getMessage());
         }
     }
 

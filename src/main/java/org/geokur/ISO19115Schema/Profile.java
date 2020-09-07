@@ -111,12 +111,12 @@ class Used{
     String[] DQ_AbsoluteExternalPositionalAccuracy;
     String[] DQ_RelativeInternalPositionalAccuracy;
     String[] DQ_GriddedDataPositionalAccuracy;
-    String[] DQ_AccuracyOfATimeMeasure;
+    String[] DQ_AccuracyOfATimeMeasurement;
     String[] DQ_TemporalConsistency;
     String[] DQ_TemporalValidity;
     String[] DQ_ThematicClassificationCorrectness;
     String[] DQ_NonQuantitativeAttributeCorrectness;
-    String[] DQ_QuantitativeAttributeCorrectness;
+    String[] DQ_QuantitativeAttributeAccuracy;
     String[] DQ_UsabilityElement;
     String[] DQ_Confidence;
     String[] DQ_Representativity;
@@ -500,8 +500,8 @@ class Used{
         this.DQ_GriddedDataPositionalAccuracy = DQ_GriddedDataPositionalAccuracy;
     }
 
-    public void setDQ_AccuracyOfATimeMeasure(String[] DQ_AccuracyOfATimeMeasure) {
-        this.DQ_AccuracyOfATimeMeasure = DQ_AccuracyOfATimeMeasure;
+    public void setDQ_AccuracyOfATimeMeasurement(String[] DQ_AccuracyOfATimeMeasurement) {
+        this.DQ_AccuracyOfATimeMeasurement = DQ_AccuracyOfATimeMeasurement;
     }
 
     public void setDQ_TemporalConsistency(String[] DQ_TemporalConsistency) {
@@ -520,8 +520,8 @@ class Used{
         this.DQ_NonQuantitativeAttributeCorrectness = DQ_NonQuantitativeAttributeCorrectness;
     }
 
-    public void setDQ_QuantitativeAttributeCorrectness(String[] DQ_QuantitativeAttributeCorrectness) {
-        this.DQ_QuantitativeAttributeCorrectness = DQ_QuantitativeAttributeCorrectness;
+    public void setDQ_QuantitativeAttributeAccuracy(String[] DQ_QuantitativeAttributeAccuracy) {
+        this.DQ_QuantitativeAttributeAccuracy = DQ_QuantitativeAttributeAccuracy;
     }
 
     public void setDQ_UsabilityElement(String[] DQ_UsabilityElement) {
@@ -674,12 +674,12 @@ class Obligation{
     String[] DQ_AbsoluteExternalPositionalAccuracy;
     String[] DQ_RelativeInternalPositionalAccuracy;
     String[] DQ_GriddedDataPositionalAccuracy;
-    String[] DQ_AccuracyOfATimeMeasure;
+    String[] DQ_AccuracyOfATimeMeasurement;
     String[] DQ_TemporalConsistency;
     String[] DQ_TemporalValidity;
     String[] DQ_ThematicClassificationCorrectness;
     String[] DQ_NonQuantitativeAttributeCorrectness;
-    String[] DQ_QuantitativeAttributeCorrectness;
+    String[] DQ_QuantitativeAttributeAccuracy;
     String[] DQ_UsabilityElement;
     String[] DQ_Confidence;
     String[] DQ_Representativity;
@@ -1063,8 +1063,8 @@ class Obligation{
         this.DQ_GriddedDataPositionalAccuracy = DQ_GriddedDataPositionalAccuracy;
     }
 
-    public void setDQ_AccuracyOfATimeMeasure(String[] DQ_AccuracyOfATimeMeasure) {
-        this.DQ_AccuracyOfATimeMeasure = DQ_AccuracyOfATimeMeasure;
+    public void setDQ_AccuracyOfATimeMeasurement(String[] DQ_AccuracyOfATimeMeasurement) {
+        this.DQ_AccuracyOfATimeMeasurement = DQ_AccuracyOfATimeMeasurement;
     }
 
     public void setDQ_TemporalConsistency(String[] DQ_TemporalConsistency) {
@@ -1083,8 +1083,8 @@ class Obligation{
         this.DQ_NonQuantitativeAttributeCorrectness = DQ_NonQuantitativeAttributeCorrectness;
     }
 
-    public void setDQ_QuantitativeAttributeCorrectness(String[] DQ_QuantitativeAttributeCorrectness) {
-        this.DQ_QuantitativeAttributeCorrectness = DQ_QuantitativeAttributeCorrectness;
+    public void setDQ_QuantitativeAttributeAccuracy(String[] DQ_QuantitativeAttributeAccuracy) {
+        this.DQ_QuantitativeAttributeAccuracy = DQ_QuantitativeAttributeAccuracy;
     }
 
     public void setDQ_UsabilityElement(String[] DQ_UsabilityElement) {

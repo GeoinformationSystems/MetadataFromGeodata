@@ -14,7 +14,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @XmlRootElement(name = "MD_ImageDescription", namespace = "http://standards.iso.org/iso/19115/-3/mrc/1.0")
-public class MD_ImageDescription {
+public class MD_ImageDescription extends MD_CoverageDescription {
 
     // occurrence and obligation
     private final String[] elementName = {"attributeDescription", "processingLevelCode", "attributeGroup", "illuminationElevationAngle", "illuminationAzimuthAngle", "imagingCondition", "imageQualityCode", "cloudCoverPercentage", "compressionGenerationQuantity", "triangulationIndicator", "radiometricCalibrationDataAvailability", "cameraCalibrationInformationAvailability", "filmDistortionInformationAvailability", "lensDistortionInformationAvailability"};
@@ -25,17 +25,6 @@ public class MD_ImageDescription {
     private final boolean[] elementUsed = new boolean[elementName.length];
 
     // class variables
-    @XmlElement(name = "attributeDescription", namespace = "http://standards.iso.org/iso/19115/-3/mrc/1.0")
-    public List<String> attributeDescription;
-
-    @XmlElementWrapper(name = "processingLevelCode", namespace = "http://standards.iso.org/iso/19115/-3/mrc/1.0")
-    @XmlElementRef
-    public List<MD_Identifier> processingLevelCode;
-
-    @XmlElementWrapper(name = "attributeGroup", namespace = "http://standards.iso.org/iso/19115/-3/mrc/1.0")
-    @XmlElementRef
-    public List<MD_AttributeGroup> attributeGroup;
-
     @XmlElement(name = "illuminationElevationAngle", namespace = "http://standards.iso.org/iso/19115/-3/mrc/1.0")
     public List<String> illuminationElevationAngle;
 
@@ -91,24 +80,6 @@ public class MD_ImageDescription {
                     elementObligation[i] = false;
                 }
             }
-        }
-    }
-
-    public void createAttributeDescription() {
-        if (this.attributeDescription == null) {
-            this.attributeDescription = new ArrayList<>();
-        }
-    }
-
-    public void createProcessingLevelCode() {
-        if (this.processingLevelCode == null) {
-            this.processingLevelCode = new ArrayList<>();
-        }
-    }
-
-    public void createAttributeGroup() {
-        if (this.attributeGroup == null) {
-            this.attributeGroup = new ArrayList<>();
         }
     }
 
@@ -175,48 +146,6 @@ public class MD_ImageDescription {
     public void createLensDistortionInformationAvailability() {
         if (this.lensDistortionInformationAvailability == null) {
             this.lensDistortionInformationAvailability = new ArrayList<>();
-        }
-    }
-
-    public void addAttributeDescription(String attributeDescription) {
-        int elementNum = 0;
-        try {
-            List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
-            if (tempList.size() >= elementMax[elementNum]) {
-                throw new MaximumOccurrenceException(className + " - " + elementName[elementNum], elementMax[elementNum]);
-            } else {
-                this.attributeDescription.add(attributeDescription);
-            }
-        } catch (MaximumOccurrenceException | NoSuchFieldException | IllegalAccessException e) {
-            System.out.println(e.getMessage());
-        }
-    }
-
-    public void addProcessingLevelCode(MD_Identifier processingLevelCode) {
-        int elementNum = 1;
-        try {
-            List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
-            if (tempList.size() >= elementMax[elementNum]) {
-                throw new MaximumOccurrenceException(className + " - " + elementName[elementNum], elementMax[elementNum]);
-            } else {
-                this.processingLevelCode.add(processingLevelCode);
-            }
-        } catch (MaximumOccurrenceException | NoSuchFieldException | IllegalAccessException e) {
-            System.out.println(e.getMessage());
-        }
-    }
-
-    public void addAttributeGroup(MD_AttributeGroup attributeGroup) {
-        int elementNum = 2;
-        try {
-            List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
-            if (tempList.size() >= elementMax[elementNum]) {
-                throw new MaximumOccurrenceException(className + " - " + elementName[elementNum], elementMax[elementNum]);
-            } else {
-                this.attributeGroup.add(attributeGroup);
-            }
-        } catch (MaximumOccurrenceException | NoSuchFieldException | IllegalAccessException e) {
-            System.out.println(e.getMessage());
         }
     }
 

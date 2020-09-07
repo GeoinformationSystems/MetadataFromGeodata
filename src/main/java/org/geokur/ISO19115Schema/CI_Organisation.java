@@ -5,6 +5,8 @@
 
 package org.geokur.ISO19115Schema;
 
+import javax.xml.bind.annotation.XmlElementRef;
+import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -20,6 +22,15 @@ public class CI_Organisation extends CI_Party {
 
     private final String className = this.getClass().getSimpleName();
     private final boolean[] elementUsed = new boolean[elementName.length];
+
+    // class variables
+    @XmlElementWrapper(name = "logo", namespace = "http://standards.iso.org/iso/19115/-3/cit/1.0")
+    @XmlElementRef
+    public List<MD_BrowseGraphic> logo;
+
+    @XmlElementWrapper(name = "individual", namespace = "http://standards.iso.org/iso/19115/-3/cit/1.0")
+    @XmlElementRef
+    public List<CI_Individual> individual;
 
     // methods
     public CI_Organisation(){

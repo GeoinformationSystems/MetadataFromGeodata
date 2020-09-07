@@ -14,7 +14,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @XmlRootElement(name = "MD_CoverageDescription", namespace = "http://standards.iso.org/iso/19115/-3/mrc/1.0")
-public class MD_CoverageDescription {
+public class MD_CoverageDescription extends MD_ContentInformation {
 
     // occurrence and obligation
     private final String[] elementName = {"attributeDescription", "processingLevelCode", "attributeGroup"};
@@ -35,6 +35,9 @@ public class MD_CoverageDescription {
     @XmlElementWrapper(name = "attributeGroup", namespace = "http://standards.iso.org/iso/19115/-3/mrc/1.0")
     @XmlElementRef
     public List<MD_AttributeGroup> attributeGroup;
+
+    // variables for correct marshalling of specified classes
+    public List<MD_ImageDescription> imageDescription;
 
     // methods
     public MD_CoverageDescription(){

@@ -5,7 +5,6 @@
 
 package org.geokur.ISO19115Schema;
 
-import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementRef;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -14,7 +13,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @XmlRootElement(name = "MD_VectorSpatialRepresentation", namespace = "http://standards.iso.org/iso/19115/-3/msr/1.0")
-public class MD_VectorSpatialRepresentation {
+public class MD_VectorSpatialRepresentation extends MD_SpatialRepresentation {
 
     // occurrence and obligation
     private final String[] elementName = {"topologyLevel", "geometricObjects"};
@@ -27,7 +26,7 @@ public class MD_VectorSpatialRepresentation {
     // class variables
     @XmlElementWrapper(name = "topologyLevel", namespace = "http://standards.iso.org/iso/19115/-3/msr/1.0")
     @XmlElementRef
-    public List<MD_TopogyLevelCode> topologyLevel;
+    public List<MD_TopologyLevelCode> topologyLevel;
 
     @XmlElementWrapper(name = "geometricObjects", namespace = "http://standards.iso.org/iso/19115/-3/msr/1.0")
     @XmlElementRef
@@ -68,7 +67,7 @@ public class MD_VectorSpatialRepresentation {
         }
     }
 
-    public void addTopologyLevel(MD_TopogyLevelCode topologyLevel) {
+    public void addTopologyLevel(MD_TopologyLevelCode topologyLevel) {
         int elementNum = 0;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);

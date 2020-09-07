@@ -48,6 +48,11 @@ public class MD_Constraints {
     @XmlElementRef
     public List<CI_Responsibility> responsibleParty;
 
+    // variables for correct marshalling of specified classes
+    public List<MD_LegalConstraints> legalConstraints;
+
+    public List<MD_SecurityConstraints> securityConstraints;
+
     // methods
     public MD_Constraints(){
         for (int i = 0; i < elementName.length; i++) {

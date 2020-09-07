@@ -27,7 +27,7 @@ public class MD_AttributeGroup {
     // class variables
     @XmlElementWrapper(name = "contentType", namespace = "http://standards.iso.org/iso/19115/-3/mrc/1.0")
     @XmlElementRef
-    public List<MD_CoverageContentType> contentType;
+    public List<MD_CoverageContentTypeCode> contentType;
 
     @XmlElementWrapper(name = "attribute", namespace = "http://standards.iso.org/iso/19115/-3/mrc/1.0")
     @XmlElementRef
@@ -68,7 +68,7 @@ public class MD_AttributeGroup {
         }
     }
 
-    public void addContentType(MD_CoverageContentType contentType) {
+    public void addContentType(MD_CoverageContentTypeCode contentType) {
         int elementNum = 0;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);

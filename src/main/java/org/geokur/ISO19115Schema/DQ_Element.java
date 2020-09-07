@@ -14,7 +14,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @XmlRootElement(name = "DQ_Element", namespace = "http://standards.iso.org/iso/19157/-2/mdq/1.0")
-public class DQ_Element {
+public abstract class DQ_Element {
 
     // occurrence and obligation
     private final String[] elementName = {"standaloneQualityReportDetails", "measure", "evaluationMethod", "result", "derivedElement"};
@@ -44,29 +44,108 @@ public class DQ_Element {
     @XmlElementRef
     public List<DQ_Element> derivedElement;
 
+    // variables for correct marshalling of specified classes
+    @XmlElementWrapper(name = "completeness", namespace = "http://standards.iso.org/iso/19157/-2/mdq/1.0")
+    @XmlElementRef
+    public List<DQ_Completeness> completeness;
+
+    @XmlElementWrapper(name = "completenessCommission", namespace = "http://standards.iso.org/iso/19157/-2/mdq/1.0")
+    @XmlElementRef
+    public List<DQ_CompletenessCommission> completenessCommission;
+
+    @XmlElementWrapper(name = "completenessOmission", namespace = "http://standards.iso.org/iso/19157/-2/mdq/1.0")
+    @XmlElementRef
+    public List<DQ_CompletenessOmission> completenessOmission;
+
+    @XmlElementWrapper(name = "logicalConsistency", namespace = "http://standards.iso.org/iso/19157/-2/mdq/1.0")
+    @XmlElementRef
+    public List<DQ_LogicalConsistency> logicalConsistency;
+
+    @XmlElementWrapper(name = "conceptualConsistency", namespace = "http://standards.iso.org/iso/19157/-2/mdq/1.0")
+    @XmlElementRef
+    public List<DQ_ConceptualConsistency> conceptualConsistency;
+
+    @XmlElementWrapper(name = "domainConsistency", namespace = "http://standards.iso.org/iso/19157/-2/mdq/1.0")
+    @XmlElementRef
+    public List<DQ_DomainConsistency> domainConsistency;
+
+    @XmlElementWrapper(name = "formatConsistency", namespace = "http://standards.iso.org/iso/19157/-2/mdq/1.0")
+    @XmlElementRef
+    public List<DQ_FormatConsistency> formatConsistency;
+
+    @XmlElementWrapper(name = "topologicalConsistency", namespace = "http://standards.iso.org/iso/19157/-2/mdq/1.0")
+    @XmlElementRef
+    public List<DQ_TopologicalConsistency> topologicalConsistency;
+
+    @XmlElementWrapper(name = "positionalAccuracy", namespace = "http://standards.iso.org/iso/19157/-2/mdq/1.0")
+    @XmlElementRef
+    public List<DQ_PositionalAccuracy> positionalAccuracy;
+
+    @XmlElementWrapper(name = "absoluteExternalPositionalAccuracy", namespace = "http://standards.iso.org/iso/19157/-2/mdq/1.0")
+    @XmlElementRef
+    public List<DQ_AbsoluteExternalPositionalAccuracy> absoluteExternalPositionalAccuracy;
+
+    @XmlElementWrapper(name = "relativeInternalPositionalAccuracy", namespace = "http://standards.iso.org/iso/19157/-2/mdq/1.0")
+    @XmlElementRef
+    public List<DQ_RelativeInternalPositionalAccuracy> relativeInternalPositionalAccuracy;
+
+    @XmlElementWrapper(name = "griddedDataPositionalAccuracy", namespace = "http://standards.iso.org/iso/19157/-2/mdq/1.0")
+    @XmlElementRef
+    public List<DQ_GriddedDataPositionalAccuracy> griddedDataPositionalAccuracy;
+
+    @XmlElementWrapper(name = "temporalQuality", namespace = "http://standards.iso.org/iso/19157/-2/mdq/1.0")
+    @XmlElementRef
+    public List<DQ_TemporalQuality> temporalQuality;
+
+    @XmlElementWrapper(name = "accuracyOfATimeMeasurement", namespace = "http://standards.iso.org/iso/19157/-2/mdq/1.0")
+    @XmlElementRef
+    public List<DQ_AccuracyOfATimeMeasurement> accuracyOfATimeMeasurement;
+
+    @XmlElementWrapper(name = "temporalConsistency", namespace = "http://standards.iso.org/iso/19157/-2/mdq/1.0")
+    @XmlElementRef
+    public List<DQ_TemporalConsistency> temporalConsistency;
+
+    @XmlElementWrapper(name = "temporalValidity", namespace = "http://standards.iso.org/iso/19157/-2/mdq/1.0")
+    @XmlElementRef
+    public List<DQ_TemporalValidity> temporalValidity;
+
+    @XmlElementWrapper(name = "thematicAccuracy", namespace = "http://standards.iso.org/iso/19157/-2/mdq/1.0")
+    @XmlElementRef
+    public List<DQ_ThematicAccuracy> thematicAccuracy;
+
+    @XmlElementWrapper(name = "thematicClassificationCorrectness", namespace = "http://standards.iso.org/iso/19157/-2/mdq/1.0")
+    @XmlElementRef
+    public List<DQ_ThematicClassificationCorrectness> thematicClassificationCorrectness;
+
+    @XmlElementWrapper(name = "nonQuantitativeAttributeCorrectness", namespace = "http://standards.iso.org/iso/19157/-2/mdq/1.0")
+    @XmlElementRef
+    public List<DQ_NonQuantitativeAttributeCorrectness> nonQuantitativeAttributeCorrectness;
+
+    @XmlElementWrapper(name = "quantitativeAttributeAccuracy", namespace = "http://standards.iso.org/iso/19157/-2/mdq/1.0")
+    @XmlElementRef
+    public List<DQ_QuantitativeAttributeAccuracy> quantitativeAttributeAccuracy;
+
+    @XmlElementWrapper(name = "usabilityElement", namespace = "http://standards.iso.org/iso/19157/-2/mdq/1.0")
+    @XmlElementRef
+    public List<DQ_UsabilityElement> usabilityElement;
+
+    @XmlElementWrapper(name = "metaquality", namespace = "http://standards.iso.org/iso/19157/-2/mdq/1.0")
+    @XmlElementRef
+    public List<DQ_Metaquality> metaquality;
+
+    @XmlElementWrapper(name = "confidence", namespace = "http://standards.iso.org/iso/19157/-2/mdq/1.0")
+    @XmlElementRef
+    public List<DQ_Confidence> confidence;
+
+    @XmlElementWrapper(name = "representativity", namespace = "http://standards.iso.org/iso/19157/-2/mdq/1.0")
+    @XmlElementRef
+    public List<DQ_Representativity> representativity;
+
+    @XmlElementWrapper(name = "homogeneity", namespace = "http://standards.iso.org/iso/19157/-2/mdq/1.0")
+    @XmlElementRef
+    public List<DQ_Homogeneity> homogeneity;
+
     // methods
-    public DQ_Element(){
-        for (int i = 0; i < elementName.length; i++) {
-            elementUsed[i] = true;
-        }
-
-        // use profile (used elements and their obligation)
-        if (ProfileReader.profile != null) {
-            for (int i = 0; i < elementName.length; i++) {
-                List<String> tempList = Arrays.asList(ProfileReader.profile.used.DQ_Element);
-                if (!tempList.contains(elementName[i])) {
-                    // element not used
-                    elementUsed[i] = false;
-                }
-                tempList = Arrays.asList(ProfileReader.profile.obligation.DQ_Element);
-                if (!tempList.contains(elementName[i])) {
-                    // element not mandatory
-                    elementObligation[i] = false;
-                }
-            }
-        }
-    }
-
     public void createStandaloneQualityReportDetails() {
         if (this.standaloneQualityReportDetails == null) {
             this.standaloneQualityReportDetails = new ArrayList<>();
@@ -164,24 +243,6 @@ public class DQ_Element {
             }
         } catch (MaximumOccurrenceException | NoSuchFieldException | IllegalAccessException e) {
             System.out.println(e.getMessage());
-        }
-    }
-
-    public void finalizeClass() {
-        for (int i = 0; i < elementName.length; i++) {
-            try {
-                List<?> tempList = (List<?>) this.getClass().getField(elementName[i]).get(this);
-                if (!elementUsed[i] && tempList != null && !tempList.isEmpty()) {
-                    // test profile use
-                    throw new ProfileException(className + " - " + elementName[i]);
-                }
-                if (elementObligation[i] && (tempList == null || tempList.isEmpty())) {
-                    // test filling and obligation of all variable lists
-                    throw new ObligationException(className + " - " + elementName[i]);
-                }
-            } catch (ProfileException | ObligationException | NoSuchFieldException | IllegalAccessException e) {
-                System.out.println(e.getMessage());
-            }
         }
     }
 }

@@ -29,20 +29,9 @@ public abstract class CI_Party {
     @XmlElementRef
     public List<CI_Contact> contactInfo;
 
-    @XmlElement(name = "positionName", namespace = "http://standards.iso.org/iso/19115/-3/cit/1.0")
-    public List<String> positionName;
-
-    @XmlElementWrapper(name = "logo", namespace = "http://standards.iso.org/iso/19115/-3/cit/1.0")
-    @XmlElementRef
-    public List<MD_BrowseGraphic> logo;
-
-    @XmlElementWrapper(name = "individual", namespace = "http://standards.iso.org/iso/19115/-3/cit/1.0")
-    @XmlElementRef
+    // variables for correct marshalling of specified classes
     public List<CI_Individual> individual;
 
-    // variables for correct marshalling of specified classes
-    @XmlElementWrapper(name = "organisation", namespace = "http://standards.iso.org/iso/19115/-3/cit/1.0")
-    @XmlElementRef
     public List<CI_Organisation> organisation;
 
     // methods

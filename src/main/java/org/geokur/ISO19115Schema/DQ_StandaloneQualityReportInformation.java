@@ -17,7 +17,8 @@ import java.util.List;
 public class DQ_StandaloneQualityReportInformation {
 
     // occurrence and obligation
-    private final String[] elementName = {"reportReference", "abstract"};
+    private final String[] elementName = {"reportReference", "abstractElement"};
+    private final String[] elementNameProfile = {"reportReference", "abstract"}; // true profile name of elements
     private final int[] elementMax = {1, 1};
     private final boolean[] elementObligation = {true, true};
 
@@ -30,7 +31,7 @@ public class DQ_StandaloneQualityReportInformation {
     public List<CI_Citation> reportReference;
 
     @XmlElement(name = "abstract", namespace = "http://standards.iso.org/iso/19157/-2/mdq/1.0")
-    public List<String> abstract;
+    public List<String> abstractElement;
 
     // methods
     public DQ_StandaloneQualityReportInformation(){
@@ -42,12 +43,12 @@ public class DQ_StandaloneQualityReportInformation {
         if (ProfileReader.profile != null) {
             for (int i = 0; i < elementName.length; i++) {
                 List<String> tempList = Arrays.asList(ProfileReader.profile.used.DQ_StandaloneQualityReportInformation);
-                if (!tempList.contains(elementName[i])) {
+                if (!tempList.contains(elementNameProfile[i])) {
                     // element not used
                     elementUsed[i] = false;
                 }
                 tempList = Arrays.asList(ProfileReader.profile.obligation.DQ_StandaloneQualityReportInformation);
-                if (!tempList.contains(elementName[i])) {
+                if (!tempList.contains(elementNameProfile[i])) {
                     // element not mandatory
                     elementObligation[i] = false;
                 }
@@ -62,8 +63,8 @@ public class DQ_StandaloneQualityReportInformation {
     }
 
     public void createAbstract() {
-        if (this.abstract == null) {
-            this.abstract = new ArrayList<>();
+        if (this.abstractElement == null) {
+            this.abstractElement = new ArrayList<>();
         }
     }
 
@@ -81,14 +82,14 @@ public class DQ_StandaloneQualityReportInformation {
         }
     }
 
-    public void addAbstract(String abstract) {
+    public void addAbstract(String abstractElement) {
         int elementNum = 1;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
             if (tempList.size() >= elementMax[elementNum]) {
                 throw new MaximumOccurrenceException(className + " - " + elementName[elementNum], elementMax[elementNum]);
             } else {
-                this.abstract.add(abstract);
+                this.abstractElement.add(abstractElement);
             }
         } catch (MaximumOccurrenceException | NoSuchFieldException | IllegalAccessException e) {
             System.out.println(e.getMessage());
@@ -101,11 +102,11 @@ public class DQ_StandaloneQualityReportInformation {
                 List<?> tempList = (List<?>) this.getClass().getField(elementName[i]).get(this);
                 if (!elementUsed[i] && tempList != null && !tempList.isEmpty()) {
                     // test profile use
-                    throw new ProfileException(className + " - " + elementName[i]);
+                    throw new ProfileException(className + " - " + elementNameProfile[i]);
                 }
                 if (elementObligation[i] && (tempList == null || tempList.isEmpty())) {
                     // test filling and obligation of all variable lists
-                    throw new ObligationException(className + " - " + elementName[i]);
+                    throw new ObligationException(className + " - " + elementNameProfile[i]);
                 }
             } catch (ProfileException | ObligationException | NoSuchFieldException | IllegalAccessException e) {
                 System.out.println(e.getMessage());

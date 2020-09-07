@@ -12,7 +12,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @XmlRootElement(name = "MD_FeatureCatalogue", namespace = "http://standards.iso.org/iso/19115/-3/mrc/1.0")
-public class MD_FeatureCatalogue {
+public class MD_FeatureCatalogue extends MD_ContentInformation {
 
     // occurrence and obligation
     private final String[] elementName = {"featureCatalogue"};

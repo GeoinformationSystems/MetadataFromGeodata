@@ -5,6 +5,8 @@
 
 package org.geokur.ISO19115Schema;
 
+import javax.xml.bind.annotation.XmlElementRef;
+import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -20,6 +22,14 @@ public class DS_OtherAggregate extends DS_Aggregate {
 
     private final String className = this.getClass().getSimpleName();
     private final boolean[] elementUsed = new boolean[elementName.length];
+
+    // class variables
+    @XmlElementWrapper(name = "composedOf", namespace = "http://standards.iso.org/iso/19115/-3/mda/1.0")
+    @XmlElementRef
+    public List<DS_Resource> composedOf;
+
+    // variables for correct marshalling of specified classes
+    public List<DS_StereoMate> stereoMate;
 
     // methods
     public DS_OtherAggregate(){

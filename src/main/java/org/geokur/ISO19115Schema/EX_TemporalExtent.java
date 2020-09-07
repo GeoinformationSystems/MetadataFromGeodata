@@ -26,6 +26,9 @@ public class EX_TemporalExtent {
     @XmlElement(name = "extent", namespace = "http://standards.iso.org/iso/19115/-3/gex/1.0")
     public List<String> extent;
 
+    // variables for correct marshalling of specified classes
+    public List<EX_SpatialTemporalExtent> spatialTemporalExtent;
+
     // methods
     public EX_TemporalExtent(){
         for (int i = 0; i < elementName.length; i++) {

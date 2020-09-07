@@ -14,7 +14,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @XmlRootElement(name = "MD_SampleDimension", namespace = "http://standards.iso.org/iso/19115/-3/mrc/1.0")
-public class MD_SampleDimension {
+public class MD_SampleDimension extends MD_RangeDimension {
 
     // occurrence and obligation
     private final String[] elementName = {"sequenceIdentifier", "description", "name", "maxValue", "minValue", "units", "scaleFactor", "offset", "meanValue", "numberOfValues", "standardDeviation", "otherPropertyType", "otherProperty", "bitsPerValue"};
@@ -25,16 +25,6 @@ public class MD_SampleDimension {
     private final boolean[] elementUsed = new boolean[elementName.length];
 
     // class variables
-    @XmlElement(name = "sequenceIdentifier", namespace = "http://standards.iso.org/iso/19115/-3/mrc/1.0")
-    public List<String> sequenceIdentifier;
-
-    @XmlElement(name = "description", namespace = "http://standards.iso.org/iso/19115/-3/mrc/1.0")
-    public List<String> description;
-
-    @XmlElementWrapper(name = "name", namespace = "http://standards.iso.org/iso/19115/-3/mrc/1.0")
-    @XmlElementRef
-    public List<MD_Identifier> name;
-
     @XmlElement(name = "maxValue", namespace = "http://standards.iso.org/iso/19115/-3/mrc/1.0")
     public List<String> maxValue;
 
@@ -68,6 +58,9 @@ public class MD_SampleDimension {
     @XmlElement(name = "bitsPerValue", namespace = "http://standards.iso.org/iso/19115/-3/mrc/1.0")
     public List<String> bitsPerValue;
 
+    // variables for correct marshalling of specified classes
+    public List<MD_Band> band;
+
     // methods
     public MD_SampleDimension(){
         for (int i = 0; i < elementName.length; i++) {
@@ -88,24 +81,6 @@ public class MD_SampleDimension {
                     elementObligation[i] = false;
                 }
             }
-        }
-    }
-
-    public void createSequenceIdentifier() {
-        if (this.sequenceIdentifier == null) {
-            this.sequenceIdentifier = new ArrayList<>();
-        }
-    }
-
-    public void createDescription() {
-        if (this.description == null) {
-            this.description = new ArrayList<>();
-        }
-    }
-
-    public void createName() {
-        if (this.name == null) {
-            this.name = new ArrayList<>();
         }
     }
 
@@ -172,48 +147,6 @@ public class MD_SampleDimension {
     public void createBitsPerValue() {
         if (this.bitsPerValue == null) {
             this.bitsPerValue = new ArrayList<>();
-        }
-    }
-
-    public void addSequenceIdentifier(String sequenceIdentifier) {
-        int elementNum = 0;
-        try {
-            List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
-            if (tempList.size() >= elementMax[elementNum]) {
-                throw new MaximumOccurrenceException(className + " - " + elementName[elementNum], elementMax[elementNum]);
-            } else {
-                this.sequenceIdentifier.add(sequenceIdentifier);
-            }
-        } catch (MaximumOccurrenceException | NoSuchFieldException | IllegalAccessException e) {
-            System.out.println(e.getMessage());
-        }
-    }
-
-    public void addDescription(String description) {
-        int elementNum = 1;
-        try {
-            List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
-            if (tempList.size() >= elementMax[elementNum]) {
-                throw new MaximumOccurrenceException(className + " - " + elementName[elementNum], elementMax[elementNum]);
-            } else {
-                this.description.add(description);
-            }
-        } catch (MaximumOccurrenceException | NoSuchFieldException | IllegalAccessException e) {
-            System.out.println(e.getMessage());
-        }
-    }
-
-    public void addName(MD_Identifier name) {
-        int elementNum = 2;
-        try {
-            List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
-            if (tempList.size() >= elementMax[elementNum]) {
-                throw new MaximumOccurrenceException(className + " - " + elementName[elementNum], elementMax[elementNum]);
-            } else {
-                this.name.add(name);
-            }
-        } catch (MaximumOccurrenceException | NoSuchFieldException | IllegalAccessException e) {
-            System.out.println(e.getMessage());
         }
     }
 

@@ -5,7 +5,6 @@
 
 package org.geokur.ISO19115Schema;
 
-import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementRef;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -14,7 +13,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @XmlRootElement(name = "EX_GeographicDescription", namespace = "http://standards.iso.org/iso/19115/-3/gex/1.0")
-public class EX_GeographicDescription {
+public class EX_GeographicDescription extends EX_GeographicExtent {
 
     // occurrence and obligation
     private final String[] elementName = {"extentTypeCode", "geographicIdentifier"};
@@ -25,9 +24,6 @@ public class EX_GeographicDescription {
     private final boolean[] elementUsed = new boolean[elementName.length];
 
     // class variables
-    @XmlElement(name = "extentTypeCode", namespace = "http://standards.iso.org/iso/19115/-3/gex/1.0")
-    public List<String> extentTypeCode;
-
     @XmlElementWrapper(name = "geographicIdentifier", namespace = "http://standards.iso.org/iso/19115/-3/gex/1.0")
     @XmlElementRef
     public List<MD_Identifier> geographicIdentifier;
@@ -55,29 +51,9 @@ public class EX_GeographicDescription {
         }
     }
 
-    public void createExtentTypeCode() {
-        if (this.extentTypeCode == null) {
-            this.extentTypeCode = new ArrayList<>();
-        }
-    }
-
     public void createGeographicIdentifier() {
         if (this.geographicIdentifier == null) {
             this.geographicIdentifier = new ArrayList<>();
-        }
-    }
-
-    public void addExtentTypeCode(String extentTypeCode) {
-        int elementNum = 0;
-        try {
-            List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
-            if (tempList.size() >= elementMax[elementNum]) {
-                throw new MaximumOccurrenceException(className + " - " + elementName[elementNum], elementMax[elementNum]);
-            } else {
-                this.extentTypeCode.add(extentTypeCode);
-            }
-        } catch (MaximumOccurrenceException | NoSuchFieldException | IllegalAccessException e) {
-            System.out.println(e.getMessage());
         }
     }
 
