@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <DQ_DataQuality namespace="mdq">
     <element>
-        <name>Scope</name>
+        <name>scope</name>
         <obligation>M</obligation>
         <occurrence>1</occurrence>
         <configFile>config_MD_Scope.xml</configFile>

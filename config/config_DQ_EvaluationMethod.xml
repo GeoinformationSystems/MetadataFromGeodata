@@ -4,7 +4,7 @@
         <name>evaluationMethodType</name>
         <obligation>O</obligation>
         <occurrence>1</occurrence>
-        <configFile></configFile>
+        <configFile>codelist_DQ_EvaluationMethodTypeCode.xml</configFile>
         <namespace>mdq</namespace>
         <used>true</used>
     </element>

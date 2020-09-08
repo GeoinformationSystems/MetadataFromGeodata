@@ -36,7 +36,7 @@
         <name>valueStructure</name>
         <obligation>O</obligation>
         <occurrence>1</occurrence>
-        <configFile></configFile>
+        <configFile>codelist_DQM_ValueStructure.xml</configFile>
         <namespace>dqm</namespace>
         <used>true</used>
     </element>

@@ -5,7 +5,8 @@
 
 package org.geokur.ISO19115Schema;
 
-import javax.xml.bind.annotation.XmlElement;
+import org.geokur.ISO19157Schema.DQ_DataQuality;
+
 import javax.xml.bind.annotation.XmlElementRef;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
