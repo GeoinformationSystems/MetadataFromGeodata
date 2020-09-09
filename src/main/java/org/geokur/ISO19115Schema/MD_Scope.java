@@ -55,6 +55,9 @@ public class MD_Scope {
                 if (!tempList.contains(elementName[i])) {
                     // element not mandatory
                     elementObligation[i] = false;
+                } else if (tempList.contains(elementName[i])) {
+                    // element mandatory
+                    elementObligation[i] = true;
                 }
             }
         }

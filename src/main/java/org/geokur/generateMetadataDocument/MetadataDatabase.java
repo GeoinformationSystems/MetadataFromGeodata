@@ -3,7 +3,7 @@
  * All rights reserved.
  */
 
-package org.geokur.generateMetadata;
+package org.geokur.generateMetadataDocument;
 
 import org.jdom2.Element;
 import org.jdom2.Namespace;

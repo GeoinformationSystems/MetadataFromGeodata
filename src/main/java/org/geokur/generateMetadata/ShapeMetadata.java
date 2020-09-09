@@ -5,23 +5,23 @@
 
 package org.geokur.generateMetadata;
 
-import org.geotools.data.*;
+import org.geokur.ISO19115Schema.*;
+import org.geotools.data.FileDataStore;
+import org.geotools.data.FileDataStoreFinder;
 import org.geotools.data.simple.SimpleFeatureCollection;
 import org.geotools.data.store.ReprojectingFeatureCollection;
 import org.geotools.feature.FeatureCollection;
 import org.geotools.geometry.jts.ReferencedEnvelope;
 import org.geotools.referencing.CRS;
 import org.geotools.referencing.crs.DefaultGeographicCRS;
-import org.jdom2.Element;
-import org.jdom2.Namespace;
 import org.opengis.feature.simple.SimpleFeature;
 import org.opengis.feature.simple.SimpleFeatureType;
 import org.opengis.referencing.FactoryException;
 import org.opengis.referencing.crs.CoordinateReferenceSystem;
 import org.opengis.referencing.operation.MathTransform;
 
-import java.io.IOException;
 import java.io.File;
+import java.io.IOException;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
@@ -30,136 +30,65 @@ import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 public class ShapeMetadata {
-    public List<Element> getContent(String fileName, Map<String, Namespace> ns) {
-        // read shape file and put its metadata into list of elements
 
-        List<Element> content = new ArrayList<>();
+    String fileName;
 
+    public ShapeMetadata(String fileName) {
+        this.fileName = fileName;
+    }
+
+    public DS_Resource getMetadata() {
+        // read shape file and put its metadata into DS_Resource
+
+        DS_Resource dsResource = new DS_DataSet();
         File file = new File(fileName);
 
         try {
             FileDataStore dataStore = FileDataStoreFinder.getDataStore(file);
-//            String typeName = dataStore.getTypeNames()[0];
             SimpleFeatureCollection collection = dataStore.getFeatureSource().getFeatures();
+
+            // coordinate reference system
             CoordinateReferenceSystem srcCRS = collection.getSchema().getCoordinateReferenceSystem();
-            SimpleFeatureCollection collectionTransform = collection;
-            boolean markerTransform = false;
-            try {
-                MathTransform mathTransform = CRS.findMathTransform(srcCRS, DefaultGeographicCRS.WGS84, true);
-                // transform to WGS84 for standard extent lon/lat
-                if (!mathTransform.isIdentity()) {
-                    markerTransform = true;
-                    collectionTransform = project(collection, "epsg:4326");
-                }
-            } catch (FactoryException e) {
-                System.out.println(e.getMessage());
+            SimpleFeatureCollection collectionTransform;
+            boolean markerTransform;
+            MathTransform mathTransform = CRS.findMathTransform(srcCRS, DefaultGeographicCRS.WGS84, true);
+            // transform to WGS84 for standard extent lon/lat
+            if (!mathTransform.isIdentity()) {
+                markerTransform = true;
+                collectionTransform = project(collection, "epsg:4326");
+            } else {
+                collectionTransform = collection;
+                markerTransform = false;
             }
 
-            /*
-            // write output to console
-            try(SimpleFeatureIterator itr = collection.features()) {
-                while(itr.hasNext()) {
-                    SimpleFeature feature = itr.next();
-                    System.out.println(feature.getDefaultGeometryProperty().getValue());
-                }
-            }
-            System.out.println();
-            try(SimpleFeatureIterator itr = collectionTransform.features()) {
-                while(itr.hasNext()) {
-                    SimpleFeature feature = itr.next();
-                    System.out.println(feature.getDefaultGeometryProperty().getValue());
-                }
-            }
-            */
+            CI_Individual ciIndividual = new CI_Individual();
+            ciIndividual.createName();
+            ciIndividual.addName(System.getProperty("user.name"));
+            ciIndividual.finalizeClass();
 
-            NestedElement nestedElement = new NestedElement();
-            // TODO: further look into ISO19115_Workbook for getting additional metadata out of shapefile
-            // TODO: restructure code following GeopackageMetadata.java
-
-            UUID id_DS_Resource = UUID.randomUUID();
-            UUID id_has = UUID.randomUUID();
-            UUID id_MD_Metadata = UUID.randomUUID();
-            UUID id_contact = UUID.randomUUID();
-            UUID id_CI_Responsibility = UUID.randomUUID();
-            UUID id_role = UUID.randomUUID();
-            UUID id_party = UUID.randomUUID();
-            UUID id_CI_Individual = UUID.randomUUID();
-            UUID id_name = UUID.randomUUID();
-
-            content.add(nestedElement.create(new String[] {"DS_Resource", "has", "MD_Metadata", "contact", "CI_Responsibility", "role"},
-                    new UUID[] {id_DS_Resource, id_has, id_MD_Metadata, id_contact, id_CI_Responsibility, id_role}, "resourceProvider", ns));
-            content.add(nestedElement.create(new String[] {"DS_Resource", "has", "MD_Metadata", "contact", "CI_Responsibility", "party", "CI_Individual", "name"},
-                    new UUID[] {id_DS_Resource, id_has, id_MD_Metadata, id_contact, id_CI_Responsibility, id_party, id_CI_Individual, id_name}, System.getProperty("user.name"), ns));
-
-            UUID id_metadataIdentifier = UUID.randomUUID();
-            UUID id_MD_Identifier = UUID.randomUUID();
-            UUID id_code = UUID.randomUUID();
+            CI_Responsibility ciResponsibility = new CI_Responsibility();
+            ciResponsibility.createRole();
+            ciResponsibility.addRole(new CI_RoleCode(CI_RoleCode.CI_RoleCodes.resourceProvider));
+            ciResponsibility.createParty();
+            ciResponsibility.addParty(ciIndividual);
+            ciResponsibility.finalizeClass();
 
             String identifierCode = "pid:" + UUID.randomUUID().toString();
-            content.add(nestedElement.create(new String[] {"DS_Resource", "has", "MD_Metadata", "metadataIdentifier", "MD_Identifier", "code"},
-                    new UUID[] {id_DS_Resource, id_has, id_MD_Metadata, id_metadataIdentifier, id_MD_Identifier, id_code}, identifierCode, ns));
-
-            String now = ZonedDateTime.now(ZoneOffset.UTC).format(DateTimeFormatter.ISO_INSTANT);
-
-            UUID id_identificationInfo = UUID.randomUUID();
-            UUID id_MD_DataIdentification = UUID.randomUUID();
-            UUID id_citation = UUID.randomUUID();
-            UUID id_CI_Citation = UUID.randomUUID();
-            UUID id_title = UUID.randomUUID();
-            UUID id_date = UUID.randomUUID();
-            UUID id_CI_Date = UUID.randomUUID();
-            UUID id_dateType = UUID.randomUUID();
-            UUID id_date2 = UUID.randomUUID();
-            UUID id_DateTime = UUID.randomUUID();
-
-            // TODO: informative title available?
-            content.add(nestedElement.create(new String[]{"DS_Resource", "has", "MD_Metadata", "identificationInfo", "MD_DataIdentification", "citation", "CI_Citation", "title"},
-                    new UUID[]{id_DS_Resource, id_has, id_MD_Metadata, id_identificationInfo, id_MD_DataIdentification, id_citation, id_CI_Citation, id_title}, "", ns));
-            content.add(nestedElement.create(new String[]{"DS_Resource", "has", "MD_Metadata", "identificationInfo", "MD_DataIdentification", "citation", "CI_Citation", "date", "CI_Date", "dateType"},
-                    new UUID[]{id_DS_Resource, id_has, id_MD_Metadata, id_identificationInfo, id_MD_DataIdentification, id_citation, id_CI_Citation, id_date, id_CI_Date, id_dateType}, "creation", ns));
-            content.add(nestedElement.create(new String[]{"DS_Resource", "has", "MD_Metadata", "identificationInfo", "MD_DataIdentification", "citation", "CI_Citation", "date", "CI_Date", "date", "dateTime"},
-                    new UUID[]{id_DS_Resource, id_has, id_MD_Metadata, id_identificationInfo, id_MD_DataIdentification, id_citation, id_CI_Citation, id_date, id_CI_Date, id_date2, id_DateTime}, now, ns));
-
-            // find all files belonging to actual shape file -> base name plus allowed extensions
-            Shape shape = new Shape(file);
-            shape.getShapeFileList();
-
-            String environmentalDescription = "file name: " + fileName + "\n"
-                    + "all shape format files: " + shape.allFiles + "\n"
-                    + "file size: " + (int) shape.size + " B\n"
-                    + "os: " + System.getProperty("os.name");
-
-            UUID id_environmentDescription = UUID.randomUUID();
-            UUID id_spatialRepresentationType = UUID.randomUUID();
-
-            content.add(nestedElement.create(new String[] {"DS_Resource", "has", "MD_Metadata", "identificationInfo", "MD_DataIdentification", "environmentalDescription"},
-                    new UUID[] {id_DS_Resource, id_has, id_MD_Metadata, id_identificationInfo, id_MD_DataIdentification, id_environmentDescription}, environmentalDescription, ns));
-            content.add(nestedElement.create(new String[] {"DS_Resource", "has", "MD_Metadata", "identificationInfo", "MD_DataIdentification", "spatialRepresentationType"},
-                    new UUID[] {id_DS_Resource, id_has, id_MD_Metadata, id_identificationInfo, id_MD_DataIdentification, id_spatialRepresentationType}, "vector", ns));
-
-            UUID id_dateInfo = UUID.randomUUID();
-            id_CI_Date = UUID.randomUUID();
-            id_dateType = UUID.randomUUID();
-            id_date = UUID.randomUUID();
-            id_DateTime = UUID.randomUUID();
+            MD_Identifier mdIdentifier = new MD_Identifier();
+            mdIdentifier.createCode();
+            mdIdentifier.addCode(identifierCode);
+            mdIdentifier.finalizeClass();
 
             ZonedDateTime lastModified = ZonedDateTime.ofInstant(Instant.ofEpochMilli(file.lastModified()), ZoneId.systemDefault()); // local timezone
             lastModified = lastModified.withZoneSameInstant(ZoneId.of("UTC")); // convert to UTC timezone
             String lastModifiedString = lastModified.format(DateTimeFormatter.ISO_OFFSET_DATE_TIME); // datetime in ISO 8601 format
 
-            content.add(nestedElement.create(new String[] {"DS_Resource", "has", "MD_Metadata", "dateInfo", "CI_Date", "dateType"},
-                    new UUID[] {id_DS_Resource, id_has, id_MD_Metadata, id_dateInfo, id_CI_Date, id_dateType}, "creation", ns));
-            content.add(nestedElement.create(new String[] {"DS_Resource", "has", "MD_Metadata", "dateInfo", "CI_Date", "date", "DateTime"},
-                    new UUID[] {id_DS_Resource, id_has, id_MD_Metadata, id_dateInfo, id_CI_Date, id_date, id_DateTime}, lastModifiedString, ns));
-
-
-            UUID id_referenceSystemInfo = UUID.randomUUID();
-            UUID id_MD_ReferenceSystem = UUID.randomUUID();
-            UUID id_referenceSystemIdentifier = UUID.randomUUID();
-            UUID id_MD_IdentifierCRS = UUID.randomUUID();
-            UUID id_codeCRS = UUID.randomUUID();
-            UUID id_codeSpaceCRS = UUID.randomUUID();
-            UUID id_descriptionCRS = UUID.randomUUID();
+            CI_Date ciDate_MD_Metadata = new CI_Date();
+            ciDate_MD_Metadata.createDateType();
+            ciDate_MD_Metadata.addDateType(new CI_DateTypeCode(CI_DateTypeCode.CI_DateTypeCodes.creation));
+            ciDate_MD_Metadata.createDate();
+            ciDate_MD_Metadata.addDate(lastModifiedString);
+            ciDate_MD_Metadata.finalizeClass();
 
             // find correct epsg code for existing data
             String authority = "EPSG";
@@ -195,8 +124,8 @@ public class ShapeMetadata {
                     }
                     try {
                         CoordinateReferenceSystem actCRS = CRS.decode(authority + ":" + supportedCode);
-                        MathTransform mathTransform = CRS.findMathTransform(srcCRS, actCRS, true);
-                        if (mathTransform.isIdentity()) {
+                        MathTransform mathTransformFind = CRS.findMathTransform(srcCRS, actCRS, true);
+                        if (mathTransformFind.isIdentity()) {
                             matchingEPSGCode.add(supportedCode);
                             String actCRSName = actCRS.getName().toString();
                             matchingLevenshteinDistance.add(levenshteinDistance(srcCRSName, actCRSName));
@@ -213,68 +142,124 @@ public class ShapeMetadata {
                 srcCRSepsg = "4326";
             }
 
-            content.add(nestedElement.create(new String[] {"DS_Resource", "has", "MD_Metadata", "referenceSystemInfo", "MD_ReferenceSystem", "referenceSystemIdentifier", "MD_Identifier", "code"},
-                    new UUID[] {id_DS_Resource, id_has, id_MD_Metadata, id_referenceSystemInfo, id_MD_ReferenceSystem, id_referenceSystemIdentifier, id_MD_IdentifierCRS, id_codeCRS}, authority + "::" + srcCRSepsg, ns));
-            content.add(nestedElement.create(new String[] {"DS_Resource", "has", "MD_Metadata", "referenceSystemInfo", "MD_ReferenceSystem", "referenceSystemIdentifier", "MD_Identifier", "codeSpace"},
-                    new UUID[] {id_DS_Resource, id_has, id_MD_Metadata, id_referenceSystemInfo, id_MD_ReferenceSystem, id_referenceSystemIdentifier, id_MD_IdentifierCRS, id_codeSpaceCRS}, authority, ns));
-            content.add(nestedElement.create(new String[] {"DS_Resource", "has", "MD_Metadata", "referenceSystemInfo", "MD_ReferenceSystem", "referenceSystemIdentifier", "MD_Identifier", "description"},
-                    new UUID[] {id_DS_Resource, id_has, id_MD_Metadata, id_referenceSystemInfo, id_MD_ReferenceSystem, id_referenceSystemIdentifier, id_MD_IdentifierCRS, id_descriptionCRS}, srcCRS.getName().toString(), ns));
+            MD_Identifier mdIdentifier_MD_ReferenceSystem = new MD_Identifier();
+            mdIdentifier_MD_ReferenceSystem.createCode();
+            mdIdentifier_MD_ReferenceSystem.addCode(authority + "::" + srcCRSepsg);
+            mdIdentifier_MD_ReferenceSystem.createCodeSpace();
+            mdIdentifier_MD_ReferenceSystem.addCodeSpace(authority);
+            mdIdentifier_MD_ReferenceSystem.createDescription();
+            mdIdentifier_MD_ReferenceSystem.addDescription(srcCRS.getName().toString());
+            mdIdentifier_MD_ReferenceSystem.finalizeClass();
 
-            UUID id_extent = UUID.randomUUID();
-            UUID id_EX_Extent = UUID.randomUUID();
-            UUID id_description = UUID.randomUUID();
-            UUID id_geographicElement = UUID.randomUUID();
-            UUID id_EX_GeographicBoundingBox = UUID.randomUUID();
-            UUID id_westBoundLongitude = UUID.randomUUID();
-            UUID id_eastBoundLongitude = UUID.randomUUID();
-            UUID id_southBoundLatitude = UUID.randomUUID();
-            UUID id_northBoundLatitude = UUID.randomUUID();
+            MD_ReferenceSystem mdReferenceSystem = new MD_ReferenceSystem();
+            mdReferenceSystem.createReferenceSystemIdentifier();
+            mdReferenceSystem.addReferenceSystemIdentifier(mdIdentifier_MD_ReferenceSystem);
+            mdReferenceSystem.finalizeClass();
 
             List<Double> extent = getExtent(collectionTransform);
 
-            content.add(nestedElement.create(new String[] {"DS_Resource", "has", "MD_Metadata", "identificationInfo", "MD_DataIdentification", "extent", "EX_Extent", "description"},
-                    new UUID[] {id_DS_Resource, id_has, id_MD_Metadata, id_identificationInfo, id_MD_DataIdentification, id_extent, id_EX_Extent, id_description}, "geographical extent in WGS84, EPSG:4326",ns));
-            content.add(nestedElement.create(new String[] {"DS_Resource", "has", "MD_Metadata", "identificationInfo", "MD_DataIdentification", "extent", "EX_Extent", "geographicElement", "EX_GeographicBoundingBox", "westBoundLongitude"},
-                    new UUID[] {id_DS_Resource, id_has, id_MD_Metadata, id_identificationInfo, id_MD_DataIdentification, id_extent, id_EX_Extent, id_geographicElement, id_EX_GeographicBoundingBox, id_westBoundLongitude}, extent.get(0).toString(), ns));
-            content.add(nestedElement.create(new String[] {"DS_Resource", "has", "MD_Metadata", "identificationInfo", "MD_DataIdentification", "extent", "EX_Extent", "geographicElement", "EX_GeographicBoundingBox", "eastBoundLongitude"},
-                    new UUID[] {id_DS_Resource, id_has, id_MD_Metadata, id_identificationInfo, id_MD_DataIdentification, id_extent, id_EX_Extent, id_geographicElement, id_EX_GeographicBoundingBox, id_eastBoundLongitude}, extent.get(1).toString(), ns));
-            content.add(nestedElement.create(new String[] {"DS_Resource", "has", "MD_Metadata", "identificationInfo", "MD_DataIdentification", "extent", "EX_Extent", "geographicElement", "EX_GeographicBoundingBox", "southBoundLatitude"},
-                    new UUID[] {id_DS_Resource, id_has, id_MD_Metadata, id_identificationInfo, id_MD_DataIdentification, id_extent, id_EX_Extent, id_geographicElement, id_EX_GeographicBoundingBox, id_southBoundLatitude}, extent.get(2).toString(), ns));
-            content.add(nestedElement.create(new String[] {"DS_Resource", "has", "MD_Metadata", "identificationInfo", "MD_DataIdentification", "extent", "EX_Extent", "geographicElement", "EX_GeographicBoundingBox", "northBoundLatitude"},
-                    new UUID[] {id_DS_Resource, id_has, id_MD_Metadata, id_identificationInfo, id_MD_DataIdentification, id_extent, id_EX_Extent, id_geographicElement, id_EX_GeographicBoundingBox, id_northBoundLatitude}, extent.get(3).toString(), ns));
+            EX_GeographicBoundingBox exGeographicBoundingBox = new EX_GeographicBoundingBox();
+            exGeographicBoundingBox.createWestBoundLongitude();
+            exGeographicBoundingBox.addWestBoundLongitude(extent.get(0).toString());
+            exGeographicBoundingBox.createEastBoundLongitude();
+            exGeographicBoundingBox.addEastBoundLongitude(extent.get(1).toString());
+            exGeographicBoundingBox.createSouthBoundLatitude();
+            exGeographicBoundingBox.addSouthBoundLatitude(extent.get(2).toString());
+            exGeographicBoundingBox.createNorthBoundLatitude();
+            exGeographicBoundingBox.addNorthBoundLatitude(extent.get(3).toString());
+            exGeographicBoundingBox.finalizeClass();
 
-            UUID id_EX_Extent_origCRS = UUID.randomUUID();
-            UUID id_description_origCRS = UUID.randomUUID();
-            UUID id_geographicElement_origCRS = UUID.randomUUID();
-            UUID id_EX_GeographicBoundingBox_origCRS = UUID.randomUUID();
-            UUID id_westBoundLongitude_origCRS = UUID.randomUUID();
-            UUID id_eastBoundLongitude_origCRS = UUID.randomUUID();
-            UUID id_southBoundLatitude_origCRS = UUID.randomUUID();
-            UUID id_northBoundLatitude_origCRS = UUID.randomUUID();
+            EX_Extent exExtent = new EX_Extent();
+            exExtent.createDescription();
+            exExtent.addDescription("geographical extent in WGS84, EPSG:4326");
+            exExtent.createGeographicElement();
+            exExtent.addGeographicElement(exGeographicBoundingBox);
+            exExtent.finalizeClass();
 
-            List<Double> extent_origCRS = getExtent(collection);
+            List<Double> extentOrigCRS = getExtent(collection);
 
-            content.add(nestedElement.create(new String[] {"DS_Resource", "has", "MD_Metadata", "identificationInfo", "MD_DataIdentification", "extent", "EX_Extent", "description"},
-                    new UUID[] {id_DS_Resource, id_has, id_MD_Metadata, id_identificationInfo, id_MD_DataIdentification, id_extent, id_EX_Extent_origCRS, id_description_origCRS}, "geographical extent in data CRS, EPSG:" + srcCRSepsg, ns));
-            content.add(nestedElement.create(new String[] {"DS_Resource", "has", "MD_Metadata", "identificationInfo", "MD_DataIdentification", "extent", "EX_Extent", "geographicElement", "EX_GeographicBoundingBox", "westBoundLongitude"},
-                    new UUID[] {id_DS_Resource, id_has, id_MD_Metadata, id_identificationInfo, id_MD_DataIdentification, id_extent, id_EX_Extent_origCRS, id_geographicElement_origCRS, id_EX_GeographicBoundingBox_origCRS, id_westBoundLongitude_origCRS}, extent_origCRS.get(0).toString(), ns));
-            content.add(nestedElement.create(new String[] {"DS_Resource", "has", "MD_Metadata", "identificationInfo", "MD_DataIdentification", "extent", "EX_Extent", "geographicElement", "EX_GeographicBoundingBox", "eastBoundLongitude"},
-                    new UUID[] {id_DS_Resource, id_has, id_MD_Metadata, id_identificationInfo, id_MD_DataIdentification, id_extent, id_EX_Extent_origCRS, id_geographicElement_origCRS, id_EX_GeographicBoundingBox_origCRS, id_eastBoundLongitude_origCRS}, extent_origCRS.get(1).toString(), ns));
-            content.add(nestedElement.create(new String[] {"DS_Resource", "has", "MD_Metadata", "identificationInfo", "MD_DataIdentification", "extent", "EX_Extent", "geographicElement", "EX_GeographicBoundingBox", "southBoundLatitude"},
-                    new UUID[] {id_DS_Resource, id_has, id_MD_Metadata, id_identificationInfo, id_MD_DataIdentification, id_extent, id_EX_Extent_origCRS, id_geographicElement_origCRS, id_EX_GeographicBoundingBox_origCRS, id_southBoundLatitude_origCRS}, extent_origCRS.get(2).toString(), ns));
-            content.add(nestedElement.create(new String[] {"DS_Resource", "has", "MD_Metadata", "identificationInfo", "MD_DataIdentification", "extent", "EX_Extent", "geographicElement", "EX_GeographicBoundingBox", "northBoundLatitude"},
-                    new UUID[] {id_DS_Resource, id_has, id_MD_Metadata, id_identificationInfo, id_MD_DataIdentification, id_extent, id_EX_Extent_origCRS, id_geographicElement_origCRS, id_EX_GeographicBoundingBox_origCRS, id_northBoundLatitude_origCRS}, extent_origCRS.get(3).toString(), ns));
+            EX_GeographicBoundingBox exGeographicBoundingBoxOrigCRS = new EX_GeographicBoundingBox();
+            exGeographicBoundingBoxOrigCRS.createWestBoundLongitude();
+            exGeographicBoundingBoxOrigCRS.addWestBoundLongitude(extentOrigCRS.get(0).toString());
+            exGeographicBoundingBoxOrigCRS.createEastBoundLongitude();
+            exGeographicBoundingBoxOrigCRS.addEastBoundLongitude(extentOrigCRS.get(1).toString());
+            exGeographicBoundingBoxOrigCRS.createSouthBoundLatitude();
+            exGeographicBoundingBoxOrigCRS.addSouthBoundLatitude(extentOrigCRS.get(2).toString());
+            exGeographicBoundingBoxOrigCRS.createNorthBoundLatitude();
+            exGeographicBoundingBoxOrigCRS.addNorthBoundLatitude(extentOrigCRS.get(3).toString());
+            exGeographicBoundingBoxOrigCRS.finalizeClass();
 
-            // close/dispose database -> no more connection to collections
-            dataStore.dispose();
+            EX_Extent exExtentOrigCRS = new EX_Extent();
+            exExtentOrigCRS.createDescription();
+            exExtentOrigCRS.addDescription("geographical extent in data CRS, EPSG:" + srcCRSepsg);
+            exExtentOrigCRS.createGeographicElement();
+            exExtentOrigCRS.addGeographicElement(exGeographicBoundingBoxOrigCRS);
+            exExtentOrigCRS.finalizeClass();
 
-        } catch (IOException e) {
+            String now = ZonedDateTime.now(ZoneOffset.UTC).format(DateTimeFormatter.ISO_INSTANT);
+
+            CI_Date ciDate = new CI_Date();
+            ciDate.createDateType();
+            ciDate.addDateType(new CI_DateTypeCode(CI_DateTypeCode.CI_DateTypeCodes.creation));
+            ciDate.createDate();
+            ciDate.addDate(now);
+            ciDate.finalizeClass();
+
+            // TODO: informative title available?
+            CI_Citation ciCitation = new CI_Citation();
+            ciCitation.createTitle();
+            ciCitation.addTitle("");
+            ciCitation.createDate();
+            ciCitation.addDate(ciDate);
+
+            // find all files belonging to actual shape file -> base name plus allowed extensions
+            Shape shape = new Shape(file);
+            shape.getShapeFileList();
+
+            String environmentalDescription = "file name: " + fileName + "; "
+                    + "all shape format files: " + shape.allFiles + "; "
+                    + "file size: " + (int) shape.size + " B; "
+                    + "os: " + System.getProperty("os.name");
+
+            MD_DataIdentification mdDataIdentification = new MD_DataIdentification();
+            mdDataIdentification.createCitation();
+            mdDataIdentification.addCitation(ciCitation);
+            mdDataIdentification.createEnvironmentalDescription();
+            mdDataIdentification.addEnvironmentalDescription(environmentalDescription);
+            mdDataIdentification.createExtent();
+            mdDataIdentification.addExtent(exExtent);
+            mdDataIdentification.addExtent(exExtentOrigCRS);
+            mdDataIdentification.finalizeClass();
+
+            MD_Metadata mdMetadata = new MD_Metadata();
+            mdMetadata.createContact();
+            mdMetadata.addContact(ciResponsibility);
+            mdMetadata.createMetadataIdentifier();
+            mdMetadata.addMetadataIdentifier(mdIdentifier);
+            mdMetadata.createIdentificationInfo();
+            mdMetadata.addIdentificationInfo(mdDataIdentification);
+            mdMetadata.createDateInfo();
+            mdMetadata.addDateInfo(ciDate_MD_Metadata);
+            mdMetadata.createReferenceSystemInfo();
+            mdMetadata.addReferenceSystemInfo(mdReferenceSystem);
+            mdMetadata.finalizeClass();
+
+            System.out.println();
+
+            dsResource.createHas();
+            dsResource.addHas(mdMetadata);
+
+        } catch (IOException | FactoryException e) {
             System.out.println(e.getMessage());
         }
 
-        return content;
+        return dsResource;
     }
 
+
+    ////////////////////
+    // helper methods //
+    ////////////////////
     private SimpleFeatureCollection project(SimpleFeatureCollection collection, String epsgIdentifier) {
         // reprojecting SimpleFeatureCollection to desired EPSG Identifier
         // epsgIdentifier is given in the form "epsg:4326" (or any other valid ID)

@@ -44,6 +44,9 @@ public class CI_Individual extends CI_Party {
                 if (!tempList.contains(elementName[i])) {
                     // element not mandatory
                     elementObligation[i] = false;
+                } else if (tempList.contains(elementName[i])) {
+                    // element mandatory
+                    elementObligation[i] = true;
                 }
             }
         }

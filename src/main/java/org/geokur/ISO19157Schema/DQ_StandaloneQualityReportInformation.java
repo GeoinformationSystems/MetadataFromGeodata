@@ -53,6 +53,9 @@ public class DQ_StandaloneQualityReportInformation {
                 if (!tempList.contains(elementNameProfile[i])) {
                     // element not mandatory
                     elementObligation[i] = false;
+                } else if (tempList.contains(elementName[i])) {
+                    // element mandatory
+                    elementObligation[i] = true;
                 }
             }
         }

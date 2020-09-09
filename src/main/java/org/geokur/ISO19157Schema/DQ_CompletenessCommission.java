@@ -41,6 +41,9 @@ public class DQ_CompletenessCommission extends DQ_Completeness {
                 if (!tempList.contains(elementName[i])) {
                     // element not mandatory
                     elementObligation[i] = false;
+                } else if (tempList.contains(elementName[i])) {
+                    // element mandatory
+                    elementObligation[i] = true;
                 }
             }
         }

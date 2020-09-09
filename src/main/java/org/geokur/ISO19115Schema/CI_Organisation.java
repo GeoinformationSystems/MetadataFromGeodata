@@ -50,6 +50,9 @@ public class CI_Organisation extends CI_Party {
                 if (!tempList.contains(elementName[i])) {
                     // element not mandatory
                     elementObligation[i] = false;
+                } else if (tempList.contains(elementName[i])) {
+                    // element mandatory
+                    elementObligation[i] = true;
                 }
             }
         }

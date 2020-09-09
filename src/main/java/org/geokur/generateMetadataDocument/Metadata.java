@@ -3,7 +3,7 @@
  * All rights reserved.
  */
 
-package org.geokur.generateMetadata;
+package org.geokur.generateMetadataDocument;
 
 import org.apache.commons.io.output.NullWriter;
 import org.geokur.trimXML.DeleteInterface;

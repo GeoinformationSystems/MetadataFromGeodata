@@ -5,7 +5,7 @@
 
 package org.geokur.ISO19115Schema;
 
-import org.geokur.ISO19157Schema.DQ_DataQuality;
+import org.geokur.ISO19157Schema.*;
 
 import javax.xml.bind.annotation.XmlElementRef;
 import javax.xml.bind.annotation.XmlElementWrapper;
@@ -136,6 +136,9 @@ public class MD_Metadata {
                 if (!tempList.contains(elementName[i])) {
                     // element not mandatory
                     elementObligation[i] = false;
+                } else if (tempList.contains(elementName[i])) {
+                    // element mandatory
+                    elementObligation[i] = true;
                 }
             }
         }

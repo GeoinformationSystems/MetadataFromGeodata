@@ -5,8 +5,8 @@
 
 package org.geokur.gui;
 
-import org.geokur.generateMetadata.Metadata;
-import org.geokur.generateMetadata.MetadataDatabase;
+import org.geokur.generateMetadataDocument.Metadata;
+import org.geokur.generateMetadataDocument.MetadataDatabase;
 import org.jdom2.Document;
 
 import javax.swing.*;

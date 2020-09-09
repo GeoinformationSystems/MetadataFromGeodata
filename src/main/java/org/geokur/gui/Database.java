@@ -5,7 +5,7 @@
 
 package org.geokur.gui;
 
-import org.geokur.generateMetadata.MetadataDatabase;
+import org.geokur.generateMetadataDocument.MetadataDatabase;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;

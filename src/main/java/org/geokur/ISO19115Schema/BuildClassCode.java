@@ -190,6 +190,9 @@ public class BuildClassCode {
                 fileWriter.append("                if (!tempList.contains(elementName[i])) {\n");
                 fileWriter.append("                    // element not mandatory\n");
                 fileWriter.append("                    elementObligation[i] = false;\n");
+                fileWriter.append("                } else if (tempList.contains(elementName[i])) {\n");
+                fileWriter.append("                    // element mandatory\n");
+                fileWriter.append("                    elementObligation[i] = true;\n");
                 fileWriter.append("                }\n");
                 fileWriter.append("            }\n");
                 fileWriter.append("        }\n");

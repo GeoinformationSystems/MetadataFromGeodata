@@ -3,11 +3,10 @@
  * All rights reserved.
  */
 
-package org.geokur.ISO19115Schema;
+package org.geokur;
 
-import org.geokur.ISO19157Schema.DQ_CompletenessOmission;
-import org.geokur.ISO19157Schema.DQ_DataQuality;
-import org.geokur.ISO19157Schema.DQ_Element;
+import org.geokur.ISO19115Schema.*;
+import org.geokur.ISO19157Schema.*;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;

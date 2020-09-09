@@ -3,12 +3,8 @@
  * All rights reserved.
  */
 
-package org.geokur.generateMetadata;
+package org.geokur.generateMetadataDocument;
 
-import org.geokur.ISO19115Schema.CI_Date;
-import org.geokur.ISO19115Schema.DS_DataSet;
-import org.geokur.ISO19115Schema.DS_Resource;
-import org.geokur.ISO19115Schema.MD_Metadata;
 import org.geotools.data.DataStore;
 import org.geotools.data.DataStoreFinder;
 import org.geotools.data.simple.SimpleFeatureCollection;
