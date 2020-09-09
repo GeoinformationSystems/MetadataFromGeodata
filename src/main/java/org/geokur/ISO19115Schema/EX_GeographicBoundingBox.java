@@ -5,6 +5,10 @@
 
 package org.geokur.ISO19115Schema;
 
+import org.geokur.ISO191xxProfile.ObligationException;
+import org.geokur.ISO191xxProfile.ProfileException;
+import org.geokur.ISO191xxProfile.ProfileReader;
+
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.ArrayList;
@@ -15,7 +19,7 @@ import java.util.List;
 public class EX_GeographicBoundingBox extends EX_GeographicExtent {
 
     // occurrence and obligation
-    private final String[] elementName = {"extentTypeCode", "westBoundLongitude", "eastBoundLongitude", "southBoundLatitude", "NorthBoundLatitude"};
+    private final String[] elementName = {"extentTypeCode", "westBoundLongitude", "eastBoundLongitude", "southBoundLatitude", "northBoundLatitude"};
     private final int[] elementMax = {1, 1, 1, 1, 1};
     private final boolean[] elementObligation = {false, true, true, true, true};
 
@@ -32,8 +36,8 @@ public class EX_GeographicBoundingBox extends EX_GeographicExtent {
     @XmlElement(name = "southBoundLatitude", namespace = "http://standards.iso.org/iso/19115/-3/gex/1.0")
     public List<String> southBoundLatitude;
 
-    @XmlElement(name = "NorthBoundLatitude", namespace = "http://standards.iso.org/iso/19115/-3/gex/1.0")
-    public List<String> NorthBoundLatitude;
+    @XmlElement(name = "northBoundLatitude", namespace = "http://standards.iso.org/iso/19115/-3/gex/1.0")
+    public List<String> northBoundLatitude;
 
     // methods
     public EX_GeographicBoundingBox(){
@@ -80,8 +84,8 @@ public class EX_GeographicBoundingBox extends EX_GeographicExtent {
     }
 
     public void createNorthBoundLatitude() {
-        if (this.NorthBoundLatitude == null) {
-            this.NorthBoundLatitude = new ArrayList<>();
+        if (this.northBoundLatitude == null) {
+            this.northBoundLatitude = new ArrayList<>();
         }
     }
 
@@ -127,14 +131,14 @@ public class EX_GeographicBoundingBox extends EX_GeographicExtent {
         }
     }
 
-    public void addNorthBoundLatitude(String NorthBoundLatitude) {
+    public void addNorthBoundLatitude(String northBoundLatitude) {
         int elementNum = 4;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
             if (tempList.size() >= elementMax[elementNum]) {
                 throw new MaximumOccurrenceException(className + " - " + elementName[elementNum], elementMax[elementNum]);
             } else {
-                this.NorthBoundLatitude.add(NorthBoundLatitude);
+                this.northBoundLatitude.add(northBoundLatitude);
             }
         } catch (MaximumOccurrenceException | NoSuchFieldException | IllegalAccessException e) {
             System.out.println(e.getMessage());

@@ -5,9 +5,11 @@
 
 package org.geokur.ISO19115Schema;
 
+import org.geokur.ISO191xxProfile.ObligationException;
+import org.geokur.ISO191xxProfile.ProfileException;
+import org.geokur.ISO191xxProfile.ProfileReader;
+
 import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlElementRef;
-import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.ArrayList;
 import java.util.Arrays;

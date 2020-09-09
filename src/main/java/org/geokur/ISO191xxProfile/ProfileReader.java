@@ -3,7 +3,7 @@
  * All rights reserved.
  */
 
-package org.geokur.ISO19115Schema;
+package org.geokur.ISO191xxProfile;
 
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;

@@ -6,6 +6,7 @@
 package org.geokur;
 
 import org.geokur.ISO19115Schema.*;
+import org.geokur.ISO191xxProfile.ProfileReader;
 import org.geokur.generateMetadata.*;
 
 import javax.xml.bind.JAXBContext;
@@ -23,8 +24,8 @@ public class MetadataMain {
 //        String fileName = "rasterExample.gpkg";
 //        String fileName = "TestGeopackage.gpkg";
 //        String fileName = "paraguay.gpkg";
-//        String fileName = "TestPointsShape.shp";
-        String fileName = "TestPointsShapeETRS.shp";
+        String fileName = "TestPointsShape.shp";
+//        String fileName = "TestPointsShapeETRS.shp";
 //        String fileName = "paraguay.csv";
 
 

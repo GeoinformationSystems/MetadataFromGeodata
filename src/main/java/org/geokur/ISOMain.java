@@ -7,6 +7,7 @@ package org.geokur;
 
 import org.geokur.ISO19115Schema.*;
 import org.geokur.ISO19157Schema.*;
+import org.geokur.ISO191xxProfile.ProfileReader;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;

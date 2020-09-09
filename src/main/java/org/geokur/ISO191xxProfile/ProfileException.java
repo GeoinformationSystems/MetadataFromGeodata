@@ -3,7 +3,7 @@
  * All rights reserved.
  */
 
-package org.geokur.ISO19115Schema;
+package org.geokur.ISO191xxProfile;
 
 public class ProfileException extends RuntimeException {
     String fieldName;

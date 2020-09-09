@@ -6,9 +6,9 @@
 package org.geokur.ISO19157Schema;
 
 import org.geokur.ISO19115Schema.MaximumOccurrenceException;
-import org.geokur.ISO19115Schema.ObligationException;
-import org.geokur.ISO19115Schema.ProfileException;
-import org.geokur.ISO19115Schema.ProfileReader;
+import org.geokur.ISO191xxProfile.ObligationException;
+import org.geokur.ISO191xxProfile.ProfileException;
+import org.geokur.ISO191xxProfile.ProfileReader;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementRef;

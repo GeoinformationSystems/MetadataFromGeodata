@@ -5,6 +5,8 @@
 
 package org.geokur.ISO19115Schema;
 
+import org.geokur.ISO191xxProfile.ProfileReader;
+
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.Arrays;
 import java.util.List;
