@@ -15,7 +15,7 @@ import javax.xml.bind.Marshaller;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 
-public class MetadataMain {
+public class MetadataGenerator {
     public static void main(String[] argv) {
         // main method for testing metadata generation from geofiles
 
@@ -23,8 +23,8 @@ public class MetadataMain {
 
 //        String fileName = "rasterExample.gpkg";
 //        String fileName = "TestGeopackage.gpkg";
-//        String fileName = "paraguay.gpkg";
-        String fileName = "TestPointsShape.shp";
+        String fileName = "paraguay.gpkg";
+//        String fileName = "TestPointsShape.shp";
 //        String fileName = "TestPointsShapeETRS.shp";
 //        String fileName = "paraguay.csv";
 
@@ -35,12 +35,19 @@ public class MetadataMain {
         // read metadata and instantiate according classes
         DS_Resource metadata;
         String[] fileNameExtension = fileName.split("\\.");
+        // todo: add other geodata types
         switch (fileNameExtension[fileNameExtension.length - 1]) {
             case "shp":
-                metadata = new ShapeMetadata(fileName).getMetadata();
+                System.out.println("-------------");
+                System.out.println("Shape content ");
+                System.out.println("-------------");
+                metadata = new ShapeMetadata(fileName, new DS_DataSet()).getMetadata();
                 break;
             case "gpkg":
-                metadata = new GeopackageMetadata(fileName).getMetadata();
+                System.out.println("------------------");
+                System.out.println("Geopackage content");
+                System.out.println("------------------");
+                metadata = new GeopackageMetadata(fileName, new DS_DataSet()).getMetadata();
                 break;
             default:
                 // file format not supported -> return empty document

@@ -29,18 +29,19 @@ import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
-public class ShapeMetadata {
+public class ShapeMetadata implements Metadata {
 
     String fileName;
+    DS_DataSet dsDataSet;
 
-    public ShapeMetadata(String fileName) {
+    public ShapeMetadata(String fileName, DS_DataSet dsDataSet) {
         this.fileName = fileName;
+        this.dsDataSet = dsDataSet;
     }
 
     public DS_Resource getMetadata() {
         // read shape file and put its metadata into DS_Resource
 
-        DS_Resource dsResource = new DS_DataSet();
         File file = new File(fileName);
 
         try {
@@ -57,8 +58,8 @@ public class ShapeMetadata {
                 markerTransform = true;
                 collectionTransform = project(collection, "epsg:4326");
             } else {
-                collectionTransform = collection;
                 markerTransform = false;
+                collectionTransform = collection;
             }
 
             CI_Individual ciIndividual = new CI_Individual();
@@ -156,17 +157,17 @@ public class ShapeMetadata {
             mdReferenceSystem.addReferenceSystemIdentifier(mdIdentifier_MD_ReferenceSystem);
             mdReferenceSystem.finalizeClass();
 
-            List<Double> extent = getExtent(collectionTransform);
+            Extent extent = getExtent(collectionTransform);
 
             EX_GeographicBoundingBox exGeographicBoundingBox = new EX_GeographicBoundingBox();
             exGeographicBoundingBox.createWestBoundLongitude();
-            exGeographicBoundingBox.addWestBoundLongitude(extent.get(0).toString());
+            exGeographicBoundingBox.addWestBoundLongitude(extent.west.toString());
             exGeographicBoundingBox.createEastBoundLongitude();
-            exGeographicBoundingBox.addEastBoundLongitude(extent.get(1).toString());
+            exGeographicBoundingBox.addEastBoundLongitude(extent.east.toString());
             exGeographicBoundingBox.createSouthBoundLatitude();
-            exGeographicBoundingBox.addSouthBoundLatitude(extent.get(2).toString());
+            exGeographicBoundingBox.addSouthBoundLatitude(extent.south.toString());
             exGeographicBoundingBox.createNorthBoundLatitude();
-            exGeographicBoundingBox.addNorthBoundLatitude(extent.get(3).toString());
+            exGeographicBoundingBox.addNorthBoundLatitude(extent.north.toString());
             exGeographicBoundingBox.finalizeClass();
 
             EX_Extent exExtent = new EX_Extent();
@@ -176,17 +177,17 @@ public class ShapeMetadata {
             exExtent.addGeographicElement(exGeographicBoundingBox);
             exExtent.finalizeClass();
 
-            List<Double> extentOrigCRS = getExtent(collection);
+            Extent extentOrigCRS = getExtent(collection);
 
             EX_GeographicBoundingBox exGeographicBoundingBoxOrigCRS = new EX_GeographicBoundingBox();
             exGeographicBoundingBoxOrigCRS.createWestBoundLongitude();
-            exGeographicBoundingBoxOrigCRS.addWestBoundLongitude(extentOrigCRS.get(0).toString());
+            exGeographicBoundingBoxOrigCRS.addWestBoundLongitude(extentOrigCRS.west.toString());
             exGeographicBoundingBoxOrigCRS.createEastBoundLongitude();
-            exGeographicBoundingBoxOrigCRS.addEastBoundLongitude(extentOrigCRS.get(1).toString());
+            exGeographicBoundingBoxOrigCRS.addEastBoundLongitude(extentOrigCRS.east.toString());
             exGeographicBoundingBoxOrigCRS.createSouthBoundLatitude();
-            exGeographicBoundingBoxOrigCRS.addSouthBoundLatitude(extentOrigCRS.get(2).toString());
+            exGeographicBoundingBoxOrigCRS.addSouthBoundLatitude(extentOrigCRS.south.toString());
             exGeographicBoundingBoxOrigCRS.createNorthBoundLatitude();
-            exGeographicBoundingBoxOrigCRS.addNorthBoundLatitude(extentOrigCRS.get(3).toString());
+            exGeographicBoundingBoxOrigCRS.addNorthBoundLatitude(extentOrigCRS.north.toString());
             exGeographicBoundingBoxOrigCRS.finalizeClass();
 
             EX_Extent exExtentOrigCRS = new EX_Extent();
@@ -211,6 +212,7 @@ public class ShapeMetadata {
             ciCitation.addTitle("");
             ciCitation.createDate();
             ciCitation.addDate(ciDate);
+            ciCitation.finalizeClass();
 
             // find all files belonging to actual shape file -> base name plus allowed extensions
             Shape shape = new Shape(file);
@@ -246,14 +248,15 @@ public class ShapeMetadata {
 
             System.out.println();
 
-            dsResource.createHas();
-            dsResource.addHas(mdMetadata);
+            dsDataSet.createHas();
+            dsDataSet.addHas(mdMetadata);
+            dsDataSet.finalizeClass();
 
         } catch (IOException | FactoryException e) {
             System.out.println(e.getMessage());
         }
 
-        return dsResource;
+        return dsDataSet;
     }
 
 
@@ -273,19 +276,49 @@ public class ShapeMetadata {
         return outCollection;
     }
 
-    private List<Double> getExtent(FeatureCollection<SimpleFeatureType, SimpleFeature> collection) {
-        // get extent of feature collection
-        // return list contains in this order: west boundary, east boundary, south boundary, north boundary
+    static class Extent {
+        Double west;
+        Double east;
+        Double south;
+        Double north;
 
-        List<Double> extent = new ArrayList<>();
+        public Extent(){}
+
+        public Extent(Double missingValue) {
+            west = missingValue;
+            east = missingValue;
+            south = missingValue;
+            north = missingValue;
+        }
+    }
+
+    private Extent getExtent(FeatureCollection<SimpleFeatureType, SimpleFeature> collection) {
+        // get extent of feature collection
+
         ReferencedEnvelope envelope = collection.getBounds();
-        extent.add(envelope.getMinX());
-        extent.add(envelope.getMaxX());
-        extent.add(envelope.getMinY());
-        extent.add(envelope.getMaxY());
+
+        Extent extent = new Extent();
+        extent.west = envelope.getMinX();
+        extent.east = envelope.getMaxX();
+        extent.south = envelope.getMinY();
+        extent.north = envelope.getMaxY();
 
         return extent;
     }
+
+//    private List<Double> getExtent(FeatureCollection<SimpleFeatureType, SimpleFeature> collection) {
+//        // get extent of feature collection
+//        // return list contains in this order: west boundary, east boundary, south boundary, north boundary
+//
+//        List<Double> extent = new ArrayList<>();
+//        ReferencedEnvelope envelope = collection.getBounds();
+//        extent.add(envelope.getMinX());
+//        extent.add(envelope.getMaxX());
+//        extent.add(envelope.getMinY());
+//        extent.add(envelope.getMaxY());
+//
+//        return extent;
+//    }
 
     private int levenshteinDistance(String x, String y) {
         // calculation of Levenshtein distance (edit distance)

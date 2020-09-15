@@ -6,7 +6,7 @@
 package org.geokur.ISO19157Schema;
 
 import org.geokur.ISO19115Schema.MD_Scope;
-import org.geokur.ISO19115Schema.MaximumOccurrenceException;
+import org.geokur.ISO191xxProfile.MaximumOccurrenceException;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementRef;
