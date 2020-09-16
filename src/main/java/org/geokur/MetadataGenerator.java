@@ -8,12 +8,20 @@ package org.geokur;
 import org.geokur.ISO19115Schema.*;
 import org.geokur.ISO191xxProfile.ProfileReader;
 import org.geokur.generateMetadata.*;
+import org.jdom2.Document;
+import org.jdom2.Element;
+import org.jdom2.JDOMException;
+import org.jdom2.input.SAXBuilder;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.util.List;
 
 public class MetadataGenerator {
     public static void main(String[] argv) {
@@ -27,6 +35,17 @@ public class MetadataGenerator {
 //        String fileName = "TestPointsShape.shp";
 //        String fileName = "TestPointsShapeETRS.shp";
 //        String fileName = "paraguay.csv";
+
+        String fileNameXML = "ds_resource.xml";
+        String fileNameDB = "ds_resource.db";
+
+        // remove out files if existing (test cases)
+        try {
+            Files.deleteIfExists(new File(fileNameXML).toPath());
+            Files.deleteIfExists(new File(fileNameDB).toPath());
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
 
 
         // read profile json file
@@ -60,8 +79,23 @@ public class MetadataGenerator {
             JAXBContext contextObj = JAXBContext.newInstance(DS_DataSet.class);
             Marshaller marshaller = contextObj.createMarshaller();
             marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-            marshaller.marshal(metadata, new FileOutputStream("ds_resource.xml"));
+            marshaller.marshal(metadata, new FileOutputStream(fileNameXML));
         } catch (JAXBException | FileNotFoundException e) {
+            System.out.println(e.getMessage());
+        }
+
+        // order xml file to SQLite database
+        // read xml file with JDOM2 library in order to get a document
+        try {
+            Document doc = new SAXBuilder().build(fileNameXML);
+            Element docRoot = doc.getRootElement();
+            MetadataDatabase metadataDatabase = new MetadataDatabase();
+            metadataDatabase.generateFlatFromElement(docRoot);
+            Database database = new Database(fileNameDB);
+            database.createNewDatabase();
+            database.addToDatabase(fileName);
+            database.writeMetadataToDatabase(fileName, metadataDatabase);
+        } catch (IOException | JDOMException e) {
             System.out.println(e.getMessage());
         }
     }
