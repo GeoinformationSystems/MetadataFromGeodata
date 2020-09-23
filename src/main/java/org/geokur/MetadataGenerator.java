@@ -21,6 +21,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.util.ArrayList;
 import java.util.List;
 
 public class MetadataGenerator {
@@ -31,10 +32,10 @@ public class MetadataGenerator {
 
 //        String fileName = "rasterExample.gpkg";
 //        String fileName = "TestGeopackage.gpkg";
-        String fileName = "paraguay.gpkg";
+//        String fileName = "paraguay.gpkg";
 //        String fileName = "TestPointsShape.shp";
 //        String fileName = "TestPointsShapeETRS.shp";
-//        String fileName = "paraguay.csv";
+        String fileName = "paraguay.csv";
 
         String fileNameXML = "ds_resource.xml";
         String fileNameDB = "ds_resource.db";
@@ -67,6 +68,31 @@ public class MetadataGenerator {
                 System.out.println("Geopackage content");
                 System.out.println("------------------");
                 metadata = new GeopackageMetadata(fileName, new DS_DataSet()).getMetadata();
+                break;
+            case "csv":
+                System.out.println("-------------");
+                System.out.println("Ascii content");
+                System.out.println("-------------");
+                AsciiMetadata asciiMetadata = new AsciiMetadata(fileName, new DS_DataSet());
+                List<String> geoTableName = new ArrayList<>();
+                geoTableName.add("level_1");
+                geoTableName.add("level_2");
+                geoTableName.add("level_3");
+                List<String> geoColNameJoin = new ArrayList<>();
+                geoColNameJoin.add("ahID");
+                geoColNameJoin.add("geoID");
+                List<String> asciiColNameJoin = new ArrayList<>();
+                asciiColNameJoin.add("ahID");
+                asciiColNameJoin.add("geoID");
+                List<String> asciiColNameDefinePrimary = new ArrayList<>();
+                asciiColNameDefinePrimary.add("commodityID");
+                List<String> asciiColNameDefineSecondary = new ArrayList<>();
+                asciiColNameDefineSecondary.add("year");
+                List<String> asciiColNameIgnore = new ArrayList<>();
+                asciiColNameIgnore.add("id");
+                asciiColNameIgnore.add("tabID");
+                asciiMetadata.defineProperties("paraguay.gpkg", geoTableName, geoColNameJoin, asciiColNameJoin, asciiColNameDefinePrimary, asciiColNameDefineSecondary, asciiColNameIgnore);
+                metadata = asciiMetadata.getMetadata();
                 break;
             default:
                 // file format not supported -> return empty document

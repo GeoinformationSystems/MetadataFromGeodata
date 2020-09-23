@@ -43,6 +43,7 @@ public class GeopackageMetadata implements Metadata {
 
     public Integer getNumGeodata() {
         // get number of datasets in a geopackage (later use in getMetadata)
+
         GeopackageMetadata gpkg = new GeopackageMetadata(fileName);
         Connection connection = gpkg.getConnection();
         Statement statement = gpkg.getStatement(connection);
@@ -357,7 +358,7 @@ public class GeopackageMetadata implements Metadata {
 
 
 
-
+            // aggregate all data in MD_Metadata
             MD_Metadata mdMetadata = new MD_Metadata();
             mdMetadata.createContact();
             mdMetadata.addContact(ciResponsibility);
@@ -388,7 +389,7 @@ public class GeopackageMetadata implements Metadata {
     ////////////////////
     // helper methods //
     ////////////////////
-    private Connection getConnection() {
+    Connection getConnection() {
         Connection connection = null;
         try {
             String url = "jdbc:sqlite:" + fileName;
@@ -400,7 +401,7 @@ public class GeopackageMetadata implements Metadata {
         return connection;
     }
 
-    private Statement getStatement(Connection connection) {
+    Statement getStatement(Connection connection) {
         Statement stmt = null;
         try {
             stmt = connection.createStatement();
@@ -607,6 +608,22 @@ public class GeopackageMetadata implements Metadata {
             System.out.println(e.getMessage());
         }
         return tableName;
+    }
+
+    List<String> getTableColContent(Statement stmt, String tableName, String colName) {
+        // read column content from specific table
+
+        List<String> colContent = new ArrayList<>();
+        try {
+            ResultSet col = stmt.executeQuery("SELECT " + colName + " FROM " + tableName);
+            while (col.next()) {
+                colContent.add(col.getString(colName));
+            }
+        } catch(SQLException e) {
+            System.out.println(e.getMessage());
+        }
+
+        return colContent;
     }
 
     private int levenshteinDistance(String x, String y) {
