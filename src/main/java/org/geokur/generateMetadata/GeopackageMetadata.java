@@ -190,6 +190,7 @@ public class GeopackageMetadata implements Metadata {
                 srcCRSepsg = "4326";
             }
 
+
             // get (1) basic information
             CI_Individual ciIndividual = new CI_Individual();
             ciIndividual.createName();
@@ -236,6 +237,7 @@ public class GeopackageMetadata implements Metadata {
             ciDateLastModified.addDate(lastModifiedString);
             ciDateLastModified.finalizeClass();
 
+
             // get (2) reference system
             Integer srsID = gpkg.getSRSID(statement, contentAct);
             String srsOrganization = gpkg.getSRSOrganization(statement, srsID);
@@ -250,6 +252,7 @@ public class GeopackageMetadata implements Metadata {
             mdIdentifier_MD_ReferenceSystem.createDescription();
             mdIdentifier_MD_ReferenceSystem.addDescription(srsName);
             mdIdentifier_MD_ReferenceSystem.finalizeClass();
+
 
             // get (3) structure of spatial data
             String now = ZonedDateTime.now(ZoneOffset.UTC).format(DateTimeFormatter.ISO_INSTANT);
@@ -274,6 +277,8 @@ public class GeopackageMetadata implements Metadata {
             Extent extent;
 
             MD_DataIdentification mdDataIdentification = new MD_DataIdentification();
+            mdDataIdentification.createCitation();
+            mdDataIdentification.addCitation(ciCitation);
 
             switch (dataType) {
                 case "features":
@@ -352,6 +357,12 @@ public class GeopackageMetadata implements Metadata {
 
 
             // get (5) metadata contact
+            CI_Citation ciCitationMetadataStandard = new CI_Citation();
+            ciCitationMetadataStandard.createTitle();
+            ciCitationMetadataStandard.addTitle("ISO 19115-1");
+            ciCitationMetadataStandard.createEdition();
+            ciCitationMetadataStandard.addEdition("First edition 2014-04-01");
+            ciCitationMetadataStandard.finalizeClass();
 
 
             // get (6) provenance
@@ -369,6 +380,8 @@ public class GeopackageMetadata implements Metadata {
             mdMetadata.addDateInfo(ciDateLastModified);
             mdMetadata.createIdentificationInfo();
             mdMetadata.addIdentificationInfo(mdDataIdentification);
+            mdMetadata.createMetadataStandard();
+            mdMetadata.addMetadataStandard(ciCitationMetadataStandard);
             mdMetadata.finalizeClass();
 
 //            dsDataSet.createHas();

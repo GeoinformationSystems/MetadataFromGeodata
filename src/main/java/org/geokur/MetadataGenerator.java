@@ -85,6 +85,7 @@ public class MetadataGenerator {
                 asciiColNameJoin.add("ahID");
                 asciiColNameJoin.add("geoID");
                 List<String> asciiColNameDefinePrimary = new ArrayList<>();
+//                asciiColNameDefinePrimary.add("tabID"); // TODO: what is tabID - ignore or primary definition?
                 asciiColNameDefinePrimary.add("commodityID");
                 List<String> asciiColNameDefineSecondary = new ArrayList<>();
                 asciiColNameDefineSecondary.add("year");
