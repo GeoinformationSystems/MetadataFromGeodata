@@ -8,7 +8,7 @@ package org.geokur.ISO19115Schema;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlRootElement;
 
-@XmlRootElement(name = "MD_DimensionNameTypeCode", namespace = "http://standards.iso.org/iso/19115/-3/msr/1.0")
+@XmlRootElement(name = "MD_DimensionNameTypeCode", namespace = "http://standards.iso.org/iso/19115/-3/msr/2.0")
 public class MD_DimensionNameTypeCode {
     // codelist - can be extended
 
@@ -24,7 +24,7 @@ public class MD_DimensionNameTypeCode {
     }
 
     @XmlAttribute
-    final String codeList = "http://standards.iso.org/iso/19115/-3/msr/1.0/codelists.html#MD_DimensionNameTypeCode";
+    final String codeList = "http://standards.iso.org/iso/19115/-3/msr/2.0/codelists.html#MD_DimensionNameTypeCode";
 
     @XmlAttribute
     public MD_DimensionNameTypeCode.MD_DimensionNameTypeCodes codeListValue;

@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-@XmlRootElement(name = "MD_GeometricObjects", namespace = "http://standards.iso.org/iso/19115/-3/msr/1.0")
+@XmlRootElement(name = "MD_GeometricObjects", namespace = "http://standards.iso.org/iso/19115/-3/msr/2.0")
 public class MD_GeometricObjects {
 
     // occurrence and obligation
@@ -30,12 +30,12 @@ public class MD_GeometricObjects {
     private final boolean[] elementUsed = new boolean[elementName.length];
 
     // class variables
-    @XmlElementWrapper(name = "geometricObjectType", namespace = "http://standards.iso.org/iso/19115/-3/msr/1.0")
+    @XmlElementWrapper(name = "geometricObjectType", namespace = "http://standards.iso.org/iso/19115/-3/msr/2.0")
     @XmlElementRef
     public List<MD_GeometricObjectTypeCode> geometricObjectType;
 
-    @XmlElement(name = "geometricObjectCount", namespace = "http://standards.iso.org/iso/19115/-3/msr/1.0")
-    public List<String> geometricObjectCount;
+    @XmlElement(name = "geometricObjectCount", namespace = "http://standards.iso.org/iso/19115/-3/msr/2.0")
+    public List<Integer> geometricObjectCount;
 
     // methods
     public MD_GeometricObjects(){
@@ -89,7 +89,7 @@ public class MD_GeometricObjects {
         }
     }
 
-    public void addGeometricObjectCount(String geometricObjectCount) {
+    public void addGeometricObjectCount(Integer geometricObjectCount) {
         int elementNum = 1;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);

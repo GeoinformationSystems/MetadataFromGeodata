@@ -8,7 +8,7 @@ package org.geokur.ISO19115Schema;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlRootElement;
 
-@XmlRootElement(name = "MD_PixelOrientationCode", namespace = "http://standards.iso.org/iso/19115/-3/msr/1.0")
+@XmlRootElement(name = "MD_PixelOrientationCode", namespace = "http://standards.iso.org/iso/19115/-3/msr/2.0")
 public class MD_PixelOrientationCode {
     // enumeration - cannot be extended
 
@@ -21,7 +21,7 @@ public class MD_PixelOrientationCode {
     }
 
     @XmlAttribute
-    final String codeList = "http://standards.iso.org/iso/19115/-3/msr/1.0/codelists.html#MD_PixelOrientationCode";
+    final String codeList = "http://standards.iso.org/iso/19115/-3/msr/2.0/codelists.html#MD_PixelOrientationCode";
 
     @XmlAttribute
     public MD_PixelOrientationCode.MD_PixelOrientationCodes codeListValue;

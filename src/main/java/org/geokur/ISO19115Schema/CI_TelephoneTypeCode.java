@@ -8,7 +8,7 @@ package org.geokur.ISO19115Schema;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlRootElement;
 
-@XmlRootElement(name = "CI_TelephoneTypeCode", namespace = "http://standards.iso.org/iso/19115/-3/cit/1.0")
+@XmlRootElement(name = "CI_TelephoneTypeCode", namespace = "http://standards.iso.org/iso/19115/-3/cit/2.0")
 public class CI_TelephoneTypeCode {
     // codelist - can be extended
 
@@ -19,7 +19,7 @@ public class CI_TelephoneTypeCode {
     }
 
     @XmlAttribute
-    final String codeList = "http://standards.iso.org/iso/19115/-3/cit/1.0/codelists.html#CI_TelephoneTypeCode";
+    final String codeList = "http://standards.iso.org/iso/19115/-3/cit/2.0/codelists.html#CI_TelephoneTypeCode";
 
     @XmlAttribute
     public CI_TelephoneTypeCode.CI_TelephoneTypeCodes codeListValue;

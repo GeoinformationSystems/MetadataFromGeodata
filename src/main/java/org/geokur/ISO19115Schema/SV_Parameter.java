@@ -41,10 +41,10 @@ public class SV_Parameter {
     public List<String> description;
 
     @XmlElement(name = "optionality", namespace = "http://standards.iso.org/iso/19115/-3/srv/2.0")
-    public List<String> optionality;
+    public List<Boolean> optionality;
 
     @XmlElement(name = "repeatability", namespace = "http://standards.iso.org/iso/19115/-3/srv/2.0")
-    public List<String> repeatability;
+    public List<Boolean> repeatability;
 
     // methods
     public SV_Parameter(){
@@ -144,7 +144,7 @@ public class SV_Parameter {
         }
     }
 
-    public void addOptionality(String optionality) {
+    public void addOptionality(Boolean optionality) {
         int elementNum = 3;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -158,7 +158,7 @@ public class SV_Parameter {
         }
     }
 
-    public void addRepeatability(String repeatability) {
+    public void addRepeatability(Boolean repeatability) {
         int elementNum = 4;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);

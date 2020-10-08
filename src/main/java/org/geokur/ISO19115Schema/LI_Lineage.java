@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-@XmlRootElement(name = "LI_Lineage", namespace = "http://standards.iso.org/iso/19115/-3/mrl/1.0")
+@XmlRootElement(name = "LI_Lineage", namespace = "http://standards.iso.org/iso/19115/-3/mrl/2.0")
 public class LI_Lineage {
 
     // occurrence and obligation
@@ -30,22 +30,22 @@ public class LI_Lineage {
     private final boolean[] elementUsed = new boolean[elementName.length];
 
     // class variables
-    @XmlElement(name = "statement", namespace = "http://standards.iso.org/iso/19115/-3/mrl/1.0")
+    @XmlElement(name = "statement", namespace = "http://standards.iso.org/iso/19115/-3/mrl/2.0")
     public List<String> statement;
 
-    @XmlElementWrapper(name = "scope", namespace = "http://standards.iso.org/iso/19115/-3/mrl/1.0")
+    @XmlElementWrapper(name = "scope", namespace = "http://standards.iso.org/iso/19115/-3/mrl/2.0")
     @XmlElementRef
     public List<MD_Scope> scope;
 
-    @XmlElementWrapper(name = "additionalDocumentation", namespace = "http://standards.iso.org/iso/19115/-3/mrl/1.0")
+    @XmlElementWrapper(name = "additionalDocumentation", namespace = "http://standards.iso.org/iso/19115/-3/mrl/2.0")
     @XmlElementRef
     public List<CI_Citation> additionalDocumentation;
 
-    @XmlElementWrapper(name = "processStep", namespace = "http://standards.iso.org/iso/19115/-3/mrl/1.0")
+    @XmlElementWrapper(name = "processStep", namespace = "http://standards.iso.org/iso/19115/-3/mrl/2.0")
     @XmlElementRef
     public List<LI_ProcessStep> processStep;
 
-    @XmlElementWrapper(name = "source", namespace = "http://standards.iso.org/iso/19115/-3/mrl/1.0")
+    @XmlElementWrapper(name = "source", namespace = "http://standards.iso.org/iso/19115/-3/mrl/2.0")
     @XmlElementRef
     public List<LI_Source> source;
 

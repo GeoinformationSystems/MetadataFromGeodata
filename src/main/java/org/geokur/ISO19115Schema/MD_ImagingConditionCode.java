@@ -8,7 +8,7 @@ package org.geokur.ISO19115Schema;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlRootElement;
 
-@XmlRootElement(name = "MD_ImagingConditionCode", namespace = "http://standards.iso.org/iso/19115/-3/mrc/1.0")
+@XmlRootElement(name = "MD_ImagingConditionCode", namespace = "http://standards.iso.org/iso/19115/-3/mrc/2.0")
 public class MD_ImagingConditionCode {
     // codelist - can be extended
 
@@ -27,7 +27,7 @@ public class MD_ImagingConditionCode {
     }
 
     @XmlAttribute
-    final String codeList = "http://standards.iso.org/iso/19115/-3/mrc/1.0/codelists.html#MD_ImagingConditionCode";
+    final String codeList = "http://standards.iso.org/iso/19115/-3/mrc/2.0/codelists.html#MD_ImagingConditionCode";
 
     @XmlAttribute
     public MD_ImagingConditionCode.MD_ImagingConditionCodes codeListValue;

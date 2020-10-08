@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-@XmlRootElement(name = "CI_Individual", namespace = "http://standards.iso.org/iso/19115/-3/cit/1.0")
+@XmlRootElement(name = "CI_Individual", namespace = "http://standards.iso.org/iso/19115/-3/cit/2.0")
 public class CI_Individual extends CI_Party {
 
     // occurrence and obligation
@@ -28,7 +28,7 @@ public class CI_Individual extends CI_Party {
     private final boolean[] elementUsed = new boolean[elementName.length];
 
     // class variables
-    @XmlElement(name = "positionName", namespace = "http://standards.iso.org/iso/19115/-3/cit/1.0")
+    @XmlElement(name = "positionName", namespace = "http://standards.iso.org/iso/19115/-3/cit/2.0")
     public List<String> positionName;
 
     // methods

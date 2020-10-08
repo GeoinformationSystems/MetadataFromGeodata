@@ -8,7 +8,7 @@ package org.geokur.ISO19115Schema;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlRootElement;
 
-@XmlRootElement(name = "MD_CoverageContentTypeCode", namespace = "http://standards.iso.org/iso/19115/-3/mrc/1.0")
+@XmlRootElement(name = "MD_CoverageContentTypeCode", namespace = "http://standards.iso.org/iso/19115/-3/mrc/2.0")
 public class MD_CoverageContentTypeCode {
     // codelist - can be extended
 
@@ -24,7 +24,7 @@ public class MD_CoverageContentTypeCode {
     }
 
     @XmlAttribute
-    final String codeList = "http://standards.iso.org/iso/19115/-3/mrc/1.0/codelists.html#MD_CoverageContentTypeCode";
+    final String codeList = "http://standards.iso.org/iso/19115/-3/mrc/2.0/codelists.html#MD_CoverageContentTypeCode";
 
     @XmlAttribute
     public MD_CoverageContentTypeCode.MD_CoverageContentTypeCodes codeListValue;

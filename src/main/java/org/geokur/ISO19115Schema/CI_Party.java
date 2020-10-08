@@ -14,7 +14,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import java.util.ArrayList;
 import java.util.List;
 
-@XmlRootElement(name = "CI_Party", namespace = "http://standards.iso.org/iso/19115/-3/cit/1.0")
+@XmlRootElement(name = "CI_Party", namespace = "http://standards.iso.org/iso/19115/-3/cit/2.0")
 public abstract class CI_Party {
 
     // occurrence and obligation
@@ -24,10 +24,10 @@ public abstract class CI_Party {
     private final String className = this.getClass().getSimpleName();
 
     // class variables
-    @XmlElement(name = "name", namespace = "http://standards.iso.org/iso/19115/-3/cit/1.0")
+    @XmlElement(name = "name", namespace = "http://standards.iso.org/iso/19115/-3/cit/2.0")
     public List<String> name;
 
-    @XmlElementWrapper(name = "contactInfo", namespace = "http://standards.iso.org/iso/19115/-3/cit/1.0")
+    @XmlElementWrapper(name = "contactInfo", namespace = "http://standards.iso.org/iso/19115/-3/cit/2.0")
     @XmlElementRef
     public List<CI_Contact> contactInfo;
 

@@ -5,6 +5,7 @@
 
 package org.geokur.ISO19115Schema;
 
+import org.geokur.ISO19115_2Schema.MI_Metadata;
 import org.geokur.ISO19157Schema.*;
 import org.geokur.ISO191xxProfile.MaximumOccurrenceException;
 import org.geokur.ISO191xxProfile.ObligationException;
@@ -18,7 +19,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-@XmlRootElement(name = "MD_Metadata", namespace = "http://standards.iso.org/iso/19115/-3/mdb/1.0")
+@XmlRootElement(name = "MD_Metadata", namespace = "http://standards.iso.org/iso/19115/-3/mdb/2.0")
 public class MD_Metadata {
 
     // occurrence and obligation
@@ -30,97 +31,100 @@ public class MD_Metadata {
     private final boolean[] elementUsed = new boolean[elementName.length];
 
     // class variables
-    @XmlElementWrapper(name = "metadataIdentifier", namespace = "http://standards.iso.org/iso/19115/-3/mdb/1.0")
+    @XmlElementWrapper(name = "metadataIdentifier", namespace = "http://standards.iso.org/iso/19115/-3/mdb/2.0")
     @XmlElementRef
     public List<MD_Identifier> metadataIdentifier;
 
-    @XmlElementWrapper(name = "defaultLocale", namespace = "http://standards.iso.org/iso/19115/-3/mdb/1.0")
+    @XmlElementWrapper(name = "defaultLocale", namespace = "http://standards.iso.org/iso/19115/-3/mdb/2.0")
     @XmlElementRef
     public List<PT_Locale> defaultLocale;
 
-    @XmlElementWrapper(name = "parentMetadata", namespace = "http://standards.iso.org/iso/19115/-3/mdb/1.0")
+    @XmlElementWrapper(name = "parentMetadata", namespace = "http://standards.iso.org/iso/19115/-3/mdb/2.0")
     @XmlElementRef
     public List<CI_Citation> parentMetadata;
 
-    @XmlElementWrapper(name = "contact", namespace = "http://standards.iso.org/iso/19115/-3/mdb/1.0")
+    @XmlElementWrapper(name = "contact", namespace = "http://standards.iso.org/iso/19115/-3/mdb/2.0")
     @XmlElementRef
     public List<CI_Responsibility> contact;
 
-    @XmlElementWrapper(name = "dateInfo", namespace = "http://standards.iso.org/iso/19115/-3/mdb/1.0")
+    @XmlElementWrapper(name = "dateInfo", namespace = "http://standards.iso.org/iso/19115/-3/mdb/2.0")
     @XmlElementRef
     public List<CI_Date> dateInfo;
 
-    @XmlElementWrapper(name = "metadataStandard", namespace = "http://standards.iso.org/iso/19115/-3/mdb/1.0")
+    @XmlElementWrapper(name = "metadataStandard", namespace = "http://standards.iso.org/iso/19115/-3/mdb/2.0")
     @XmlElementRef
     public List<CI_Citation> metadataStandard;
 
-    @XmlElementWrapper(name = "metadataProfile", namespace = "http://standards.iso.org/iso/19115/-3/mdb/1.0")
+    @XmlElementWrapper(name = "metadataProfile", namespace = "http://standards.iso.org/iso/19115/-3/mdb/2.0")
     @XmlElementRef
     public List<CI_Citation> metadataProfile;
 
-    @XmlElementWrapper(name = "alternativeMetadataReference", namespace = "http://standards.iso.org/iso/19115/-3/mdb/1.0")
+    @XmlElementWrapper(name = "alternativeMetadataReference", namespace = "http://standards.iso.org/iso/19115/-3/mdb/2.0")
     @XmlElementRef
     public List<CI_Citation> alternativeMetadataReference;
 
-    @XmlElementWrapper(name = "otherLocale", namespace = "http://standards.iso.org/iso/19115/-3/mdb/1.0")
+    @XmlElementWrapper(name = "otherLocale", namespace = "http://standards.iso.org/iso/19115/-3/mdb/2.0")
     @XmlElementRef
     public List<PT_Locale> otherLocale;
 
-    @XmlElementWrapper(name = "metadataLinkage", namespace = "http://standards.iso.org/iso/19115/-3/mdb/1.0")
+    @XmlElementWrapper(name = "metadataLinkage", namespace = "http://standards.iso.org/iso/19115/-3/mdb/2.0")
     @XmlElementRef
     public List<CI_OnlineResource> metadataLinkage;
 
-    @XmlElementWrapper(name = "spatialRepresentationInfo", namespace = "http://standards.iso.org/iso/19115/-3/mdb/1.0")
+    @XmlElementWrapper(name = "spatialRepresentationInfo", namespace = "http://standards.iso.org/iso/19115/-3/mdb/2.0")
     @XmlElementRef
     public List<MD_GridSpatialRepresentation> spatialRepresentationInfo;
 
-    @XmlElementWrapper(name = "referenceSystemInfo", namespace = "http://standards.iso.org/iso/19115/-3/mdb/1.0")
+    @XmlElementWrapper(name = "referenceSystemInfo", namespace = "http://standards.iso.org/iso/19115/-3/mdb/2.0")
     @XmlElementRef
     public List<MD_ReferenceSystem> referenceSystemInfo;
 
-    @XmlElementWrapper(name = "metadataExtensionInfo", namespace = "http://standards.iso.org/iso/19115/-3/mdb/1.0")
+    @XmlElementWrapper(name = "metadataExtensionInfo", namespace = "http://standards.iso.org/iso/19115/-3/mdb/2.0")
     @XmlElementRef
     public List<MD_MetadataExtensionInformation> metadataExtensionInfo;
 
-    @XmlElementWrapper(name = "identificationInfo", namespace = "http://standards.iso.org/iso/19115/-3/mdb/1.0")
+    @XmlElementWrapper(name = "identificationInfo", namespace = "http://standards.iso.org/iso/19115/-3/mdb/2.0")
     @XmlElementRef
     public List<MD_Identification> identificationInfo;
 
-    @XmlElementWrapper(name = "contentInfo", namespace = "http://standards.iso.org/iso/19115/-3/mdb/1.0")
+    @XmlElementWrapper(name = "contentInfo", namespace = "http://standards.iso.org/iso/19115/-3/mdb/2.0")
     @XmlElementRef
     public List<MD_FeatureCatalogueDescription> contentInfo;
 
-    @XmlElementWrapper(name = "distributionInfo", namespace = "http://standards.iso.org/iso/19115/-3/mdb/1.0")
+    @XmlElementWrapper(name = "distributionInfo", namespace = "http://standards.iso.org/iso/19115/-3/mdb/2.0")
     @XmlElementRef
     public List<MD_Distribution> distributionInfo;
 
-    @XmlElementWrapper(name = "dataQualityInfo", namespace = "http://standards.iso.org/iso/19115/-3/mdb/1.0")
+    @XmlElementWrapper(name = "dataQualityInfo", namespace = "http://standards.iso.org/iso/19115/-3/mdb/2.0")
     @XmlElementRef
     public List<DQ_DataQuality> dataQualityInfo;
 
-    @XmlElementWrapper(name = "portrayalCatalogueInfo", namespace = "http://standards.iso.org/iso/19115/-3/mdb/1.0")
+    @XmlElementWrapper(name = "portrayalCatalogueInfo", namespace = "http://standards.iso.org/iso/19115/-3/mdb/2.0")
     @XmlElementRef
     public List<MD_PortrayalCatalogueReference> portrayalCatalogueInfo;
 
-    @XmlElementWrapper(name = "metadataConstraints", namespace = "http://standards.iso.org/iso/19115/-3/mdb/1.0")
+    @XmlElementWrapper(name = "metadataConstraints", namespace = "http://standards.iso.org/iso/19115/-3/mdb/2.0")
     @XmlElementRef
     public List<MD_Constraints> metadataConstraints;
 
-    @XmlElementWrapper(name = "applicationSchemaInfo", namespace = "http://standards.iso.org/iso/19115/-3/mdb/1.0")
+    @XmlElementWrapper(name = "applicationSchemaInfo", namespace = "http://standards.iso.org/iso/19115/-3/mdb/2.0")
     @XmlElementRef
     public List<MD_ApplicationSchemaInformation> applicationSchemaInfo;
 
-    @XmlElementWrapper(name = "metadataMaintenance", namespace = "http://standards.iso.org/iso/19115/-3/mdb/1.0")
+    @XmlElementWrapper(name = "metadataMaintenance", namespace = "http://standards.iso.org/iso/19115/-3/mdb/2.0")
     @XmlElementRef
     public List<MD_MaintenanceInformation> metadataMaintenance;
 
-    @XmlElementWrapper(name = "resourceLineage", namespace = "http://standards.iso.org/iso/19115/-3/mdb/1.0")
+    @XmlElementWrapper(name = "resourceLineage", namespace = "http://standards.iso.org/iso/19115/-3/mdb/2.0")
     @XmlElementRef
     public List<LI_Lineage> resourceLineage;
 
-    @XmlElementWrapper(name = "metadataScope", namespace = "http://standards.iso.org/iso/19115/-3/mdb/1.0")
+    @XmlElementWrapper(name = "metadataScope", namespace = "http://standards.iso.org/iso/19115/-3/mdb/2.0")
     @XmlElementRef
     public List<MD_MetadataScope> metadataScope;
+
+    // variables for correct marshalling of specified classes
+    public List<MI_Metadata> metadata;
 
     // methods
     public MD_Metadata(){

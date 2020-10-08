@@ -5,6 +5,8 @@
 
 package org.geokur.ISO19115Schema;
 
+import org.geokur.ISO19103Schema.Record;
+import org.geokur.ISO19115_2Schema.MI_Georeferenceable;
 import org.geokur.ISO191xxProfile.MaximumOccurrenceException;
 import org.geokur.ISO191xxProfile.ObligationException;
 import org.geokur.ISO191xxProfile.ProfileException;
@@ -18,7 +20,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-@XmlRootElement(name = "MD_Georeferenceable", namespace = "http://standards.iso.org/iso/19115/-3/msr/1.0")
+@XmlRootElement(name = "MD_Georeferenceable", namespace = "http://standards.iso.org/iso/19115/-3/msr/2.0")
 public class MD_Georeferenceable extends MD_GridSpatialRepresentation {
 
     // occurrence and obligation
@@ -30,21 +32,24 @@ public class MD_Georeferenceable extends MD_GridSpatialRepresentation {
     private final boolean[] elementUsed = new boolean[elementName.length];
 
     // class variables
-    @XmlElement(name = "controlPointAvailability", namespace = "http://standards.iso.org/iso/19115/-3/msr/1.0")
-    public List<String> controlPointAvailability;
+    @XmlElement(name = "controlPointAvailability", namespace = "http://standards.iso.org/iso/19115/-3/msr/2.0")
+    public List<Boolean> controlPointAvailability;
 
-    @XmlElement(name = "orientationParameterAvailability", namespace = "http://standards.iso.org/iso/19115/-3/msr/1.0")
-    public List<String> orientationParameterAvailability;
+    @XmlElement(name = "orientationParameterAvailability", namespace = "http://standards.iso.org/iso/19115/-3/msr/2.0")
+    public List<Boolean> orientationParameterAvailability;
 
-    @XmlElement(name = "orientationParameterDescription", namespace = "http://standards.iso.org/iso/19115/-3/msr/1.0")
+    @XmlElement(name = "orientationParameterDescription", namespace = "http://standards.iso.org/iso/19115/-3/msr/2.0")
     public List<String> orientationParameterDescription;
 
-    @XmlElement(name = "georeferencedParameters", namespace = "http://standards.iso.org/iso/19115/-3/msr/1.0")
-    public List<String> georeferencedParameters;
+    @XmlElement(name = "georeferencedParameters", namespace = "http://standards.iso.org/iso/19115/-3/msr/2.0")
+    public List<Record> georeferencedParameters;
 
-    @XmlElementWrapper(name = "parameterCitation", namespace = "http://standards.iso.org/iso/19115/-3/msr/1.0")
+    @XmlElementWrapper(name = "parameterCitation", namespace = "http://standards.iso.org/iso/19115/-3/msr/2.0")
     @XmlElementRef
     public List<CI_Citation> parameterCitation;
+
+    // variables for correct marshalling of specified classes
+    public List<MI_Georeferenceable> georeferenceable;
 
     // methods
     public MD_Georeferenceable(){
@@ -102,7 +107,7 @@ public class MD_Georeferenceable extends MD_GridSpatialRepresentation {
         }
     }
 
-    public void addControlPointAvailability(String controlPointAvailability) {
+    public void addControlPointAvailability(Boolean controlPointAvailability) {
         int elementNum = 4;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -116,7 +121,7 @@ public class MD_Georeferenceable extends MD_GridSpatialRepresentation {
         }
     }
 
-    public void addOrientationParameterAvailability(String orientationParameterAvailability) {
+    public void addOrientationParameterAvailability(Boolean orientationParameterAvailability) {
         int elementNum = 5;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -144,7 +149,7 @@ public class MD_Georeferenceable extends MD_GridSpatialRepresentation {
         }
     }
 
-    public void addGeoreferencedParameters(String georeferencedParameters) {
+    public void addGeoreferencedParameters(Record georeferencedParameters) {
         int elementNum = 7;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);

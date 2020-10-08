@@ -5,6 +5,7 @@
 
 package org.geokur.ISO19115Schema;
 
+import org.geokur.ISO19115_2Schema.MI_Band;
 import org.geokur.ISO191xxProfile.MaximumOccurrenceException;
 import org.geokur.ISO191xxProfile.ObligationException;
 import org.geokur.ISO191xxProfile.ProfileException;
@@ -16,7 +17,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-@XmlRootElement(name = "MD_Band", namespace = "http://standards.iso.org/iso/19115/-3/mrc/1.0")
+@XmlRootElement(name = "MD_Band", namespace = "http://standards.iso.org/iso/19115/-3/mrc/2.0")
 public class MD_Band extends MD_SampleDimension {
 
     // occurrence and obligation
@@ -28,20 +29,23 @@ public class MD_Band extends MD_SampleDimension {
     private final boolean[] elementUsed = new boolean[elementName.length];
 
     // class variables
-    @XmlElement(name = "boundMax", namespace = "http://standards.iso.org/iso/19115/-3/mrc/1.0")
-    public List<String> boundMax;
+    @XmlElement(name = "boundMax", namespace = "http://standards.iso.org/iso/19115/-3/mrc/2.0")
+    public List<Double> boundMax;
 
-    @XmlElement(name = "boundMin", namespace = "http://standards.iso.org/iso/19115/-3/mrc/1.0")
-    public List<String> boundMin;
+    @XmlElement(name = "boundMin", namespace = "http://standards.iso.org/iso/19115/-3/mrc/2.0")
+    public List<Double> boundMin;
 
-    @XmlElement(name = "boundUnit", namespace = "http://standards.iso.org/iso/19115/-3/mrc/1.0")
+    @XmlElement(name = "boundUnit", namespace = "http://standards.iso.org/iso/19115/-3/mrc/2.0")
     public List<String> boundUnit;
 
-    @XmlElement(name = "peakResponse", namespace = "http://standards.iso.org/iso/19115/-3/mrc/1.0")
-    public List<String> peakResponse;
+    @XmlElement(name = "peakResponse", namespace = "http://standards.iso.org/iso/19115/-3/mrc/2.0")
+    public List<Double> peakResponse;
 
-    @XmlElement(name = "toneGradation", namespace = "http://standards.iso.org/iso/19115/-3/mrc/1.0")
-    public List<String> toneGradation;
+    @XmlElement(name = "toneGradation", namespace = "http://standards.iso.org/iso/19115/-3/mrc/2.0")
+    public List<Integer> toneGradation;
+
+    // variables for correct marshalling of specified classes
+    public List<MI_Band> band;
 
     // methods
     public MD_Band(){
@@ -99,7 +103,7 @@ public class MD_Band extends MD_SampleDimension {
         }
     }
 
-    public void addBoundMax(String boundMax) {
+    public void addBoundMax(Double boundMax) {
         int elementNum = 14;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -113,7 +117,7 @@ public class MD_Band extends MD_SampleDimension {
         }
     }
 
-    public void addBoundMin(String boundMin) {
+    public void addBoundMin(Double boundMin) {
         int elementNum = 15;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -141,7 +145,7 @@ public class MD_Band extends MD_SampleDimension {
         }
     }
 
-    public void addPeakResponse(String peakResponse) {
+    public void addPeakResponse(Double peakResponse) {
         int elementNum = 17;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -155,7 +159,7 @@ public class MD_Band extends MD_SampleDimension {
         }
     }
 
-    public void addToneGradation(String toneGradation) {
+    public void addToneGradation(Integer toneGradation) {
         int elementNum = 18;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);

@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-@XmlRootElement(name = "CI_Series", namespace = "http://standards.iso.org/iso/19115/-3/cit/1.0")
+@XmlRootElement(name = "CI_Series", namespace = "http://standards.iso.org/iso/19115/-3/cit/2.0")
 public class CI_Series {
 
     // occurrence and obligation
@@ -28,13 +28,13 @@ public class CI_Series {
     private final boolean[] elementUsed = new boolean[elementName.length];
 
     // class variables
-    @XmlElement(name = "name", namespace = "http://standards.iso.org/iso/19115/-3/cit/1.0")
+    @XmlElement(name = "name", namespace = "http://standards.iso.org/iso/19115/-3/cit/2.0")
     public List<String> name;
 
-    @XmlElement(name = "issueIdentification", namespace = "http://standards.iso.org/iso/19115/-3/cit/1.0")
+    @XmlElement(name = "issueIdentification", namespace = "http://standards.iso.org/iso/19115/-3/cit/2.0")
     public List<String> issueIdentification;
 
-    @XmlElement(name = "page", namespace = "http://standards.iso.org/iso/19115/-3/cit/1.0")
+    @XmlElement(name = "page", namespace = "http://standards.iso.org/iso/19115/-3/cit/2.0")
     public List<String> page;
 
     // methods

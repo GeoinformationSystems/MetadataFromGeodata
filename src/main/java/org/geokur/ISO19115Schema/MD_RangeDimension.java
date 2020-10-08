@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-@XmlRootElement(name = "MD_RangeDimension", namespace = "http://standards.iso.org/iso/19115/-3/mrc/1.0")
+@XmlRootElement(name = "MD_RangeDimension", namespace = "http://standards.iso.org/iso/19115/-3/mrc/2.0")
 public class MD_RangeDimension {
 
     // occurrence and obligation
@@ -30,13 +30,13 @@ public class MD_RangeDimension {
     private final boolean[] elementUsed = new boolean[elementName.length];
 
     // class variables
-    @XmlElement(name = "sequenceIdentifier", namespace = "http://standards.iso.org/iso/19115/-3/mrc/1.0")
+    @XmlElement(name = "sequenceIdentifier", namespace = "http://standards.iso.org/iso/19115/-3/mrc/2.0")
     public List<String> sequenceIdentifier;
 
-    @XmlElement(name = "description", namespace = "http://standards.iso.org/iso/19115/-3/mrc/1.0")
+    @XmlElement(name = "description", namespace = "http://standards.iso.org/iso/19115/-3/mrc/2.0")
     public List<String> description;
 
-    @XmlElementWrapper(name = "name", namespace = "http://standards.iso.org/iso/19115/-3/mrc/1.0")
+    @XmlElementWrapper(name = "name", namespace = "http://standards.iso.org/iso/19115/-3/mrc/2.0")
     @XmlElementRef
     public List<MD_Identifier> name;
 

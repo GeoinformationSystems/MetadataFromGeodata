@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-@XmlRootElement(name = "MD_AttributeGroup", namespace = "http://standards.iso.org/iso/19115/-3/mrc/1.0")
+@XmlRootElement(name = "MD_AttributeGroup", namespace = "http://standards.iso.org/iso/19115/-3/mrc/2.0")
 public class MD_AttributeGroup {
 
     // occurrence and obligation
@@ -29,11 +29,11 @@ public class MD_AttributeGroup {
     private final boolean[] elementUsed = new boolean[elementName.length];
 
     // class variables
-    @XmlElementWrapper(name = "contentType", namespace = "http://standards.iso.org/iso/19115/-3/mrc/1.0")
+    @XmlElementWrapper(name = "contentType", namespace = "http://standards.iso.org/iso/19115/-3/mrc/2.0")
     @XmlElementRef
     public List<MD_CoverageContentTypeCode> contentType;
 
-    @XmlElementWrapper(name = "attribute", namespace = "http://standards.iso.org/iso/19115/-3/mrc/1.0")
+    @XmlElementWrapper(name = "attribute", namespace = "http://standards.iso.org/iso/19115/-3/mrc/2.0")
     @XmlElementRef
     public List<MD_RangeDimension> attribute;
 

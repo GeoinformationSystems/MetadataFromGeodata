@@ -5,6 +5,7 @@
 
 package org.geokur.ISO19115Schema;
 
+import org.geokur.ISO19115_2Schema.LE_ProcessStep;
 import org.geokur.ISO191xxProfile.MaximumOccurrenceException;
 import org.geokur.ISO191xxProfile.ObligationException;
 import org.geokur.ISO191xxProfile.ProfileException;
@@ -18,7 +19,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-@XmlRootElement(name = "LI_ProcessStep", namespace = "http://standards.iso.org/iso/19115/-3/mrl/1.0")
+@XmlRootElement(name = "LI_ProcessStep", namespace = "http://standards.iso.org/iso/19115/-3/mrl/2.0")
 public class LI_ProcessStep {
 
     // occurrence and obligation
@@ -30,30 +31,33 @@ public class LI_ProcessStep {
     private final boolean[] elementUsed = new boolean[elementName.length];
 
     // class variables
-    @XmlElement(name = "description", namespace = "http://standards.iso.org/iso/19115/-3/mrl/1.0")
+    @XmlElement(name = "description", namespace = "http://standards.iso.org/iso/19115/-3/mrl/2.0")
     public List<String> description;
 
-    @XmlElement(name = "rationale", namespace = "http://standards.iso.org/iso/19115/-3/mrl/1.0")
+    @XmlElement(name = "rationale", namespace = "http://standards.iso.org/iso/19115/-3/mrl/2.0")
     public List<String> rationale;
 
-    @XmlElement(name = "stepDateTime", namespace = "http://standards.iso.org/iso/19115/-3/mrl/1.0")
+    @XmlElement(name = "stepDateTime", namespace = "http://standards.iso.org/iso/19115/-3/mrl/2.0")
     public List<String> stepDateTime;
 
-    @XmlElementWrapper(name = "processor", namespace = "http://standards.iso.org/iso/19115/-3/mrl/1.0")
+    @XmlElementWrapper(name = "processor", namespace = "http://standards.iso.org/iso/19115/-3/mrl/2.0")
     @XmlElementRef
     public List<CI_Responsibility> processor;
 
-    @XmlElementWrapper(name = "reference", namespace = "http://standards.iso.org/iso/19115/-3/mrl/1.0")
+    @XmlElementWrapper(name = "reference", namespace = "http://standards.iso.org/iso/19115/-3/mrl/2.0")
     @XmlElementRef
     public List<CI_Citation> reference;
 
-    @XmlElementWrapper(name = "scope", namespace = "http://standards.iso.org/iso/19115/-3/mrl/1.0")
+    @XmlElementWrapper(name = "scope", namespace = "http://standards.iso.org/iso/19115/-3/mrl/2.0")
     @XmlElementRef
     public List<MD_Scope> scope;
 
-    @XmlElementWrapper(name = "source", namespace = "http://standards.iso.org/iso/19115/-3/mrl/1.0")
+    @XmlElementWrapper(name = "source", namespace = "http://standards.iso.org/iso/19115/-3/mrl/2.0")
     @XmlElementRef
     public List<LI_Source> source;
+
+    // variables for correct marshalling of specified classes
+    public List<LE_ProcessStep> processStep;
 
     // methods
     public LI_ProcessStep(){

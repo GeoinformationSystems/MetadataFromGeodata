@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-@XmlRootElement(name = "CI_Citation", namespace = "http://standards.iso.org/iso/19115/-3/cit/1.0")
+@XmlRootElement(name = "CI_Citation", namespace = "http://standards.iso.org/iso/19115/-3/cit/2.0")
 public class CI_Citation {
 
     // occurrence and obligation
@@ -30,52 +30,52 @@ public class CI_Citation {
     private final boolean[] elementUsed = new boolean[elementName.length];
 
     // class variables
-    @XmlElement(name = "title", namespace = "http://standards.iso.org/iso/19115/-3/cit/1.0")
+    @XmlElement(name = "title", namespace = "http://standards.iso.org/iso/19115/-3/cit/2.0")
     public List<String> title;
 
-    @XmlElement(name = "alternateTitle", namespace = "http://standards.iso.org/iso/19115/-3/cit/1.0")
+    @XmlElement(name = "alternateTitle", namespace = "http://standards.iso.org/iso/19115/-3/cit/2.0")
     public List<String> alternateTitle;
 
-    @XmlElementWrapper(name = "date", namespace = "http://standards.iso.org/iso/19115/-3/cit/1.0")
+    @XmlElementWrapper(name = "date", namespace = "http://standards.iso.org/iso/19115/-3/cit/2.0")
     @XmlElementRef
     public List<CI_Date> date;
 
-    @XmlElement(name = "edition", namespace = "http://standards.iso.org/iso/19115/-3/cit/1.0")
+    @XmlElement(name = "edition", namespace = "http://standards.iso.org/iso/19115/-3/cit/2.0")
     public List<String> edition;
 
-    @XmlElement(name = "editionDate", namespace = "http://standards.iso.org/iso/19115/-3/cit/1.0")
+    @XmlElement(name = "editionDate", namespace = "http://standards.iso.org/iso/19115/-3/cit/2.0")
     public List<String> editionDate;
 
-    @XmlElementWrapper(name = "identifier", namespace = "http://standards.iso.org/iso/19115/-3/cit/1.0")
+    @XmlElementWrapper(name = "identifier", namespace = "http://standards.iso.org/iso/19115/-3/cit/2.0")
     @XmlElementRef
     public List<MD_Identifier> identifier;
 
-    @XmlElementWrapper(name = "citedResponsibleParty", namespace = "http://standards.iso.org/iso/19115/-3/cit/1.0")
+    @XmlElementWrapper(name = "citedResponsibleParty", namespace = "http://standards.iso.org/iso/19115/-3/cit/2.0")
     @XmlElementRef
     public List<CI_Responsibility> citedResponsibleParty;
 
-    @XmlElementWrapper(name = "presentationForm", namespace = "http://standards.iso.org/iso/19115/-3/cit/1.0")
+    @XmlElementWrapper(name = "presentationForm", namespace = "http://standards.iso.org/iso/19115/-3/cit/2.0")
     @XmlElementRef
     public List<CI_PresentationFormCode> presentationForm;
 
-    @XmlElementWrapper(name = "series", namespace = "http://standards.iso.org/iso/19115/-3/cit/1.0")
+    @XmlElementWrapper(name = "series", namespace = "http://standards.iso.org/iso/19115/-3/cit/2.0")
     @XmlElementRef
     public List<CI_Series> series;
 
-    @XmlElement(name = "otherCitationDetails", namespace = "http://standards.iso.org/iso/19115/-3/cit/1.0")
+    @XmlElement(name = "otherCitationDetails", namespace = "http://standards.iso.org/iso/19115/-3/cit/2.0")
     public List<String> otherCitationDetails;
 
-    @XmlElement(name = "ISBN", namespace = "http://standards.iso.org/iso/19115/-3/cit/1.0")
+    @XmlElement(name = "ISBN", namespace = "http://standards.iso.org/iso/19115/-3/cit/2.0")
     public List<String> ISBN;
 
-    @XmlElement(name = "ISSN", namespace = "http://standards.iso.org/iso/19115/-3/cit/1.0")
+    @XmlElement(name = "ISSN", namespace = "http://standards.iso.org/iso/19115/-3/cit/2.0")
     public List<String> ISSN;
 
-    @XmlElementWrapper(name = "onlineResource", namespace = "http://standards.iso.org/iso/19115/-3/cit/1.0")
+    @XmlElementWrapper(name = "onlineResource", namespace = "http://standards.iso.org/iso/19115/-3/cit/2.0")
     @XmlElementRef
     public List<CI_OnlineResource> onlineResource;
 
-    @XmlElementWrapper(name = "graphic", namespace = "http://standards.iso.org/iso/19115/-3/cit/1.0")
+    @XmlElementWrapper(name = "graphic", namespace = "http://standards.iso.org/iso/19115/-3/cit/2.0")
     @XmlElementRef
     public List<MD_BrowseGraphic> graphic;
 

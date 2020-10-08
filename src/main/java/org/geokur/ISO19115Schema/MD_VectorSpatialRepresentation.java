@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-@XmlRootElement(name = "MD_VectorSpatialRepresentation", namespace = "http://standards.iso.org/iso/19115/-3/msr/1.0")
+@XmlRootElement(name = "MD_VectorSpatialRepresentation", namespace = "http://standards.iso.org/iso/19115/-3/msr/2.0")
 public class MD_VectorSpatialRepresentation extends MD_SpatialRepresentation {
 
     // occurrence and obligation
@@ -29,11 +29,11 @@ public class MD_VectorSpatialRepresentation extends MD_SpatialRepresentation {
     private final boolean[] elementUsed = new boolean[elementName.length];
 
     // class variables
-    @XmlElementWrapper(name = "topologyLevel", namespace = "http://standards.iso.org/iso/19115/-3/msr/1.0")
+    @XmlElementWrapper(name = "topologyLevel", namespace = "http://standards.iso.org/iso/19115/-3/msr/2.0")
     @XmlElementRef
     public List<MD_TopologyLevelCode> topologyLevel;
 
-    @XmlElementWrapper(name = "geometricObjects", namespace = "http://standards.iso.org/iso/19115/-3/msr/1.0")
+    @XmlElementWrapper(name = "geometricObjects", namespace = "http://standards.iso.org/iso/19115/-3/msr/2.0")
     @XmlElementRef
     public List<MD_GeometricObjects> geometricObjects;
 

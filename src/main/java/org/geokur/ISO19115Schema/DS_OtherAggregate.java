@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-@XmlRootElement(name = "DS_OtherAggregate", namespace = "http://standards.iso.org/iso/19115/-3/mda/1.0")
+@XmlRootElement(name = "DS_OtherAggregate", namespace = "http://standards.iso.org/iso/19115/-3/mda/2.0")
 public class DS_OtherAggregate extends DS_Aggregate {
 
     // occurrence and obligation
@@ -29,7 +29,7 @@ public class DS_OtherAggregate extends DS_Aggregate {
     private final boolean[] elementUsed = new boolean[elementName.length];
 
     // class variables
-    @XmlElementWrapper(name = "composedOf", namespace = "http://standards.iso.org/iso/19115/-3/mda/1.0")
+    @XmlElementWrapper(name = "composedOf", namespace = "http://standards.iso.org/iso/19115/-3/mda/2.0")
     @XmlElementRef
     public List<DS_Resource> composedOf;
 

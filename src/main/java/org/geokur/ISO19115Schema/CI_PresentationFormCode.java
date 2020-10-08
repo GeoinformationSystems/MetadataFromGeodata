@@ -8,7 +8,7 @@ package org.geokur.ISO19115Schema;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlRootElement;
 
-@XmlRootElement(name = "CI_PresentationFormCode", namespace = "http://standards.iso.org/iso/19115/-3/cit/1.0")
+@XmlRootElement(name = "CI_PresentationFormCode", namespace = "http://standards.iso.org/iso/19115/-3/cit/2.0")
 public class CI_PresentationFormCode {
     // codelist - can be extended
 
@@ -37,7 +37,7 @@ public class CI_PresentationFormCode {
     }
 
     @XmlAttribute
-    final String codeList = "http://standards.iso.org/iso/19115/-3/cit/1.0/codelists.html#CI_PresentationFormCode";
+    final String codeList = "http://standards.iso.org/iso/19115/-3/cit/2.0/codelists.html#CI_PresentationFormCode";
 
     @XmlAttribute
     public CI_PresentationFormCode.CI_PresentationFormCodes codeListValue;

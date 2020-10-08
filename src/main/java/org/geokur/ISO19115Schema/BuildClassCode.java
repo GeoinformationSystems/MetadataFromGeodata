@@ -101,7 +101,12 @@ public class BuildClassCode {
                 fileWriter.append(" * All rights reserved.\n");
                 fileWriter.append(" */\n");
                 fileWriter.append("\n");
-                fileWriter.append("package org.geokur.ISO19115Schema;\n");
+                fileWriter.append("package org.geokur.ISO19115_2Schema;\n");
+                fileWriter.append("\n");
+                fileWriter.append("import org.geokur.ISO191xxProfile.MaximumOccurrenceException;\n");
+                fileWriter.append("import org.geokur.ISO191xxProfile.ObligationException;\n");
+                fileWriter.append("import org.geokur.ISO191xxProfile.ProfileException;\n");
+                fileWriter.append("import org.geokur.ISO191xxProfile.ProfileReader;\n");
                 fileWriter.append("\n");
                 fileWriter.append("import javax.xml.bind.annotation.XmlElement;\n");
                 if (configFilesAvailable) {

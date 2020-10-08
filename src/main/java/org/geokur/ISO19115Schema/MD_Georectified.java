@@ -5,6 +5,8 @@
 
 package org.geokur.ISO19115Schema;
 
+import org.geokur.ISO19103Schema.Coordinate;
+import org.geokur.ISO19115_2Schema.MI_Georectified;
 import org.geokur.ISO191xxProfile.MaximumOccurrenceException;
 import org.geokur.ISO191xxProfile.ObligationException;
 import org.geokur.ISO191xxProfile.ProfileException;
@@ -18,39 +20,42 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-@XmlRootElement(name = "MD_Georectified", namespace = "http://standards.iso.org/iso/19115/-3/msr/1.0")
+@XmlRootElement(name = "MD_Georectified", namespace = "http://standards.iso.org/iso/19115/-3/msr/2.0")
 public class MD_Georectified extends MD_GridSpatialRepresentation {
 
     // occurrence and obligation
     private final String[] elementName = {"numberOfDimensions", "axisDimensionProperties", "cellGeometry", "transformationParameterAvailability", "checkPointAvailability", "checkPointDescription", "cornerPoints", "centrePoint", "pointInPixel", "transformationDimensionDescription", "transformationDimensionMapping"};
-    private final int[] elementMax = {1, Integer.MAX_VALUE, 1, 1, 1, 1, Integer.MAX_VALUE, 1, 1, 1, Integer.MAX_VALUE};
+    private final int[] elementMax = {1, Integer.MAX_VALUE, 1, 1, 1, 1, 4, 1, 1, 1, Integer.MAX_VALUE};
     private final boolean[] elementObligation = {true, true, true, true, true, false, false, false, true, false, false};
 
     private final String className = this.getClass().getSimpleName();
     private final boolean[] elementUsed = new boolean[elementName.length];
 
     // class variables
-    @XmlElement(name = "checkPointAvailability", namespace = "http://standards.iso.org/iso/19115/-3/msr/1.0")
-    public List<String> checkPointAvailability;
+    @XmlElement(name = "checkPointAvailability", namespace = "http://standards.iso.org/iso/19115/-3/msr/2.0")
+    public List<Boolean> checkPointAvailability;
 
-    @XmlElement(name = "checkPointDescription", namespace = "http://standards.iso.org/iso/19115/-3/msr/1.0")
+    @XmlElement(name = "checkPointDescription", namespace = "http://standards.iso.org/iso/19115/-3/msr/2.0")
     public List<String> checkPointDescription;
 
-    @XmlElement(name = "cornerPoints", namespace = "http://standards.iso.org/iso/19115/-3/msr/1.0")
-    public List<String> cornerPoints;
+    @XmlElement(name = "cornerPoints", namespace = "http://standards.iso.org/iso/19115/-3/msr/2.0")
+    public List<Coordinate> cornerPoints;
 
-    @XmlElement(name = "centrePoint", namespace = "http://standards.iso.org/iso/19115/-3/msr/1.0")
-    public List<String> centrePoint;
+    @XmlElement(name = "centrePoint", namespace = "http://standards.iso.org/iso/19115/-3/msr/2.0")
+    public List<Coordinate> centrePoint;
 
-    @XmlElementWrapper(name = "pointInPixel", namespace = "http://standards.iso.org/iso/19115/-3/msr/1.0")
+    @XmlElementWrapper(name = "pointInPixel", namespace = "http://standards.iso.org/iso/19115/-3/msr/2.0")
     @XmlElementRef
     public List<MD_PixelOrientationCode> pointInPixel;
 
-    @XmlElement(name = "transformationDimensionDescription", namespace = "http://standards.iso.org/iso/19115/-3/msr/1.0")
+    @XmlElement(name = "transformationDimensionDescription", namespace = "http://standards.iso.org/iso/19115/-3/msr/2.0")
     public List<String> transformationDimensionDescription;
 
-    @XmlElement(name = "transformationDimensionMapping", namespace = "http://standards.iso.org/iso/19115/-3/msr/1.0")
+    @XmlElement(name = "transformationDimensionMapping", namespace = "http://standards.iso.org/iso/19115/-3/msr/2.0")
     public List<String> transformationDimensionMapping;
+
+    // variables for correct marshalling of specified classes
+    public List<MI_Georectified> georectified;
 
     // methods
     public MD_Georectified(){
@@ -120,7 +125,7 @@ public class MD_Georectified extends MD_GridSpatialRepresentation {
         }
     }
 
-    public void addCheckPointAvailability(String checkPointAvailability) {
+    public void addCheckPointAvailability(Boolean checkPointAvailability) {
         int elementNum = 4;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -148,7 +153,7 @@ public class MD_Georectified extends MD_GridSpatialRepresentation {
         }
     }
 
-    public void addCornerPoints(String cornerPoints) {
+    public void addCornerPoints(Coordinate cornerPoints) {
         int elementNum = 6;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -162,7 +167,7 @@ public class MD_Georectified extends MD_GridSpatialRepresentation {
         }
     }
 
-    public void addCentrePoint(String centrePoint) {
+    public void addCentrePoint(Coordinate centrePoint) {
         int elementNum = 7;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);

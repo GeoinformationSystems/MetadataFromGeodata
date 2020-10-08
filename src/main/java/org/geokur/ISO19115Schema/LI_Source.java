@@ -5,6 +5,7 @@
 
 package org.geokur.ISO19115Schema;
 
+import org.geokur.ISO19115_2Schema.LE_Source;
 import org.geokur.ISO191xxProfile.MaximumOccurrenceException;
 import org.geokur.ISO191xxProfile.ObligationException;
 import org.geokur.ISO191xxProfile.ProfileException;
@@ -18,7 +19,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-@XmlRootElement(name = "LI_Source", namespace = "http://standards.iso.org/iso/19115/-3/mrl/1.0")
+@XmlRootElement(name = "LI_Source", namespace = "http://standards.iso.org/iso/19115/-3/mrl/2.0")
 public class LI_Source {
 
     // occurrence and obligation
@@ -30,32 +31,35 @@ public class LI_Source {
     private final boolean[] elementUsed = new boolean[elementName.length];
 
     // class variables
-    @XmlElement(name = "description", namespace = "http://standards.iso.org/iso/19115/-3/mrl/1.0")
+    @XmlElement(name = "description", namespace = "http://standards.iso.org/iso/19115/-3/mrl/2.0")
     public List<String> description;
 
-    @XmlElementWrapper(name = "sourceSpatialResolution", namespace = "http://standards.iso.org/iso/19115/-3/mrl/1.0")
+    @XmlElementWrapper(name = "sourceSpatialResolution", namespace = "http://standards.iso.org/iso/19115/-3/mrl/2.0")
     @XmlElementRef
     public List<MD_Resolution> sourceSpatialResolution;
 
-    @XmlElementWrapper(name = "sourceReferenceSystem", namespace = "http://standards.iso.org/iso/19115/-3/mrl/1.0")
+    @XmlElementWrapper(name = "sourceReferenceSystem", namespace = "http://standards.iso.org/iso/19115/-3/mrl/2.0")
     @XmlElementRef
     public List<MD_ReferenceSystem> sourceReferenceSystem;
 
-    @XmlElementWrapper(name = "sourceCitation", namespace = "http://standards.iso.org/iso/19115/-3/mrl/1.0")
+    @XmlElementWrapper(name = "sourceCitation", namespace = "http://standards.iso.org/iso/19115/-3/mrl/2.0")
     @XmlElementRef
     public List<CI_Citation> sourceCitation;
 
-    @XmlElementWrapper(name = "sourceMetadata", namespace = "http://standards.iso.org/iso/19115/-3/mrl/1.0")
+    @XmlElementWrapper(name = "sourceMetadata", namespace = "http://standards.iso.org/iso/19115/-3/mrl/2.0")
     @XmlElementRef
     public List<CI_Citation> sourceMetadata;
 
-    @XmlElementWrapper(name = "scope", namespace = "http://standards.iso.org/iso/19115/-3/mrl/1.0")
+    @XmlElementWrapper(name = "scope", namespace = "http://standards.iso.org/iso/19115/-3/mrl/2.0")
     @XmlElementRef
     public List<MD_Scope> scope;
 
-    @XmlElementWrapper(name = "sourceStep", namespace = "http://standards.iso.org/iso/19115/-3/mrl/1.0")
+    @XmlElementWrapper(name = "sourceStep", namespace = "http://standards.iso.org/iso/19115/-3/mrl/2.0")
     @XmlElementRef
     public List<LI_ProcessStep> sourceStep;
+
+    // variables for correct marshalling of specified classes
+    public List<LE_Source> source;
 
     // methods
     public LI_Source(){

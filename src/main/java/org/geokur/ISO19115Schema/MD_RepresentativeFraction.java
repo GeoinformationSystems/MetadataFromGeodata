@@ -29,7 +29,7 @@ public class MD_RepresentativeFraction {
 
     // class variables
     @XmlElement(name = "denominator", namespace = "http://standards.iso.org/iso/19115/-3/mri/1.0")
-    public List<String> denominator;
+    public List<Integer> denominator;
 
     // methods
     public MD_RepresentativeFraction(){
@@ -63,7 +63,7 @@ public class MD_RepresentativeFraction {
         }
     }
 
-    public void addDenominator(String denominator) {
+    public void addDenominator(Integer denominator) {
         int elementNum = 0;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);

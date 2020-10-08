@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-@XmlRootElement(name = "CI_Contact", namespace = "http://standards.iso.org/iso/19115/-3/cit/1.0")
+@XmlRootElement(name = "CI_Contact", namespace = "http://standards.iso.org/iso/19115/-3/cit/2.0")
 public class CI_Contact {
 
     // occurrence and obligation
@@ -30,25 +30,25 @@ public class CI_Contact {
     private final boolean[] elementUsed = new boolean[elementName.length];
 
     // class variables
-    @XmlElementWrapper(name = "phone", namespace = "http://standards.iso.org/iso/19115/-3/cit/1.0")
+    @XmlElementWrapper(name = "phone", namespace = "http://standards.iso.org/iso/19115/-3/cit/2.0")
     @XmlElementRef
     public List<CI_Telephone> phone;
 
-    @XmlElementWrapper(name = "address", namespace = "http://standards.iso.org/iso/19115/-3/cit/1.0")
+    @XmlElementWrapper(name = "address", namespace = "http://standards.iso.org/iso/19115/-3/cit/2.0")
     @XmlElementRef
     public List<CI_Address> address;
 
-    @XmlElementWrapper(name = "onlineResource", namespace = "http://standards.iso.org/iso/19115/-3/cit/1.0")
+    @XmlElementWrapper(name = "onlineResource", namespace = "http://standards.iso.org/iso/19115/-3/cit/2.0")
     @XmlElementRef
     public List<CI_OnlineResource> onlineResource;
 
-    @XmlElement(name = "hoursOfService", namespace = "http://standards.iso.org/iso/19115/-3/cit/1.0")
+    @XmlElement(name = "hoursOfService", namespace = "http://standards.iso.org/iso/19115/-3/cit/2.0")
     public List<String> hoursOfService;
 
-    @XmlElement(name = "contactInstructions", namespace = "http://standards.iso.org/iso/19115/-3/cit/1.0")
+    @XmlElement(name = "contactInstructions", namespace = "http://standards.iso.org/iso/19115/-3/cit/2.0")
     public List<String> contactInstructions;
 
-    @XmlElement(name = "contactType", namespace = "http://standards.iso.org/iso/19115/-3/cit/1.0")
+    @XmlElement(name = "contactType", namespace = "http://standards.iso.org/iso/19115/-3/cit/2.0")
     public List<String> contactType;
 
     // methods

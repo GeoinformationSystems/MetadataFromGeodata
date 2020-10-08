@@ -23,7 +23,7 @@ public abstract class EX_GeographicExtent {
 
     // class variables
     @XmlElement(name = "extentTypeCode", namespace = "http://standards.iso.org/iso/19115/-3/gex/1.0")
-    public List<String> extentTypeCode;
+    public List<Boolean> extentTypeCode;
 
     // variables for correct marshalling of specified classes
     public List<EX_BoundingPolygon> boundingPolygon;
@@ -39,7 +39,7 @@ public abstract class EX_GeographicExtent {
         }
     }
 
-    public void addExtentTypeCode(String extentTypeCode) {
+    public void addExtentTypeCode(Boolean extentTypeCode) {
         int elementNum = 0;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);

@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-@XmlRootElement(name = "CI_Organisation", namespace = "http://standards.iso.org/iso/19115/-3/cit/1.0")
+@XmlRootElement(name = "CI_Organisation", namespace = "http://standards.iso.org/iso/19115/-3/cit/2.0")
 public class CI_Organisation extends CI_Party {
 
     // occurrence and obligation
@@ -29,11 +29,11 @@ public class CI_Organisation extends CI_Party {
     private final boolean[] elementUsed = new boolean[elementName.length];
 
     // class variables
-    @XmlElementWrapper(name = "logo", namespace = "http://standards.iso.org/iso/19115/-3/cit/1.0")
+    @XmlElementWrapper(name = "logo", namespace = "http://standards.iso.org/iso/19115/-3/cit/2.0")
     @XmlElementRef
     public List<MD_BrowseGraphic> logo;
 
-    @XmlElementWrapper(name = "individual", namespace = "http://standards.iso.org/iso/19115/-3/cit/1.0")
+    @XmlElementWrapper(name = "individual", namespace = "http://standards.iso.org/iso/19115/-3/cit/2.0")
     @XmlElementRef
     public List<CI_Individual> individual;
 

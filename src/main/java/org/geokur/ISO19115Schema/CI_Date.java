@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-@XmlRootElement(name = "CI_Date", namespace = "http://standards.iso.org/iso/19115/-3/cit/1.0")
+@XmlRootElement(name = "CI_Date", namespace = "http://standards.iso.org/iso/19115/-3/cit/2.0")
 public class CI_Date {
 
     // occurrence and obligation
@@ -30,11 +30,11 @@ public class CI_Date {
     private final boolean[] elementUsed = new boolean[elementName.length];
 
     // class variables
-    @XmlElementWrapper(name = "date", namespace = "http://standards.iso.org/iso/19115/-3/cit/1.0")
+    @XmlElementWrapper(name = "date", namespace = "http://standards.iso.org/iso/19115/-3/cit/2.0")
     @XmlElement(name = "DateTime", namespace = "http://standards.iso.org/iso/19115/-3/gco/1.0")
     public List<String> date;
 
-    @XmlElementWrapper(name = "dateType", namespace = "http://standards.iso.org/iso/19115/-3/cit/1.0")
+    @XmlElementWrapper(name = "dateType", namespace = "http://standards.iso.org/iso/19115/-3/cit/2.0")
     @XmlElementRef
     public List<CI_DateTypeCode> dateType;
 

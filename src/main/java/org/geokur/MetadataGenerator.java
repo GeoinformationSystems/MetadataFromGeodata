@@ -32,10 +32,10 @@ public class MetadataGenerator {
 
 //        String fileName = "rasterExample.gpkg";
 //        String fileName = "TestGeopackage.gpkg";
-//        String fileName = "paraguay.gpkg";
+        String fileName = "paraguay.gpkg";
 //        String fileName = "TestPointsShape.shp";
 //        String fileName = "TestPointsShapeETRS.shp";
-        String fileName = "paraguay.csv";
+//        String fileName = "paraguay.csv";
 
         String fileNameXML = "ds_resource.xml";
         String fileNameDB = "ds_resource.db";

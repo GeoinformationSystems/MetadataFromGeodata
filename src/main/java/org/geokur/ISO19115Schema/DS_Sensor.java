@@ -13,7 +13,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import java.util.Arrays;
 import java.util.List;
 
-@XmlRootElement(name = "DS_Sensor", namespace = "http://standards.iso.org/iso/19115/-3/mda/1.0")
+@XmlRootElement(name = "DS_Sensor", namespace = "http://standards.iso.org/iso/19115/-3/mda/2.0")
 public class DS_Sensor extends DS_Series {
 
     // occurrence and obligation

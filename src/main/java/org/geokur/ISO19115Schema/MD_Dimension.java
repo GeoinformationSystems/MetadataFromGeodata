@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-@XmlRootElement(name = "MD_Dimension", namespace = "http://standards.iso.org/iso/19115/-3/msr/1.0")
+@XmlRootElement(name = "MD_Dimension", namespace = "http://standards.iso.org/iso/19115/-3/msr/2.0")
 public class MD_Dimension {
 
     // occurrence and obligation
@@ -30,20 +30,20 @@ public class MD_Dimension {
     private final boolean[] elementUsed = new boolean[elementName.length];
 
     // class variables
-    @XmlElementWrapper(name = "dimensionName", namespace = "http://standards.iso.org/iso/19115/-3/msr/1.0")
+    @XmlElementWrapper(name = "dimensionName", namespace = "http://standards.iso.org/iso/19115/-3/msr/2.0")
     @XmlElementRef
     public List<MD_DimensionNameTypeCode> dimensionName;
 
-    @XmlElement(name = "dimensionSize", namespace = "http://standards.iso.org/iso/19115/-3/msr/1.0")
-    public List<String> dimensionSize;
+    @XmlElement(name = "dimensionSize", namespace = "http://standards.iso.org/iso/19115/-3/msr/2.0")
+    public List<Integer> dimensionSize;
 
-    @XmlElement(name = "resolution", namespace = "http://standards.iso.org/iso/19115/-3/msr/1.0")
-    public List<String> resolution;
+    @XmlElement(name = "resolution", namespace = "http://standards.iso.org/iso/19115/-3/msr/2.0")
+    public List<Double> resolution;
 
-    @XmlElement(name = "dimensionTitle", namespace = "http://standards.iso.org/iso/19115/-3/msr/1.0")
+    @XmlElement(name = "dimensionTitle", namespace = "http://standards.iso.org/iso/19115/-3/msr/2.0")
     public List<String> dimensionTitle;
 
-    @XmlElement(name = "dimensionDescription", namespace = "http://standards.iso.org/iso/19115/-3/msr/1.0")
+    @XmlElement(name = "dimensionDescription", namespace = "http://standards.iso.org/iso/19115/-3/msr/2.0")
     public List<String> dimensionDescription;
 
     // methods
@@ -116,7 +116,7 @@ public class MD_Dimension {
         }
     }
 
-    public void addDimensionSize(String dimensionSize) {
+    public void addDimensionSize(Integer dimensionSize) {
         int elementNum = 1;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -130,7 +130,7 @@ public class MD_Dimension {
         }
     }
 
-    public void addResolution(String resolution) {
+    public void addResolution(Double resolution) {
         int elementNum = 2;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);

@@ -229,9 +229,10 @@ public class AsciiMetadata implements Metadata {
             ciDate.addDateType(new CI_DateTypeCode(CI_DateTypeCode.CI_DateTypeCodes.creation));
             ciDate.finalizeClass();
 
+            // TODO: informative title available?
             CI_Citation ciCitation = new CI_Citation();
             ciCitation.createTitle();
-            ciCitation.addTitle("Reporting as standalone quality report");
+            ciCitation.addTitle("");
             ciCitation.createDate();
             ciCitation.addDate(ciDate);
             ciCitation.finalizeClass();

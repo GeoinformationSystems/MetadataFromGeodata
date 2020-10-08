@@ -13,7 +13,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import java.util.ArrayList;
 import java.util.List;
 
-@XmlRootElement(name = "DS_Resource", namespace = "http://standards.iso.org/iso/19115/-3/mda/1.0")
+@XmlRootElement(name = "DS_Resource", namespace = "http://standards.iso.org/iso/19115/-3/mda/2.0")
 public abstract class DS_Resource {
 
     // occurrence and obligation
@@ -23,11 +23,11 @@ public abstract class DS_Resource {
     private final String className = this.getClass().getSimpleName();
 
     // class variables
-    @XmlElementWrapper(name = "has", namespace = "http://standards.iso.org/iso/19115/-3/mda/1.0")
+    @XmlElementWrapper(name = "has", namespace = "http://standards.iso.org/iso/19115/-3/mda/2.0")
     @XmlElementRef
     public List<MD_Metadata> has;
 
-    @XmlElementWrapper(name = "partOf", namespace = "http://standards.iso.org/iso/19115/-3/mda/1.0")
+    @XmlElementWrapper(name = "partOf", namespace = "http://standards.iso.org/iso/19115/-3/mda/2.0")
     @XmlElementRef
     public List<DS_Aggregate> partOf;
 

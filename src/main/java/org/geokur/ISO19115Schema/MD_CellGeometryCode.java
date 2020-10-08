@@ -8,7 +8,7 @@ package org.geokur.ISO19115Schema;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlRootElement;
 
-@XmlRootElement(name = "MD_CellGeometryCode", namespace = "http://standards.iso.org/iso/19115/-3/msr/1.0")
+@XmlRootElement(name = "MD_CellGeometryCode", namespace = "http://standards.iso.org/iso/19115/-3/msr/2.0")
 public class MD_CellGeometryCode {
     // codelist - can be extended
 
@@ -20,7 +20,7 @@ public class MD_CellGeometryCode {
     }
 
     @XmlAttribute
-    final String codeList = "http://standards.iso.org/iso/19115/-3/msr/1.0/codelists.html#MD_CellGeometryCode";
+    final String codeList = "http://standards.iso.org/iso/19115/-3/msr/2.0/codelists.html#MD_CellGeometryCode";
 
     @XmlAttribute
     public MD_CellGeometryCode.MD_CellGeometryCodes codeListValue;

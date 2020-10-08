@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-@XmlRootElement(name = "MD_FeatureCatalogue", namespace = "http://standards.iso.org/iso/19115/-3/mrc/1.0")
+@XmlRootElement(name = "MD_FeatureCatalogue", namespace = "http://standards.iso.org/iso/19115/-3/mrc/2.0")
 public class MD_FeatureCatalogue extends MD_ContentInformation {
 
     // occurrence and obligation
@@ -28,7 +28,7 @@ public class MD_FeatureCatalogue extends MD_ContentInformation {
     private final boolean[] elementUsed = new boolean[elementName.length];
 
     // class variables
-    @XmlElement(name = "featureCatalogue", namespace = "http://standards.iso.org/iso/19115/-3/mrc/1.0")
+    @XmlElement(name = "featureCatalogue", namespace = "http://standards.iso.org/iso/19115/-3/mrc/2.0")
     public List<String> featureCatalogue;
 
     // methods

@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-@XmlRootElement(name = "CI_Address", namespace = "http://standards.iso.org/iso/19115/-3/cit/1.0")
+@XmlRootElement(name = "CI_Address", namespace = "http://standards.iso.org/iso/19115/-3/cit/2.0")
 public class CI_Address {
 
     // occurrence and obligation
@@ -28,22 +28,22 @@ public class CI_Address {
     private final boolean[] elementUsed = new boolean[elementName.length];
 
     // class variables
-    @XmlElement(name = "deliveryPoint", namespace = "http://standards.iso.org/iso/19115/-3/cit/1.0")
+    @XmlElement(name = "deliveryPoint", namespace = "http://standards.iso.org/iso/19115/-3/cit/2.0")
     public List<String> deliveryPoint;
 
-    @XmlElement(name = "city", namespace = "http://standards.iso.org/iso/19115/-3/cit/1.0")
+    @XmlElement(name = "city", namespace = "http://standards.iso.org/iso/19115/-3/cit/2.0")
     public List<String> city;
 
-    @XmlElement(name = "administrativeArea", namespace = "http://standards.iso.org/iso/19115/-3/cit/1.0")
+    @XmlElement(name = "administrativeArea", namespace = "http://standards.iso.org/iso/19115/-3/cit/2.0")
     public List<String> administrativeArea;
 
-    @XmlElement(name = "postalCode", namespace = "http://standards.iso.org/iso/19115/-3/cit/1.0")
+    @XmlElement(name = "postalCode", namespace = "http://standards.iso.org/iso/19115/-3/cit/2.0")
     public List<String> postalCode;
 
-    @XmlElement(name = "country", namespace = "http://standards.iso.org/iso/19115/-3/cit/1.0")
+    @XmlElement(name = "country", namespace = "http://standards.iso.org/iso/19115/-3/cit/2.0")
     public List<String> country;
 
-    @XmlElement(name = "electronicMailAddress", namespace = "http://standards.iso.org/iso/19115/-3/cit/1.0")
+    @XmlElement(name = "electronicMailAddress", namespace = "http://standards.iso.org/iso/19115/-3/cit/2.0")
     public List<String> electronicMailAddress;
 
     // methods

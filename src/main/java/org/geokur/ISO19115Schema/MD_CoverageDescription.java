@@ -5,6 +5,8 @@
 
 package org.geokur.ISO19115Schema;
 
+import org.geokur.ISO19103Schema.RecordType;
+import org.geokur.ISO19115_2Schema.MI_CoverageDescription;
 import org.geokur.ISO191xxProfile.MaximumOccurrenceException;
 import org.geokur.ISO191xxProfile.ObligationException;
 import org.geokur.ISO191xxProfile.ProfileException;
@@ -18,7 +20,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-@XmlRootElement(name = "MD_CoverageDescription", namespace = "http://standards.iso.org/iso/19115/-3/mrc/1.0")
+@XmlRootElement(name = "MD_CoverageDescription", namespace = "http://standards.iso.org/iso/19115/-3/mrc/2.0")
 public class MD_CoverageDescription extends MD_ContentInformation {
 
     // occurrence and obligation
@@ -30,19 +32,21 @@ public class MD_CoverageDescription extends MD_ContentInformation {
     private final boolean[] elementUsed = new boolean[elementName.length];
 
     // class variables
-    @XmlElement(name = "attributeDescription", namespace = "http://standards.iso.org/iso/19115/-3/mrc/1.0")
-    public List<String> attributeDescription;
+    @XmlElement(name = "attributeDescription", namespace = "http://standards.iso.org/iso/19115/-3/mrc/2.0")
+    public List<RecordType> attributeDescription;
 
-    @XmlElementWrapper(name = "processingLevelCode", namespace = "http://standards.iso.org/iso/19115/-3/mrc/1.0")
+    @XmlElementWrapper(name = "processingLevelCode", namespace = "http://standards.iso.org/iso/19115/-3/mrc/2.0")
     @XmlElementRef
     public List<MD_Identifier> processingLevelCode;
 
-    @XmlElementWrapper(name = "attributeGroup", namespace = "http://standards.iso.org/iso/19115/-3/mrc/1.0")
+    @XmlElementWrapper(name = "attributeGroup", namespace = "http://standards.iso.org/iso/19115/-3/mrc/2.0")
     @XmlElementRef
     public List<MD_AttributeGroup> attributeGroup;
 
     // variables for correct marshalling of specified classes
     public List<MD_ImageDescription> imageDescription;
+
+    public List<MI_CoverageDescription> coverageDescription;
 
     // methods
     public MD_CoverageDescription(){
@@ -88,7 +92,7 @@ public class MD_CoverageDescription extends MD_ContentInformation {
         }
     }
 
-    public void addAttributeDescription(String attributeDescription) {
+    public void addAttributeDescription(RecordType attributeDescription) {
         int elementNum = 0;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);

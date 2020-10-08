@@ -123,6 +123,38 @@ public class ProfileObligation {
     public String[] DQM_Parameter;
     public String[] DQM_Description;
     public String[] DQM_SourceReference;
+    public String[] LE_Algorithm;
+    public String[] LE_NominalResolution;
+    public String[] LE_Processing;
+    public String[] LE_ProcessParameter;
+    public String[] LE_ProcessStepReport;
+    public String[] LE_ProcessStep;
+    public String[] LE_Source;
+    public String[] MI_AcquisitionInformation;
+    public String[] MI_Band;
+    public String[] MI_CoverageDescription;
+    public String[] MI_EnvironmentalRecord;
+    public String[] MI_Event;
+    public String[] MI_GCPCollection;
+    public String[] MI_GCP;
+    public String[] MI_GeolocationInformation;
+    public String[] MI_Georectified;
+    public String[] MI_Georeferenceable;
+    public String[] MI_ImageDescription;
+    public String[] MI_InstrumentEventList;
+    public String[] MI_InstrumentEvent;
+    public String[] MI_Instrument;
+    public String[] MI_Metadata;
+    public String[] MI_Objective;
+    public String[] MI_Operation;
+    public String[] MI_Plan;
+    public String[] MI_PlatformPass;
+    public String[] MI_Platform;
+    public String[] MI_RangeElementDescription;
+    public String[] MI_RequestedDate;
+    public String[] MI_Requirement;
+    public String[] MI_Revision;
+    public String[] MI_Sensor;
 
     public void setDS_DataSet(String[] DS_DataSet) {
         this.DS_DataSet = DS_DataSet;
@@ -590,5 +622,133 @@ public class ProfileObligation {
 
     public void setDQM_SourceReference(String[] DQM_SourceReference) {
         this.DQM_SourceReference = DQM_SourceReference;
+    }
+
+    public void setLE_Algorithm(String[] LE_Algorithm) {
+        this.LE_Algorithm = LE_Algorithm;
+    }
+
+    public void setLE_NominalResolution(String[] LE_NominalResolution) {
+        this.LE_NominalResolution = LE_NominalResolution;
+    }
+
+    public void setLE_Processing(String[] LE_Processing) {
+        this.LE_Processing = LE_Processing;
+    }
+
+    public void setLE_ProcessParameter(String[] LE_ProcessParameter) {
+        this.LE_ProcessParameter = LE_ProcessParameter;
+    }
+
+    public void setLE_ProcessStepReport(String[] LE_ProcessStepReport) {
+        this.LE_ProcessStepReport = LE_ProcessStepReport;
+    }
+
+    public void setLE_ProcessStep(String[] LE_ProcessStep) {
+        this.LE_ProcessStep = LE_ProcessStep;
+    }
+
+    public void setLE_Source(String[] LE_Source) {
+        this.LE_Source = LE_Source;
+    }
+
+    public void setMI_AcquisitionInformation(String[] MI_AcquisitionInformation) {
+        this.MI_AcquisitionInformation = MI_AcquisitionInformation;
+    }
+
+    public void setMI_Band(String[] MI_Band) {
+        this.MI_Band = MI_Band;
+    }
+
+    public void setMI_CoverageDescription(String[] MI_CoverageDescription) {
+        this.MI_CoverageDescription = MI_CoverageDescription;
+    }
+
+    public void setMI_EnvironmentalRecord(String[] MI_EnvironmentalRecord) {
+        this.MI_EnvironmentalRecord = MI_EnvironmentalRecord;
+    }
+
+    public void setMI_Event(String[] MI_Event) {
+        this.MI_Event = MI_Event;
+    }
+
+    public void setMI_GCPCollection(String[] MI_GCPCollection) {
+        this.MI_GCPCollection = MI_GCPCollection;
+    }
+
+    public void setMI_GCP(String[] MI_GCP) {
+        this.MI_GCP = MI_GCP;
+    }
+
+    public void setMI_GeolocationInformation(String[] MI_GeolocationInformation) {
+        this.MI_GeolocationInformation = MI_GeolocationInformation;
+    }
+
+    public void setMI_Georectified(String[] MI_Georectified) {
+        this.MI_Georectified = MI_Georectified;
+    }
+
+    public void setMI_Georeferenceable(String[] MI_Georeferenceable) {
+        this.MI_Georeferenceable = MI_Georeferenceable;
+    }
+
+    public void setMI_ImageDescription(String[] MI_ImageDescription) {
+        this.MI_ImageDescription = MI_ImageDescription;
+    }
+
+    public void setMI_InstrumentEventList(String[] MI_InstrumentEventList) {
+        this.MI_InstrumentEventList = MI_InstrumentEventList;
+    }
+
+    public void setMI_InstrumentEvent(String[] MI_InstrumentEvent) {
+        this.MI_InstrumentEvent = MI_InstrumentEvent;
+    }
+
+    public void setMI_Instrument(String[] MI_Instrument) {
+        this.MI_Instrument = MI_Instrument;
+    }
+
+    public void setMI_Metadata(String[] MI_Metadata) {
+        this.MI_Metadata = MI_Metadata;
+    }
+
+    public void setMI_Objective(String[] MI_Objective) {
+        this.MI_Objective = MI_Objective;
+    }
+
+    public void setMI_Operation(String[] MI_Operation) {
+        this.MI_Operation = MI_Operation;
+    }
+
+    public void setMI_Plan(String[] MI_Plan) {
+        this.MI_Plan = MI_Plan;
+    }
+
+    public void setMI_PlatformPass(String[] MI_PlatformPass) {
+        this.MI_PlatformPass = MI_PlatformPass;
+    }
+
+    public void setMI_Platform(String[] MI_Platform) {
+        this.MI_Platform = MI_Platform;
+    }
+
+    public void setMI_RangeElementDescription(String[] MI_RangeElementDescription) {
+        this.MI_RangeElementDescription = MI_RangeElementDescription;
+    }
+
+    public void setMI_RequestedDate(String[] MI_RequestedDate) {
+        this.MI_RequestedDate = MI_RequestedDate;
+    }
+
+    public void setMI_Requirement(String[] MI_Requirement) {
+        this.MI_Requirement = MI_Requirement;
+    }
+
+    public void setMI_Revision(String[] MI_Revision) {
+        this.MI_Revision = MI_Revision;
+    }
+
+    public void setMI_Sensor(String[] MI_Sensor) {
+        this.MI_Sensor = MI_Sensor;
     }
 }

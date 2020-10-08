@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-@XmlRootElement(name = "MD_GridSpatialRepresentation", namespace = "http://standards.iso.org/iso/19115/-3/msr/1.0")
+@XmlRootElement(name = "MD_GridSpatialRepresentation", namespace = "http://standards.iso.org/iso/19115/-3/msr/2.0")
 public class MD_GridSpatialRepresentation extends MD_SpatialRepresentation {
 
     // occurrence and obligation
@@ -30,19 +30,19 @@ public class MD_GridSpatialRepresentation extends MD_SpatialRepresentation {
     private final boolean[] elementUsed = new boolean[elementName.length];
 
     // class variables
-    @XmlElement(name = "numberOfDimensions", namespace = "http://standards.iso.org/iso/19115/-3/msr/1.0")
-    public List<String> numberOfDimensions;
+    @XmlElement(name = "numberOfDimensions", namespace = "http://standards.iso.org/iso/19115/-3/msr/2.0")
+    public List<Integer> numberOfDimensions;
 
-    @XmlElementWrapper(name = "axisDimensionProperties", namespace = "http://standards.iso.org/iso/19115/-3/msr/1.0")
+    @XmlElementWrapper(name = "axisDimensionProperties", namespace = "http://standards.iso.org/iso/19115/-3/msr/2.0")
     @XmlElementRef
     public List<MD_Dimension> axisDimensionProperties;
 
-    @XmlElementWrapper(name = "cellGeometry", namespace = "http://standards.iso.org/iso/19115/-3/msr/1.0")
+    @XmlElementWrapper(name = "cellGeometry", namespace = "http://standards.iso.org/iso/19115/-3/msr/2.0")
     @XmlElementRef
     public List<MD_CellGeometryCode> cellGeometry;
 
-    @XmlElement(name = "transformationParameterAvailability", namespace = "http://standards.iso.org/iso/19115/-3/msr/1.0")
-    public List<String> transformationParameterAvailability;
+    @XmlElement(name = "transformationParameterAvailability", namespace = "http://standards.iso.org/iso/19115/-3/msr/2.0")
+    public List<Boolean> transformationParameterAvailability;
 
     // variables for correct marshalling of specified classes
     public List<MD_Georectified> georectified;
@@ -99,7 +99,7 @@ public class MD_GridSpatialRepresentation extends MD_SpatialRepresentation {
         }
     }
 
-    public void addNumberOfDimensions(String numberOfDimensions) {
+    public void addNumberOfDimensions(Integer numberOfDimensions) {
         int elementNum = 0;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -141,7 +141,7 @@ public class MD_GridSpatialRepresentation extends MD_SpatialRepresentation {
         }
     }
 
-    public void addTransformationParameterAvailability(String transformationParameterAvailability) {
+    public void addTransformationParameterAvailability(Boolean transformationParameterAvailability) {
         int elementNum = 3;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);

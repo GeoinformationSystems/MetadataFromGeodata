@@ -5,6 +5,7 @@
 
 package org.geokur.ISO19115Schema;
 
+import org.geokur.ISO19115_2Schema.MI_ImageDescription;
 import org.geokur.ISO191xxProfile.MaximumOccurrenceException;
 import org.geokur.ISO191xxProfile.ObligationException;
 import org.geokur.ISO191xxProfile.ProfileException;
@@ -18,7 +19,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-@XmlRootElement(name = "MD_ImageDescription", namespace = "http://standards.iso.org/iso/19115/-3/mrc/1.0")
+@XmlRootElement(name = "MD_ImageDescription", namespace = "http://standards.iso.org/iso/19115/-3/mrc/2.0")
 public class MD_ImageDescription extends MD_CoverageDescription {
 
     // occurrence and obligation
@@ -30,40 +31,43 @@ public class MD_ImageDescription extends MD_CoverageDescription {
     private final boolean[] elementUsed = new boolean[elementName.length];
 
     // class variables
-    @XmlElement(name = "illuminationElevationAngle", namespace = "http://standards.iso.org/iso/19115/-3/mrc/1.0")
-    public List<String> illuminationElevationAngle;
+    @XmlElement(name = "illuminationElevationAngle", namespace = "http://standards.iso.org/iso/19115/-3/mrc/2.0")
+    public List<Double> illuminationElevationAngle;
 
-    @XmlElement(name = "illuminationAzimuthAngle", namespace = "http://standards.iso.org/iso/19115/-3/mrc/1.0")
-    public List<String> illuminationAzimuthAngle;
+    @XmlElement(name = "illuminationAzimuthAngle", namespace = "http://standards.iso.org/iso/19115/-3/mrc/2.0")
+    public List<Double> illuminationAzimuthAngle;
 
-    @XmlElementWrapper(name = "imagingCondition", namespace = "http://standards.iso.org/iso/19115/-3/mrc/1.0")
+    @XmlElementWrapper(name = "imagingCondition", namespace = "http://standards.iso.org/iso/19115/-3/mrc/2.0")
     @XmlElementRef
     public List<MD_ImagingConditionCode> imagingCondition;
 
-    @XmlElementWrapper(name = "imageQualityCode", namespace = "http://standards.iso.org/iso/19115/-3/mrc/1.0")
+    @XmlElementWrapper(name = "imageQualityCode", namespace = "http://standards.iso.org/iso/19115/-3/mrc/2.0")
     @XmlElementRef
     public List<MD_Identifier> imageQualityCode;
 
-    @XmlElement(name = "cloudCoverPercentage", namespace = "http://standards.iso.org/iso/19115/-3/mrc/1.0")
-    public List<String> cloudCoverPercentage;
+    @XmlElement(name = "cloudCoverPercentage", namespace = "http://standards.iso.org/iso/19115/-3/mrc/2.0")
+    public List<Double> cloudCoverPercentage;
 
-    @XmlElement(name = "compressionGenerationQuantity", namespace = "http://standards.iso.org/iso/19115/-3/mrc/1.0")
-    public List<String> compressionGenerationQuantity;
+    @XmlElement(name = "compressionGenerationQuantity", namespace = "http://standards.iso.org/iso/19115/-3/mrc/2.0")
+    public List<Integer> compressionGenerationQuantity;
 
-    @XmlElement(name = "triangulationIndicator", namespace = "http://standards.iso.org/iso/19115/-3/mrc/1.0")
-    public List<String> triangulationIndicator;
+    @XmlElement(name = "triangulationIndicator", namespace = "http://standards.iso.org/iso/19115/-3/mrc/2.0")
+    public List<Boolean> triangulationIndicator;
 
-    @XmlElement(name = "radiometricCalibrationDataAvailability", namespace = "http://standards.iso.org/iso/19115/-3/mrc/1.0")
-    public List<String> radiometricCalibrationDataAvailability;
+    @XmlElement(name = "radiometricCalibrationDataAvailability", namespace = "http://standards.iso.org/iso/19115/-3/mrc/2.0")
+    public List<Boolean> radiometricCalibrationDataAvailability;
 
-    @XmlElement(name = "cameraCalibrationInformationAvailability", namespace = "http://standards.iso.org/iso/19115/-3/mrc/1.0")
-    public List<String> cameraCalibrationInformationAvailability;
+    @XmlElement(name = "cameraCalibrationInformationAvailability", namespace = "http://standards.iso.org/iso/19115/-3/mrc/2.0")
+    public List<Boolean> cameraCalibrationInformationAvailability;
 
-    @XmlElement(name = "filmDistortionInformationAvailability", namespace = "http://standards.iso.org/iso/19115/-3/mrc/1.0")
-    public List<String> filmDistortionInformationAvailability;
+    @XmlElement(name = "filmDistortionInformationAvailability", namespace = "http://standards.iso.org/iso/19115/-3/mrc/2.0")
+    public List<Boolean> filmDistortionInformationAvailability;
 
-    @XmlElement(name = "lensDistortionInformationAvailability", namespace = "http://standards.iso.org/iso/19115/-3/mrc/1.0")
-    public List<String> lensDistortionInformationAvailability;
+    @XmlElement(name = "lensDistortionInformationAvailability", namespace = "http://standards.iso.org/iso/19115/-3/mrc/2.0")
+    public List<Boolean> lensDistortionInformationAvailability;
+
+    // variables for correct marshalling of specified classes
+    public List<MI_ImageDescription> imageDescription;
 
     // methods
     public MD_ImageDescription(){
@@ -157,7 +161,7 @@ public class MD_ImageDescription extends MD_CoverageDescription {
         }
     }
 
-    public void addIlluminationElevationAngle(String illuminationElevationAngle) {
+    public void addIlluminationElevationAngle(Double illuminationElevationAngle) {
         int elementNum = 3;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -171,7 +175,7 @@ public class MD_ImageDescription extends MD_CoverageDescription {
         }
     }
 
-    public void addIlluminationAzimuthAngle(String illuminationAzimuthAngle) {
+    public void addIlluminationAzimuthAngle(Double illuminationAzimuthAngle) {
         int elementNum = 4;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -213,7 +217,7 @@ public class MD_ImageDescription extends MD_CoverageDescription {
         }
     }
 
-    public void addCloudCoverPercentage(String cloudCoverPercentage) {
+    public void addCloudCoverPercentage(Double cloudCoverPercentage) {
         int elementNum = 7;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -227,7 +231,7 @@ public class MD_ImageDescription extends MD_CoverageDescription {
         }
     }
 
-    public void addCompressionGenerationQuantity(String compressionGenerationQuantity) {
+    public void addCompressionGenerationQuantity(Integer compressionGenerationQuantity) {
         int elementNum = 8;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -241,7 +245,7 @@ public class MD_ImageDescription extends MD_CoverageDescription {
         }
     }
 
-    public void addTriangulationIndicator(String triangulationIndicator) {
+    public void addTriangulationIndicator(Boolean triangulationIndicator) {
         int elementNum = 9;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -255,7 +259,7 @@ public class MD_ImageDescription extends MD_CoverageDescription {
         }
     }
 
-    public void addRadiometricCalibrationDataAvailability(String radiometricCalibrationDataAvailability) {
+    public void addRadiometricCalibrationDataAvailability(Boolean radiometricCalibrationDataAvailability) {
         int elementNum = 10;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -269,7 +273,7 @@ public class MD_ImageDescription extends MD_CoverageDescription {
         }
     }
 
-    public void addCameraCalibrationInformationAvailability(String cameraCalibrationInformationAvailability) {
+    public void addCameraCalibrationInformationAvailability(Boolean cameraCalibrationInformationAvailability) {
         int elementNum = 11;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -283,7 +287,7 @@ public class MD_ImageDescription extends MD_CoverageDescription {
         }
     }
 
-    public void addFilmDistortionInformationAvailability(String filmDistortionInformationAvailability) {
+    public void addFilmDistortionInformationAvailability(Boolean filmDistortionInformationAvailability) {
         int elementNum = 12;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -297,7 +301,7 @@ public class MD_ImageDescription extends MD_CoverageDescription {
         }
     }
 
-    public void addLensDistortionInformationAvailability(String lensDistortionInformationAvailability) {
+    public void addLensDistortionInformationAvailability(Boolean lensDistortionInformationAvailability) {
         int elementNum = 13;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);

@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-@XmlRootElement(name = "MD_FeatureTypeInfo", namespace = "http://standards.iso.org/iso/19115/-3/mrc/1.0")
+@XmlRootElement(name = "MD_FeatureTypeInfo", namespace = "http://standards.iso.org/iso/19115/-3/mrc/2.0")
 public class MD_FeatureTypeInfo {
 
     // occurrence and obligation
@@ -28,11 +28,11 @@ public class MD_FeatureTypeInfo {
     private final boolean[] elementUsed = new boolean[elementName.length];
 
     // class variables
-    @XmlElement(name = "featureTypeName", namespace = "http://standards.iso.org/iso/19115/-3/mrc/1.0")
+    @XmlElement(name = "featureTypeName", namespace = "http://standards.iso.org/iso/19115/-3/mrc/2.0")
     public List<String> featureTypeName;
 
-    @XmlElement(name = "featureInstanceCount", namespace = "http://standards.iso.org/iso/19115/-3/mrc/1.0")
-    public List<String> featureInstanceCount;
+    @XmlElement(name = "featureInstanceCount", namespace = "http://standards.iso.org/iso/19115/-3/mrc/2.0")
+    public List<Integer> featureInstanceCount;
 
     // methods
     public MD_FeatureTypeInfo(){
@@ -86,7 +86,7 @@ public class MD_FeatureTypeInfo {
         }
     }
 
-    public void addFeatureInstanceCount(String featureInstanceCount) {
+    public void addFeatureInstanceCount(Integer featureInstanceCount) {
         int elementNum = 1;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);

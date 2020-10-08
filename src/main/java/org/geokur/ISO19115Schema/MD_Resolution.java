@@ -35,13 +35,13 @@ public class MD_Resolution {
     public List<MD_RepresentativeFraction> equivalentScale;
 
     @XmlElement(name = "distance", namespace = "http://standards.iso.org/iso/19115/-3/mri/1.0")
-    public List<String> distance;
+    public List<Double> distance;
 
     @XmlElement(name = "vertical", namespace = "http://standards.iso.org/iso/19115/-3/mri/1.0")
-    public List<String> vertical;
+    public List<Double> vertical;
 
     @XmlElement(name = "angularDistance", namespace = "http://standards.iso.org/iso/19115/-3/mri/1.0")
-    public List<String> angularDistance;
+    public List<Double> angularDistance;
 
     @XmlElement(name = "levelOfDetail", namespace = "http://standards.iso.org/iso/19115/-3/mri/1.0")
     public List<String> levelOfDetail;
@@ -116,7 +116,7 @@ public class MD_Resolution {
         }
     }
 
-    public void addDistance(String distance) {
+    public void addDistance(Double distance) {
         int elementNum = 1;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -130,7 +130,7 @@ public class MD_Resolution {
         }
     }
 
-    public void addVertical(String vertical) {
+    public void addVertical(Double vertical) {
         int elementNum = 2;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -144,7 +144,7 @@ public class MD_Resolution {
         }
     }
 
-    public void addAngularDistance(String angularDistance) {
+    public void addAngularDistance(Double angularDistance) {
         int elementNum = 3;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);

@@ -8,7 +8,7 @@ package org.geokur.ISO19115Schema;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlRootElement;
 
-@XmlRootElement(name = "CI_OnLineFunctionCode", namespace = "http://standards.iso.org/iso/19115/-3/cit/1.0")
+@XmlRootElement(name = "CI_OnLineFunctionCode", namespace = "http://standards.iso.org/iso/19115/-3/cit/2.0")
 public class CI_OnLineFunctionCode {
     // codelist - can be extended
 
@@ -27,7 +27,7 @@ public class CI_OnLineFunctionCode {
     }
 
     @XmlAttribute
-    final String codeList = "http://standards.iso.org/iso/19115/-3/cit/1.0/codelists.html#CI_OnLineFunctionCode";
+    final String codeList = "http://standards.iso.org/iso/19115/-3/cit/2.0/codelists.html#CI_OnLineFunctionCode";
 
     @XmlAttribute
     public CI_OnLineFunctionCode.CI_OnLineFunctionCodes codeListValue;

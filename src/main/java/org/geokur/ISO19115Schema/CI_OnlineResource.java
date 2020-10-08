@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-@XmlRootElement(name = "CI_OnlineResource", namespace = "http://standards.iso.org/iso/19115/-3/cit/1.0")
+@XmlRootElement(name = "CI_OnlineResource", namespace = "http://standards.iso.org/iso/19115/-3/cit/2.0")
 public class CI_OnlineResource {
 
     // occurrence and obligation
@@ -30,26 +30,26 @@ public class CI_OnlineResource {
     private final boolean[] elementUsed = new boolean[elementName.length];
 
     // class variables
-    @XmlElement(name = "linkage", namespace = "http://standards.iso.org/iso/19115/-3/cit/1.0")
+    @XmlElement(name = "linkage", namespace = "http://standards.iso.org/iso/19115/-3/cit/2.0")
     public List<String> linkage;
 
-    @XmlElement(name = "protocol", namespace = "http://standards.iso.org/iso/19115/-3/cit/1.0")
+    @XmlElement(name = "protocol", namespace = "http://standards.iso.org/iso/19115/-3/cit/2.0")
     public List<String> protocol;
 
-    @XmlElement(name = "applicationProfile", namespace = "http://standards.iso.org/iso/19115/-3/cit/1.0")
+    @XmlElement(name = "applicationProfile", namespace = "http://standards.iso.org/iso/19115/-3/cit/2.0")
     public List<String> applicationProfile;
 
-    @XmlElement(name = "name", namespace = "http://standards.iso.org/iso/19115/-3/cit/1.0")
+    @XmlElement(name = "name", namespace = "http://standards.iso.org/iso/19115/-3/cit/2.0")
     public List<String> name;
 
-    @XmlElement(name = "description", namespace = "http://standards.iso.org/iso/19115/-3/cit/1.0")
+    @XmlElement(name = "description", namespace = "http://standards.iso.org/iso/19115/-3/cit/2.0")
     public List<String> description;
 
-    @XmlElementWrapper(name = "function", namespace = "http://standards.iso.org/iso/19115/-3/cit/1.0")
+    @XmlElementWrapper(name = "function", namespace = "http://standards.iso.org/iso/19115/-3/cit/2.0")
     @XmlElementRef
     public List<CI_OnLineFunctionCode> function;
 
-    @XmlElement(name = "protocolRequest", namespace = "http://standards.iso.org/iso/19115/-3/cit/1.0")
+    @XmlElement(name = "protocolRequest", namespace = "http://standards.iso.org/iso/19115/-3/cit/2.0")
     public List<String> protocolRequest;
 
     // methods

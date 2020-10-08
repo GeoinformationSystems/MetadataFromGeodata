@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-@XmlRootElement(name = "CI_Telephone", namespace = "http://standards.iso.org/iso/19115/-3/cit/1.0")
+@XmlRootElement(name = "CI_Telephone", namespace = "http://standards.iso.org/iso/19115/-3/cit/2.0")
 public class CI_Telephone {
 
     // occurrence and obligation
@@ -30,10 +30,10 @@ public class CI_Telephone {
     private final boolean[] elementUsed = new boolean[elementName.length];
 
     // class variables
-    @XmlElement(name = "number", namespace = "http://standards.iso.org/iso/19115/-3/cit/1.0")
+    @XmlElement(name = "number", namespace = "http://standards.iso.org/iso/19115/-3/cit/2.0")
     public List<String> number;
 
-    @XmlElementWrapper(name = "numberType", namespace = "http://standards.iso.org/iso/19115/-3/cit/1.0")
+    @XmlElementWrapper(name = "numberType", namespace = "http://standards.iso.org/iso/19115/-3/cit/2.0")
     @XmlElementRef
     public List<CI_TelephoneTypeCode> numberType;
 

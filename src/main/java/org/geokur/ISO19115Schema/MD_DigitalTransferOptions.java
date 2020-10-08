@@ -34,7 +34,7 @@ public class MD_DigitalTransferOptions {
     public List<String> unitsOfDistribution;
 
     @XmlElement(name = "transferSize", namespace = "http://standards.iso.org/iso/19115/-3/mrd/1.0")
-    public List<String> transferSize;
+    public List<Double> transferSize;
 
     @XmlElementWrapper(name = "onLine", namespace = "http://standards.iso.org/iso/19115/-3/mrd/1.0")
     @XmlElementRef
@@ -127,7 +127,7 @@ public class MD_DigitalTransferOptions {
         }
     }
 
-    public void addTransferSize(String transferSize) {
+    public void addTransferSize(Double transferSize) {
         int elementNum = 1;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);

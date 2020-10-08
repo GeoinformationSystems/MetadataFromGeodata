@@ -35,13 +35,13 @@ public class MD_Medium {
     public List<CI_Citation> name;
 
     @XmlElement(name = "density", namespace = "http://standards.iso.org/iso/19115/-3/mrd/1.0")
-    public List<String> density;
+    public List<Double> density;
 
     @XmlElement(name = "densityUnits", namespace = "http://standards.iso.org/iso/19115/-3/mrd/1.0")
     public List<String> densityUnits;
 
     @XmlElement(name = "volumes", namespace = "http://standards.iso.org/iso/19115/-3/mrd/1.0")
-    public List<String> volumes;
+    public List<Integer> volumes;
 
     @XmlElementWrapper(name = "mediumFormat", namespace = "http://standards.iso.org/iso/19115/-3/mrd/1.0")
     @XmlElementRef
@@ -136,7 +136,7 @@ public class MD_Medium {
         }
     }
 
-    public void addDensity(String density) {
+    public void addDensity(Double density) {
         int elementNum = 1;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -164,7 +164,7 @@ public class MD_Medium {
         }
     }
 
-    public void addVolumes(String volumes) {
+    public void addVolumes(Integer volumes) {
         int elementNum = 3;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);

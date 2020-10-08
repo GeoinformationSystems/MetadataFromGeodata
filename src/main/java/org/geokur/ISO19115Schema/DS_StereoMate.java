@@ -11,7 +11,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import java.util.Arrays;
 import java.util.List;
 
-@XmlRootElement(name = "DS_StereoMate", namespace = "http://standards.iso.org/iso/19115/-3/mda/1.0")
+@XmlRootElement(name = "DS_StereoMate", namespace = "http://standards.iso.org/iso/19115/-3/mda/2.0")
 public class DS_StereoMate extends DS_OtherAggregate {
 
     // occurrence and obligation

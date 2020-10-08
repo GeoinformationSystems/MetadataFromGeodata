@@ -5,7 +5,12 @@
 
 package org.geokur.generateMetadata;
 
+import org.geokur.ISO19103Schema.Record;
+import org.geokur.ISO19103Schema.RecordType;
 import org.geokur.ISO19115Schema.*;
+import org.geokur.ISO19115_2Schema.MI_AcquisitionInformation;
+import org.geokur.ISO19115_2Schema.MI_Metadata;
+import org.geokur.ISO19115_2Schema.MI_Operation;
 import org.geotools.data.DataStore;
 import org.geotools.data.DataStoreFinder;
 import org.geotools.data.simple.SimpleFeatureCollection;
@@ -367,6 +372,33 @@ public class GeopackageMetadata implements Metadata {
 
             // get (6) provenance
 
+//            Record record = new Record();
+//            record.createField();
+//            record.addField("key 01", "value 01");
+//            record.addField("key 02", "value 02");
+//            record.finalizeClass();
+//
+//            RecordType recordType = new RecordType();
+//            recordType.createField();
+//            recordType.addField("key 01", "String");
+//            recordType.addField("key 02", "String");
+//            recordType.finalizeClass();
+//
+//            MI_Operation miOperation = new MI_Operation();
+//            miOperation.createOtherProperty();
+//            miOperation.addOtherProperty(record);
+//            miOperation.createOtherPropertyType();
+//            miOperation.addOtherPropertyType(recordType);
+//
+//            MI_AcquisitionInformation miAcquisitionInformation = new MI_AcquisitionInformation();
+//            miAcquisitionInformation.createOperation();
+//            miAcquisitionInformation.addOperation(miOperation);
+//
+//            MI_Metadata miMetadata = new MI_Metadata();
+//            miMetadata.createAcquisitionInformation();
+//            miMetadata.addAcquisitionInformation(miAcquisitionInformation);
+//            miMetadata.createContact();
+//            miMetadata.addContact(ciResponsibility);
 
 
             // aggregate all data in MD_Metadata
@@ -384,8 +416,8 @@ public class GeopackageMetadata implements Metadata {
             mdMetadata.addMetadataStandard(ciCitationMetadataStandard);
             mdMetadata.finalizeClass();
 
-//            dsDataSet.createHas();
             dsDataSet.addHas(mdMetadata);
+//            dsDataSet.addHas(mdMetadata);
             dsDataSet.finalizeClass();
 
             // close/dispose database -> no more connection to collections

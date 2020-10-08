@@ -5,10 +5,13 @@
 
 package org.geokur.ISO19115Schema;
 
+import org.geokur.ISO19103Schema.Record;
+import org.geokur.ISO19103Schema.RecordType;
 import org.geokur.ISO191xxProfile.MaximumOccurrenceException;
 import org.geokur.ISO191xxProfile.ObligationException;
 import org.geokur.ISO191xxProfile.ProfileException;
 import org.geokur.ISO191xxProfile.ProfileReader;
+import org.geotools.xml.xsi.XSISimpleTypes;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -16,7 +19,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-@XmlRootElement(name = "MD_SampleDimension", namespace = "http://standards.iso.org/iso/19115/-3/mrc/1.0")
+@XmlRootElement(name = "MD_SampleDimension", namespace = "http://standards.iso.org/iso/19115/-3/mrc/2.0")
 public class MD_SampleDimension extends MD_RangeDimension {
 
     // occurrence and obligation
@@ -28,38 +31,38 @@ public class MD_SampleDimension extends MD_RangeDimension {
     private final boolean[] elementUsed = new boolean[elementName.length];
 
     // class variables
-    @XmlElement(name = "maxValue", namespace = "http://standards.iso.org/iso/19115/-3/mrc/1.0")
-    public List<String> maxValue;
+    @XmlElement(name = "maxValue", namespace = "http://standards.iso.org/iso/19115/-3/mrc/2.0")
+    public List<Double> maxValue;
 
-    @XmlElement(name = "minValue", namespace = "http://standards.iso.org/iso/19115/-3/mrc/1.0")
-    public List<String> minValue;
+    @XmlElement(name = "minValue", namespace = "http://standards.iso.org/iso/19115/-3/mrc/2.0")
+    public List<Double> minValue;
 
-    @XmlElement(name = "units", namespace = "http://standards.iso.org/iso/19115/-3/mrc/1.0")
+    @XmlElement(name = "units", namespace = "http://standards.iso.org/iso/19115/-3/mrc/2.0")
     public List<String> units;
 
-    @XmlElement(name = "scaleFactor", namespace = "http://standards.iso.org/iso/19115/-3/mrc/1.0")
-    public List<String> scaleFactor;
+    @XmlElement(name = "scaleFactor", namespace = "http://standards.iso.org/iso/19115/-3/mrc/2.0")
+    public List<Double> scaleFactor;
 
-    @XmlElement(name = "offset", namespace = "http://standards.iso.org/iso/19115/-3/mrc/1.0")
-    public List<String> offset;
+    @XmlElement(name = "offset", namespace = "http://standards.iso.org/iso/19115/-3/mrc/2.0")
+    public List<Double> offset;
 
-    @XmlElement(name = "meanValue", namespace = "http://standards.iso.org/iso/19115/-3/mrc/1.0")
-    public List<String> meanValue;
+    @XmlElement(name = "meanValue", namespace = "http://standards.iso.org/iso/19115/-3/mrc/2.0")
+    public List<Double> meanValue;
 
-    @XmlElement(name = "numberOfValues", namespace = "http://standards.iso.org/iso/19115/-3/mrc/1.0")
-    public List<String> numberOfValues;
+    @XmlElement(name = "numberOfValues", namespace = "http://standards.iso.org/iso/19115/-3/mrc/2.0")
+    public List<Integer> numberOfValues;
 
-    @XmlElement(name = "standardDeviation", namespace = "http://standards.iso.org/iso/19115/-3/mrc/1.0")
-    public List<String> standardDeviation;
+    @XmlElement(name = "standardDeviation", namespace = "http://standards.iso.org/iso/19115/-3/mrc/2.0")
+    public List<Double> standardDeviation;
 
-    @XmlElement(name = "otherPropertyType", namespace = "http://standards.iso.org/iso/19115/-3/mrc/1.0")
-    public List<String> otherPropertyType;
+    @XmlElement(name = "otherPropertyType", namespace = "http://standards.iso.org/iso/19115/-3/mrc/2.0")
+    public List<RecordType> otherPropertyType;
 
-    @XmlElement(name = "otherProperty", namespace = "http://standards.iso.org/iso/19115/-3/mrc/1.0")
-    public List<String> otherProperty;
+    @XmlElement(name = "otherProperty", namespace = "http://standards.iso.org/iso/19115/-3/mrc/2.0")
+    public List<Record> otherProperty;
 
-    @XmlElement(name = "bitsPerValue", namespace = "http://standards.iso.org/iso/19115/-3/mrc/1.0")
-    public List<String> bitsPerValue;
+    @XmlElement(name = "bitsPerValue", namespace = "http://standards.iso.org/iso/19115/-3/mrc/2.0")
+    public List<Integer> bitsPerValue;
 
     // variables for correct marshalling of specified classes
     public List<MD_Band> band;
@@ -156,7 +159,7 @@ public class MD_SampleDimension extends MD_RangeDimension {
         }
     }
 
-    public void addMaxValue(String maxValue) {
+    public void addMaxValue(Double maxValue) {
         int elementNum = 3;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -170,7 +173,7 @@ public class MD_SampleDimension extends MD_RangeDimension {
         }
     }
 
-    public void addMinValue(String minValue) {
+    public void addMinValue(Double minValue) {
         int elementNum = 4;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -198,7 +201,7 @@ public class MD_SampleDimension extends MD_RangeDimension {
         }
     }
 
-    public void addScaleFactor(String scaleFactor) {
+    public void addScaleFactor(Double scaleFactor) {
         int elementNum = 6;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -212,7 +215,7 @@ public class MD_SampleDimension extends MD_RangeDimension {
         }
     }
 
-    public void addOffset(String offset) {
+    public void addOffset(Double offset) {
         int elementNum = 7;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -226,7 +229,7 @@ public class MD_SampleDimension extends MD_RangeDimension {
         }
     }
 
-    public void addMeanValue(String meanValue) {
+    public void addMeanValue(Double meanValue) {
         int elementNum = 8;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -240,7 +243,7 @@ public class MD_SampleDimension extends MD_RangeDimension {
         }
     }
 
-    public void addNumberOfValues(String numberOfValues) {
+    public void addNumberOfValues(Integer numberOfValues) {
         int elementNum = 9;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -254,7 +257,7 @@ public class MD_SampleDimension extends MD_RangeDimension {
         }
     }
 
-    public void addStandardDeviation(String standardDeviation) {
+    public void addStandardDeviation(Double standardDeviation) {
         int elementNum = 10;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -268,7 +271,7 @@ public class MD_SampleDimension extends MD_RangeDimension {
         }
     }
 
-    public void addOtherPropertyType(String otherPropertyType) {
+    public void addOtherPropertyType(RecordType otherPropertyType) {
         int elementNum = 11;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -282,7 +285,7 @@ public class MD_SampleDimension extends MD_RangeDimension {
         }
     }
 
-    public void addOtherProperty(String otherProperty) {
+    public void addOtherProperty(Record otherProperty) {
         int elementNum = 12;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -296,7 +299,7 @@ public class MD_SampleDimension extends MD_RangeDimension {
         }
     }
 
-    public void addBitsPerValue(String bitsPerValue) {
+    public void addBitsPerValue(Integer bitsPerValue) {
         int elementNum = 13;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);

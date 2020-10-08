@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-@XmlRootElement(name = "MD_FeatureCatalogueDescription", namespace = "http://standards.iso.org/iso/19115/-3/mrc/1.0")
+@XmlRootElement(name = "MD_FeatureCatalogueDescription", namespace = "http://standards.iso.org/iso/19115/-3/mrc/2.0")
 public class MD_FeatureCatalogueDescription extends MD_ContentInformation {
 
     // occurrence and obligation
@@ -30,21 +30,21 @@ public class MD_FeatureCatalogueDescription extends MD_ContentInformation {
     private final boolean[] elementUsed = new boolean[elementName.length];
 
     // class variables
-    @XmlElement(name = "complianceCode", namespace = "http://standards.iso.org/iso/19115/-3/mrc/1.0")
-    public List<String> complianceCode;
+    @XmlElement(name = "complianceCode", namespace = "http://standards.iso.org/iso/19115/-3/mrc/2.0")
+    public List<Boolean> complianceCode;
 
-    @XmlElementWrapper(name = "locale", namespace = "http://standards.iso.org/iso/19115/-3/mrc/1.0")
+    @XmlElementWrapper(name = "locale", namespace = "http://standards.iso.org/iso/19115/-3/mrc/2.0")
     @XmlElementRef
     public List<PT_Locale> locale;
 
-    @XmlElement(name = "includedWithDataset", namespace = "http://standards.iso.org/iso/19115/-3/mrc/1.0")
-    public List<String> includedWithDataset;
+    @XmlElement(name = "includedWithDataset", namespace = "http://standards.iso.org/iso/19115/-3/mrc/2.0")
+    public List<Boolean> includedWithDataset;
 
-    @XmlElementWrapper(name = "featureTypes", namespace = "http://standards.iso.org/iso/19115/-3/mrc/1.0")
+    @XmlElementWrapper(name = "featureTypes", namespace = "http://standards.iso.org/iso/19115/-3/mrc/2.0")
     @XmlElementRef
     public List<MD_FeatureTypeInfo> featureTypes;
 
-    @XmlElementWrapper(name = "featureCatalogueCitation", namespace = "http://standards.iso.org/iso/19115/-3/mrc/1.0")
+    @XmlElementWrapper(name = "featureCatalogueCitation", namespace = "http://standards.iso.org/iso/19115/-3/mrc/2.0")
     @XmlElementRef
     public List<CI_Citation> featureCatalogueCitation;
 
@@ -104,7 +104,7 @@ public class MD_FeatureCatalogueDescription extends MD_ContentInformation {
         }
     }
 
-    public void addComplianceCode(String complianceCode) {
+    public void addComplianceCode(Boolean complianceCode) {
         int elementNum = 0;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -132,7 +132,7 @@ public class MD_FeatureCatalogueDescription extends MD_ContentInformation {
         }
     }
 
-    public void addIncludedWithDataset(String includedWithDataset) {
+    public void addIncludedWithDataset(Boolean includedWithDataset) {
         int elementNum = 2;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);

@@ -9,7 +9,7 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlEnumValue;
 import javax.xml.bind.annotation.XmlRootElement;
 
-@XmlRootElement(name = "MD_TopologyLevelCode", namespace = "http://standards.iso.org/iso/19115/-3/msr/1.0")
+@XmlRootElement(name = "MD_TopologyLevelCode", namespace = "http://standards.iso.org/iso/19115/-3/msr/2.0")
 public class MD_TopologyLevelCode {
     // codelist - can be extended
 
@@ -26,7 +26,7 @@ public class MD_TopologyLevelCode {
     }
 
     @XmlAttribute
-    final String codeList = "http://standards.iso.org/iso/19115/-3/msr/1.0/codelists.html#MD_TopologyLevelCode";
+    final String codeList = "http://standards.iso.org/iso/19115/-3/msr/2.0/codelists.html#MD_TopologyLevelCode";
 
     @XmlAttribute
     public MD_TopologyLevelCode.MD_TopologyLevelCodes codeListValue;

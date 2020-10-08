@@ -5,6 +5,8 @@
 
 package org.geokur.ISO19115Schema;
 
+import org.geokur.ISO19103Schema.Record;
+import org.geokur.ISO19103Schema.RecordType;
 import org.geokur.ISO191xxProfile.MaximumOccurrenceException;
 import org.geokur.ISO191xxProfile.ObligationException;
 import org.geokur.ISO191xxProfile.ProfileException;
@@ -41,10 +43,10 @@ public class MD_StandardOrderProcess {
     public List<String> turnaround;
 
     @XmlElement(name = "orderOptionsType", namespace = "http://standards.iso.org/iso/19115/-3/mrd/1.0")
-    public List<String> orderOptionsType;
+    public List<RecordType> orderOptionsType;
 
     @XmlElement(name = "orderOptions", namespace = "http://standards.iso.org/iso/19115/-3/mrd/1.0")
-    public List<String> orderOptions;
+    public List<Record> orderOptions;
 
     // methods
     public MD_StandardOrderProcess(){
@@ -164,7 +166,7 @@ public class MD_StandardOrderProcess {
         }
     }
 
-    public void addOrderOptionsType(String orderOptionsType) {
+    public void addOrderOptionsType(RecordType orderOptionsType) {
         int elementNum = 4;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -178,7 +180,7 @@ public class MD_StandardOrderProcess {
         }
     }
 
-    public void addOrderOptions(String orderOptions) {
+    public void addOrderOptions(Record orderOptions) {
         int elementNum = 5;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
