@@ -5,6 +5,7 @@
 
 package org.geokur.ISO19115Schema;
 
+import org.geokur.ISO19107Schema.GeometryData;
 import org.geokur.ISO191xxProfile.MaximumOccurrenceException;
 import org.geokur.ISO191xxProfile.ObligationException;
 import org.geokur.ISO191xxProfile.ProfileException;
@@ -29,7 +30,7 @@ public class EX_BoundingPolygon extends EX_GeographicExtent {
 
     // class variables
     @XmlElement(name = "polygon", namespace = "http://standards.iso.org/iso/19115/-3/gex/1.0")
-    public List<String> polygon;
+    public List<GeometryData> polygon;
 
     // methods
     public EX_BoundingPolygon(){
@@ -63,7 +64,7 @@ public class EX_BoundingPolygon extends EX_GeographicExtent {
         }
     }
 
-    public void addPolygon(String polygon) {
+    public void addPolygon(GeometryData polygon) {
         int elementNum = 1;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);

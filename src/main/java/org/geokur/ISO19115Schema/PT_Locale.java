@@ -29,13 +29,13 @@ public class PT_Locale {
 
     // class variables
     @XmlElement(name = "language", namespace = "http://standards.iso.org/iso/19115/-3/lan/1.0")
-    public List<String> language;
+    public List<LanguageCode> language;
 
     @XmlElement(name = "country", namespace = "http://standards.iso.org/iso/19115/-3/lan/1.0")
-    public List<String> country;
+    public List<CountryCode> country;
 
     @XmlElement(name = "characterEncoding", namespace = "http://standards.iso.org/iso/19115/-3/lan/1.0")
-    public List<String> characterEncoding;
+    public List<MD_CharacterSetCode> characterEncoding;
 
     // methods
     public PT_Locale(){
@@ -81,7 +81,7 @@ public class PT_Locale {
         }
     }
 
-    public void addLanguage(String language) {
+    public void addLanguage(LanguageCode language) {
         int elementNum = 0;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -95,7 +95,7 @@ public class PT_Locale {
         }
     }
 
-    public void addCountry(String country) {
+    public void addCountry(CountryCode country) {
         int elementNum = 1;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -109,7 +109,7 @@ public class PT_Locale {
         }
     }
 
-    public void addCharacterEncoding(String characterEncoding) {
+    public void addCharacterEncoding(MD_CharacterSetCode characterEncoding) {
         int elementNum = 2;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);

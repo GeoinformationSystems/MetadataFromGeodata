@@ -5,7 +5,7 @@
 
 package org.geokur.ISO191xxProfile;
 
-public class MaximumOccurrenceException extends RuntimeException {
+public class MaximumOccurrenceException extends Exception {
     String fieldName;
     int maximumOccurrence;
 

@@ -5,7 +5,7 @@
 
 package org.geokur.ISO191xxProfile;
 
-public class InstantiationCallException extends RuntimeException {
+public class InstantiationCallException extends Exception {
     String className;
     String fieldName;
 
@@ -15,7 +15,7 @@ public class InstantiationCallException extends RuntimeException {
     }
 
     public String getMessage() {
-        return ("\nInstantiation Exception\n" +
+        return ("\nInstantiation Call Exception\n" +
                 className + " instantiated, but missing " + fieldName);
     }
 }

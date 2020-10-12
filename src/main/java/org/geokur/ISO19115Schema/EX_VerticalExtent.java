@@ -31,10 +31,10 @@ public class EX_VerticalExtent {
 
     // class variables
     @XmlElement(name = "minimumValue", namespace = "http://standards.iso.org/iso/19115/-3/gex/1.0")
-    public List<String> minimumValue;
+    public List<Double> minimumValue;
 
     @XmlElement(name = "maximumValue", namespace = "http://standards.iso.org/iso/19115/-3/gex/1.0")
-    public List<String> maximumValue;
+    public List<Double> maximumValue;
 
     @XmlElement(name = "verticalCRS", namespace = "http://standards.iso.org/iso/19115/-3/gex/1.0")
     public List<String> verticalCRS;
@@ -93,7 +93,7 @@ public class EX_VerticalExtent {
         }
     }
 
-    public void addMinimumValue(String minimumValue) {
+    public void addMinimumValue(Double minimumValue) {
         int elementNum = 0;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -107,7 +107,7 @@ public class EX_VerticalExtent {
         }
     }
 
-    public void addMaximumValue(String maximumValue) {
+    public void addMaximumValue(Double maximumValue) {
         int elementNum = 1;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);

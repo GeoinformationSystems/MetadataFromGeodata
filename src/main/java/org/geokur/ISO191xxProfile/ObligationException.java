@@ -5,7 +5,7 @@
 
 package org.geokur.ISO191xxProfile;
 
-public class ObligationException extends RuntimeException {
+public class ObligationException extends Exception {
     String fieldName;
 
     public ObligationException(String fieldName) {

@@ -22,7 +22,7 @@ public class MD_ClassificationCode {
         SBU,
         forOfficialUseOnly,
         @XmlEnumValue("protected") protectedCode,
-        limitedDistribution;
+        limitedDistribution
     }
 
     @XmlAttribute

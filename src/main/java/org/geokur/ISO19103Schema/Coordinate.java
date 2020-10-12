@@ -50,23 +50,47 @@ public class Coordinate {
     }
 
     public void createY() {
-        if (this.y == null) {
-            this.y = new ArrayList<>();
-            this.dimension++;
+        try {
+            if (this.y == null) {
+                if (this.x == null) {
+                    throw new SequenceException("y", "x");
+                } else {
+                    this.y = new ArrayList<>();
+                    this.dimension++;
+                }
+            }
+        } catch (SequenceException e) {
+            System.out.println(e.getMessage());
         }
     }
 
     public void createZ() {
-        if (this.z == null) {
-            this.z = new ArrayList<>();
-            this.dimension++;
+        try {
+            if (this.z == null) {
+                if (this.y == null) {
+                    throw new SequenceException("z", "y");
+                } else {
+                    this.z = new ArrayList<>();
+                    this.dimension++;
+                }
+            }
+        } catch (SequenceException e) {
+            System.out.println(e.getMessage());
         }
     }
 
     public void createT() {
-        if (this.t == null) {
-            this.t = new ArrayList<>();
-            this.dimension++;
+        try {
+            if (this.t == null) {
+                if (this.y == null) {
+                    throw new SequenceException("t", "y or z (depending on spatial dimensions)");
+                } else {
+                    this.t = new ArrayList<>();
+                    this.dimension++;
+                }
+            }
+        } catch (SequenceException e) {
+            System.out.println(e.getMessage());
         }
     }
 
@@ -127,7 +151,20 @@ public class Coordinate {
     }
 
     public Integer getDimension() {
+        // return number of dimension
         return dimension;
+    }
+
+    public List<Double> getCoordinates() {
+        // return all coordinates as a comprehensive list
+        List<Double> coordinates = new ArrayList<>();
+        switch (dimension) {
+            case 4: coordinates.add(t.get(0));
+            case 3: coordinates.add(z.get(0));
+            case 2: coordinates.add(y.get(0));
+            case 1: coordinates.add(x.get(0));
+        }
+        return coordinates;
     }
 
     public void finalizeClass() {

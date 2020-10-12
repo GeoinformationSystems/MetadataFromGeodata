@@ -161,13 +161,13 @@ public class ShapeMetadata implements Metadata {
 
             EX_GeographicBoundingBox exGeographicBoundingBox = new EX_GeographicBoundingBox();
             exGeographicBoundingBox.createWestBoundLongitude();
-            exGeographicBoundingBox.addWestBoundLongitude(extent.west.toString());
+            exGeographicBoundingBox.addWestBoundLongitude(extent.west);
             exGeographicBoundingBox.createEastBoundLongitude();
-            exGeographicBoundingBox.addEastBoundLongitude(extent.east.toString());
+            exGeographicBoundingBox.addEastBoundLongitude(extent.east);
             exGeographicBoundingBox.createSouthBoundLatitude();
-            exGeographicBoundingBox.addSouthBoundLatitude(extent.south.toString());
+            exGeographicBoundingBox.addSouthBoundLatitude(extent.south);
             exGeographicBoundingBox.createNorthBoundLatitude();
-            exGeographicBoundingBox.addNorthBoundLatitude(extent.north.toString());
+            exGeographicBoundingBox.addNorthBoundLatitude(extent.north);
             exGeographicBoundingBox.finalizeClass();
 
             EX_Extent exExtent = new EX_Extent();
@@ -181,13 +181,13 @@ public class ShapeMetadata implements Metadata {
 
             EX_GeographicBoundingBox exGeographicBoundingBoxOrigCRS = new EX_GeographicBoundingBox();
             exGeographicBoundingBoxOrigCRS.createWestBoundLongitude();
-            exGeographicBoundingBoxOrigCRS.addWestBoundLongitude(extentOrigCRS.west.toString());
+            exGeographicBoundingBoxOrigCRS.addWestBoundLongitude(extentOrigCRS.west);
             exGeographicBoundingBoxOrigCRS.createEastBoundLongitude();
-            exGeographicBoundingBoxOrigCRS.addEastBoundLongitude(extentOrigCRS.east.toString());
+            exGeographicBoundingBoxOrigCRS.addEastBoundLongitude(extentOrigCRS.east);
             exGeographicBoundingBoxOrigCRS.createSouthBoundLatitude();
-            exGeographicBoundingBoxOrigCRS.addSouthBoundLatitude(extentOrigCRS.south.toString());
+            exGeographicBoundingBoxOrigCRS.addSouthBoundLatitude(extentOrigCRS.south);
             exGeographicBoundingBoxOrigCRS.createNorthBoundLatitude();
-            exGeographicBoundingBoxOrigCRS.addNorthBoundLatitude(extentOrigCRS.north.toString());
+            exGeographicBoundingBoxOrigCRS.addNorthBoundLatitude(extentOrigCRS.north);
             exGeographicBoundingBoxOrigCRS.finalizeClass();
 
             EX_Extent exExtentOrigCRS = new EX_Extent();

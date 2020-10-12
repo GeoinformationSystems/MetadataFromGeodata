@@ -29,16 +29,16 @@ public class EX_GeographicBoundingBox extends EX_GeographicExtent {
 
     // class variables
     @XmlElement(name = "westBoundLongitude", namespace = "http://standards.iso.org/iso/19115/-3/gex/1.0")
-    public List<String> westBoundLongitude;
+    public List<Double> westBoundLongitude;
 
     @XmlElement(name = "eastBoundLongitude", namespace = "http://standards.iso.org/iso/19115/-3/gex/1.0")
-    public List<String> eastBoundLongitude;
+    public List<Double> eastBoundLongitude;
 
     @XmlElement(name = "southBoundLatitude", namespace = "http://standards.iso.org/iso/19115/-3/gex/1.0")
-    public List<String> southBoundLatitude;
+    public List<Double> southBoundLatitude;
 
     @XmlElement(name = "northBoundLatitude", namespace = "http://standards.iso.org/iso/19115/-3/gex/1.0")
-    public List<String> northBoundLatitude;
+    public List<Double> northBoundLatitude;
 
     // methods
     public EX_GeographicBoundingBox(){
@@ -90,7 +90,7 @@ public class EX_GeographicBoundingBox extends EX_GeographicExtent {
         }
     }
 
-    public void addWestBoundLongitude(String westBoundLongitude) {
+    public void addWestBoundLongitude(Double westBoundLongitude) {
         int elementNum = 1;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -104,7 +104,7 @@ public class EX_GeographicBoundingBox extends EX_GeographicExtent {
         }
     }
 
-    public void addEastBoundLongitude(String eastBoundLongitude) {
+    public void addEastBoundLongitude(Double eastBoundLongitude) {
         int elementNum = 2;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -118,7 +118,7 @@ public class EX_GeographicBoundingBox extends EX_GeographicExtent {
         }
     }
 
-    public void addSouthBoundLatitude(String southBoundLatitude) {
+    public void addSouthBoundLatitude(Double southBoundLatitude) {
         int elementNum = 3;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -132,7 +132,7 @@ public class EX_GeographicBoundingBox extends EX_GeographicExtent {
         }
     }
 
-    public void addNorthBoundLatitude(String northBoundLatitude) {
+    public void addNorthBoundLatitude(Double northBoundLatitude) {
         int elementNum = 4;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
