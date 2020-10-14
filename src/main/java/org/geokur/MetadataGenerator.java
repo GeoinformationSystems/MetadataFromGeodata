@@ -32,8 +32,8 @@ public class MetadataGenerator {
 
 //        String fileName = "rasterExample.gpkg";
 //        String fileName = "TestGeopackage.gpkg";
-        String fileName = "paraguay.gpkg";
-//        String fileName = "TestPointsShape.shp";
+//        String fileName = "paraguay.gpkg";
+        String fileName = "TestPointsShape.shp";
 //        String fileName = "TestPointsShapeETRS.shp";
 //        String fileName = "paraguay.csv";
 

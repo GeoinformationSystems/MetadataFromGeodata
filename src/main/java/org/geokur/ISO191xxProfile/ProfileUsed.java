@@ -155,6 +155,13 @@ public class ProfileUsed {
     public String[] MI_Requirement;
     public String[] MI_Revision;
     public String[] MI_Sensor;
+    public String[] ObjectDomain;
+    public String[] VerticalCRS;
+    public String[] Conversion;
+    public String[] DataEpoch;
+    public String[] PointMotionOperation;
+    public String[] OperationMethod;
+    public String[] Formula;
 
     public void setDS_DataSet(String[] DS_DataSet) {
         this.DS_DataSet = DS_DataSet;
@@ -750,5 +757,33 @@ public class ProfileUsed {
 
     public void setMI_Sensor(String[] MI_Sensor) {
         this.MI_Sensor = MI_Sensor;
+    }
+
+    public void setObjectDomain(String[] objectDomain) {
+        ObjectDomain = objectDomain;
+    }
+
+    public void setVerticalCRS(String[] verticalCRS) {
+        VerticalCRS = verticalCRS;
+    }
+
+    public void setConversion(String[] conversion) {
+        Conversion = conversion;
+    }
+
+    public void setDataEpoch(String[] dataEpoch) {
+        DataEpoch = dataEpoch;
+    }
+
+    public void setPointMotionOperation(String[] pointMotionOperation) {
+        PointMotionOperation = pointMotionOperation;
+    }
+
+    public void setOperationMethod(String[] operationMethod) {
+        OperationMethod = operationMethod;
+    }
+
+    public void setFormula(String[] formula) {
+        Formula = formula;
     }
 }
