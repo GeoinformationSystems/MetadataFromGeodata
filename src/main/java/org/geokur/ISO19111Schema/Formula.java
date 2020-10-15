@@ -6,10 +6,7 @@
 package org.geokur.ISO19111Schema;
 
 import org.geokur.ISO19115Schema.CI_Citation;
-import org.geokur.ISO191xxProfile.MaximumOccurrenceException;
-import org.geokur.ISO191xxProfile.ObligationException;
-import org.geokur.ISO191xxProfile.ProfileException;
-import org.geokur.ISO191xxProfile.ProfileReader;
+import org.geokur.ISO191xxProfile.*;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementRef;
@@ -21,6 +18,7 @@ import java.util.List;
 
 @XmlRootElement(name = "Formula")
 public class Formula {
+    // union class - means only one variable allowed
 
     // occurrence and obligation
     private final String[] elementName = {"formula", "formulaCitation"};
@@ -65,14 +63,30 @@ public class Formula {
     }
 
     public void createFormula() {
-        if (this.formula == null) {
-            this.formula = new ArrayList<>();
+        try {
+            if (this.formulaCitation != null) {
+                throw new UnionException(className);
+            } else {
+                if (this.formula == null) {
+                    this.formula = new ArrayList<>();
+                }
+            }
+        } catch (UnionException e) {
+            System.out.println(e.getMessage());
         }
     }
 
     public void createFormulaCitation() {
-        if (this.formulaCitation == null) {
-            this.formulaCitation = new ArrayList<>();
+        try {
+            if (this.formula != null) {
+                throw new UnionException(className);
+            } else {
+                if (this.formulaCitation == null) {
+                    this.formulaCitation = new ArrayList<>();
+                }
+            }
+        } catch (UnionException e) {
+            System.out.println(e.getMessage());
         }
     }
 

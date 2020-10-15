@@ -37,8 +37,7 @@ public class MI_RangeElementDescription {
     @XmlElement(name = "definition", namespace = "http://standards.iso.org/iso/19115/-3/mrc/2.0")
     public List<String> definition;
 
-    @XmlElementWrapper(name = "rangeElement", namespace = "http://standards.iso.org/iso/19115/-3/mrc/2.0")
-    @XmlElementRef
+    @XmlElement(name = "rangeElement", namespace = "http://standards.iso.org/iso/19115/-3/mrc/2.0")
     public List<Record> rangeElement;
 
     // methods

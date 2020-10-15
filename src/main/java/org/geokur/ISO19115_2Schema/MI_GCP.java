@@ -12,6 +12,7 @@ import org.geokur.ISO191xxProfile.ObligationException;
 import org.geokur.ISO191xxProfile.ProfileException;
 import org.geokur.ISO191xxProfile.ProfileReader;
 
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementRef;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -31,8 +32,7 @@ public class MI_GCP {
     private final boolean[] elementUsed = new boolean[elementName.length];
 
     // class variables
-    @XmlElementWrapper(name = "geographicCoordinates", namespace = "http://standards.iso.org/iso/19115/-3/msr/2.0")
-    @XmlElementRef
+    @XmlElement(name = "geographicCoordinates", namespace = "http://standards.iso.org/iso/19115/-3/msr/2.0")
     public List<DirectPosition> geographicCoordinates;
 
     @XmlElementWrapper(name = "accuracyReport", namespace = "http://standards.iso.org/iso/19115/-3/msr/2.0")

@@ -5,10 +5,7 @@
 
 package org.geokur.ISO19115_2Schema;
 
-import org.geokur.ISO191xxProfile.MaximumOccurrenceException;
-import org.geokur.ISO191xxProfile.ObligationException;
-import org.geokur.ISO191xxProfile.ProfileException;
-import org.geokur.ISO191xxProfile.ProfileReader;
+import org.geokur.ISO191xxProfile.*;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -18,6 +15,7 @@ import java.util.List;
 
 @XmlRootElement(name = "LE_NominalResolution", namespace = "http://standards.iso.org/iso/19115/-3/mrl/2.0")
 public class LE_NominalResolution {
+    // union class - means only one variable allowed
 
     // occurrence and obligation
     private final String[] elementName = {"scanningResolution", "groundResolution"};
@@ -61,14 +59,30 @@ public class LE_NominalResolution {
     }
 
     public void createScanningResolution() {
-        if (this.scanningResolution == null) {
-            this.scanningResolution = new ArrayList<>();
+        try {
+            if (this.groundResolution != null) {
+                throw new UnionException(className);
+            } else {
+                if (this.scanningResolution == null) {
+                    this.scanningResolution = new ArrayList<>();
+                }
+            }
+        } catch (UnionException e) {
+            System.out.println(e.getMessage());
         }
     }
 
     public void createGroundResolution() {
-        if (this.groundResolution == null) {
-            this.groundResolution = new ArrayList<>();
+        try {
+            if (this.scanningResolution != null) {
+                throw new UnionException(className);
+            } else {
+                if (this.groundResolution == null) {
+                    this.groundResolution = new ArrayList<>();
+                }
+            }
+        } catch (UnionException e) {
+            System.out.println(e.getMessage());
         }
     }
 

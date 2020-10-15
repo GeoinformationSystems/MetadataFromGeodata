@@ -5,10 +5,7 @@
 
 package org.geokur.ISO19115Schema;
 
-import org.geokur.ISO191xxProfile.MaximumOccurrenceException;
-import org.geokur.ISO191xxProfile.ObligationException;
-import org.geokur.ISO191xxProfile.ProfileException;
-import org.geokur.ISO191xxProfile.ProfileReader;
+import org.geokur.ISO191xxProfile.*;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementRef;
@@ -20,6 +17,7 @@ import java.util.List;
 
 @XmlRootElement(name = "MD_Resolution", namespace = "http://standards.iso.org/iso/19115/-3/mri/1.0")
 public class MD_Resolution {
+    // union class - means only one variable allowed
 
     // occurrence and obligation
     private final String[] elementName = {"equivalentScale", "distance", "vertical", "angularDistance", "levelOfDetail"};
@@ -73,32 +71,72 @@ public class MD_Resolution {
     }
 
     public void createEquivalentScale() {
-        if (this.equivalentScale == null) {
-            this.equivalentScale = new ArrayList<>();
+        try {
+            if (this.distance != null || this.vertical != null || this.angularDistance != null || this.levelOfDetail != null) {
+                throw new UnionException(className);
+            } else {
+                if (this.equivalentScale == null) {
+                    this.equivalentScale = new ArrayList<>();
+                }
+            }
+        } catch (UnionException e) {
+            System.out.println(e.getMessage());
         }
     }
 
     public void createDistance() {
-        if (this.distance == null) {
-            this.distance = new ArrayList<>();
+        try {
+            if (this.equivalentScale != null || this.vertical != null || this.angularDistance != null || this.levelOfDetail != null) {
+                throw new UnionException(className);
+            } else {
+                if (this.distance == null) {
+                    this.distance = new ArrayList<>();
+                }
+            }
+        } catch (UnionException e) {
+            System.out.println(e.getMessage());
         }
     }
 
     public void createVertical() {
-        if (this.vertical == null) {
-            this.vertical = new ArrayList<>();
+        try {
+            if (this.equivalentScale != null || this.distance != null || this.angularDistance != null || this.levelOfDetail != null) {
+                throw new UnionException(className);
+            } else {
+                if (this.vertical == null) {
+                    this.vertical = new ArrayList<>();
+                }
+            }
+        } catch (UnionException e) {
+            System.out.println(e.getMessage());
         }
     }
 
     public void createAngularDistance() {
-        if (this.angularDistance == null) {
-            this.angularDistance = new ArrayList<>();
+        try {
+            if (this.equivalentScale != null || this.distance != null || this.vertical != null || this.levelOfDetail != null) {
+                throw new UnionException(className);
+            } else {
+                if (this.angularDistance == null) {
+                    this.angularDistance = new ArrayList<>();
+                }
+            }
+        } catch (UnionException e) {
+            System.out.println(e.getMessage());
         }
     }
 
     public void createLevelOfDetail() {
-        if (this.levelOfDetail == null) {
-            this.levelOfDetail = new ArrayList<>();
+        try {
+            if (this.equivalentScale != null || this.distance != null || this.vertical != null || this.angularDistance != null) {
+                throw new UnionException(className);
+            } else {
+                if (this.levelOfDetail == null) {
+                    this.levelOfDetail = new ArrayList<>();
+                }
+            }
+        } catch (UnionException e) {
+            System.out.println(e.getMessage());
         }
     }
 

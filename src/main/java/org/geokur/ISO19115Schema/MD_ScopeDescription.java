@@ -5,10 +5,7 @@
 
 package org.geokur.ISO19115Schema;
 
-import org.geokur.ISO191xxProfile.MaximumOccurrenceException;
-import org.geokur.ISO191xxProfile.ObligationException;
-import org.geokur.ISO191xxProfile.ProfileException;
-import org.geokur.ISO191xxProfile.ProfileReader;
+import org.geokur.ISO191xxProfile.*;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -18,6 +15,7 @@ import java.util.List;
 
 @XmlRootElement(name = "MD_ScopeDescription", namespace = "http://standards.iso.org/iso/19115/-3/mcc/1.0")
 public class MD_ScopeDescription {
+    // union class - means only one variable allowed
 
     // occurrence and obligation
     private final String[] elementName = {"attributes", "features", "featureInstances", "attributeInstances", "dataset", "other"};
@@ -73,38 +71,86 @@ public class MD_ScopeDescription {
     }
 
     public void createAttributes() {
-        if (this.attributes == null) {
-            this.attributes = new ArrayList<>();
+        try {
+            if (this.features != null || this.featureInstances != null || this.attributeInstances != null || this.dataset != null || this.other != null) {
+                throw new UnionException(className);
+            } else {
+                if (this.attributes == null) {
+                    this.attributes = new ArrayList<>();
+                }
+            }
+        } catch (UnionException e) {
+            System.out.println(e.getMessage());
         }
     }
 
     public void createFeatures() {
-        if (this.features == null) {
-            this.features = new ArrayList<>();
+        try {
+            if (this.attributes != null || this.featureInstances != null || this.attributeInstances != null || this.dataset != null || this.other != null) {
+                throw new UnionException(className);
+            } else {
+                if (this.features == null) {
+                    this.features = new ArrayList<>();
+                }
+            }
+        } catch (UnionException e) {
+            System.out.println(e.getMessage());
         }
     }
 
     public void createFeatureInstances() {
-        if (this.featureInstances == null) {
-            this.featureInstances = new ArrayList<>();
+        try {
+            if (this.attributes != null || this.features != null || this.attributeInstances != null || this.dataset != null || this.other != null) {
+                throw new UnionException(className);
+            } else {
+                if (this.featureInstances == null) {
+                    this.featureInstances = new ArrayList<>();
+                }
+            }
+        } catch (UnionException e) {
+            System.out.println(e.getMessage());
         }
     }
 
     public void createAttributeInstances() {
-        if (this.attributeInstances == null) {
-            this.attributeInstances = new ArrayList<>();
+        try {
+            if (this.attributes != null || this.features != null || this.featureInstances != null || this.dataset != null || this.other != null) {
+                throw new UnionException(className);
+            } else {
+                if (this.attributeInstances == null) {
+                    this.attributeInstances = new ArrayList<>();
+                }
+            }
+        } catch (UnionException e) {
+            System.out.println(e.getMessage());
         }
     }
 
     public void createDataset() {
-        if (this.dataset == null) {
-            this.dataset = new ArrayList<>();
+        try {
+            if (this.attributes != null || this.features != null || this.featureInstances != null || this.attributeInstances != null || this.other != null) {
+                throw new UnionException(className);
+            } else {
+                if (this.dataset == null) {
+                    this.dataset = new ArrayList<>();
+                }
+            }
+        } catch (UnionException e) {
+            System.out.println(e.getMessage());
         }
     }
 
     public void createOther() {
-        if (this.other == null) {
-            this.other = new ArrayList<>();
+        try {
+            if (this.attributes != null || this.features != null || this.featureInstances != null || this.attributeInstances != null || this.dataset != null) {
+                throw new UnionException(className);
+            } else {
+                if (this.other == null) {
+                    this.other = new ArrayList<>();
+                }
+            }
+        } catch (UnionException e) {
+            System.out.println(e.getMessage());
         }
     }
 

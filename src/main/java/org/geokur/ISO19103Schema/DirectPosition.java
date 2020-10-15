@@ -25,8 +25,6 @@ public class DirectPosition {
     private final String className = this.getClass().getSimpleName();
 
     // class variables
-//    @XmlElementWrapper(name = "coordinate")
-//    @XmlElementRef
     @XmlElement(name = "coordinate")
     public List<Coordinate> coordinate;
 

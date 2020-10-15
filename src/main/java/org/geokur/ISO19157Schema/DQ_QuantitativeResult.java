@@ -5,6 +5,8 @@
 
 package org.geokur.ISO19157Schema;
 
+import org.geokur.ISO19103Schema.Record;
+import org.geokur.ISO19103Schema.RecordType;
 import org.geokur.ISO191xxProfile.MaximumOccurrenceException;
 import org.geokur.ISO191xxProfile.ObligationException;
 import org.geokur.ISO191xxProfile.ProfileException;
@@ -29,13 +31,13 @@ public class DQ_QuantitativeResult extends DQ_Result {
 
     // class variables
     @XmlElement(name = "value", namespace = "http://standards.iso.org/iso/19157/-2/mdq/1.0")
-    public List<String> value;
+    public List<Record> value;
 
     @XmlElement(name = "valueUnit", namespace = "http://standards.iso.org/iso/19157/-2/mdq/1.0")
     public List<String> valueUnit;
 
     @XmlElement(name = "valueRecordType", namespace = "http://standards.iso.org/iso/19157/-2/mdq/1.0")
-    public List<String> valueRecordType;
+    public List<RecordType> valueRecordType;
 
     // methods
     public DQ_QuantitativeResult(){
@@ -81,7 +83,7 @@ public class DQ_QuantitativeResult extends DQ_Result {
         }
     }
 
-    public void addValue(String value) {
+    public void addValue(Record value) {
         int elementNum = 2;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -109,7 +111,7 @@ public class DQ_QuantitativeResult extends DQ_Result {
         }
     }
 
-    public void addValueRecordType(String valueRecordType) {
+    public void addValueRecordType(RecordType valueRecordType) {
         int elementNum = 4;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);

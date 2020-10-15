@@ -10,8 +10,7 @@ import org.geokur.ISO191xxProfile.MaximumOccurrenceException;
 import org.geokur.ISO191xxProfile.ObligationException;
 import org.geokur.ISO191xxProfile.ProfileException;
 
-import javax.xml.bind.annotation.XmlElementRef;
-import javax.xml.bind.annotation.XmlElementWrapper;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,8 +26,7 @@ public class PointData extends PrimitiveData {
     private final String className = this.getClass().getSimpleName();
 
     // class variables
-    @XmlElementWrapper(name = "position")
-    @XmlElementRef
+    @XmlElement(name = "position")
     public List<DirectPosition> position;
 
     // methods

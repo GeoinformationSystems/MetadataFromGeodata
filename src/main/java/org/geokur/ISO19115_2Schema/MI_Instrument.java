@@ -49,12 +49,10 @@ public class MI_Instrument {
     @XmlElement(name = "description", namespace = "http://standards.iso.org/iso/19115/-3/mac/2.0")
     public List<String> description;
 
-    @XmlElementWrapper(name = "otherProperty", namespace = "http://standards.iso.org/iso/19115/-3/mac/2.0")
-    @XmlElementRef
+    @XmlElement(name = "otherProperty", namespace = "http://standards.iso.org/iso/19115/-3/mac/2.0")
     public List<Record> otherProperty;
 
-    @XmlElementWrapper(name = "otherPropertyType", namespace = "http://standards.iso.org/iso/19115/-3/mac/2.0")
-    @XmlElementRef
+    @XmlElement(name = "otherPropertyType", namespace = "http://standards.iso.org/iso/19115/-3/mac/2.0")
     public List<RecordType> otherPropertyType;
 
     @XmlElementWrapper(name = "mountedOn", namespace = "http://standards.iso.org/iso/19115/-3/mac/2.0")

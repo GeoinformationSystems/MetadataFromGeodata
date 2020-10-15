@@ -50,12 +50,10 @@ public class MI_Platform {
     @XmlElementRef
     public List<CI_Responsibility> sponsor;
 
-    @XmlElementWrapper(name = "otherProperty", namespace = "http://standards.iso.org/iso/19115/-3/mac/2.0")
-    @XmlElementRef
+    @XmlElement(name = "otherProperty", namespace = "http://standards.iso.org/iso/19115/-3/mac/2.0")
     public List<Record> otherProperty;
 
-    @XmlElementWrapper(name = "otherPropertyType", namespace = "http://standards.iso.org/iso/19115/-3/mac/2.0")
-    @XmlElementRef
+    @XmlElement(name = "otherPropertyType", namespace = "http://standards.iso.org/iso/19115/-3/mac/2.0")
     public List<RecordType> otherPropertyType;
 
     @XmlElementWrapper(name = "instrument", namespace = "http://standards.iso.org/iso/19115/-3/mac/2.0")
