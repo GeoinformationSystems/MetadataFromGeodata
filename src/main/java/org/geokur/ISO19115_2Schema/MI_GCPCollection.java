@@ -23,9 +23,9 @@ import java.util.List;
 public class MI_GCPCollection extends MI_GeolocationInformation {
 
     // occurrence and obligation
-    private final String[] elementName = {"collectionIdentification", "collectionName", "coordinateReferenceSystem", "gcp"};
-    private final int[] elementMax = {1, 1, 1, Integer.MAX_VALUE};
-    private final boolean[] elementObligation = {true, true, true, true};
+    private final String[] elementName = {"qualityInfo", "collectionIdentification", "collectionName", "coordinateReferenceSystem", "gcp"};
+    private final int[] elementMax = {Integer.MAX_VALUE, 1, 1, 1, Integer.MAX_VALUE};
+    private final boolean[] elementObligation = {false, true, true, true, true};
 
     private final String className = this.getClass().getSimpleName();
     private final boolean[] elementUsed = new boolean[elementName.length];
@@ -96,7 +96,7 @@ public class MI_GCPCollection extends MI_GeolocationInformation {
     }
 
     public void addCollectionIdentification(String collectionIdentification) {
-        int elementNum = 0;
+        int elementNum = 1;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
             if (tempList.size() >= elementMax[elementNum]) {
@@ -110,7 +110,7 @@ public class MI_GCPCollection extends MI_GeolocationInformation {
     }
 
     public void addCollectionName(String collectionName) {
-        int elementNum = 1;
+        int elementNum = 2;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
             if (tempList.size() >= elementMax[elementNum]) {
@@ -124,7 +124,7 @@ public class MI_GCPCollection extends MI_GeolocationInformation {
     }
 
     public void addCoordinateReferenceSystem(MD_ReferenceSystem coordinateReferenceSystem) {
-        int elementNum = 2;
+        int elementNum = 3;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
             if (tempList.size() >= elementMax[elementNum]) {
@@ -138,7 +138,7 @@ public class MI_GCPCollection extends MI_GeolocationInformation {
     }
 
     public void addGcp(MI_GCP gcp) {
-        int elementNum = 3;
+        int elementNum = 4;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
             if (tempList.size() >= elementMax[elementNum]) {
