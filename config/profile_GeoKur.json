@@ -144,7 +144,14 @@
         "MI_RequestedDate": [],
         "MI_Requirement": [],
         "MI_Revision": [],
-        "MI_Sensor": []
+        "MI_Sensor": [],
+        "ObjectDomain": [],
+        "VerticalCRS": [],
+        "Conversion": [],
+        "DataEpoch": [],
+        "PointMotionOperation": [],
+        "OperationMethod": [],
+        "Formula": []
     },
 
     "obligation": {
@@ -292,7 +299,14 @@
         "MI_RequestedDate": [],
         "MI_Requirement": [],
         "MI_Revision": [],
-        "MI_Sensor": []
+        "MI_Sensor": [],
+        "ObjectDomain": [],
+        "VerticalCRS": [],
+        "Conversion": [],
+        "DataEpoch": [],
+        "PointMotionOperation": [],
+        "OperationMethod": [],
+        "Formula": []
     },
 
     "all": {
