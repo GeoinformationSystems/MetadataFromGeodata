@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MD_Metadata namespace="mdb">
+    <element>
+        <name>acquisitionInformation</name>
+        <obligation>O</obligation>
+        <occurrence>N</occurrence>
+        <configFile>config_MI_AcquisitionInformation.xml</configFile>
+        <namespace>mdb</namespace>
+        <used>true</used>
+    </element>
+</MD_Metadata>

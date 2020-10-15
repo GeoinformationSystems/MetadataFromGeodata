@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LE_Algorithm namespace="mrl">
+    <element>
+        <name>citation</name>
+        <obligation>M</obligation>
+        <occurrence>1</occurrence>
+        <configFile>config_CI_Citation.xml</configFile>
+        <namespace>mrl</namespace>
+        <used>true</used>
+    </element>
+    <element>
+        <name>description</name>
+        <obligation>M</obligation>
+        <occurrence>1</occurrence>
+        <configFile></configFile>
+        <namespace>mrl</namespace>
+        <used>true</used>
+    </element>
+</LE_Algorithm>

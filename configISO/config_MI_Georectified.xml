@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MI_Georectified namespace="msr">
+    <element>
+        <name>checkPoint</name>
+        <obligation>O</obligation>
+        <occurrence>N</occurrence>
+        <configFile>config_MI_GCP.xml</configFile>
+        <namespace>msr</namespace>
+        <used>true</used>
+    </element>
+</MI_Georectified>

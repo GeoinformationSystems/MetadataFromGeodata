@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LE_ProcessStep namespace="mrl">
+    <element>
+        <name>output</name>
+        <obligation>O</obligation>
+        <occurrence>N</occurrence>
+        <configFile>config_LE_Source.xml</configFile>
+        <namespace>mrl</namespace>
+        <used>true</used>
+    </element>
+    <element>
+        <name>processingInformation</name>
+        <obligation>O</obligation>
+        <occurrence>1</occurrence>
+        <configFile>config_LE_Processing.xml</configFile>
+        <namespace>mrl</namespace>
+        <used>true</used>
+    </element>
+    <element>
+        <name>report</name>
+        <obligation>O</obligation>
+        <occurrence>N</occurrence>
+        <configFile>config_LE_ProcessStepReport.xml</configFile>
+        <namespace>mrl</namespace>
+        <used>true</used>
+    </element>
+</LE_ProcessStep>

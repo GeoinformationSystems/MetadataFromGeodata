@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MI_Revision namespace="mac">
+    <element>
+        <name>description</name>
+        <obligation>M</obligation>
+        <occurrence>1</occurrence>
+        <configFile></configFile>
+        <namespace>mac</namespace>
+        <used>true</used>
+    </element>
+    <element>
+        <name>responsibleParty</name>
+        <obligation>M</obligation>
+        <occurrence>N</occurrence>
+        <configFile>config_CI_Responsibility.xml</configFile>
+        <namespace>mac</namespace>
+        <used>true</used>
+    </element>
+    <element>
+        <name>dateInfo</name>
+        <obligation>M</obligation>
+        <occurrence>N</occurrence>
+        <configFile>config_CI_Date.xml</configFile>
+        <namespace>mac</namespace>
+        <used>true</used>
+    </element>
+</MI_Revision>

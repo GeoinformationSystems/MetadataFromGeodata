@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LE_Source namespace="mrl">
+    <element>
+        <name>processedLevel</name>
+        <obligation>O</obligation>
+        <occurrence>1</occurrence>
+        <configFile>config_MD_Identifier.xml</configFile>
+        <namespace>mrl</namespace>
+        <used>true</used>
+    </element>
+    <element>
+        <name>resolution</name>
+        <obligation>O</obligation>
+        <occurrence>1</occurrence>
+        <configFile>config_LE_NominalResolution.xml</configFile>
+        <namespace>mrl</namespace>
+        <used>true</used>
+    </element>
+</LE_Source>

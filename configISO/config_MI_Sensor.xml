@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MI_Sensor namespace="mac">
+    <element>
+        <name>hosted</name>
+        <obligation>O</obligation>
+        <occurrence>N</occurrence>
+        <configFile>config_MI_Instrument.xml</configFile>
+        <namespace>mac</namespace>
+        <used>true</used>
+    </element>
+</MI_Sensor>

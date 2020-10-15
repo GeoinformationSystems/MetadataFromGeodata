@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LE_NominalResolution namespace="mrl">
+    <element>
+        <name>scanningResolution</name>
+        <obligation>M</obligation>
+        <occurrence>1</occurrence>
+        <configFile></configFile>
+        <namespace>mrl</namespace>
+        <used>true</used>
+    </element>
+    <element>
+        <name>groundResolution</name>
+        <obligation>M</obligation>
+        <occurrence>1</occurrence>
+        <configFile></configFile>
+        <namespace>mrl</namespace>
+        <used>true</used>
+    </element>
+</LE_NominalResolution>

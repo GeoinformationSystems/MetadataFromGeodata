@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LE_ProcessStepReport namespace="mrl">
+    <element>
+        <name>name</name>
+        <obligation>M</obligation>
+        <occurrence>1</occurrence>
+        <configFile></configFile>
+        <namespace>mrl</namespace>
+        <used>true</used>
+    </element>
+    <element>
+        <name>description</name>
+        <obligation>O</obligation>
+        <occurrence>1</occurrence>
+        <configFile></configFile>
+        <namespace>mrl</namespace>
+        <used>true</used>
+    </element>
+    <element>
+        <name>fileType</name>
+        <obligation>O</obligation>
+        <occurrence>1</occurrence>
+        <configFile></configFile>
+        <namespace>mrl</namespace>
+        <used>true</used>
+    </element>
+</LE_ProcessStepReport>

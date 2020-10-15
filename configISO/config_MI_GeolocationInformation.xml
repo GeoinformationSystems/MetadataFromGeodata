@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MI_GeolocationInformation namespace="msr">
+    <element>
+        <name>qualityInfo</name>
+        <obligation>O</obligation>
+        <occurrence>N</occurrence>
+        <configFile>config_DQ_DataQuality.xml</configFile>
+        <namespace>msr</namespace>
+        <used>true</used>
+    </element>
+</MI_GeolocationInformation>
