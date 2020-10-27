@@ -30,16 +30,16 @@ public class OrientableData extends PrimitiveData{
     // variables for correct marshalling of specified classes
     public List<CurveData> curveData;
 
+    public List<SurfaceData> surfaceData;
+
     //methods
     public OrientableData() {}
 
-    public void createOrientation() {
+    public void addOrientation(String orientation) {
         if (this.orientation == null) {
             this.orientation = new ArrayList<>();
         }
-    }
 
-    public void addOrientation(String orientation) {
         int elementNum = 3;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);

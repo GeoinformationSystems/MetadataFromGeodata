@@ -69,25 +69,11 @@ public class MI_Revision {
         }
     }
 
-    public void createDescription() {
+    public void addDescription(String description) {
         if (this.description == null) {
             this.description = new ArrayList<>();
         }
-    }
 
-    public void createResponsibleParty() {
-        if (this.responsibleParty == null) {
-            this.responsibleParty = new ArrayList<>();
-        }
-    }
-
-    public void createDateInfo() {
-        if (this.dateInfo == null) {
-            this.dateInfo = new ArrayList<>();
-        }
-    }
-
-    public void addDescription(String description) {
         int elementNum = 0;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -102,6 +88,10 @@ public class MI_Revision {
     }
 
     public void addResponsibleParty(CI_Responsibility responsibleParty) {
+        if (this.responsibleParty == null) {
+            this.responsibleParty = new ArrayList<>();
+        }
+
         int elementNum = 1;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -116,6 +106,10 @@ public class MI_Revision {
     }
 
     public void addDateInfo(CI_Date dateInfo) {
+        if (this.dateInfo == null) {
+            this.dateInfo = new ArrayList<>();
+        }
+
         int elementNum = 2;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);

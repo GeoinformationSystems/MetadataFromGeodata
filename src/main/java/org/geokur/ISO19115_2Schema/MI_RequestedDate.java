@@ -60,19 +60,11 @@ public class MI_RequestedDate {
         }
     }
 
-    public void createRequestedDateOfCollection() {
+    public void addRequestedDateOfCollection(String requestedDateOfCollection) {
         if (this.requestedDateOfCollection == null) {
             this.requestedDateOfCollection = new ArrayList<>();
         }
-    }
 
-    public void createLatestAcceptableDate() {
-        if (this.latestAcceptableDate == null) {
-            this.latestAcceptableDate = new ArrayList<>();
-        }
-    }
-
-    public void addRequestedDateOfCollection(String requestedDateOfCollection) {
         int elementNum = 0;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -87,6 +79,10 @@ public class MI_RequestedDate {
     }
 
     public void addLatestAcceptableDate(String latestAcceptableDate) {
+        if (this.latestAcceptableDate == null) {
+            this.latestAcceptableDate = new ArrayList<>();
+        }
+
         int elementNum = 1;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);

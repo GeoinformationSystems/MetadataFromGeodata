@@ -64,19 +64,11 @@ public class ObjectDomain {
         }
     }
 
-    public void createScope() {
+    public void addScope(String scope) {
         if (this.scope == null) {
             this.scope = new ArrayList<>();
         }
-    }
 
-    public void createValidity() {
-        if (this.validity == null) {
-            this.validity = new ArrayList<>();
-        }
-    }
-
-    public void addScope(String scope) {
         int elementNum = 0;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -91,6 +83,10 @@ public class ObjectDomain {
     }
 
     public void addValidity(EX_Extent validity) {
+        if (this.validity == null) {
+            this.validity = new ArrayList<>();
+        }
+
         int elementNum = 1;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);

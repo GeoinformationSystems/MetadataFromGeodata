@@ -7,20 +7,18 @@ package org.geokur.ISO19107Schema;
 
 import org.geokur.ISO19103Schema.DirectPosition;
 import org.geokur.ISO191xxProfile.MaximumOccurrenceException;
-import org.geokur.ISO191xxProfile.ObligationException;
-import org.geokur.ISO191xxProfile.ProfileException;
 
 import javax.xml.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 
 @XmlRootElement(name = "CurveData")
-public class CurveData extends OrientableData {
+public abstract class CurveData extends OrientableData {
 
     // occurrence and obligation
-    private final String[] elementName = {"rsid", "type", "segment", "orientation", "dataPoint", "knot", "segment"};
-    private final int[] elementMax = {Integer.MAX_VALUE, 1, Integer.MAX_VALUE, 1, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE};
-    private final boolean[] elementObligation = {false, false, false, false, false, false, false};
+    private final String[] elementName = {"rsid", "type", "segment", "orientation", "dataPoint", "knot", "segment", "interpolation"};
+    private final int[] elementMax = {Integer.MAX_VALUE, 1, Integer.MAX_VALUE, 1, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, 1};
+    private final boolean[] elementObligation = {false, false, false, false, false, false, false, true};
 
     private final String className = this.getClass().getSimpleName();
 
@@ -36,33 +34,21 @@ public class CurveData extends OrientableData {
     @XmlElementRef
     public List<CurveData> segment;
 
+    @XmlElementWrapper(name = "interpolation")
+    @XmlElementRef
+    public List<CurveInterpolation> interpolation;
+
     // variables for correct marshalling of specified classes
     public List<LineData> lineData;
-
-    public List<PolygonData> polygonData;
 
     // methods
     public CurveData() {}
 
-    public void createDataPoint() {
+    public void addDataPoint(DirectPosition dataPoint) {
         if (this.dataPoint == null) {
             this.dataPoint = new ArrayList<>();
         }
-    }
 
-    public void createKnot() {
-        if (this.knot == null) {
-            this.knot = new ArrayList<>();
-        }
-    }
-
-    public void createSegment() {
-        if (this.segment == null) {
-            this.segment = new ArrayList<>();
-        }
-    }
-
-    public void addDataPoint(DirectPosition dataPoint) {
         int elementNum = 4;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -77,6 +63,10 @@ public class CurveData extends OrientableData {
     }
 
     public void addKnot(Knot knot) {
+        if (this.knot == null) {
+            this.knot = new ArrayList<>();
+        }
+
         int elementNum = 5;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -91,6 +81,10 @@ public class CurveData extends OrientableData {
     }
 
     public void addSegment(CurveData segment) {
+        if (this.segment == null) {
+            this.segment = new ArrayList<>();
+        }
+
         int elementNum = 6;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -101,20 +95,6 @@ public class CurveData extends OrientableData {
             }
         } catch (MaximumOccurrenceException | NoSuchFieldException | IllegalAccessException e) {
             System.out.println(e.getMessage());
-        }
-    }
-
-    public void finalizeClass() {
-        for (int i = 0; i < elementName.length; i++) {
-            try {
-                List<?> tempList = (List<?>) this.getClass().getField(elementName[i]).get(this);
-                if (elementObligation[i] && (tempList == null || tempList.isEmpty())) {
-                    // test filling and obligation of all variable lists
-                    throw new ObligationException(className + " - " + elementName[i]);
-                }
-            } catch (ProfileException | ObligationException | NoSuchFieldException | IllegalAccessException e) {
-                System.out.println(e.getMessage());
-            }
         }
     }
 }

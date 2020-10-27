@@ -63,13 +63,11 @@ public class MI_GeolocationInformation {
         }
     }
 
-    public void createQualityInfo() {
+    public void addQualityInfo(DQ_DataQuality qualityInfo) {
         if (this.qualityInfo == null) {
             this.qualityInfo = new ArrayList<>();
         }
-    }
 
-    public void addQualityInfo(DQ_DataQuality qualityInfo) {
         int elementNum = 0;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);

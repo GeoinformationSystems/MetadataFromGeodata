@@ -63,25 +63,11 @@ public class CI_Series {
         }
     }
 
-    public void createName() {
+    public void addName(String name) {
         if (this.name == null) {
             this.name = new ArrayList<>();
         }
-    }
 
-    public void createIssueIdentification() {
-        if (this.issueIdentification == null) {
-            this.issueIdentification = new ArrayList<>();
-        }
-    }
-
-    public void createPage() {
-        if (this.page == null) {
-            this.page = new ArrayList<>();
-        }
-    }
-
-    public void addName(String name) {
         int elementNum = 0;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -96,6 +82,10 @@ public class CI_Series {
     }
 
     public void addIssueIdentification(String issueIdentification) {
+        if (this.issueIdentification == null) {
+            this.issueIdentification = new ArrayList<>();
+        }
+
         int elementNum = 1;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -110,6 +100,10 @@ public class CI_Series {
     }
 
     public void addPage(String page) {
+        if (this.page == null) {
+            this.page = new ArrayList<>();
+        }
+
         int elementNum = 2;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);

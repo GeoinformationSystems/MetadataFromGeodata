@@ -67,25 +67,11 @@ public class DQ_ConformanceResult extends DQ_Result {
         }
     }
 
-    public void createSpecification() {
+    public void addSpecification(CI_Citation specification) {
         if (this.specification == null) {
             this.specification = new ArrayList<>();
         }
-    }
 
-    public void createExplanation() {
-        if (this.explanation == null) {
-            this.explanation = new ArrayList<>();
-        }
-    }
-
-    public void createPass() {
-        if (this.pass == null) {
-            this.pass = new ArrayList<>();
-        }
-    }
-
-    public void addSpecification(CI_Citation specification) {
         int elementNum = 2;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -100,6 +86,10 @@ public class DQ_ConformanceResult extends DQ_Result {
     }
 
     public void addExplanation(String explanation) {
+        if (this.explanation == null) {
+            this.explanation = new ArrayList<>();
+        }
+
         int elementNum = 3;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -114,6 +104,10 @@ public class DQ_ConformanceResult extends DQ_Result {
     }
 
     public void addPass(String pass) {
+        if (this.pass == null) {
+            this.pass = new ArrayList<>();
+        }
+
         int elementNum = 4;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);

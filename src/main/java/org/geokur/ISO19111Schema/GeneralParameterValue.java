@@ -29,13 +29,11 @@ public abstract class GeneralParameterValue {
     public List<GeneralOperationParameter> parameter;
 
     // methods
-    public void createParameter() {
+    public void addParameter(GeneralOperationParameter parameter) {
         if (this.parameter == null) {
             this.parameter = new ArrayList<>();
         }
-    }
 
-    public void addParameter(GeneralOperationParameter parameter) {
         int elementNum = 0;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);

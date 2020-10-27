@@ -63,19 +63,11 @@ public class MD_MetadataScope {
         }
     }
 
-    public void createResourceScope() {
+    public void addResourceScope(MD_ScopeCode resourceScope) {
         if (this.resourceScope == null) {
             this.resourceScope = new ArrayList<>();
         }
-    }
 
-    public void createName() {
-        if (this.name == null) {
-            this.name = new ArrayList<>();
-        }
-    }
-
-    public void addResourceScope(MD_ScopeCode resourceScope) {
         int elementNum = 0;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -90,6 +82,10 @@ public class MD_MetadataScope {
     }
 
     public void addName(String name) {
+        if (this.name == null) {
+            this.name = new ArrayList<>();
+        }
+
         int elementNum = 1;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);

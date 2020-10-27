@@ -50,31 +50,11 @@ public abstract class IdentifiedObject {
     public List<OperationMethod> operationMethod;
 
     // methods
-    public void createName() {
+    public void addName(MD_Identifier name) {
         if (this.name == null) {
             this.name = new ArrayList<>();
         }
-    }
 
-    public void createIdentifier() {
-        if (this.identifier == null) {
-            this.identifier = new ArrayList<>();
-        }
-    }
-
-    public void createAlias() {
-        if (this.alias == null) {
-            this.alias = new ArrayList<>();
-        }
-    }
-
-    public void createRemarks() {
-        if (this.remarks == null) {
-            this.remarks = new ArrayList<>();
-        }
-    }
-
-    public void addName(MD_Identifier name) {
         int elementNum = 0;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -89,6 +69,10 @@ public abstract class IdentifiedObject {
     }
 
     public void addIdentifier(MD_Identifier identifier) {
+        if (this.identifier == null) {
+            this.identifier = new ArrayList<>();
+        }
+
         int elementNum = 1;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -103,6 +87,10 @@ public abstract class IdentifiedObject {
     }
 
     public void addAlias(String alias) {
+        if (this.alias == null) {
+            this.alias = new ArrayList<>();
+        }
+
         int elementNum = 2;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -117,6 +105,10 @@ public abstract class IdentifiedObject {
     }
 
     public void addRemarks(String remarks) {
+        if (this.remarks == null) {
+            this.remarks = new ArrayList<>();
+        }
+
         int elementNum = 3;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);

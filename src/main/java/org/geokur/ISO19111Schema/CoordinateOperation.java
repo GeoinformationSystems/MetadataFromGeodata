@@ -63,49 +63,11 @@ public abstract class CoordinateOperation extends ObjectUsage {
     public List<SingleOperation> singleOperation;
 
     // methods
-    public void createSourceCRS() {
+    public void addSourceCRS(CRS sourceCRS) {
         if (this.sourceCRS == null) {
             this.sourceCRS = new ArrayList<>();
         }
-    }
 
-    public void createTargetCRS() {
-        if (this.targetCRS == null) {
-            this.targetCRS = new ArrayList<>();
-        }
-    }
-
-    public void createInterpolationCRS() {
-        if (this.interpolationCRS == null) {
-            this.interpolationCRS = new ArrayList<>();
-        }
-    }
-
-    public void createSourceCoordinateEpoch() {
-        if (this.sourceCoordinateEpoch == null) {
-            this.sourceCoordinateEpoch = new ArrayList<>();
-        }
-    }
-
-    public void createTargetCoordinateEpoch() {
-        if (this.targetCoordinateEpoch == null) {
-            this.targetCoordinateEpoch = new ArrayList<>();
-        }
-    }
-
-    public void createOperationVersion() {
-        if (this.operationVersion == null) {
-            this.operationVersion = new ArrayList<>();
-        }
-    }
-
-    public void createCoordinateOperationAccuracy() {
-        if (this.coordinateOperationAccuracy == null) {
-            this.coordinateOperationAccuracy = new ArrayList<>();
-        }
-    }
-
-    public void addSourceCRS(CRS sourceCRS) {
         int elementNum = 5;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -120,6 +82,10 @@ public abstract class CoordinateOperation extends ObjectUsage {
     }
 
     public void addTargetCRS(CRS targetCRS) {
+        if (this.targetCRS == null) {
+            this.targetCRS = new ArrayList<>();
+        }
+
         int elementNum = 6;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -134,6 +100,10 @@ public abstract class CoordinateOperation extends ObjectUsage {
     }
 
     public void addInterpolationCRS(CRS interpolationCRS) {
+        if (this.interpolationCRS == null) {
+            this.interpolationCRS = new ArrayList<>();
+        }
+
         int elementNum = 7;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -148,6 +118,10 @@ public abstract class CoordinateOperation extends ObjectUsage {
     }
 
     public void addSourceCoordinateEpoch(DataEpoch sourceCoordinateEpoch) {
+        if (this.sourceCoordinateEpoch == null) {
+            this.sourceCoordinateEpoch = new ArrayList<>();
+        }
+
         int elementNum = 8;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -162,6 +136,10 @@ public abstract class CoordinateOperation extends ObjectUsage {
     }
 
     public void addTargetCoordinateEpoch(DataEpoch targetCoordinateEpoch) {
+        if (this.targetCoordinateEpoch == null) {
+            this.targetCoordinateEpoch = new ArrayList<>();
+        }
+
         int elementNum = 9;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -176,6 +154,10 @@ public abstract class CoordinateOperation extends ObjectUsage {
     }
 
     public void addOperationVersion(String operationVersion) {
+        if (this.operationVersion == null) {
+            this.operationVersion = new ArrayList<>();
+        }
+
         int elementNum = 10;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -190,6 +172,10 @@ public abstract class CoordinateOperation extends ObjectUsage {
     }
 
     public void addCoordinateOperationAccuracy(DQ_PositionalAccuracy coordinateOperationAccuracy) {
+        if (this.coordinateOperationAccuracy == null) {
+            this.coordinateOperationAccuracy = new ArrayList<>();
+        }
+
         int elementNum = 11;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);

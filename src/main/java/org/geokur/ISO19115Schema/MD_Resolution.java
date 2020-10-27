@@ -70,7 +70,7 @@ public class MD_Resolution {
         }
     }
 
-    public void createEquivalentScale() {
+    public void addEquivalentScale(MD_RepresentativeFraction equivalentScale) {
         try {
             if (this.distance != null || this.vertical != null || this.angularDistance != null || this.levelOfDetail != null) {
                 throw new UnionException(className);
@@ -82,65 +82,7 @@ public class MD_Resolution {
         } catch (UnionException e) {
             System.out.println(e.getMessage());
         }
-    }
 
-    public void createDistance() {
-        try {
-            if (this.equivalentScale != null || this.vertical != null || this.angularDistance != null || this.levelOfDetail != null) {
-                throw new UnionException(className);
-            } else {
-                if (this.distance == null) {
-                    this.distance = new ArrayList<>();
-                }
-            }
-        } catch (UnionException e) {
-            System.out.println(e.getMessage());
-        }
-    }
-
-    public void createVertical() {
-        try {
-            if (this.equivalentScale != null || this.distance != null || this.angularDistance != null || this.levelOfDetail != null) {
-                throw new UnionException(className);
-            } else {
-                if (this.vertical == null) {
-                    this.vertical = new ArrayList<>();
-                }
-            }
-        } catch (UnionException e) {
-            System.out.println(e.getMessage());
-        }
-    }
-
-    public void createAngularDistance() {
-        try {
-            if (this.equivalentScale != null || this.distance != null || this.vertical != null || this.levelOfDetail != null) {
-                throw new UnionException(className);
-            } else {
-                if (this.angularDistance == null) {
-                    this.angularDistance = new ArrayList<>();
-                }
-            }
-        } catch (UnionException e) {
-            System.out.println(e.getMessage());
-        }
-    }
-
-    public void createLevelOfDetail() {
-        try {
-            if (this.equivalentScale != null || this.distance != null || this.vertical != null || this.angularDistance != null) {
-                throw new UnionException(className);
-            } else {
-                if (this.levelOfDetail == null) {
-                    this.levelOfDetail = new ArrayList<>();
-                }
-            }
-        } catch (UnionException e) {
-            System.out.println(e.getMessage());
-        }
-    }
-
-    public void addEquivalentScale(MD_RepresentativeFraction equivalentScale) {
         int elementNum = 0;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -155,6 +97,18 @@ public class MD_Resolution {
     }
 
     public void addDistance(Double distance) {
+        try {
+            if (this.equivalentScale != null || this.vertical != null || this.angularDistance != null || this.levelOfDetail != null) {
+                throw new UnionException(className);
+            } else {
+                if (this.distance == null) {
+                    this.distance = new ArrayList<>();
+                }
+            }
+        } catch (UnionException e) {
+            System.out.println(e.getMessage());
+        }
+
         int elementNum = 1;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -169,6 +123,18 @@ public class MD_Resolution {
     }
 
     public void addVertical(Double vertical) {
+        try {
+            if (this.equivalentScale != null || this.distance != null || this.angularDistance != null || this.levelOfDetail != null) {
+                throw new UnionException(className);
+            } else {
+                if (this.vertical == null) {
+                    this.vertical = new ArrayList<>();
+                }
+            }
+        } catch (UnionException e) {
+            System.out.println(e.getMessage());
+        }
+
         int elementNum = 2;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -183,6 +149,18 @@ public class MD_Resolution {
     }
 
     public void addAngularDistance(Double angularDistance) {
+        try {
+            if (this.equivalentScale != null || this.distance != null || this.vertical != null || this.levelOfDetail != null) {
+                throw new UnionException(className);
+            } else {
+                if (this.angularDistance == null) {
+                    this.angularDistance = new ArrayList<>();
+                }
+            }
+        } catch (UnionException e) {
+            System.out.println(e.getMessage());
+        }
+
         int elementNum = 3;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -197,6 +175,18 @@ public class MD_Resolution {
     }
 
     public void addLevelOfDetail(String levelOfDetail) {
+        try {
+            if (this.equivalentScale != null || this.distance != null || this.vertical != null || this.angularDistance != null) {
+                throw new UnionException(className);
+            } else {
+                if (this.levelOfDetail == null) {
+                    this.levelOfDetail = new ArrayList<>();
+                }
+            }
+        } catch (UnionException e) {
+            System.out.println(e.getMessage());
+        }
+
         int elementNum = 4;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);

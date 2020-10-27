@@ -63,25 +63,11 @@ public class PT_Locale {
         }
     }
 
-    public void createLanguage() {
+    public void addLanguage(LanguageCode language) {
         if (this.language == null) {
             this.language = new ArrayList<>();
         }
-    }
 
-    public void createCountry() {
-        if (this.country == null) {
-            this.country = new ArrayList<>();
-        }
-    }
-
-    public void createCharacterEncoding() {
-        if (this.characterEncoding == null) {
-            this.characterEncoding = new ArrayList<>();
-        }
-    }
-
-    public void addLanguage(LanguageCode language) {
         int elementNum = 0;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -96,6 +82,10 @@ public class PT_Locale {
     }
 
     public void addCountry(CountryCode country) {
+        if (this.country == null) {
+            this.country = new ArrayList<>();
+        }
+
         int elementNum = 1;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -110,6 +100,10 @@ public class PT_Locale {
     }
 
     public void addCharacterEncoding(MD_CharacterSetCode characterEncoding) {
+        if (this.characterEncoding == null) {
+            this.characterEncoding = new ArrayList<>();
+        }
+
         int elementNum = 2;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);

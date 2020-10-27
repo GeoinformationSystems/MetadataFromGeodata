@@ -71,31 +71,11 @@ public class MD_Distribution {
         }
     }
 
-    public void createDescription() {
+    public void addDescription(String description) {
         if (this.description == null) {
             this.description = new ArrayList<>();
         }
-    }
 
-    public void createDistributionFormat() {
-        if (this.distributionFormat == null) {
-            this.distributionFormat = new ArrayList<>();
-        }
-    }
-
-    public void createDistributor() {
-        if (this.distributor == null) {
-            this.distributor = new ArrayList<>();
-        }
-    }
-
-    public void createTransferOptions() {
-        if (this.transferOptions == null) {
-            this.transferOptions = new ArrayList<>();
-        }
-    }
-
-    public void addDescription(String description) {
         int elementNum = 0;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -110,6 +90,10 @@ public class MD_Distribution {
     }
 
     public void addDistributionFormat(MD_Format distributionFormat) {
+        if (this.distributionFormat == null) {
+            this.distributionFormat = new ArrayList<>();
+        }
+
         int elementNum = 1;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -124,6 +108,10 @@ public class MD_Distribution {
     }
 
     public void addDistributor(MD_Distributor distributor) {
+        if (this.distributor == null) {
+            this.distributor = new ArrayList<>();
+        }
+
         int elementNum = 2;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -138,6 +126,10 @@ public class MD_Distribution {
     }
 
     public void addTransferOptions(MD_DigitalTransferOptions transferOptions) {
+        if (this.transferOptions == null) {
+            this.transferOptions = new ArrayList<>();
+        }
+
         int elementNum = 3;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);

@@ -72,37 +72,11 @@ public class MD_Dimension {
         }
     }
 
-    public void createDimensionName() {
+    public void addDimensionName(MD_DimensionNameTypeCode dimensionName) {
         if (this.dimensionName == null) {
             this.dimensionName = new ArrayList<>();
         }
-    }
 
-    public void createDimensionSize() {
-        if (this.dimensionSize == null) {
-            this.dimensionSize = new ArrayList<>();
-        }
-    }
-
-    public void createResolution() {
-        if (this.resolution == null) {
-            this.resolution = new ArrayList<>();
-        }
-    }
-
-    public void createDimensionTitle() {
-        if (this.dimensionTitle == null) {
-            this.dimensionTitle = new ArrayList<>();
-        }
-    }
-
-    public void createDimensionDescription() {
-        if (this.dimensionDescription == null) {
-            this.dimensionDescription = new ArrayList<>();
-        }
-    }
-
-    public void addDimensionName(MD_DimensionNameTypeCode dimensionName) {
         int elementNum = 0;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -117,6 +91,10 @@ public class MD_Dimension {
     }
 
     public void addDimensionSize(Integer dimensionSize) {
+        if (this.dimensionSize == null) {
+            this.dimensionSize = new ArrayList<>();
+        }
+
         int elementNum = 1;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -131,6 +109,10 @@ public class MD_Dimension {
     }
 
     public void addResolution(Double resolution) {
+        if (this.resolution == null) {
+            this.resolution = new ArrayList<>();
+        }
+
         int elementNum = 2;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -145,6 +127,10 @@ public class MD_Dimension {
     }
 
     public void addDimensionTitle(String dimensionTitle) {
+        if (this.dimensionTitle == null) {
+            this.dimensionTitle = new ArrayList<>();
+        }
+
         int elementNum = 3;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -159,6 +145,10 @@ public class MD_Dimension {
     }
 
     public void addDimensionDescription(String dimensionDescription) {
+        if (this.dimensionDescription == null) {
+            this.dimensionDescription = new ArrayList<>();
+        }
+
         int elementNum = 4;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);

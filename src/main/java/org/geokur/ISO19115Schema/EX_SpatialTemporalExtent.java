@@ -63,19 +63,11 @@ public class EX_SpatialTemporalExtent extends EX_TemporalExtent {
         }
     }
 
-    public void createVerticalExtent() {
+    public void addVerticalExtent(EX_VerticalExtent verticalExtent) {
         if (this.verticalExtent == null) {
             this.verticalExtent = new ArrayList<>();
         }
-    }
 
-    public void createSpatialExtent() {
-        if (this.spatialExtent == null) {
-            this.spatialExtent = new ArrayList<>();
-        }
-    }
-
-    public void addVerticalExtent(EX_VerticalExtent verticalExtent) {
         int elementNum = 1;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -90,6 +82,10 @@ public class EX_SpatialTemporalExtent extends EX_TemporalExtent {
     }
 
     public void addSpatialExtent(EX_GeographicExtent spatialExtent) {
+        if (this.spatialExtent == null) {
+            this.spatialExtent = new ArrayList<>();
+        }
+
         int elementNum = 2;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);

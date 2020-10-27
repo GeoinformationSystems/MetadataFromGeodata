@@ -69,25 +69,11 @@ public class MI_PlatformPass {
         }
     }
 
-    public void createIdentifier() {
+    public void addIdentifier(MD_Identifier identifier) {
         if (this.identifier == null) {
             this.identifier = new ArrayList<>();
         }
-    }
 
-    public void createExtent() {
-        if (this.extent == null) {
-            this.extent = new ArrayList<>();
-        }
-    }
-
-    public void createRelatedEvent() {
-        if (this.relatedEvent == null) {
-            this.relatedEvent = new ArrayList<>();
-        }
-    }
-
-    public void addIdentifier(MD_Identifier identifier) {
         int elementNum = 0;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -102,6 +88,10 @@ public class MI_PlatformPass {
     }
 
     public void addExtent(EX_Extent extent) {
+        if (this.extent == null) {
+            this.extent = new ArrayList<>();
+        }
+
         int elementNum = 1;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -116,6 +106,10 @@ public class MI_PlatformPass {
     }
 
     public void addRelatedEvent(MI_Event relatedEvent) {
+        if (this.relatedEvent == null) {
+            this.relatedEvent = new ArrayList<>();
+        }
+
         int elementNum = 2;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);

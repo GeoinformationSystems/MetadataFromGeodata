@@ -71,31 +71,11 @@ public class MD_AssociatedResource {
         }
     }
 
-    public void createName() {
+    public void addName(CI_Citation name) {
         if (this.name == null) {
             this.name = new ArrayList<>();
         }
-    }
 
-    public void createAssociationType() {
-        if (this.associationType == null) {
-            this.associationType = new ArrayList<>();
-        }
-    }
-
-    public void createInitiativeType() {
-        if (this.initiativeType == null) {
-            this.initiativeType = new ArrayList<>();
-        }
-    }
-
-    public void createMetadataReference() {
-        if (this.metadataReference == null) {
-            this.metadataReference = new ArrayList<>();
-        }
-    }
-
-    public void addName(CI_Citation name) {
         int elementNum = 0;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -110,6 +90,10 @@ public class MD_AssociatedResource {
     }
 
     public void addAssociationType(DS_AssociationTypeCode associationType) {
+        if (this.associationType == null) {
+            this.associationType = new ArrayList<>();
+        }
+
         int elementNum = 1;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -124,6 +108,10 @@ public class MD_AssociatedResource {
     }
 
     public void addInitiativeType(DS_InitiativeTypeCode initiativeType) {
+        if (this.initiativeType == null) {
+            this.initiativeType = new ArrayList<>();
+        }
+
         int elementNum = 2;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -138,6 +126,10 @@ public class MD_AssociatedResource {
     }
 
     public void addMetadataReference(CI_Citation metadataReference) {
+        if (this.metadataReference == null) {
+            this.metadataReference = new ArrayList<>();
+        }
+
         int elementNum = 3;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);

@@ -60,13 +60,11 @@ public class MI_Georeferenceable extends MD_Georeferenceable {
         }
     }
 
-    public void createGeolocationInformation() {
+    public void addGeolocationInformation(MI_GeolocationInformation geolocationInformation) {
         if (this.geolocationInformation == null) {
             this.geolocationInformation = new ArrayList<>();
         }
-    }
 
-    public void addGeolocationInformation(MI_GeolocationInformation geolocationInformation) {
         int elementNum = 0;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);

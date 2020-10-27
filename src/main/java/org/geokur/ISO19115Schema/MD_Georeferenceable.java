@@ -77,37 +77,11 @@ public class MD_Georeferenceable extends MD_GridSpatialRepresentation {
         }
     }
 
-    public void createControlPointAvailability() {
+    public void addControlPointAvailability(Boolean controlPointAvailability) {
         if (this.controlPointAvailability == null) {
             this.controlPointAvailability = new ArrayList<>();
         }
-    }
 
-    public void createOrientationParameterAvailability() {
-        if (this.orientationParameterAvailability == null) {
-            this.orientationParameterAvailability = new ArrayList<>();
-        }
-    }
-
-    public void createOrientationParameterDescription() {
-        if (this.orientationParameterDescription == null) {
-            this.orientationParameterDescription = new ArrayList<>();
-        }
-    }
-
-    public void createGeoreferencedParameters() {
-        if (this.georeferencedParameters == null) {
-            this.georeferencedParameters = new ArrayList<>();
-        }
-    }
-
-    public void createParameterCitation() {
-        if (this.parameterCitation == null) {
-            this.parameterCitation = new ArrayList<>();
-        }
-    }
-
-    public void addControlPointAvailability(Boolean controlPointAvailability) {
         int elementNum = 4;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -122,6 +96,10 @@ public class MD_Georeferenceable extends MD_GridSpatialRepresentation {
     }
 
     public void addOrientationParameterAvailability(Boolean orientationParameterAvailability) {
+        if (this.orientationParameterAvailability == null) {
+            this.orientationParameterAvailability = new ArrayList<>();
+        }
+
         int elementNum = 5;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -136,6 +114,10 @@ public class MD_Georeferenceable extends MD_GridSpatialRepresentation {
     }
 
     public void addOrientationParameterDescription(String orientationParameterDescription) {
+        if (this.orientationParameterDescription == null) {
+            this.orientationParameterDescription = new ArrayList<>();
+        }
+
         int elementNum = 6;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -150,6 +132,10 @@ public class MD_Georeferenceable extends MD_GridSpatialRepresentation {
     }
 
     public void addGeoreferencedParameters(Record georeferencedParameters) {
+        if (this.georeferencedParameters == null) {
+            this.georeferencedParameters = new ArrayList<>();
+        }
+
         int elementNum = 7;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -164,6 +150,10 @@ public class MD_Georeferenceable extends MD_GridSpatialRepresentation {
     }
 
     public void addParameterCitation(CI_Citation parameterCitation) {
+        if (this.parameterCitation == null) {
+            this.parameterCitation = new ArrayList<>();
+        }
+
         int elementNum = 8;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);

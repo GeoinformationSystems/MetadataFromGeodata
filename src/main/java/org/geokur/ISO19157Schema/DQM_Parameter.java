@@ -72,37 +72,11 @@ public class DQM_Parameter {
         }
     }
 
-    public void createName() {
+    public void addName(String name) {
         if (this.name == null) {
             this.name = new ArrayList<>();
         }
-    }
 
-    public void createDefinition() {
-        if (this.definition == null) {
-            this.definition = new ArrayList<>();
-        }
-    }
-
-    public void createDescription() {
-        if (this.description == null) {
-            this.description = new ArrayList<>();
-        }
-    }
-
-    public void createValueType() {
-        if (this.valueType == null) {
-            this.valueType = new ArrayList<>();
-        }
-    }
-
-    public void createValueStructure() {
-        if (this.valueStructure == null) {
-            this.valueStructure = new ArrayList<>();
-        }
-    }
-
-    public void addName(String name) {
         int elementNum = 0;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -117,6 +91,10 @@ public class DQM_Parameter {
     }
 
     public void addDefinition(String definition) {
+        if (this.definition == null) {
+            this.definition = new ArrayList<>();
+        }
+
         int elementNum = 1;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -131,6 +109,10 @@ public class DQM_Parameter {
     }
 
     public void addDescription(DQM_Description description) {
+        if (this.description == null) {
+            this.description = new ArrayList<>();
+        }
+
         int elementNum = 2;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -145,6 +127,10 @@ public class DQM_Parameter {
     }
 
     public void addValueType(String valueType) {
+        if (this.valueType == null) {
+            this.valueType = new ArrayList<>();
+        }
+
         int elementNum = 3;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -159,6 +145,10 @@ public class DQM_Parameter {
     }
 
     public void addValueStructure(DQM_ValueStructure valueStructure) {
+        if (this.valueStructure == null) {
+            this.valueStructure = new ArrayList<>();
+        }
+
         int elementNum = 4;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);

@@ -71,31 +71,11 @@ public class SV_CoupledResource {
         }
     }
 
-    public void createScopedName() {
+    public void addScopedName(String scopedName) {
         if (this.scopedName == null) {
             this.scopedName = new ArrayList<>();
         }
-    }
 
-    public void createResourceReference() {
-        if (this.resourceReference == null) {
-            this.resourceReference = new ArrayList<>();
-        }
-    }
-
-    public void createResource() {
-        if (this.resource == null) {
-            this.resource = new ArrayList<>();
-        }
-    }
-
-    public void createOperation() {
-        if (this.operation == null) {
-            this.operation = new ArrayList<>();
-        }
-    }
-
-    public void addScopedName(String scopedName) {
         int elementNum = 0;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -110,6 +90,10 @@ public class SV_CoupledResource {
     }
 
     public void addResourceReference(CI_Citation resourceReference) {
+        if (this.resourceReference == null) {
+            this.resourceReference = new ArrayList<>();
+        }
+
         int elementNum = 1;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -124,6 +108,10 @@ public class SV_CoupledResource {
     }
 
     public void addResource(MD_DataIdentification resource) {
+        if (this.resource == null) {
+            this.resource = new ArrayList<>();
+        }
+
         int elementNum = 2;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -138,6 +126,10 @@ public class SV_CoupledResource {
     }
 
     public void addOperation(SV_OperationMetadata operation) {
+        if (this.operation == null) {
+            this.operation = new ArrayList<>();
+        }
+
         int elementNum = 3;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);

@@ -57,13 +57,11 @@ public class DQ_DescriptiveResult extends DQ_Result {
         }
     }
 
-    public void createStatement() {
+    public void addStatement(String statement) {
         if (this.statement == null) {
             this.statement = new ArrayList<>();
         }
-    }
 
-    public void addStatement(String statement) {
         int elementNum = 2;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);

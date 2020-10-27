@@ -12,12 +12,12 @@ import javax.xml.bind.annotation.XmlRootElement;
 import java.util.List;
 
 @XmlRootElement(name = "PolygonData")
-public class PolygonData extends CurveData {
+public class PolygonData extends SurfaceData {
 
     // occurrence and obligation
-    private final String[] elementName = {"rsid", "type", "segment", "orientation", "dataPoint", "knot", "segment"};
-    private final int[] elementMax = {Integer.MAX_VALUE, 1, Integer.MAX_VALUE, 1, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE};
-    private final boolean[] elementObligation = {false, false, false, false, false, false, false};
+    private final String[] elementName = {"rsid", "type", "segment", "orientation", "boundary", "spanningSurface", "interpolation"};
+    private final int[] elementMax = {Integer.MAX_VALUE, 1, Integer.MAX_VALUE, 1, Integer.MAX_VALUE, 1, Integer.MAX_VALUE};
+    private final boolean[] elementObligation = {false, false, false, false, true, false, false};
 
     private final String className = this.getClass().getSimpleName();
 
@@ -37,22 +37,28 @@ public class PolygonData extends CurveData {
             }
         }
 
-        // additionally test, whether polygon has minimum three points and is closed
+        // additionally test, whether each boundary in the polygon has minimum three points and is closed
+        // if less than 3 points -> boundary is removed
         // if not closed, copy the first point to close the polygon
         // it is not tested whether all point lay on a line
-        try {
-            if (dataPoint.size() < 3) {
-                throw new Exception("Polygon defined with " + dataPoint.size() + " points\n" +
-                        "minimum are 3 points");
-            } else {
-                List<Double> firstPoint = dataPoint.get(0).coordinate.get(0).getCoordinates();
-                List<Double> lastPoint = dataPoint.get(dataPoint.size() - 1).coordinate.get(0).getCoordinates();
-                if (!firstPoint.equals(lastPoint)) {
-                    dataPoint.add(dataPoint.get(0));
+        for (CurveData curveData : boundary) {
+            // test
+            try {
+                if (curveData.dataPoint.size() < 3) {
+                    boundary.remove(curveData);
+                    throw new Exception("2D-boundary defined with " + curveData.dataPoint.size() + " points\n" +
+                            "minimum are 3 points\n" +
+                            "this boundary is removed");
+                } else {
+                    List<Double> firstPoint = curveData.dataPoint.get(0).coordinate.get(0).getCoordinates();
+                    List<Double> lastPoint = curveData.dataPoint.get(curveData.dataPoint.size() - 1).coordinate.get(0).getCoordinates();
+                    if (!firstPoint.equals(lastPoint)) {
+                        curveData.dataPoint.add(curveData.dataPoint.get(0));
+                    }
                 }
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
             }
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
         }
     }
 }

@@ -78,37 +78,11 @@ public class MI_InstrumentEventList {
         }
     }
 
-    public void createCitation() {
+    public void addCitation(CI_Citation citation) {
         if (this.citation == null) {
             this.citation = new ArrayList<>();
         }
-    }
 
-    public void createDescription() {
-        if (this.description == null) {
-            this.description = new ArrayList<>();
-        }
-    }
-
-    public void createLocale() {
-        if (this.locale == null) {
-            this.locale = new ArrayList<>();
-        }
-    }
-
-    public void createConstraints() {
-        if (this.constraints == null) {
-            this.constraints = new ArrayList<>();
-        }
-    }
-
-    public void createInstrumentationEvent() {
-        if (this.instrumentationEvent == null) {
-            this.instrumentationEvent = new ArrayList<>();
-        }
-    }
-
-    public void addCitation(CI_Citation citation) {
         int elementNum = 0;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -123,6 +97,10 @@ public class MI_InstrumentEventList {
     }
 
     public void addDescription(String description) {
+        if (this.description == null) {
+            this.description = new ArrayList<>();
+        }
+
         int elementNum = 1;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -137,6 +115,10 @@ public class MI_InstrumentEventList {
     }
 
     public void addLocale(PT_Locale locale) {
+        if (this.locale == null) {
+            this.locale = new ArrayList<>();
+        }
+
         int elementNum = 2;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -151,6 +133,10 @@ public class MI_InstrumentEventList {
     }
 
     public void addConstraints(MD_Constraints constraints) {
+        if (this.constraints == null) {
+            this.constraints = new ArrayList<>();
+        }
+
         int elementNum = 3;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -165,6 +151,10 @@ public class MI_InstrumentEventList {
     }
 
     public void addInstrumentationEvent(MI_InstrumentEvent instrumentationEvent) {
+        if (this.instrumentationEvent == null) {
+            this.instrumentationEvent = new ArrayList<>();
+        }
+
         int elementNum = 4;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);

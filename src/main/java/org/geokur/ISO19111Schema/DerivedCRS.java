@@ -42,19 +42,11 @@ public abstract class DerivedCRS extends SingleCRS {
     public List<Conversion> derivingConversion;
 
     // methods
-    public void createBaseCRS() {
+    public void addBaseCRS(SingleCRS baseCRS) {
         if (this.baseCRS == null) {
             this.baseCRS = new ArrayList<>();
         }
-    }
 
-    public void createDerivingConversion() {
-        if (this.derivingConversion == null) {
-            this.derivingConversion = new ArrayList<>();
-        }
-    }
-
-    public void addBaseCRS(SingleCRS baseCRS) {
         int elementNum = 8;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -69,6 +61,10 @@ public abstract class DerivedCRS extends SingleCRS {
     }
 
     public void addDerivingConversion(Conversion derivingConversion) {
+        if (this.derivingConversion == null) {
+            this.derivingConversion = new ArrayList<>();
+        }
+
         int elementNum = 9;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);

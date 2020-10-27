@@ -71,31 +71,11 @@ public class MD_Keywords {
         }
     }
 
-    public void createKeyword() {
+    public void addKeyword(String keyword) {
         if (this.keyword == null) {
             this.keyword = new ArrayList<>();
         }
-    }
 
-    public void createType() {
-        if (this.type == null) {
-            this.type = new ArrayList<>();
-        }
-    }
-
-    public void createThesaurusName() {
-        if (this.thesaurusName == null) {
-            this.thesaurusName = new ArrayList<>();
-        }
-    }
-
-    public void createKeywordClass() {
-        if (this.keywordClass == null) {
-            this.keywordClass = new ArrayList<>();
-        }
-    }
-
-    public void addKeyword(String keyword) {
         int elementNum = 0;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -110,6 +90,10 @@ public class MD_Keywords {
     }
 
     public void addType(MD_KeywordTypeCode type) {
+        if (this.type == null) {
+            this.type = new ArrayList<>();
+        }
+
         int elementNum = 1;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -124,6 +108,10 @@ public class MD_Keywords {
     }
 
     public void addThesaurusName(CI_Citation thesaurusName) {
+        if (this.thesaurusName == null) {
+            this.thesaurusName = new ArrayList<>();
+        }
+
         int elementNum = 2;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -138,6 +126,10 @@ public class MD_Keywords {
     }
 
     public void addKeywordClass(MD_KeywordClass keywordClass) {
+        if (this.keywordClass == null) {
+            this.keywordClass = new ArrayList<>();
+        }
+
         int elementNum = 3;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);

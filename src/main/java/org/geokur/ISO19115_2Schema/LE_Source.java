@@ -65,19 +65,11 @@ public class LE_Source extends LI_Source {
         }
     }
 
-    public void createProcessedLevel() {
+    public void addProcessedLevel(MD_Identifier processedLevel) {
         if (this.processedLevel == null) {
             this.processedLevel = new ArrayList<>();
         }
-    }
 
-    public void createResolution() {
-        if (this.resolution == null) {
-            this.resolution = new ArrayList<>();
-        }
-    }
-
-    public void addProcessedLevel(MD_Identifier processedLevel) {
         int elementNum = 0;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -92,6 +84,10 @@ public class LE_Source extends LI_Source {
     }
 
     public void addResolution(LE_NominalResolution resolution) {
+        if (this.resolution == null) {
+            this.resolution = new ArrayList<>();
+        }
+
         int elementNum = 1;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);

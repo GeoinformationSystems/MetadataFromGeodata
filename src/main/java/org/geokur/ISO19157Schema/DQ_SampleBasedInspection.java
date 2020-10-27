@@ -63,25 +63,11 @@ public class DQ_SampleBasedInspection extends DQ_DataEvaluation {
         }
     }
 
-    public void createSamplingScheme() {
+    public void addSamplingScheme(String samplingScheme) {
         if (this.samplingScheme == null) {
             this.samplingScheme = new ArrayList<>();
         }
-    }
 
-    public void createLotDescription() {
-        if (this.lotDescription == null) {
-            this.lotDescription = new ArrayList<>();
-        }
-    }
-
-    public void createSamplingRatio() {
-        if (this.samplingRatio == null) {
-            this.samplingRatio = new ArrayList<>();
-        }
-    }
-
-    public void addSamplingScheme(String samplingScheme) {
         int elementNum = 5;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -96,6 +82,10 @@ public class DQ_SampleBasedInspection extends DQ_DataEvaluation {
     }
 
     public void addLotDescription(String lotDescription) {
+        if (this.lotDescription == null) {
+            this.lotDescription = new ArrayList<>();
+        }
+
         int elementNum = 6;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -110,6 +100,10 @@ public class DQ_SampleBasedInspection extends DQ_DataEvaluation {
     }
 
     public void addSamplingRatio(String samplingRatio) {
+        if (this.samplingRatio == null) {
+            this.samplingRatio = new ArrayList<>();
+        }
+
         int elementNum = 7;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);

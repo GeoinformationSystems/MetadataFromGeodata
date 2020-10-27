@@ -32,13 +32,11 @@ public class PointData extends PrimitiveData {
     // methods
     public PointData(){}
 
-    public void createPosition() {
+    public void addPosition(DirectPosition position) {
         if (this.position == null) {
             this.position = new ArrayList<>();
         }
-    }
 
-    public void addPosition(DirectPosition position) {
         int elementNum = 3;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);

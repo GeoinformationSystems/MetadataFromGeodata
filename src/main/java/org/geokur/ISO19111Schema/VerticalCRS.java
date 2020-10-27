@@ -66,19 +66,11 @@ public class VerticalCRS extends SingleCRS {
         }
     }
 
-    public void createGeoidModel() {
+    public void addGeoidModel(DerivedCRS geoidModel) {
         if (this.geoidModel == null) {
             this.geoidModel = new ArrayList<>();
         }
-    }
 
-    public void createVelocityModel() {
-        if (this.velocityModel == null) {
-            this.velocityModel = new ArrayList<>();
-        }
-    }
-
-    public void addGeoidModel(DerivedCRS geoidModel) {
         int elementNum = 8;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -93,6 +85,10 @@ public class VerticalCRS extends SingleCRS {
     }
 
     public void addVelocityModel(PointMotionOperation velocityModel) {
+        if (this.velocityModel == null) {
+            this.velocityModel = new ArrayList<>();
+        }
+
         int elementNum = 9;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);

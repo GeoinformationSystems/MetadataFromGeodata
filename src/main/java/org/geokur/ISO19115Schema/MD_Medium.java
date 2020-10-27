@@ -80,49 +80,11 @@ public class MD_Medium {
         }
     }
 
-    public void createName() {
+    public void addName(CI_Citation name) {
         if (this.name == null) {
             this.name = new ArrayList<>();
         }
-    }
 
-    public void createDensity() {
-        if (this.density == null) {
-            this.density = new ArrayList<>();
-        }
-    }
-
-    public void createDensityUnits() {
-        if (this.densityUnits == null) {
-            this.densityUnits = new ArrayList<>();
-        }
-    }
-
-    public void createVolumes() {
-        if (this.volumes == null) {
-            this.volumes = new ArrayList<>();
-        }
-    }
-
-    public void createMediumFormat() {
-        if (this.mediumFormat == null) {
-            this.mediumFormat = new ArrayList<>();
-        }
-    }
-
-    public void createMediumNote() {
-        if (this.mediumNote == null) {
-            this.mediumNote = new ArrayList<>();
-        }
-    }
-
-    public void createIdentifier() {
-        if (this.identifier == null) {
-            this.identifier = new ArrayList<>();
-        }
-    }
-
-    public void addName(CI_Citation name) {
         int elementNum = 0;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -137,6 +99,10 @@ public class MD_Medium {
     }
 
     public void addDensity(Double density) {
+        if (this.density == null) {
+            this.density = new ArrayList<>();
+        }
+
         int elementNum = 1;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -151,6 +117,10 @@ public class MD_Medium {
     }
 
     public void addDensityUnits(String densityUnits) {
+        if (this.densityUnits == null) {
+            this.densityUnits = new ArrayList<>();
+        }
+
         int elementNum = 2;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -165,6 +135,10 @@ public class MD_Medium {
     }
 
     public void addVolumes(Integer volumes) {
+        if (this.volumes == null) {
+            this.volumes = new ArrayList<>();
+        }
+
         int elementNum = 3;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -179,6 +153,10 @@ public class MD_Medium {
     }
 
     public void addMediumFormat(MD_MediumFormatCode mediumFormat) {
+        if (this.mediumFormat == null) {
+            this.mediumFormat = new ArrayList<>();
+        }
+
         int elementNum = 4;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -193,6 +171,10 @@ public class MD_Medium {
     }
 
     public void addMediumNote(String mediumNote) {
+        if (this.mediumNote == null) {
+            this.mediumNote = new ArrayList<>();
+        }
+
         int elementNum = 5;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -207,6 +189,10 @@ public class MD_Medium {
     }
 
     public void addIdentifier(MD_Identifier identifier) {
+        if (this.identifier == null) {
+            this.identifier = new ArrayList<>();
+        }
+
         int elementNum = 6;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);

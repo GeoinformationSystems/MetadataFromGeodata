@@ -38,19 +38,11 @@ public class DirectPosition {
     // methods
     public DirectPosition() {}
 
-    public void createCoordinate() {
+    public void addCoordinate(Coordinate coordinate) {
         if (this.coordinate == null) {
             this.coordinate = new ArrayList<>();
         }
-    }
 
-    public void createCoordinateReferenceSystem() {
-        if (this.coordinateReferenceSystem == null) {
-            this.coordinateReferenceSystem = new ArrayList<>();
-        }
-    }
-
-    public void addCoordinate(Coordinate coordinate) {
         int elementNum = 0;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -72,6 +64,10 @@ public class DirectPosition {
     }
 
     public void addCoordinateReferenceSystem(MD_Identifier coordinateReferenceSystem) {
+        if (this.coordinateReferenceSystem == null) {
+            this.coordinateReferenceSystem = new ArrayList<>();
+        }
+
         int elementNum = 2;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);

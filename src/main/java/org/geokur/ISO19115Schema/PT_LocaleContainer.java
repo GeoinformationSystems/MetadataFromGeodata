@@ -75,37 +75,11 @@ public class PT_LocaleContainer {
         }
     }
 
-    public void createDescription() {
+    public void addDescription(String description) {
         if (this.description == null) {
             this.description = new ArrayList<>();
         }
-    }
 
-    public void createLocale() {
-        if (this.locale == null) {
-            this.locale = new ArrayList<>();
-        }
-    }
-
-    public void createDate() {
-        if (this.date == null) {
-            this.date = new ArrayList<>();
-        }
-    }
-
-    public void createResponsibleParty() {
-        if (this.responsibleParty == null) {
-            this.responsibleParty = new ArrayList<>();
-        }
-    }
-
-    public void createLocalisedString() {
-        if (this.localisedString == null) {
-            this.localisedString = new ArrayList<>();
-        }
-    }
-
-    public void addDescription(String description) {
         int elementNum = 0;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -120,6 +94,10 @@ public class PT_LocaleContainer {
     }
 
     public void addLocale(PT_Locale locale) {
+        if (this.locale == null) {
+            this.locale = new ArrayList<>();
+        }
+
         int elementNum = 1;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -134,6 +112,10 @@ public class PT_LocaleContainer {
     }
 
     public void addDate(CI_Date date) {
+        if (this.date == null) {
+            this.date = new ArrayList<>();
+        }
+
         int elementNum = 2;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -148,6 +130,10 @@ public class PT_LocaleContainer {
     }
 
     public void addResponsibleParty(CI_Responsibility responsibleParty) {
+        if (this.responsibleParty == null) {
+            this.responsibleParty = new ArrayList<>();
+        }
+
         int elementNum = 3;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -162,6 +148,10 @@ public class PT_LocaleContainer {
     }
 
     public void addLocalisedString(LocalisedCharacterString localisedString) {
+        if (this.localisedString == null) {
+            this.localisedString = new ArrayList<>();
+        }
+
         int elementNum = 4;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);

@@ -67,25 +67,11 @@ public class MD_Releasability {
         }
     }
 
-    public void createAddressee() {
+    public void addAddressee(CI_Responsibility addressee) {
         if (this.addressee == null) {
             this.addressee = new ArrayList<>();
         }
-    }
 
-    public void createStatement() {
-        if (this.statement == null) {
-            this.statement = new ArrayList<>();
-        }
-    }
-
-    public void createDisseminationConstraints() {
-        if (this.disseminationConstraints == null) {
-            this.disseminationConstraints = new ArrayList<>();
-        }
-    }
-
-    public void addAddressee(CI_Responsibility addressee) {
         int elementNum = 0;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -100,6 +86,10 @@ public class MD_Releasability {
     }
 
     public void addStatement(String statement) {
+        if (this.statement == null) {
+            this.statement = new ArrayList<>();
+        }
+
         int elementNum = 1;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -114,6 +104,10 @@ public class MD_Releasability {
     }
 
     public void addDisseminationConstraints(MD_RestrictionCode disseminationConstraints) {
+        if (this.disseminationConstraints == null) {
+            this.disseminationConstraints = new ArrayList<>();
+        }
+
         int elementNum = 2;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);

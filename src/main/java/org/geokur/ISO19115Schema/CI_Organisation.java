@@ -63,19 +63,11 @@ public class CI_Organisation extends CI_Party {
         }
     }
 
-    public void createLogo() {
+    public void addLogo(MD_BrowseGraphic logo) {
         if (this.logo == null) {
             this.logo = new ArrayList<>();
         }
-    }
 
-    public void createIndividual() {
-        if (this.individual == null) {
-            this.individual = new ArrayList<>();
-        }
-    }
-
-    public void addLogo(MD_BrowseGraphic logo) {
         int elementNum = 2;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -90,6 +82,10 @@ public class CI_Organisation extends CI_Party {
     }
 
     public void addIndividual(CI_Individual individual) {
+        if (this.individual == null) {
+            this.individual = new ArrayList<>();
+        }
+
         int elementNum = 3;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);

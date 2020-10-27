@@ -93,73 +93,11 @@ public class MD_SampleDimension extends MD_RangeDimension {
         }
     }
 
-    public void createMaxValue() {
+    public void addMaxValue(Double maxValue) {
         if (this.maxValue == null) {
             this.maxValue = new ArrayList<>();
         }
-    }
 
-    public void createMinValue() {
-        if (this.minValue == null) {
-            this.minValue = new ArrayList<>();
-        }
-    }
-
-    public void createUnits() {
-        if (this.units == null) {
-            this.units = new ArrayList<>();
-        }
-    }
-
-    public void createScaleFactor() {
-        if (this.scaleFactor == null) {
-            this.scaleFactor = new ArrayList<>();
-        }
-    }
-
-    public void createOffset() {
-        if (this.offset == null) {
-            this.offset = new ArrayList<>();
-        }
-    }
-
-    public void createMeanValue() {
-        if (this.meanValue == null) {
-            this.meanValue = new ArrayList<>();
-        }
-    }
-
-    public void createNumberOfValues() {
-        if (this.numberOfValues == null) {
-            this.numberOfValues = new ArrayList<>();
-        }
-    }
-
-    public void createStandardDeviation() {
-        if (this.standardDeviation == null) {
-            this.standardDeviation = new ArrayList<>();
-        }
-    }
-
-    public void createOtherPropertyType() {
-        if (this.otherPropertyType == null) {
-            this.otherPropertyType = new ArrayList<>();
-        }
-    }
-
-    public void createOtherProperty() {
-        if (this.otherProperty == null) {
-            this.otherProperty = new ArrayList<>();
-        }
-    }
-
-    public void createBitsPerValue() {
-        if (this.bitsPerValue == null) {
-            this.bitsPerValue = new ArrayList<>();
-        }
-    }
-
-    public void addMaxValue(Double maxValue) {
         int elementNum = 3;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -174,6 +112,10 @@ public class MD_SampleDimension extends MD_RangeDimension {
     }
 
     public void addMinValue(Double minValue) {
+        if (this.minValue == null) {
+            this.minValue = new ArrayList<>();
+        }
+
         int elementNum = 4;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -188,6 +130,10 @@ public class MD_SampleDimension extends MD_RangeDimension {
     }
 
     public void addUnits(String units) {
+        if (this.units == null) {
+            this.units = new ArrayList<>();
+        }
+
         int elementNum = 5;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -202,6 +148,10 @@ public class MD_SampleDimension extends MD_RangeDimension {
     }
 
     public void addScaleFactor(Double scaleFactor) {
+        if (this.scaleFactor == null) {
+            this.scaleFactor = new ArrayList<>();
+        }
+
         int elementNum = 6;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -216,6 +166,10 @@ public class MD_SampleDimension extends MD_RangeDimension {
     }
 
     public void addOffset(Double offset) {
+        if (this.offset == null) {
+            this.offset = new ArrayList<>();
+        }
+
         int elementNum = 7;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -230,6 +184,10 @@ public class MD_SampleDimension extends MD_RangeDimension {
     }
 
     public void addMeanValue(Double meanValue) {
+        if (this.meanValue == null) {
+            this.meanValue = new ArrayList<>();
+        }
+
         int elementNum = 8;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -244,6 +202,10 @@ public class MD_SampleDimension extends MD_RangeDimension {
     }
 
     public void addNumberOfValues(Integer numberOfValues) {
+        if (this.numberOfValues == null) {
+            this.numberOfValues = new ArrayList<>();
+        }
+
         int elementNum = 9;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -258,6 +220,10 @@ public class MD_SampleDimension extends MD_RangeDimension {
     }
 
     public void addStandardDeviation(Double standardDeviation) {
+        if (this.standardDeviation == null) {
+            this.standardDeviation = new ArrayList<>();
+        }
+
         int elementNum = 10;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -272,6 +238,10 @@ public class MD_SampleDimension extends MD_RangeDimension {
     }
 
     public void addOtherPropertyType(RecordType otherPropertyType) {
+        if (this.otherPropertyType == null) {
+            this.otherPropertyType = new ArrayList<>();
+        }
+
         int elementNum = 11;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -286,6 +256,10 @@ public class MD_SampleDimension extends MD_RangeDimension {
     }
 
     public void addOtherProperty(Record otherProperty) {
+        if (this.otherProperty == null) {
+            this.otherProperty = new ArrayList<>();
+        }
+
         int elementNum = 12;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -300,6 +274,10 @@ public class MD_SampleDimension extends MD_RangeDimension {
     }
 
     public void addBitsPerValue(Integer bitsPerValue) {
+        if (this.bitsPerValue == null) {
+            this.bitsPerValue = new ArrayList<>();
+        }
+
         int elementNum = 13;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);

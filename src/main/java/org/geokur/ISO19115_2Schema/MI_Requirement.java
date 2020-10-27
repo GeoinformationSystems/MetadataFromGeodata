@@ -90,55 +90,11 @@ public class MI_Requirement {
         }
     }
 
-    public void createCitation() {
+    public void addCitation(CI_Citation citation) {
         if (this.citation == null) {
             this.citation = new ArrayList<>();
         }
-    }
 
-    public void createIdentifier() {
-        if (this.identifier == null) {
-            this.identifier = new ArrayList<>();
-        }
-    }
-
-    public void createRequestor() {
-        if (this.requestor == null) {
-            this.requestor = new ArrayList<>();
-        }
-    }
-
-    public void createRecipient() {
-        if (this.recipient == null) {
-            this.recipient = new ArrayList<>();
-        }
-    }
-
-    public void createPriority() {
-        if (this.priority == null) {
-            this.priority = new ArrayList<>();
-        }
-    }
-
-    public void createRequestedDate() {
-        if (this.requestedDate == null) {
-            this.requestedDate = new ArrayList<>();
-        }
-    }
-
-    public void createExpiryDate() {
-        if (this.expiryDate == null) {
-            this.expiryDate = new ArrayList<>();
-        }
-    }
-
-    public void createSatisfiedPlan() {
-        if (this.satisfiedPlan == null) {
-            this.satisfiedPlan = new ArrayList<>();
-        }
-    }
-
-    public void addCitation(CI_Citation citation) {
         int elementNum = 0;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -153,6 +109,10 @@ public class MI_Requirement {
     }
 
     public void addIdentifier(MD_Identifier identifier) {
+        if (this.identifier == null) {
+            this.identifier = new ArrayList<>();
+        }
+
         int elementNum = 1;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -167,6 +127,10 @@ public class MI_Requirement {
     }
 
     public void addRequestor(CI_Responsibility requestor) {
+        if (this.requestor == null) {
+            this.requestor = new ArrayList<>();
+        }
+
         int elementNum = 2;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -181,6 +145,10 @@ public class MI_Requirement {
     }
 
     public void addRecipient(CI_Responsibility recipient) {
+        if (this.recipient == null) {
+            this.recipient = new ArrayList<>();
+        }
+
         int elementNum = 3;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -195,6 +163,10 @@ public class MI_Requirement {
     }
 
     public void addPriority(MI_PriorityCode priority) {
+        if (this.priority == null) {
+            this.priority = new ArrayList<>();
+        }
+
         int elementNum = 4;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -209,6 +181,10 @@ public class MI_Requirement {
     }
 
     public void addRequestedDate(MI_RequestedDate requestedDate) {
+        if (this.requestedDate == null) {
+            this.requestedDate = new ArrayList<>();
+        }
+
         int elementNum = 5;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -223,6 +199,10 @@ public class MI_Requirement {
     }
 
     public void addExpiryDate(String expiryDate) {
+        if (this.expiryDate == null) {
+            this.expiryDate = new ArrayList<>();
+        }
+
         int elementNum = 6;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -237,6 +217,10 @@ public class MI_Requirement {
     }
 
     public void addSatisfiedPlan(MI_Plan satisfiedPlan) {
+        if (this.satisfiedPlan == null) {
+            this.satisfiedPlan = new ArrayList<>();
+        }
+
         int elementNum = 7;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);

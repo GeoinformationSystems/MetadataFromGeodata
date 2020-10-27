@@ -98,85 +98,11 @@ public class MD_ExtendedElementInformation {
         }
     }
 
-    public void createName() {
+    public void addName(String name) {
         if (this.name == null) {
             this.name = new ArrayList<>();
         }
-    }
 
-    public void createDefinition() {
-        if (this.definition == null) {
-            this.definition = new ArrayList<>();
-        }
-    }
-
-    public void createObligation() {
-        if (this.obligation == null) {
-            this.obligation = new ArrayList<>();
-        }
-    }
-
-    public void createCondition() {
-        if (this.condition == null) {
-            this.condition = new ArrayList<>();
-        }
-    }
-
-    public void createDataType() {
-        if (this.dataType == null) {
-            this.dataType = new ArrayList<>();
-        }
-    }
-
-    public void createMaximumOccurence() {
-        if (this.maximumOccurence == null) {
-            this.maximumOccurence = new ArrayList<>();
-        }
-    }
-
-    public void createDomainValue() {
-        if (this.domainValue == null) {
-            this.domainValue = new ArrayList<>();
-        }
-    }
-
-    public void createParentEntity() {
-        if (this.parentEntity == null) {
-            this.parentEntity = new ArrayList<>();
-        }
-    }
-
-    public void createRule() {
-        if (this.rule == null) {
-            this.rule = new ArrayList<>();
-        }
-    }
-
-    public void createRationale() {
-        if (this.rationale == null) {
-            this.rationale = new ArrayList<>();
-        }
-    }
-
-    public void createSource() {
-        if (this.source == null) {
-            this.source = new ArrayList<>();
-        }
-    }
-
-    public void createConceptName() {
-        if (this.conceptName == null) {
-            this.conceptName = new ArrayList<>();
-        }
-    }
-
-    public void createCode() {
-        if (this.code == null) {
-            this.code = new ArrayList<>();
-        }
-    }
-
-    public void addName(String name) {
         int elementNum = 0;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -191,6 +117,10 @@ public class MD_ExtendedElementInformation {
     }
 
     public void addDefinition(String definition) {
+        if (this.definition == null) {
+            this.definition = new ArrayList<>();
+        }
+
         int elementNum = 1;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -205,6 +135,10 @@ public class MD_ExtendedElementInformation {
     }
 
     public void addObligation(MD_ObligationCode obligation) {
+        if (this.obligation == null) {
+            this.obligation = new ArrayList<>();
+        }
+
         int elementNum = 2;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -219,6 +153,10 @@ public class MD_ExtendedElementInformation {
     }
 
     public void addCondition(String condition) {
+        if (this.condition == null) {
+            this.condition = new ArrayList<>();
+        }
+
         int elementNum = 3;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -233,6 +171,10 @@ public class MD_ExtendedElementInformation {
     }
 
     public void addDataType(MD_DatatypeCode dataType) {
+        if (this.dataType == null) {
+            this.dataType = new ArrayList<>();
+        }
+
         int elementNum = 4;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -247,6 +189,10 @@ public class MD_ExtendedElementInformation {
     }
 
     public void addMaximumOccurence(String maximumOccurence) {
+        if (this.maximumOccurence == null) {
+            this.maximumOccurence = new ArrayList<>();
+        }
+
         int elementNum = 5;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -261,6 +207,10 @@ public class MD_ExtendedElementInformation {
     }
 
     public void addDomainValue(String domainValue) {
+        if (this.domainValue == null) {
+            this.domainValue = new ArrayList<>();
+        }
+
         int elementNum = 6;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -275,6 +225,10 @@ public class MD_ExtendedElementInformation {
     }
 
     public void addParentEntity(String parentEntity) {
+        if (this.parentEntity == null) {
+            this.parentEntity = new ArrayList<>();
+        }
+
         int elementNum = 7;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -289,6 +243,10 @@ public class MD_ExtendedElementInformation {
     }
 
     public void addRule(String rule) {
+        if (this.rule == null) {
+            this.rule = new ArrayList<>();
+        }
+
         int elementNum = 8;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -303,6 +261,10 @@ public class MD_ExtendedElementInformation {
     }
 
     public void addRationale(String rationale) {
+        if (this.rationale == null) {
+            this.rationale = new ArrayList<>();
+        }
+
         int elementNum = 9;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -317,6 +279,10 @@ public class MD_ExtendedElementInformation {
     }
 
     public void addSource(CI_Responsibility source) {
+        if (this.source == null) {
+            this.source = new ArrayList<>();
+        }
+
         int elementNum = 10;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -331,6 +297,10 @@ public class MD_ExtendedElementInformation {
     }
 
     public void addConceptName(String conceptName) {
+        if (this.conceptName == null) {
+            this.conceptName = new ArrayList<>();
+        }
+
         int elementNum = 11;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -345,6 +315,10 @@ public class MD_ExtendedElementInformation {
     }
 
     public void addCode(String code) {
+        if (this.code == null) {
+            this.code = new ArrayList<>();
+        }
+
         int elementNum = 12;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);

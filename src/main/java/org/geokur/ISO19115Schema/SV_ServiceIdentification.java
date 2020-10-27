@@ -99,73 +99,11 @@ public class SV_ServiceIdentification extends MD_Identification {
         }
     }
 
-    public void createServiceType() {
+    public void addServiceType(String serviceType) {
         if (this.serviceType == null) {
             this.serviceType = new ArrayList<>();
         }
-    }
 
-    public void createServiceTypeVersion() {
-        if (this.serviceTypeVersion == null) {
-            this.serviceTypeVersion = new ArrayList<>();
-        }
-    }
-
-    public void createAccessProperties() {
-        if (this.accessProperties == null) {
-            this.accessProperties = new ArrayList<>();
-        }
-    }
-
-    public void createCouplingType() {
-        if (this.couplingType == null) {
-            this.couplingType = new ArrayList<>();
-        }
-    }
-
-    public void createCoupledResource() {
-        if (this.coupledResource == null) {
-            this.coupledResource = new ArrayList<>();
-        }
-    }
-
-    public void createOperatedDataset() {
-        if (this.operatedDataset == null) {
-            this.operatedDataset = new ArrayList<>();
-        }
-    }
-
-    public void createProfile() {
-        if (this.profile == null) {
-            this.profile = new ArrayList<>();
-        }
-    }
-
-    public void createServiceStandard() {
-        if (this.serviceStandard == null) {
-            this.serviceStandard = new ArrayList<>();
-        }
-    }
-
-    public void createContainsOperations() {
-        if (this.containsOperations == null) {
-            this.containsOperations = new ArrayList<>();
-        }
-    }
-
-    public void createOperatesOn() {
-        if (this.operatesOn == null) {
-            this.operatesOn = new ArrayList<>();
-        }
-    }
-
-    public void createContainsChain() {
-        if (this.containsChain == null) {
-            this.containsChain = new ArrayList<>();
-        }
-    }
-
-    public void addServiceType(String serviceType) {
         int elementNum = 20;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -180,6 +118,10 @@ public class SV_ServiceIdentification extends MD_Identification {
     }
 
     public void addServiceTypeVersion(String serviceTypeVersion) {
+        if (this.serviceTypeVersion == null) {
+            this.serviceTypeVersion = new ArrayList<>();
+        }
+
         int elementNum = 21;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -194,6 +136,10 @@ public class SV_ServiceIdentification extends MD_Identification {
     }
 
     public void addAccessProperties(MD_StandardOrderProcess accessProperties) {
+        if (this.accessProperties == null) {
+            this.accessProperties = new ArrayList<>();
+        }
+
         int elementNum = 22;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -208,6 +154,10 @@ public class SV_ServiceIdentification extends MD_Identification {
     }
 
     public void addCouplingType(SV_CouplingType couplingType) {
+        if (this.couplingType == null) {
+            this.couplingType = new ArrayList<>();
+        }
+
         int elementNum = 23;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -222,6 +172,10 @@ public class SV_ServiceIdentification extends MD_Identification {
     }
 
     public void addCoupledResource(SV_CoupledResource coupledResource) {
+        if (this.coupledResource == null) {
+            this.coupledResource = new ArrayList<>();
+        }
+
         int elementNum = 24;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -236,6 +190,10 @@ public class SV_ServiceIdentification extends MD_Identification {
     }
 
     public void addOperatedDataset(CI_Citation operatedDataset) {
+        if (this.operatedDataset == null) {
+            this.operatedDataset = new ArrayList<>();
+        }
+
         int elementNum = 25;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -250,6 +208,10 @@ public class SV_ServiceIdentification extends MD_Identification {
     }
 
     public void addProfile(CI_Citation profile) {
+        if (this.profile == null) {
+            this.profile = new ArrayList<>();
+        }
+
         int elementNum = 26;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -264,6 +226,10 @@ public class SV_ServiceIdentification extends MD_Identification {
     }
 
     public void addServiceStandard(CI_Citation serviceStandard) {
+        if (this.serviceStandard == null) {
+            this.serviceStandard = new ArrayList<>();
+        }
+
         int elementNum = 27;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -278,6 +244,10 @@ public class SV_ServiceIdentification extends MD_Identification {
     }
 
     public void addContainsOperations(SV_OperationMetadata containsOperations) {
+        if (this.containsOperations == null) {
+            this.containsOperations = new ArrayList<>();
+        }
+
         int elementNum = 28;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -292,6 +262,10 @@ public class SV_ServiceIdentification extends MD_Identification {
     }
 
     public void addOperatesOn(MD_DataIdentification operatesOn) {
+        if (this.operatesOn == null) {
+            this.operatesOn = new ArrayList<>();
+        }
+
         int elementNum = 29;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -306,6 +280,10 @@ public class SV_ServiceIdentification extends MD_Identification {
     }
 
     public void addContainsChain(SV_OperationChainMetadata containsChain) {
+        if (this.containsChain == null) {
+            this.containsChain = new ArrayList<>();
+        }
+
         int elementNum = 30;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);

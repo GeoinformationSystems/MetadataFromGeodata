@@ -70,37 +70,11 @@ public class MD_BrowseGraphic {
         }
     }
 
-    public void createFileName() {
+    public void addFileName(String fileName) {
         if (this.fileName == null) {
             this.fileName = new ArrayList<>();
         }
-    }
 
-    public void createFileDescription() {
-        if (this.fileDescription == null) {
-            this.fileDescription = new ArrayList<>();
-        }
-    }
-
-    public void createFileType() {
-        if (this.fileType == null) {
-            this.fileType = new ArrayList<>();
-        }
-    }
-
-    public void createImageConstraints() {
-        if (this.imageConstraints == null) {
-            this.imageConstraints = new ArrayList<>();
-        }
-    }
-
-    public void createLinkage() {
-        if (this.linkage == null) {
-            this.linkage = new ArrayList<>();
-        }
-    }
-
-    public void addFileName(String fileName) {
         int elementNum = 0;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -115,6 +89,10 @@ public class MD_BrowseGraphic {
     }
 
     public void addFileDescription(String fileDescription) {
+        if (this.fileDescription == null) {
+            this.fileDescription = new ArrayList<>();
+        }
+
         int elementNum = 1;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -129,6 +107,10 @@ public class MD_BrowseGraphic {
     }
 
     public void addFileType(String fileType) {
+        if (this.fileType == null) {
+            this.fileType = new ArrayList<>();
+        }
+
         int elementNum = 2;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -143,6 +125,10 @@ public class MD_BrowseGraphic {
     }
 
     public void addImageConstraints(MD_Constraints imageConstraints) {
+        if (this.imageConstraints == null) {
+            this.imageConstraints = new ArrayList<>();
+        }
+
         int elementNum = 3;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -157,6 +143,10 @@ public class MD_BrowseGraphic {
     }
 
     public void addLinkage(CI_OnlineResource linkage) {
+        if (this.linkage == null) {
+            this.linkage = new ArrayList<>();
+        }
+
         int elementNum = 4;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);

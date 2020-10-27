@@ -66,31 +66,11 @@ public class EX_GeographicBoundingBox extends EX_GeographicExtent {
         }
     }
 
-    public void createWestBoundLongitude() {
+    public void addWestBoundLongitude(Double westBoundLongitude) {
         if (this.westBoundLongitude == null) {
             this.westBoundLongitude = new ArrayList<>();
         }
-    }
 
-    public void createEastBoundLongitude() {
-        if (this.eastBoundLongitude == null) {
-            this.eastBoundLongitude = new ArrayList<>();
-        }
-    }
-
-    public void createSouthBoundLatitude() {
-        if (this.southBoundLatitude == null) {
-            this.southBoundLatitude = new ArrayList<>();
-        }
-    }
-
-    public void createNorthBoundLatitude() {
-        if (this.northBoundLatitude == null) {
-            this.northBoundLatitude = new ArrayList<>();
-        }
-    }
-
-    public void addWestBoundLongitude(Double westBoundLongitude) {
         int elementNum = 1;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -105,6 +85,10 @@ public class EX_GeographicBoundingBox extends EX_GeographicExtent {
     }
 
     public void addEastBoundLongitude(Double eastBoundLongitude) {
+        if (this.eastBoundLongitude == null) {
+            this.eastBoundLongitude = new ArrayList<>();
+        }
+
         int elementNum = 2;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -119,6 +103,10 @@ public class EX_GeographicBoundingBox extends EX_GeographicExtent {
     }
 
     public void addSouthBoundLatitude(Double southBoundLatitude) {
+        if (this.southBoundLatitude == null) {
+            this.southBoundLatitude = new ArrayList<>();
+        }
+
         int elementNum = 3;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -133,6 +121,10 @@ public class EX_GeographicBoundingBox extends EX_GeographicExtent {
     }
 
     public void addNorthBoundLatitude(Double northBoundLatitude) {
+        if (this.northBoundLatitude == null) {
+            this.northBoundLatitude = new ArrayList<>();
+        }
+
         int elementNum = 4;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);

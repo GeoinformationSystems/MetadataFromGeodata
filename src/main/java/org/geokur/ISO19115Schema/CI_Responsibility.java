@@ -67,25 +67,10 @@ public class CI_Responsibility {
         }
     }
 
-    public void createRole() {
+    public void addRole(CI_RoleCode role) {
         if (this.role == null) {
             this.role = new ArrayList<>();
         }
-    }
-
-    public void createExtent() {
-        if (this.extent == null) {
-            this.extent = new ArrayList<>();
-        }
-    }
-
-    public void createParty() {
-        if (this.party == null) {
-            this.party = new ArrayList<>();
-        }
-    }
-
-    public void addRole(CI_RoleCode role) {
         int elementNum = 0;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -100,6 +85,10 @@ public class CI_Responsibility {
     }
 
     public void addExtent(EX_Extent extent) {
+        if (this.extent == null) {
+            this.extent = new ArrayList<>();
+        }
+
         int elementNum = 1;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -114,6 +103,10 @@ public class CI_Responsibility {
     }
 
     public void addParty(CI_Party party) {
+        if (this.party == null) {
+            this.party = new ArrayList<>();
+        }
+
         int elementNum = 2;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);

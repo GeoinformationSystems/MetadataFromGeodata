@@ -61,37 +61,11 @@ public abstract class DQ_Element {
     public List<DQ_Metaquality> metaquality;
 
     // methods
-    public void createStandaloneQualityReportDetails() {
+    public void addStandaloneQualityReportDetails(String standaloneQualityReportDetails) {
         if (this.standaloneQualityReportDetails == null) {
             this.standaloneQualityReportDetails = new ArrayList<>();
         }
-    }
 
-    public void createMeasure() {
-        if (this.measure == null) {
-            this.measure = new ArrayList<>();
-        }
-    }
-
-    public void createEvaluationMethod() {
-        if (this.evaluationMethod == null) {
-            this.evaluationMethod = new ArrayList<>();
-        }
-    }
-
-    public void createResult() {
-        if (this.result == null) {
-            this.result = new ArrayList<>();
-        }
-    }
-
-    public void createDerivedElement() {
-        if (this.derivedElement == null) {
-            this.derivedElement = new ArrayList<>();
-        }
-    }
-
-    public void addStandaloneQualityReportDetails(String standaloneQualityReportDetails) {
         int elementNum = 0;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -106,6 +80,10 @@ public abstract class DQ_Element {
     }
 
     public void addMeasure(DQ_MeasureReference measure) {
+        if (this.measure == null) {
+            this.measure = new ArrayList<>();
+        }
+
         int elementNum = 1;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -120,6 +98,10 @@ public abstract class DQ_Element {
     }
 
     public void addEvaluationMethod(DQ_EvaluationMethod evaluationMethod) {
+        if (this.evaluationMethod == null) {
+            this.evaluationMethod = new ArrayList<>();
+        }
+
         int elementNum = 2;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -134,6 +116,10 @@ public abstract class DQ_Element {
     }
 
     public void addResult(DQ_Result result) {
+        if (this.result == null) {
+            this.result = new ArrayList<>();
+        }
+
         int elementNum = 3;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -148,6 +134,10 @@ public abstract class DQ_Element {
     }
 
     public void addDerivedElement(DQ_Element derivedElement) {
+        if (this.derivedElement == null) {
+            this.derivedElement = new ArrayList<>();
+        }
+
         int elementNum = 4;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);

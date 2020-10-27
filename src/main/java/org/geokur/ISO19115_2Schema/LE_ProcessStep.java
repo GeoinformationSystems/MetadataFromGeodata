@@ -68,25 +68,11 @@ public class LE_ProcessStep extends LI_ProcessStep {
         }
     }
 
-    public void createOutput() {
+    public void addOutput(LE_Source output) {
         if (this.output == null) {
             this.output = new ArrayList<>();
         }
-    }
 
-    public void createProcessingInformation() {
-        if (this.processingInformation == null) {
-            this.processingInformation = new ArrayList<>();
-        }
-    }
-
-    public void createReport() {
-        if (this.report == null) {
-            this.report = new ArrayList<>();
-        }
-    }
-
-    public void addOutput(LE_Source output) {
         int elementNum = 0;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -101,6 +87,10 @@ public class LE_ProcessStep extends LI_ProcessStep {
     }
 
     public void addProcessingInformation(LE_Processing processingInformation) {
+        if (this.processingInformation == null) {
+            this.processingInformation = new ArrayList<>();
+        }
+
         int elementNum = 1;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -115,6 +105,10 @@ public class LE_ProcessStep extends LI_ProcessStep {
     }
 
     public void addReport(LE_ProcessStepReport report) {
+        if (this.report == null) {
+            this.report = new ArrayList<>();
+        }
+
         int elementNum = 2;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);

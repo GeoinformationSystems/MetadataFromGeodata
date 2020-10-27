@@ -63,25 +63,11 @@ public class LE_ProcessStepReport {
         }
     }
 
-    public void createName() {
+    public void addName(String name) {
         if (this.name == null) {
             this.name = new ArrayList<>();
         }
-    }
 
-    public void createDescription() {
-        if (this.description == null) {
-            this.description = new ArrayList<>();
-        }
-    }
-
-    public void createFileType() {
-        if (this.fileType == null) {
-            this.fileType = new ArrayList<>();
-        }
-    }
-
-    public void addName(String name) {
         int elementNum = 0;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -96,6 +82,10 @@ public class LE_ProcessStepReport {
     }
 
     public void addDescription(String description) {
+        if (this.description == null) {
+            this.description = new ArrayList<>();
+        }
+
         int elementNum = 1;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -110,6 +100,10 @@ public class LE_ProcessStepReport {
     }
 
     public void addFileType(String fileType) {
+        if (this.fileType == null) {
+            this.fileType = new ArrayList<>();
+        }
+
         int elementNum = 2;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);

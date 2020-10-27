@@ -96,61 +96,11 @@ public class MI_Instrument {
         }
     }
 
-    public void createCitation() {
+    public void addCitation(CI_Citation citation) {
         if (this.citation == null) {
             this.citation = new ArrayList<>();
         }
-    }
 
-    public void createIdentifier() {
-        if (this.identifier == null) {
-            this.identifier = new ArrayList<>();
-        }
-    }
-
-    public void createType() {
-        if (this.type == null) {
-            this.type = new ArrayList<>();
-        }
-    }
-
-    public void createDescription() {
-        if (this.description == null) {
-            this.description = new ArrayList<>();
-        }
-    }
-
-    public void createOtherProperty() {
-        if (this.otherProperty == null) {
-            this.otherProperty = new ArrayList<>();
-        }
-    }
-
-    public void createOtherPropertyType() {
-        if (this.otherPropertyType == null) {
-            this.otherPropertyType = new ArrayList<>();
-        }
-    }
-
-    public void createMountedOn() {
-        if (this.mountedOn == null) {
-            this.mountedOn = new ArrayList<>();
-        }
-    }
-
-    public void createSensor() {
-        if (this.sensor == null) {
-            this.sensor = new ArrayList<>();
-        }
-    }
-
-    public void createHistory() {
-        if (this.history == null) {
-            this.history = new ArrayList<>();
-        }
-    }
-
-    public void addCitation(CI_Citation citation) {
         int elementNum = 0;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -165,6 +115,10 @@ public class MI_Instrument {
     }
 
     public void addIdentifier(MD_Identifier identifier) {
+        if (this.identifier == null) {
+            this.identifier = new ArrayList<>();
+        }
+
         int elementNum = 1;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -179,6 +133,10 @@ public class MI_Instrument {
     }
 
     public void addType(String type) {
+        if (this.type == null) {
+            this.type = new ArrayList<>();
+        }
+
         int elementNum = 2;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -193,6 +151,10 @@ public class MI_Instrument {
     }
 
     public void addDescription(String description) {
+        if (this.description == null) {
+            this.description = new ArrayList<>();
+        }
+
         int elementNum = 3;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -207,6 +169,10 @@ public class MI_Instrument {
     }
 
     public void addOtherProperty(Record otherProperty) {
+        if (this.otherProperty == null) {
+            this.otherProperty = new ArrayList<>();
+        }
+
         int elementNum = 4;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -221,6 +187,10 @@ public class MI_Instrument {
     }
 
     public void addOtherPropertyType(RecordType otherPropertyType) {
+        if (this.otherPropertyType == null) {
+            this.otherPropertyType = new ArrayList<>();
+        }
+
         int elementNum = 5;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -235,6 +205,10 @@ public class MI_Instrument {
     }
 
     public void addMountedOn(MI_Platform mountedOn) {
+        if (this.mountedOn == null) {
+            this.mountedOn = new ArrayList<>();
+        }
+
         int elementNum = 6;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -249,6 +223,10 @@ public class MI_Instrument {
     }
 
     public void addSensor(MI_Instrument sensor) {
+        if (this.sensor == null) {
+            this.sensor = new ArrayList<>();
+        }
+
         int elementNum = 7;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -263,6 +241,10 @@ public class MI_Instrument {
     }
 
     public void addHistory(MI_InstrumentEventList history) {
+        if (this.history == null) {
+            this.history = new ArrayList<>();
+        }
+
         int elementNum = 8;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);

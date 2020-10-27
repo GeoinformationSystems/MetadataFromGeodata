@@ -77,43 +77,11 @@ public class CI_Contact {
         }
     }
 
-    public void createPhone() {
+    public void addPhone(CI_Telephone phone) {
         if (this.phone == null) {
             this.phone = new ArrayList<>();
         }
-    }
 
-    public void createAddress() {
-        if (this.address == null) {
-            this.address = new ArrayList<>();
-        }
-    }
-
-    public void createOnlineResource() {
-        if (this.onlineResource == null) {
-            this.onlineResource = new ArrayList<>();
-        }
-    }
-
-    public void createHoursOfService() {
-        if (this.hoursOfService == null) {
-            this.hoursOfService = new ArrayList<>();
-        }
-    }
-
-    public void createContactInstructions() {
-        if (this.contactInstructions == null) {
-            this.contactInstructions = new ArrayList<>();
-        }
-    }
-
-    public void createContactType() {
-        if (this.contactType == null) {
-            this.contactType = new ArrayList<>();
-        }
-    }
-
-    public void addPhone(CI_Telephone phone) {
         int elementNum = 0;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -128,6 +96,10 @@ public class CI_Contact {
     }
 
     public void addAddress(CI_Address address) {
+        if (this.address == null) {
+            this.address = new ArrayList<>();
+        }
+
         int elementNum = 1;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -142,6 +114,10 @@ public class CI_Contact {
     }
 
     public void addOnlineResource(CI_OnlineResource onlineResource) {
+        if (this.onlineResource == null) {
+            this.onlineResource = new ArrayList<>();
+        }
+
         int elementNum = 2;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -156,6 +132,10 @@ public class CI_Contact {
     }
 
     public void addHoursOfService(String hoursOfService) {
+        if (this.hoursOfService == null) {
+            this.hoursOfService = new ArrayList<>();
+        }
+
         int elementNum = 3;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -170,6 +150,10 @@ public class CI_Contact {
     }
 
     public void addContactInstructions(String contactInstructions) {
+        if (this.contactInstructions == null) {
+            this.contactInstructions = new ArrayList<>();
+        }
+
         int elementNum = 4;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -184,6 +168,10 @@ public class CI_Contact {
     }
 
     public void addContactType(String contactType) {
+        if (this.contactType == null) {
+            this.contactType = new ArrayList<>();
+        }
+
         int elementNum = 5;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);

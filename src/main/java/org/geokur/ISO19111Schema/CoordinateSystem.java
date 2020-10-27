@@ -35,13 +35,11 @@ public abstract class CoordinateSystem extends IdentifiedObject {
     // variables for correct marshalling of specified classes
 
     // methods
-    public void createAxis() {
+    public void addAxis(SingleCRS axis) {
         if (this.axis == null) {
             this.axis = new ArrayList<>();
         }
-    }
 
-    public void addAxis(SingleCRS axis) {
         int elementNum = 4;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);

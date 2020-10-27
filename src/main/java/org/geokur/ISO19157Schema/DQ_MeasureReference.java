@@ -67,25 +67,11 @@ public class DQ_MeasureReference {
         }
     }
 
-    public void createMeasureIdentification() {
+    public void addMeasureIdentification(MD_Identifier measureIdentification) {
         if (this.measureIdentification == null) {
             this.measureIdentification = new ArrayList<>();
         }
-    }
 
-    public void createNameOfMeasure() {
-        if (this.nameOfMeasure == null) {
-            this.nameOfMeasure = new ArrayList<>();
-        }
-    }
-
-    public void createMeasureDescription() {
-        if (this.measureDescription == null) {
-            this.measureDescription = new ArrayList<>();
-        }
-    }
-
-    public void addMeasureIdentification(MD_Identifier measureIdentification) {
         int elementNum = 0;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -100,6 +86,10 @@ public class DQ_MeasureReference {
     }
 
     public void addNameOfMeasure(String nameOfMeasure) {
+        if (this.nameOfMeasure == null) {
+            this.nameOfMeasure = new ArrayList<>();
+        }
+
         int elementNum = 1;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -114,6 +104,10 @@ public class DQ_MeasureReference {
     }
 
     public void addMeasureDescription(String measureDescription) {
+        if (this.measureDescription == null) {
+            this.measureDescription = new ArrayList<>();
+        }
+
         int elementNum = 2;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);

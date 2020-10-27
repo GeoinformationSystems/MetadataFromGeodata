@@ -10,6 +10,7 @@ import org.geokur.ISO191xxProfile.*;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @XmlRootElement(name = "Coordinate")
@@ -42,59 +43,12 @@ public class Coordinate {
         this.dimension = 0;
     }
 
-    public void createX() {
+    public void addX(Double x) {
         if (this.x == null) {
             this.x = new ArrayList<>();
             this.dimension++;
         }
-    }
 
-    public void createY() {
-        try {
-            if (this.y == null) {
-                if (this.x == null) {
-                    throw new SequenceException("y", "x");
-                } else {
-                    this.y = new ArrayList<>();
-                    this.dimension++;
-                }
-            }
-        } catch (SequenceException e) {
-            System.out.println(e.getMessage());
-        }
-    }
-
-    public void createZ() {
-        try {
-            if (this.z == null) {
-                if (this.y == null) {
-                    throw new SequenceException("z", "y");
-                } else {
-                    this.z = new ArrayList<>();
-                    this.dimension++;
-                }
-            }
-        } catch (SequenceException e) {
-            System.out.println(e.getMessage());
-        }
-    }
-
-    public void createT() {
-        try {
-            if (this.t == null) {
-                if (this.y == null) {
-                    throw new SequenceException("t", "y or z (depending on spatial dimensions)");
-                } else {
-                    this.t = new ArrayList<>();
-                    this.dimension++;
-                }
-            }
-        } catch (SequenceException e) {
-            System.out.println(e.getMessage());
-        }
-    }
-
-    public void addX(Double x) {
         int elementNum = 0;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -109,6 +63,19 @@ public class Coordinate {
     }
 
     public void addY(Double y) {
+        try {
+            if (this.y == null) {
+                if (this.x == null) {
+                    throw new SequenceException("y", "x");
+                } else {
+                    this.y = new ArrayList<>();
+                    this.dimension++;
+                }
+            }
+        } catch (SequenceException e) {
+            System.out.println(e.getMessage());
+        }
+
         int elementNum = 1;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -123,6 +90,19 @@ public class Coordinate {
     }
 
     public void addZ(Double z) {
+        try {
+            if (this.z == null) {
+                if (this.y == null) {
+                    throw new SequenceException("z", "y");
+                } else {
+                    this.z = new ArrayList<>();
+                    this.dimension++;
+                }
+            }
+        } catch (SequenceException e) {
+            System.out.println(e.getMessage());
+        }
+
         int elementNum = 2;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -137,6 +117,19 @@ public class Coordinate {
     }
 
     public void addT(Double t) {
+        try {
+            if (this.t == null) {
+                if (this.y == null) {
+                    throw new SequenceException("t", "y or z (depending on spatial dimensions)");
+                } else {
+                    this.t = new ArrayList<>();
+                    this.dimension++;
+                }
+            }
+        } catch (SequenceException e) {
+            System.out.println(e.getMessage());
+        }
+
         int elementNum = 3;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -164,6 +157,7 @@ public class Coordinate {
             case 2: coordinates.add(y.get(0));
             case 1: coordinates.add(x.get(0));
         }
+        Collections.reverse(coordinates);
         return coordinates;
     }
 

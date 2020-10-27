@@ -75,42 +75,34 @@ public class MD_StandardOrderProcess {
     }
 
     public void createFees() {
-        if (this.fees == null) {
-            this.fees = new ArrayList<>();
-        }
+
     }
 
     public void createPlannedAvailablDateTime() {
-        if (this.plannedAvailablDateTime == null) {
-            this.plannedAvailablDateTime = new ArrayList<>();
-        }
+
     }
 
     public void createOrderingInstructions() {
-        if (this.orderingInstructions == null) {
-            this.orderingInstructions = new ArrayList<>();
-        }
+
     }
 
     public void createTurnaround() {
-        if (this.turnaround == null) {
-            this.turnaround = new ArrayList<>();
-        }
+
     }
 
     public void createOrderOptionsType() {
-        if (this.orderOptionsType == null) {
-            this.orderOptionsType = new ArrayList<>();
-        }
+
     }
 
     public void createOrderOptions() {
-        if (this.orderOptions == null) {
-            this.orderOptions = new ArrayList<>();
-        }
+
     }
 
     public void addFees(String fees) {
+        if (this.fees == null) {
+            this.fees = new ArrayList<>();
+        }
+
         int elementNum = 0;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -125,6 +117,10 @@ public class MD_StandardOrderProcess {
     }
 
     public void addPlannedAvailablDateTime(String plannedAvailablDateTime) {
+        if (this.plannedAvailablDateTime == null) {
+            this.plannedAvailablDateTime = new ArrayList<>();
+        }
+
         int elementNum = 1;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -139,6 +135,10 @@ public class MD_StandardOrderProcess {
     }
 
     public void addOrderingInstructions(String orderingInstructions) {
+        if (this.orderingInstructions == null) {
+            this.orderingInstructions = new ArrayList<>();
+        }
+
         int elementNum = 2;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -153,6 +153,10 @@ public class MD_StandardOrderProcess {
     }
 
     public void addTurnaround(String turnaround) {
+        if (this.turnaround == null) {
+            this.turnaround = new ArrayList<>();
+        }
+
         int elementNum = 3;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -167,6 +171,10 @@ public class MD_StandardOrderProcess {
     }
 
     public void addOrderOptionsType(RecordType orderOptionsType) {
+        if (this.orderOptionsType == null) {
+            this.orderOptionsType = new ArrayList<>();
+        }
+
         int elementNum = 4;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -181,6 +189,10 @@ public class MD_StandardOrderProcess {
     }
 
     public void addOrderOptions(Record orderOptions) {
+        if (this.orderOptions == null) {
+            this.orderOptions = new ArrayList<>();
+        }
+
         int elementNum = 5;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);

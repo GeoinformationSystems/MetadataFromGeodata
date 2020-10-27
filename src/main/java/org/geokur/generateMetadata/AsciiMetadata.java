@@ -5,6 +5,7 @@
 
 package org.geokur.generateMetadata;
 
+import org.geokur.ISO19103Schema.Record;
 import org.geokur.ISO19115Schema.*;
 import org.geokur.ISO19157Schema.*;
 
@@ -186,19 +187,15 @@ public class AsciiMetadata implements Metadata {
             String identifierCode = "pid:" + UUID.randomUUID().toString();
 
             MD_Identifier mdIdentifier = new MD_Identifier();
-            mdIdentifier.createCode();
             mdIdentifier.addCode(identifierCode);
             mdIdentifier.finalizeClass();
 
             CI_Individual ciIndividual = new CI_Individual();
-            ciIndividual.createName();
             ciIndividual.addName(System.getProperty("user.name"));
             ciIndividual.finalizeClass();
 
             CI_Responsibility ciResponsibility = new CI_Responsibility();
-            ciResponsibility.createRole();
             ciResponsibility.addRole(new CI_RoleCode(CI_RoleCode.CI_RoleCodes.resourceProvider));
-            ciResponsibility.createParty();
             ciResponsibility.addParty(ciIndividual);
             ciResponsibility.finalizeClass();
 
@@ -209,9 +206,7 @@ public class AsciiMetadata implements Metadata {
             String lastModifiedString = lastModified.format(DateTimeFormatter.ISO_OFFSET_DATE_TIME); // datetime in ISO 8601 format
 
             CI_Date ciDateLastModified = new CI_Date();
-            ciDateLastModified.createDateType();
             ciDateLastModified.addDateType(new CI_DateTypeCode(CI_DateTypeCode.CI_DateTypeCodes.lastUpdate));
-            ciDateLastModified.createDate();
             ciDateLastModified.addDate(lastModifiedString);
             ciDateLastModified.finalizeClass();
 
@@ -223,22 +218,17 @@ public class AsciiMetadata implements Metadata {
             String now = ZonedDateTime.now(ZoneOffset.UTC).format(DateTimeFormatter.ISO_INSTANT);
 
             CI_Date ciDate = new CI_Date();
-            ciDate.createDate();
             ciDate.addDate(now);
-            ciDate.createDateType();
             ciDate.addDateType(new CI_DateTypeCode(CI_DateTypeCode.CI_DateTypeCodes.creation));
             ciDate.finalizeClass();
 
             // TODO: informative title available?
             CI_Citation ciCitation = new CI_Citation();
-            ciCitation.createTitle();
             ciCitation.addTitle("");
-            ciCitation.createDate();
             ciCitation.addDate(ciDate);
             ciCitation.finalizeClass();
 
             MD_DataIdentification mdDataIdentification = new MD_DataIdentification();
-            mdDataIdentification.createCitation();
             mdDataIdentification.addCitation(ciCitation);
 
             String environmentalDescription = "file name: " + fileName + "; "
@@ -246,9 +236,7 @@ public class AsciiMetadata implements Metadata {
                     + "file size: " + (int) csvFile.length() + " B; "
                     + "os: " + System.getProperty("os.name");
 
-            mdDataIdentification.createSpatialRepresentationType();
             mdDataIdentification.addSpatialRepresentationType(new MD_SpatialRepresentationTypeCode(MD_SpatialRepresentationTypeCode.MD_SpatialRepresentationTypeCodes.textTable));
-            mdDataIdentification.createEnvironmentalDescription();
             mdDataIdentification.addEnvironmentalDescription(environmentalDescription);
             mdDataIdentification.finalizeClass();
 
@@ -288,37 +276,27 @@ public class AsciiMetadata implements Metadata {
 
             // frame around data quality fields
             MD_Scope mdScope = new MD_Scope();
-            mdScope.createLevel();
             mdScope.addLevel(new MD_ScopeCode(MD_ScopeCode.MD_ScopeCodes.dataset));
             mdScope.finalizeClass();
 
             CI_Date ciDateReport = new CI_Date();
-            ciDateReport.createDate();
             ciDateReport.addDate(now);
-            ciDateReport.createDateType();
             ciDateReport.addDateType(new CI_DateTypeCode(CI_DateTypeCode.CI_DateTypeCodes.creation));
             ciDateReport.finalizeClass();
 
             CI_Citation ciCitationReport = new CI_Citation();
-            ciCitationReport.createTitle();
             ciCitationReport.addTitle("Reporting as standalone quality report");
-            ciCitationReport.createDate();
             ciCitationReport.addDate(ciDateReport);
             ciCitationReport.finalizeClass();
 
             DQ_StandaloneQualityReportInformation dqStandaloneQualityReportInformation = new DQ_StandaloneQualityReportInformation();
-            dqStandaloneQualityReportInformation.createReportReference();
             dqStandaloneQualityReportInformation.addReportReference(ciCitationReport);
-            dqStandaloneQualityReportInformation.createAbstract();
             dqStandaloneQualityReportInformation.addAbstract("The standalone quality report attached to this quality evaluation is providing more details on the derivation and aggregation method.");
             dqStandaloneQualityReportInformation.finalizeClass();
 
             DQ_DataQuality dqDataQuality = new DQ_DataQuality();
-            dqDataQuality.createScope();
             dqDataQuality.addScope(mdScope);
-            dqDataQuality.createStandaloneQualityReport();
             dqDataQuality.addStandaloneQualityReport(dqStandaloneQualityReportInformation);
-            dqDataQuality.createReport();
             for (DQ_CompletenessOmission dqCompletenessOmission : dqCompletenessOmissionsCount) {
                 dqDataQuality.addReport(dqCompletenessOmission);
             }
@@ -336,9 +314,7 @@ public class AsciiMetadata implements Metadata {
 
             // get (5) metadata contact
             CI_Citation ciCitationMetadataStandard = new CI_Citation();
-            ciCitationMetadataStandard.createTitle();
             ciCitationMetadataStandard.addTitle("ISO 19115-1");
-            ciCitationMetadataStandard.createEdition();
             ciCitationMetadataStandard.addEdition("First edition 2014-04-01");
             ciCitationMetadataStandard.finalizeClass();
 
@@ -348,22 +324,15 @@ public class AsciiMetadata implements Metadata {
 
             // aggregate all data in MD_Metadata
             MD_Metadata mdMetadata = new MD_Metadata();
-            mdMetadata.createMetadataIdentifier();
             mdMetadata.addMetadataIdentifier(mdIdentifier);
-            mdMetadata.createContact();
             mdMetadata.addContact(ciResponsibility);
-            mdMetadata.createDateInfo();
             mdMetadata.addDateInfo(ciDateLastModified);
-            mdMetadata.createIdentificationInfo();
             mdMetadata.addIdentificationInfo(mdDataIdentification);
-            mdMetadata.createMetadataStandard();
             mdMetadata.addMetadataStandard(ciCitationMetadataStandard);
 
-            mdMetadata.createDataQualityInfo();
             mdMetadata.addDataQualityInfo(dqDataQuality);
             mdMetadata.finalizeClass();
 
-            dsDataSet.createHas();
             dsDataSet.addHas(mdMetadata);
         }
         dsDataSet.finalizeClass();
@@ -436,22 +405,16 @@ public class AsciiMetadata implements Metadata {
         // instantiate DQ_CompletenessOmission class for count or rate (defined by "method" argument) of missing values
         DQ_MeasureReference dqMeasureReference = new DQ_MeasureReference();
         if (method.equals("count")) {
-            dqMeasureReference.createNameOfMeasure();
             dqMeasureReference.addNameOfMeasure("number of missing items");
-            dqMeasureReference.createMeasureDescription();
             dqMeasureReference.addMeasureDescription("count of all items that should have been in the data set or sample and are missing");
         } else if (method.equals("rate")) {
-            dqMeasureReference.createNameOfMeasure();
             dqMeasureReference.addNameOfMeasure("rate of missing items");
-            dqMeasureReference.createMeasureDescription();
             dqMeasureReference.addMeasureDescription("rate of all items that should have been in the data set or sample and are missing");
         }
         dqMeasureReference.finalizeClass();
 
         DQ_EvaluationMethod dqEvaluationMethod = new DQ_FullInspection();
-        dqEvaluationMethod.createEvaluationMethodType();
         dqEvaluationMethod.addEvaluationMethodType(new DQ_EvaluationMethodTypeCode(DQ_EvaluationMethodTypeCode.DQ_EvaluationMethodTypeCodes.directInternal));
-        dqEvaluationMethod.createEvaluationMethodDescription();
         if (method.equals("count")) {
             dqEvaluationMethod.addEvaluationMethodDescription("count of missing items in the data set");
         } else if (method.equals("rate")) {
@@ -460,14 +423,11 @@ public class AsciiMetadata implements Metadata {
         dqEvaluationMethod.finalizeClass();
 
         MD_ScopeDescription mdScopeDescription = new MD_ScopeDescription();
-        mdScopeDescription.createAttributes();
         mdScopeDescription.addAttributes(nameAttribute);
         mdScopeDescription.finalizeClass();
 
         MD_Scope mdScopeAttribute = new MD_Scope();
-        mdScopeAttribute.createLevel();
         mdScopeAttribute.addLevel(new MD_ScopeCode(MD_ScopeCode.MD_ScopeCodes.attribute));
-        mdScopeAttribute.createLevelDescription();
         mdScopeAttribute.addLevelDescription(mdScopeDescription);
         mdScopeAttribute.finalizeClass();
 
@@ -480,12 +440,14 @@ public class AsciiMetadata implements Metadata {
             stringMissing = "";
         }
 
+        Record record = new Record();
+        record.addField(stringMissing);
+        record.addField("value", stringMissing);
+        record.finalizeClass();
+
         DQ_QuantitativeResult dqQuantitativeResult = new DQ_QuantitativeResult();
-        dqQuantitativeResult.createResultScope();
         dqQuantitativeResult.addResultScope(mdScopeAttribute);
-        dqQuantitativeResult.createValue();
-        dqQuantitativeResult.addValue(stringMissing);
-        dqQuantitativeResult.createValueUnit();
+        dqQuantitativeResult.addValue(record);
         if (method.equals("count")) {
             dqQuantitativeResult.addValueUnit("same unit as in " + nameAttribute + " column");
         } else if (method.equals("rate")) {
@@ -494,11 +456,8 @@ public class AsciiMetadata implements Metadata {
         dqQuantitativeResult.finalizeClass();
 
         DQ_CompletenessOmission dqCompletenessOmission = new DQ_CompletenessOmission();
-        dqCompletenessOmission.createMeasure();
         dqCompletenessOmission.addMeasure(dqMeasureReference);
-        dqCompletenessOmission.createEvaluationMethod();
         dqCompletenessOmission.addEvaluationMethod(dqEvaluationMethod);
-        dqCompletenessOmission.createResult();
         dqCompletenessOmission.addResult(dqQuantitativeResult);
         dqCompletenessOmission.finalizeClass();
 
@@ -509,22 +468,16 @@ public class AsciiMetadata implements Metadata {
         // instantiate DQ_CompletenessCommission class for count or rate (defined by "method" argument) of excess items
         DQ_MeasureReference dqMeasureReference = new DQ_MeasureReference();
         if (method.equals("count")) {
-            dqMeasureReference.createNameOfMeasure();
             dqMeasureReference.addNameOfMeasure("number of excess items");
-            dqMeasureReference.createMeasureDescription();
             dqMeasureReference.addMeasureDescription("number of items within the data set or sample that should not have been present");
         } else if (method.equals("rate")) {
-            dqMeasureReference.createNameOfMeasure();
             dqMeasureReference.addNameOfMeasure("rate of excess items");
-            dqMeasureReference.createMeasureDescription();
             dqMeasureReference.addMeasureDescription("number of excess items in the data set or sample in relation to the number of items that should have been present");
         }
         dqMeasureReference.finalizeClass();
 
         DQ_EvaluationMethod dqEvaluationMethod = new DQ_FullInspection();
-        dqEvaluationMethod.createEvaluationMethodType();
         dqEvaluationMethod.addEvaluationMethodType(new DQ_EvaluationMethodTypeCode(DQ_EvaluationMethodTypeCode.DQ_EvaluationMethodTypeCodes.directInternal));
-        dqEvaluationMethod.createEvaluationMethodDescription();
         if (method.equals("count")) {
             dqEvaluationMethod.addEvaluationMethodDescription("count of excess items in the data set");
         } else if (method.equals("rate")) {
@@ -533,14 +486,11 @@ public class AsciiMetadata implements Metadata {
         dqEvaluationMethod.finalizeClass();
 
         MD_ScopeDescription mdScopeDescription = new MD_ScopeDescription();
-        mdScopeDescription.createAttributes();
         mdScopeDescription.addAttributes(nameAttribute);
         mdScopeDescription.finalizeClass();
 
         MD_Scope mdScopeAttribute = new MD_Scope();
-        mdScopeAttribute.createLevel();
         mdScopeAttribute.addLevel(new MD_ScopeCode(MD_ScopeCode.MD_ScopeCodes.attribute));
-        mdScopeAttribute.createLevelDescription();
         mdScopeAttribute.addLevelDescription(mdScopeDescription);
         mdScopeAttribute.finalizeClass();
 
@@ -553,12 +503,13 @@ public class AsciiMetadata implements Metadata {
             stringMissing = "";
         }
 
+        Record record = new Record();
+        record.addField("value", stringMissing);
+        record.finalizeClass();
+
         DQ_QuantitativeResult dqQuantitativeResult = new DQ_QuantitativeResult();
-        dqQuantitativeResult.createResultScope();
         dqQuantitativeResult.addResultScope(mdScopeAttribute);
-        dqQuantitativeResult.createValue();
-        dqQuantitativeResult.addValue(stringMissing);
-        dqQuantitativeResult.createValueUnit();
+        dqQuantitativeResult.addValue(record);
         if (method.equals("count")) {
             dqQuantitativeResult.addValueUnit("same unit as in " + nameAttribute + " column");
         } else if (method.equals("rate")) {
@@ -567,11 +518,8 @@ public class AsciiMetadata implements Metadata {
         dqQuantitativeResult.finalizeClass();
 
         DQ_CompletenessCommission dqCompletenessCommission = new DQ_CompletenessCommission();
-        dqCompletenessCommission.createMeasure();
         dqCompletenessCommission.addMeasure(dqMeasureReference);
-        dqCompletenessCommission.createEvaluationMethod();
         dqCompletenessCommission.addEvaluationMethod(dqEvaluationMethod);
-        dqCompletenessCommission.createResult();
         dqCompletenessCommission.addResult(dqQuantitativeResult);
         dqCompletenessCommission.finalizeClass();
 

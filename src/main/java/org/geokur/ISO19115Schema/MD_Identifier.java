@@ -69,37 +69,11 @@ public class MD_Identifier {
         }
     }
 
-    public void createAuthority() {
+    public void addAuthority(CI_Citation authority) {
         if (this.authority == null) {
             this.authority = new ArrayList<>();
         }
-    }
 
-    public void createCode() {
-        if (this.code == null) {
-            this.code = new ArrayList<>();
-        }
-    }
-
-    public void createCodeSpace() {
-        if (this.codeSpace == null) {
-            this.codeSpace = new ArrayList<>();
-        }
-    }
-
-    public void createVersion() {
-        if (this.version == null) {
-            this.version = new ArrayList<>();
-        }
-    }
-
-    public void createDescription() {
-        if (this.description == null) {
-            this.description = new ArrayList<>();
-        }
-    }
-
-    public void addAuthority(CI_Citation authority) {
         int elementNum = 0;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -114,6 +88,10 @@ public class MD_Identifier {
     }
 
     public void addCode(String code) {
+        if (this.code == null) {
+            this.code = new ArrayList<>();
+        }
+
         int elementNum = 1;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -128,6 +106,10 @@ public class MD_Identifier {
     }
 
     public void addCodeSpace(String codeSpace) {
+        if (this.codeSpace == null) {
+            this.codeSpace = new ArrayList<>();
+        }
+
         int elementNum = 2;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -142,6 +124,10 @@ public class MD_Identifier {
     }
 
     public void addVersion(String version) {
+        if (this.version == null) {
+            this.version = new ArrayList<>();
+        }
+
         int elementNum = 3;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -156,6 +142,10 @@ public class MD_Identifier {
     }
 
     public void addDescription(String description) {
+        if (this.description == null) {
+            this.description = new ArrayList<>();
+        }
+
         int elementNum = 4;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);

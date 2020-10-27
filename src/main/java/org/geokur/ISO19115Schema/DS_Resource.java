@@ -37,19 +37,11 @@ public abstract class DS_Resource {
     public List<SV_Service> service;
 
     // methods
-    public void createHas() {
+    public void addHas(MD_Metadata has) {
         if (this.has == null) {
             this.has = new ArrayList<>();
         }
-    }
 
-    public void createPartOf() {
-        if (this.partOf == null) {
-            this.partOf = new ArrayList<>();
-        }
-    }
-
-    public void addHas(MD_Metadata has) {
         int elementNum = 0;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -64,6 +56,10 @@ public abstract class DS_Resource {
     }
 
     public void addPartOf(DS_Aggregate partOf) {
+        if (this.partOf == null) {
+            this.partOf = new ArrayList<>();
+        }
+
         int elementNum = 1;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);

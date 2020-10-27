@@ -67,25 +67,11 @@ public class MD_LegalConstraints extends MD_Constraints {
         }
     }
 
-    public void createAccessConstraints() {
+    public void addAccessConstraints(MD_RestrictionCode accessConstraints) {
         if (this.accessConstraints == null) {
             this.accessConstraints = new ArrayList<>();
         }
-    }
 
-    public void createUseConstraints() {
-        if (this.useConstraints == null) {
-            this.useConstraints = new ArrayList<>();
-        }
-    }
-
-    public void createOtherConstraints() {
-        if (this.otherConstraints == null) {
-            this.otherConstraints = new ArrayList<>();
-        }
-    }
-
-    public void addAccessConstraints(MD_RestrictionCode accessConstraints) {
         int elementNum = 6;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -100,6 +86,10 @@ public class MD_LegalConstraints extends MD_Constraints {
     }
 
     public void addUseConstraints(MD_RestrictionCode useConstraints) {
+        if (this.useConstraints == null) {
+            this.useConstraints = new ArrayList<>();
+        }
+
         int elementNum = 7;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -114,6 +104,10 @@ public class MD_LegalConstraints extends MD_Constraints {
     }
 
     public void addOtherConstraints(String otherConstraints) {
+        if (this.otherConstraints == null) {
+            this.otherConstraints = new ArrayList<>();
+        }
+
         int elementNum = 8;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);

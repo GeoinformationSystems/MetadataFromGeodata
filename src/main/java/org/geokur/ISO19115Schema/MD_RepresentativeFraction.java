@@ -57,13 +57,11 @@ public class MD_RepresentativeFraction {
         }
     }
 
-    public void createDenominator() {
+    public void addDenominator(Integer denominator) {
         if (this.denominator == null) {
             this.denominator = new ArrayList<>();
         }
-    }
 
-    public void addDenominator(Integer denominator) {
         int elementNum = 0;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);

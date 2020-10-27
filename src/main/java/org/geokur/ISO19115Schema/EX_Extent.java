@@ -68,31 +68,11 @@ public class EX_Extent {
         }
     }
 
-    public void createDescription() {
+    public void addDescription(String description) {
         if (this.description == null) {
             this.description = new ArrayList<>();
         }
-    }
 
-    public void createGeographicElement() {
-        if (this.geographicElement == null) {
-            this.geographicElement = new ArrayList<>();
-        }
-    }
-
-    public void createTemporalElement() {
-        if (this.temporalElement == null) {
-            this.temporalElement = new ArrayList<>();
-        }
-    }
-
-    public void createVerticalElement() {
-        if (this.verticalElement == null) {
-            this.verticalElement = new ArrayList<>();
-        }
-    }
-
-    public void addDescription(String description) {
         int elementNum = 0;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -107,6 +87,10 @@ public class EX_Extent {
     }
 
     public void addGeographicElement(EX_GeographicExtent geographicElement) {
+        if (this.geographicElement == null) {
+            this.geographicElement = new ArrayList<>();
+        }
+
         int elementNum = 1;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -121,6 +105,10 @@ public class EX_Extent {
     }
 
     public void addTemporalElement(EX_TemporalExtent temporalElement) {
+        if (this.temporalElement == null) {
+            this.temporalElement = new ArrayList<>();
+        }
+
         int elementNum = 2;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -135,6 +123,10 @@ public class EX_Extent {
     }
 
     public void addVerticalElement(EX_VerticalExtent verticalElement) {
+        if (this.verticalElement == null) {
+            this.verticalElement = new ArrayList<>();
+        }
+
         int elementNum = 3;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);

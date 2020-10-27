@@ -60,13 +60,11 @@ public class MI_Metadata extends MD_Metadata {
         }
     }
 
-    public void createAcquisitionInformation() {
+    public void addAcquisitionInformation(MI_AcquisitionInformation acquisitionInformation) {
         if (this.acquisitionInformation == null) {
             this.acquisitionInformation = new ArrayList<>();
         }
-    }
 
-    public void addAcquisitionInformation(MI_AcquisitionInformation acquisitionInformation) {
         int elementNum = 0;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);

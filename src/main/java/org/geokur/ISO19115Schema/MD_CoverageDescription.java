@@ -74,25 +74,11 @@ public class MD_CoverageDescription extends MD_ContentInformation {
         }
     }
 
-    public void createAttributeDescription() {
+    public void addAttributeDescription(RecordType attributeDescription) {
         if (this.attributeDescription == null) {
             this.attributeDescription = new ArrayList<>();
         }
-    }
 
-    public void createProcessingLevelCode() {
-        if (this.processingLevelCode == null) {
-            this.processingLevelCode = new ArrayList<>();
-        }
-    }
-
-    public void createAttributeGroup() {
-        if (this.attributeGroup == null) {
-            this.attributeGroup = new ArrayList<>();
-        }
-    }
-
-    public void addAttributeDescription(RecordType attributeDescription) {
         int elementNum = 0;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -107,6 +93,10 @@ public class MD_CoverageDescription extends MD_ContentInformation {
     }
 
     public void addProcessingLevelCode(MD_Identifier processingLevelCode) {
+        if (this.processingLevelCode == null) {
+            this.processingLevelCode = new ArrayList<>();
+        }
+
         int elementNum = 1;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -121,6 +111,10 @@ public class MD_CoverageDescription extends MD_ContentInformation {
     }
 
     public void addAttributeGroup(MD_AttributeGroup attributeGroup) {
+        if (this.attributeGroup == null) {
+            this.attributeGroup = new ArrayList<>();
+        }
+
         int elementNum = 2;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);

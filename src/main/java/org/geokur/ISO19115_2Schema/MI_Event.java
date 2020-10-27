@@ -88,55 +88,11 @@ public class MI_Event {
         }
     }
 
-    public void createIdentifier() {
+    public void addIdentifier(MD_Identifier identifier) {
         if (this.identifier == null) {
             this.identifier = new ArrayList<>();
         }
-    }
 
-    public void createTrigger() {
-        if (this.trigger == null) {
-            this.trigger = new ArrayList<>();
-        }
-    }
-
-    public void createContext() {
-        if (this.context == null) {
-            this.context = new ArrayList<>();
-        }
-    }
-
-    public void createSequence() {
-        if (this.sequence == null) {
-            this.sequence = new ArrayList<>();
-        }
-    }
-
-    public void createTime() {
-        if (this.time == null) {
-            this.time = new ArrayList<>();
-        }
-    }
-
-    public void createExpectedObjective() {
-        if (this.expectedObjective == null) {
-            this.expectedObjective = new ArrayList<>();
-        }
-    }
-
-    public void createRelatedPass() {
-        if (this.relatedPass == null) {
-            this.relatedPass = new ArrayList<>();
-        }
-    }
-
-    public void createRelatedInstrument() {
-        if (this.relatedInstrument == null) {
-            this.relatedInstrument = new ArrayList<>();
-        }
-    }
-
-    public void addIdentifier(MD_Identifier identifier) {
         int elementNum = 0;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -151,6 +107,10 @@ public class MI_Event {
     }
 
     public void addTrigger(MI_TriggerCode trigger) {
+        if (this.trigger == null) {
+            this.trigger = new ArrayList<>();
+        }
+
         int elementNum = 1;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -165,6 +125,10 @@ public class MI_Event {
     }
 
     public void addContext(MI_ContextCode context) {
+        if (this.context == null) {
+            this.context = new ArrayList<>();
+        }
+
         int elementNum = 2;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -179,6 +143,10 @@ public class MI_Event {
     }
 
     public void addSequence(MI_SequenceCode sequence) {
+        if (this.sequence == null) {
+            this.sequence = new ArrayList<>();
+        }
+
         int elementNum = 3;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -193,6 +161,10 @@ public class MI_Event {
     }
 
     public void addTime(String time) {
+        if (this.time == null) {
+            this.time = new ArrayList<>();
+        }
+
         int elementNum = 4;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -207,6 +179,10 @@ public class MI_Event {
     }
 
     public void addExpectedObjective(MI_Objective expectedObjective) {
+        if (this.expectedObjective == null) {
+            this.expectedObjective = new ArrayList<>();
+        }
+
         int elementNum = 5;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -221,6 +197,10 @@ public class MI_Event {
     }
 
     public void addRelatedPass(MI_PlatformPass relatedPass) {
+        if (this.relatedPass == null) {
+            this.relatedPass = new ArrayList<>();
+        }
+
         int elementNum = 6;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -235,6 +215,10 @@ public class MI_Event {
     }
 
     public void addRelatedInstrument(MI_Instrument relatedInstrument) {
+        if (this.relatedInstrument == null) {
+            this.relatedInstrument = new ArrayList<>();
+        }
+
         int elementNum = 7;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);

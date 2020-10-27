@@ -59,13 +59,11 @@ public class MI_Sensor extends MI_Instrument {
         }
     }
 
-    public void createHosted() {
+    public void addHosted(MI_Instrument hosted) {
         if (this.hosted == null) {
             this.hosted = new ArrayList<>();
         }
-    }
 
-    public void addHosted(MI_Instrument hosted) {
         int elementNum = 9;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);

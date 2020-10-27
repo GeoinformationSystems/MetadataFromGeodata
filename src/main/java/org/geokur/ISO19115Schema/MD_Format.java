@@ -74,37 +74,11 @@ public class MD_Format {
         }
     }
 
-    public void createFormatSpecificationCitation() {
+    public void addFormatSpecificationCitation(CI_Citation formatSpecificationCitation) {
         if (this.formatSpecificationCitation == null) {
             this.formatSpecificationCitation = new ArrayList<>();
         }
-    }
 
-    public void createAmendmentNumber() {
-        if (this.amendmentNumber == null) {
-            this.amendmentNumber = new ArrayList<>();
-        }
-    }
-
-    public void createFileDecompressionTechnique() {
-        if (this.fileDecompressionTechnique == null) {
-            this.fileDecompressionTechnique = new ArrayList<>();
-        }
-    }
-
-    public void createMedium() {
-        if (this.medium == null) {
-            this.medium = new ArrayList<>();
-        }
-    }
-
-    public void createFormatDistributor() {
-        if (this.formatDistributor == null) {
-            this.formatDistributor = new ArrayList<>();
-        }
-    }
-
-    public void addFormatSpecificationCitation(CI_Citation formatSpecificationCitation) {
         int elementNum = 0;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -119,6 +93,10 @@ public class MD_Format {
     }
 
     public void addAmendmentNumber(String amendmentNumber) {
+        if (this.amendmentNumber == null) {
+            this.amendmentNumber = new ArrayList<>();
+        }
+
         int elementNum = 1;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -133,6 +111,10 @@ public class MD_Format {
     }
 
     public void addFileDecompressionTechnique(String fileDecompressionTechnique) {
+        if (this.fileDecompressionTechnique == null) {
+            this.fileDecompressionTechnique = new ArrayList<>();
+        }
+
         int elementNum = 2;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -147,6 +129,10 @@ public class MD_Format {
     }
 
     public void addMedium(MD_Medium medium) {
+        if (this.medium == null) {
+            this.medium = new ArrayList<>();
+        }
+
         int elementNum = 3;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -161,6 +147,10 @@ public class MD_Format {
     }
 
     public void addFormatDistributor(MD_Distributor formatDistributor) {
+        if (this.formatDistributor == null) {
+            this.formatDistributor = new ArrayList<>();
+        }
+
         int elementNum = 4;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);

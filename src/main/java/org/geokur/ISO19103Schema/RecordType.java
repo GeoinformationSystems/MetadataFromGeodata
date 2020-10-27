@@ -21,13 +21,11 @@ public class RecordType {
     // methods
     public RecordType() {}
 
-    public void createField() {
+    public void addField(String fieldName, String fieldType) {
         if (this.field == null) {
             this.field = new ArrayList<>();
         }
-    }
 
-    public void addField(String fieldName, String fieldType) {
         RecordTypeEntry recordTypeEntry = new RecordTypeEntry();
         recordTypeEntry.setFieldName(fieldName);
         recordTypeEntry.setFieldType(fieldType);

@@ -71,31 +71,11 @@ public class MD_Distributor {
         }
     }
 
-    public void createDistributorContact() {
+    public void addDistributorContact(CI_Responsibility distributorContact) {
         if (this.distributorContact == null) {
             this.distributorContact = new ArrayList<>();
         }
-    }
 
-    public void createDistributionOrderProcess() {
-        if (this.distributionOrderProcess == null) {
-            this.distributionOrderProcess = new ArrayList<>();
-        }
-    }
-
-    public void createDistributionFormat() {
-        if (this.distributionFormat == null) {
-            this.distributionFormat = new ArrayList<>();
-        }
-    }
-
-    public void createDistributorTransferOptions() {
-        if (this.distributorTransferOptions == null) {
-            this.distributorTransferOptions = new ArrayList<>();
-        }
-    }
-
-    public void addDistributorContact(CI_Responsibility distributorContact) {
         int elementNum = 0;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -110,6 +90,10 @@ public class MD_Distributor {
     }
 
     public void addDistributionOrderProcess(MD_StandardOrderProcess distributionOrderProcess) {
+        if (this.distributionOrderProcess == null) {
+            this.distributionOrderProcess = new ArrayList<>();
+        }
+
         int elementNum = 1;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -124,6 +108,10 @@ public class MD_Distributor {
     }
 
     public void addDistributionFormat(MD_Format distributionFormat) {
+        if (this.distributionFormat == null) {
+            this.distributionFormat = new ArrayList<>();
+        }
+
         int elementNum = 2;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -138,6 +126,10 @@ public class MD_Distributor {
     }
 
     public void addDistributorTransferOptions(MD_DigitalTransferOptions distributorTransferOptions) {
+        if (this.distributorTransferOptions == null) {
+            this.distributorTransferOptions = new ArrayList<>();
+        }
+
         int elementNum = 3;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);

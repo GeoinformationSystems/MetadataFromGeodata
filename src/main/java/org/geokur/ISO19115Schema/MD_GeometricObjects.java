@@ -63,19 +63,11 @@ public class MD_GeometricObjects {
         }
     }
 
-    public void createGeometricObjectType() {
+    public void addGeometricObjectType(MD_GeometricObjectTypeCode geometricObjectType) {
         if (this.geometricObjectType == null) {
             this.geometricObjectType = new ArrayList<>();
         }
-    }
 
-    public void createGeometricObjectCount() {
-        if (this.geometricObjectCount == null) {
-            this.geometricObjectCount = new ArrayList<>();
-        }
-    }
-
-    public void addGeometricObjectType(MD_GeometricObjectTypeCode geometricObjectType) {
         int elementNum = 0;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -90,6 +82,10 @@ public class MD_GeometricObjects {
     }
 
     public void addGeometricObjectCount(Integer geometricObjectCount) {
+        if (this.geometricObjectCount == null) {
+            this.geometricObjectCount = new ArrayList<>();
+        }
+
         int elementNum = 1;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);

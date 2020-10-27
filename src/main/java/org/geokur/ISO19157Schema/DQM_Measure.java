@@ -100,79 +100,11 @@ public class DQM_Measure {
         }
     }
 
-    public void createMeasureIdentifier() {
+    public void addMeasureIdentifier(MD_Identifier measureIdentifier) {
         if (this.measureIdentifier == null) {
             this.measureIdentifier = new ArrayList<>();
         }
-    }
 
-    public void createName() {
-        if (this.name == null) {
-            this.name = new ArrayList<>();
-        }
-    }
-
-    public void createAlias() {
-        if (this.alias == null) {
-            this.alias = new ArrayList<>();
-        }
-    }
-
-    public void createElementName() {
-        if (this.elementNameElement == null) {
-            this.elementNameElement = new ArrayList<>();
-        }
-    }
-
-    public void createDefinition() {
-        if (this.definition == null) {
-            this.definition = new ArrayList<>();
-        }
-    }
-
-    public void createDescription() {
-        if (this.description == null) {
-            this.description = new ArrayList<>();
-        }
-    }
-
-    public void createValueType() {
-        if (this.valueType == null) {
-            this.valueType = new ArrayList<>();
-        }
-    }
-
-    public void createValueStructure() {
-        if (this.valueStructure == null) {
-            this.valueStructure = new ArrayList<>();
-        }
-    }
-
-    public void createExample() {
-        if (this.example == null) {
-            this.example = new ArrayList<>();
-        }
-    }
-
-    public void createBasicMeasure() {
-        if (this.basicMeasure == null) {
-            this.basicMeasure = new ArrayList<>();
-        }
-    }
-
-    public void createSourceReference() {
-        if (this.sourceReference == null) {
-            this.sourceReference = new ArrayList<>();
-        }
-    }
-
-    public void createParameter() {
-        if (this.parameter == null) {
-            this.parameter = new ArrayList<>();
-        }
-    }
-
-    public void addMeasureIdentifier(MD_Identifier measureIdentifier) {
         int elementNum = 0;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -187,6 +119,10 @@ public class DQM_Measure {
     }
 
     public void addName(String name) {
+        if (this.name == null) {
+            this.name = new ArrayList<>();
+        }
+
         int elementNum = 1;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -201,6 +137,10 @@ public class DQM_Measure {
     }
 
     public void addAlias(String alias) {
+        if (this.alias == null) {
+            this.alias = new ArrayList<>();
+        }
+
         int elementNum = 2;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -215,6 +155,10 @@ public class DQM_Measure {
     }
 
     public void addElementName(String elementNameElement) {
+        if (this.elementNameElement == null) {
+            this.elementNameElement = new ArrayList<>();
+        }
+
         int elementNum = 3;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -229,6 +173,10 @@ public class DQM_Measure {
     }
 
     public void addDefinition(String definition) {
+        if (this.definition == null) {
+            this.definition = new ArrayList<>();
+        }
+
         int elementNum = 4;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -243,6 +191,10 @@ public class DQM_Measure {
     }
 
     public void addDescription(DQM_Description description) {
+        if (this.description == null) {
+            this.description = new ArrayList<>();
+        }
+
         int elementNum = 5;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -257,6 +209,10 @@ public class DQM_Measure {
     }
 
     public void addValueType(String valueType) {
+        if (this.valueType == null) {
+            this.valueType = new ArrayList<>();
+        }
+
         int elementNum = 6;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -271,6 +227,10 @@ public class DQM_Measure {
     }
 
     public void addValueStructure(DQM_ValueStructure valueStructure) {
+        if (this.valueStructure == null) {
+            this.valueStructure = new ArrayList<>();
+        }
+
         int elementNum = 7;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -285,6 +245,10 @@ public class DQM_Measure {
     }
 
     public void addExample(DQM_Description example) {
+        if (this.example == null) {
+            this.example = new ArrayList<>();
+        }
+
         int elementNum = 8;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -299,6 +263,10 @@ public class DQM_Measure {
     }
 
     public void addBasicMeasure(DQM_BasicMeasure basicMeasure) {
+        if (this.basicMeasure == null) {
+            this.basicMeasure = new ArrayList<>();
+        }
+
         int elementNum = 9;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -313,6 +281,10 @@ public class DQM_Measure {
     }
 
     public void addSourceReference(DQM_SourceReference sourceReference) {
+        if (this.sourceReference == null) {
+            this.sourceReference = new ArrayList<>();
+        }
+
         int elementNum = 10;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -327,6 +299,10 @@ public class DQM_Measure {
     }
 
     public void addParameter(DQM_Parameter parameter) {
+        if (this.parameter == null) {
+            this.parameter = new ArrayList<>();
+        }
+
         int elementNum = 11;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);

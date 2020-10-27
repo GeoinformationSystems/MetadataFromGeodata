@@ -72,43 +72,11 @@ public class CI_Address {
         }
     }
 
-    public void createDeliveryPoint() {
+    public void addDeliveryPoint(String deliveryPoint) {
         if (this.deliveryPoint == null) {
             this.deliveryPoint = new ArrayList<>();
         }
-    }
 
-    public void createCity() {
-        if (this.city == null) {
-            this.city = new ArrayList<>();
-        }
-    }
-
-    public void createAdministrativeArea() {
-        if (this.administrativeArea == null) {
-            this.administrativeArea = new ArrayList<>();
-        }
-    }
-
-    public void createPostalCode() {
-        if (this.postalCode == null) {
-            this.postalCode = new ArrayList<>();
-        }
-    }
-
-    public void createCountry() {
-        if (this.country == null) {
-            this.country = new ArrayList<>();
-        }
-    }
-
-    public void createElectronicMailAddress() {
-        if (this.electronicMailAddress == null) {
-            this.electronicMailAddress = new ArrayList<>();
-        }
-    }
-
-    public void addDeliveryPoint(String deliveryPoint) {
         int elementNum = 0;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -123,6 +91,10 @@ public class CI_Address {
     }
 
     public void addCity(String city) {
+        if (this.city == null) {
+            this.city = new ArrayList<>();
+        }
+
         int elementNum = 1;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -137,6 +109,10 @@ public class CI_Address {
     }
 
     public void addAdministrativeArea(String administrativeArea) {
+        if (this.administrativeArea == null) {
+            this.administrativeArea = new ArrayList<>();
+        }
+
         int elementNum = 2;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -151,6 +127,10 @@ public class CI_Address {
     }
 
     public void addPostalCode(String postalCode) {
+        if (this.postalCode == null) {
+            this.postalCode = new ArrayList<>();
+        }
+
         int elementNum = 3;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -165,6 +145,10 @@ public class CI_Address {
     }
 
     public void addCountry(String country) {
+        if (this.country == null) {
+            this.country = new ArrayList<>();
+        }
+
         int elementNum = 4;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -179,6 +163,10 @@ public class CI_Address {
     }
 
     public void addElectronicMailAddress(String electronicMailAddress) {
+        if (this.electronicMailAddress == null) {
+            this.electronicMailAddress = new ArrayList<>();
+        }
+
         int elementNum = 5;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);

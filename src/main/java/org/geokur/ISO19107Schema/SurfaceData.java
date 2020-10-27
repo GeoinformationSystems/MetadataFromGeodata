@@ -3,53 +3,66 @@
  * All rights reserved.
  */
 
-package org.geokur.ISO19111Schema;
+package org.geokur.ISO19107Schema;
 
-import org.geokur.ISO19115Schema.CI_Date;
 import org.geokur.ISO191xxProfile.MaximumOccurrenceException;
 
-import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementRef;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.ArrayList;
 import java.util.List;
 
-@XmlRootElement(name = "Datum")
-public abstract class Datum extends ObjectUsage {
-    // TODO: implement concrete classes extending this class
+@XmlRootElement(name = "SurfaceData")
+public abstract class SurfaceData extends OrientableData {
 
     // occurrence and obligation
-    private final String[] elementName = {"name", "identifier", "alias", "remarks",
-            "usage",
-            "anchorDefinition", "publicationDate", "conventionalRS"};
-    private final int[] elementMax = {1, Integer.MAX_VALUE, Integer.MAX_VALUE, 1,
-            Integer.MAX_VALUE,
-            1, 1, 1};
-    private final boolean[] elementObligation = {true, false, false, false,
-            false,
-            false, false, false};
+    private final String[] elementName = {"rsid", "type", "segment", "orientation", "boundary", "spanningSurface", "interpolation"};
+    private final int[] elementMax = {Integer.MAX_VALUE, 1, Integer.MAX_VALUE, 1, Integer.MAX_VALUE, 1, 1};
+    private final boolean[] elementObligation = {false, false, false, false, true, false, true};
 
     private final String className = this.getClass().getSimpleName();
 
     // class variables
-    @XmlElement(name = "anchorDefinition")
-    public List<String> anchorDefinition;
-
-    @XmlElementWrapper(name = "publicationDate")
+    @XmlElementWrapper(name = "boundary")
     @XmlElementRef
-    public List<CI_Date> publicationDate;
+    public List<CurveData> boundary;
 
-    @XmlElementWrapper(name = "conventionalRS")
+    @XmlElementWrapper(name = "spanningSurface")
     @XmlElementRef
-    public List<IdentifiedObject> conventionalRS;
+    public List<SurfaceData> spanningSurface;
+
+    @XmlElementWrapper(name = "interpolation")
+    @XmlElementRef
+    public List<SurfaceInterpolation> interpolation;
 
     // variables for correct marshalling of specified classes
+    public List<PolygonData> polygonData;
 
     // methods
-    public void addAnchorDefinition(String anchorDefinition) {
-        if (this.anchorDefinition == null) {
-            this.anchorDefinition = new ArrayList<>();
+    public SurfaceData() {}
+
+    public void addBoundary(CurveData boundary) {
+        if (this.boundary == null) {
+            this.boundary = new ArrayList<>();
+        }
+
+        int elementNum = 4;
+        try {
+            List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
+            if (tempList.size() >= elementMax[elementNum]) {
+                throw new MaximumOccurrenceException(className + " - " + elementName[elementNum], elementMax[elementNum]);
+            } else {
+                this.boundary.add(boundary);
+            }
+        } catch (MaximumOccurrenceException | NoSuchFieldException | IllegalAccessException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public void addSpanningSurface(SurfaceData spanningSurface) {
+        if (this.spanningSurface == null) {
+            this.spanningSurface = new ArrayList<>();
         }
 
         int elementNum = 5;
@@ -58,16 +71,16 @@ public abstract class Datum extends ObjectUsage {
             if (tempList.size() >= elementMax[elementNum]) {
                 throw new MaximumOccurrenceException(className + " - " + elementName[elementNum], elementMax[elementNum]);
             } else {
-                this.anchorDefinition.add(anchorDefinition);
+                this.spanningSurface.add(spanningSurface);
             }
         } catch (MaximumOccurrenceException | NoSuchFieldException | IllegalAccessException e) {
             System.out.println(e.getMessage());
         }
     }
 
-    public void addPublicationDate(CI_Date publicationDate) {
-        if (this.publicationDate == null) {
-            this.publicationDate = new ArrayList<>();
+    public void addInterpolation(SurfaceInterpolation interpolation) {
+        if (this.interpolation == null) {
+            this.interpolation = new ArrayList<>();
         }
 
         int elementNum = 6;
@@ -76,25 +89,7 @@ public abstract class Datum extends ObjectUsage {
             if (tempList.size() >= elementMax[elementNum]) {
                 throw new MaximumOccurrenceException(className + " - " + elementName[elementNum], elementMax[elementNum]);
             } else {
-                this.publicationDate.add(publicationDate);
-            }
-        } catch (MaximumOccurrenceException | NoSuchFieldException | IllegalAccessException e) {
-            System.out.println(e.getMessage());
-        }
-    }
-
-    public void addConventionalRS(IdentifiedObject conventionalRS) {
-        if (this.conventionalRS == null) {
-            this.conventionalRS = new ArrayList<>();
-        }
-
-        int elementNum = 7;
-        try {
-            List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
-            if (tempList.size() >= elementMax[elementNum]) {
-                throw new MaximumOccurrenceException(className + " - " + elementName[elementNum], elementMax[elementNum]);
-            } else {
-                this.conventionalRS.add(conventionalRS);
+                this.interpolation.add(interpolation);
             }
         } catch (MaximumOccurrenceException | NoSuchFieldException | IllegalAccessException e) {
             System.out.println(e.getMessage());

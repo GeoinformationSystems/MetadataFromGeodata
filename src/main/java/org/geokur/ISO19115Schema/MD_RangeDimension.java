@@ -69,25 +69,11 @@ public class MD_RangeDimension {
         }
     }
 
-    public void createSequenceIdentifier() {
+    public void addSequenceIdentifier(String sequenceIdentifier) {
         if (this.sequenceIdentifier == null) {
             this.sequenceIdentifier = new ArrayList<>();
         }
-    }
 
-    public void createDescription() {
-        if (this.description == null) {
-            this.description = new ArrayList<>();
-        }
-    }
-
-    public void createName() {
-        if (this.name == null) {
-            this.name = new ArrayList<>();
-        }
-    }
-
-    public void addSequenceIdentifier(String sequenceIdentifier) {
         int elementNum = 0;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -102,6 +88,10 @@ public class MD_RangeDimension {
     }
 
     public void addDescription(String description) {
+        if (this.description == null) {
+            this.description = new ArrayList<>();
+        }
+
         int elementNum = 1;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -116,6 +106,10 @@ public class MD_RangeDimension {
     }
 
     public void addName(MD_Identifier name) {
+        if (this.name == null) {
+            this.name = new ArrayList<>();
+        }
+
         int elementNum = 2;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);

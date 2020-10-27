@@ -64,19 +64,11 @@ public class CI_Date {
         }
     }
 
-    public void createDate() {
+    public void addDate(String date) {
         if (this.date == null) {
             this.date = new ArrayList<>();
         }
-    }
 
-    public void createDateType() {
-        if (this.dateType == null) {
-            this.dateType = new ArrayList<>();
-        }
-    }
-
-    public void addDate(String date) {
         int elementNum = 0;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -91,6 +83,10 @@ public class CI_Date {
     }
 
     public void addDateType(CI_DateTypeCode dateType) {
+        if (this.dateType == null) {
+            this.dateType = new ArrayList<>();
+        }
+
         int elementNum = 1;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);

@@ -77,37 +77,11 @@ public class MI_Plan {
         }
     }
 
-    public void createType() {
+    public void addType(MI_GeometryTypeCode type) {
         if (this.type == null) {
             this.type = new ArrayList<>();
         }
-    }
 
-    public void createStatus() {
-        if (this.status == null) {
-            this.status = new ArrayList<>();
-        }
-    }
-
-    public void createCitation() {
-        if (this.citation == null) {
-            this.citation = new ArrayList<>();
-        }
-    }
-
-    public void createOperation() {
-        if (this.operation == null) {
-            this.operation = new ArrayList<>();
-        }
-    }
-
-    public void createSatisfiedRequirement() {
-        if (this.satisfiedRequirement == null) {
-            this.satisfiedRequirement = new ArrayList<>();
-        }
-    }
-
-    public void addType(MI_GeometryTypeCode type) {
         int elementNum = 0;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -122,6 +96,10 @@ public class MI_Plan {
     }
 
     public void addStatus(MD_ProgressCode status) {
+        if (this.status == null) {
+            this.status = new ArrayList<>();
+        }
+
         int elementNum = 1;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -136,6 +114,10 @@ public class MI_Plan {
     }
 
     public void addCitation(CI_Citation citation) {
+        if (this.citation == null) {
+            this.citation = new ArrayList<>();
+        }
+
         int elementNum = 2;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -150,6 +132,10 @@ public class MI_Plan {
     }
 
     public void addOperation(MI_Operation operation) {
+        if (this.operation == null) {
+            this.operation = new ArrayList<>();
+        }
+
         int elementNum = 3;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -164,6 +150,10 @@ public class MI_Plan {
     }
 
     public void addSatisfiedRequirement(MI_Requirement satisfiedRequirement) {
+        if (this.satisfiedRequirement == null) {
+            this.satisfiedRequirement = new ArrayList<>();
+        }
+
         int elementNum = 4;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);

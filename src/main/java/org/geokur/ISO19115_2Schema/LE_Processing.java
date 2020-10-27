@@ -90,55 +90,11 @@ public class LE_Processing {
         }
     }
 
-    public void createIdentifier() {
+    public void addIdentifier(MD_Identifier identifier) {
         if (this.identifier == null) {
             this.identifier = new ArrayList<>();
         }
-    }
 
-    public void createSoftwareReference() {
-        if (this.softwareReference == null) {
-            this.softwareReference = new ArrayList<>();
-        }
-    }
-
-    public void createProcedureDescription() {
-        if (this.procedureDescription == null) {
-            this.procedureDescription = new ArrayList<>();
-        }
-    }
-
-    public void createDocumentation() {
-        if (this.documentation == null) {
-            this.documentation = new ArrayList<>();
-        }
-    }
-
-    public void createRunTimeParameters() {
-        if (this.runTimeParameters == null) {
-            this.runTimeParameters = new ArrayList<>();
-        }
-    }
-
-    public void createOtherProperty() {
-        if (this.otherProperty == null) {
-            this.otherProperty = new ArrayList<>();
-        }
-    }
-
-    public void createOtherPropertyType() {
-        if (this.otherPropertyType == null) {
-            this.otherPropertyType = new ArrayList<>();
-        }
-    }
-
-    public void createAlgorithm() {
-        if (this.algorithm == null) {
-            this.algorithm = new ArrayList<>();
-        }
-    }
-
-    public void addIdentifier(MD_Identifier identifier) {
         int elementNum = 0;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -153,6 +109,10 @@ public class LE_Processing {
     }
 
     public void addSoftwareReference(CI_Citation softwareReference) {
+        if (this.softwareReference == null) {
+            this.softwareReference = new ArrayList<>();
+        }
+
         int elementNum = 1;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -167,6 +127,10 @@ public class LE_Processing {
     }
 
     public void addProcedureDescription(String procedureDescription) {
+        if (this.procedureDescription == null) {
+            this.procedureDescription = new ArrayList<>();
+        }
+
         int elementNum = 2;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -181,6 +145,10 @@ public class LE_Processing {
     }
 
     public void addDocumentation(CI_Citation documentation) {
+        if (this.documentation == null) {
+            this.documentation = new ArrayList<>();
+        }
+
         int elementNum = 3;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -195,6 +163,10 @@ public class LE_Processing {
     }
 
     public void addRunTimeParameters(String runTimeParameters) {
+        if (this.runTimeParameters == null) {
+            this.runTimeParameters = new ArrayList<>();
+        }
+
         int elementNum = 4;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -209,6 +181,10 @@ public class LE_Processing {
     }
 
     public void addOtherProperty(Record otherProperty) {
+        if (this.otherProperty == null) {
+            this.otherProperty = new ArrayList<>();
+        }
+
         int elementNum = 5;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -223,6 +199,10 @@ public class LE_Processing {
     }
 
     public void addOtherPropertyType(RecordType otherPropertyType) {
+        if (this.otherPropertyType == null) {
+            this.otherPropertyType = new ArrayList<>();
+        }
+
         int elementNum = 6;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -237,6 +217,10 @@ public class LE_Processing {
     }
 
     public void addAlgorithm(LE_Algorithm algorithm) {
+        if (this.algorithm == null) {
+            this.algorithm = new ArrayList<>();
+        }
+
         int elementNum = 7;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);

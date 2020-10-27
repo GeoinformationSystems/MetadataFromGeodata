@@ -79,37 +79,11 @@ public class DQ_EvaluationMethod {
         }
     }
 
-    public void createEvaluationMethodType() {
+    public void addEvaluationMethodType(DQ_EvaluationMethodTypeCode evaluationMethodType) {
         if (this.evaluationMethodType == null) {
             this.evaluationMethodType = new ArrayList<>();
         }
-    }
 
-    public void createEvaluationMethodDescription() {
-        if (this.evaluationMethodDescription == null) {
-            this.evaluationMethodDescription = new ArrayList<>();
-        }
-    }
-
-    public void createEvaluationProcedure() {
-        if (this.evaluationProcedure == null) {
-            this.evaluationProcedure = new ArrayList<>();
-        }
-    }
-
-    public void createReferenceDoc() {
-        if (this.referenceDoc == null) {
-            this.referenceDoc = new ArrayList<>();
-        }
-    }
-
-    public void createDateTime() {
-        if (this.dateTime == null) {
-            this.dateTime = new ArrayList<>();
-        }
-    }
-
-    public void addEvaluationMethodType(DQ_EvaluationMethodTypeCode evaluationMethodType) {
         int elementNum = 0;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -124,6 +98,10 @@ public class DQ_EvaluationMethod {
     }
 
     public void addEvaluationMethodDescription(String evaluationMethodDescription) {
+        if (this.evaluationMethodDescription == null) {
+            this.evaluationMethodDescription = new ArrayList<>();
+        }
+
         int elementNum = 1;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -138,6 +116,10 @@ public class DQ_EvaluationMethod {
     }
 
     public void addEvaluationProcedure(CI_Citation evaluationProcedure) {
+        if (this.evaluationProcedure == null) {
+            this.evaluationProcedure = new ArrayList<>();
+        }
+
         int elementNum = 2;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -152,6 +134,10 @@ public class DQ_EvaluationMethod {
     }
 
     public void addReferenceDoc(CI_Citation referenceDoc) {
+        if (this.referenceDoc == null) {
+            this.referenceDoc = new ArrayList<>();
+        }
+
         int elementNum = 3;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -166,6 +152,10 @@ public class DQ_EvaluationMethod {
     }
 
     public void addDateTime(String dateTime) {
+        if (this.dateTime == null) {
+            this.dateTime = new ArrayList<>();
+        }
+
         int elementNum = 4;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);

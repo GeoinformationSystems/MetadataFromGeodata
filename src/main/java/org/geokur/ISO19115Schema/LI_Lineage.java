@@ -75,37 +75,11 @@ public class LI_Lineage {
         }
     }
 
-    public void createStatement() {
+    public void addStatement(String statement) {
         if (this.statement == null) {
             this.statement = new ArrayList<>();
         }
-    }
 
-    public void createScope() {
-        if (this.scope == null) {
-            this.scope = new ArrayList<>();
-        }
-    }
-
-    public void createAdditionalDocumentation() {
-        if (this.additionalDocumentation == null) {
-            this.additionalDocumentation = new ArrayList<>();
-        }
-    }
-
-    public void createProcessStep() {
-        if (this.processStep == null) {
-            this.processStep = new ArrayList<>();
-        }
-    }
-
-    public void createSource() {
-        if (this.source == null) {
-            this.source = new ArrayList<>();
-        }
-    }
-
-    public void addStatement(String statement) {
         int elementNum = 0;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -120,6 +94,10 @@ public class LI_Lineage {
     }
 
     public void addScope(MD_Scope scope) {
+        if (this.scope == null) {
+            this.scope = new ArrayList<>();
+        }
+
         int elementNum = 1;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -134,6 +112,10 @@ public class LI_Lineage {
     }
 
     public void addAdditionalDocumentation(CI_Citation additionalDocumentation) {
+        if (this.additionalDocumentation == null) {
+            this.additionalDocumentation = new ArrayList<>();
+        }
+
         int elementNum = 2;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -148,6 +130,10 @@ public class LI_Lineage {
     }
 
     public void addProcessStep(LI_ProcessStep processStep) {
+        if (this.processStep == null) {
+            this.processStep = new ArrayList<>();
+        }
+
         int elementNum = 3;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -162,6 +148,10 @@ public class LI_Lineage {
     }
 
     public void addSource(LI_Source source) {
+        if (this.source == null) {
+            this.source = new ArrayList<>();
+        }
+
         int elementNum = 4;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);

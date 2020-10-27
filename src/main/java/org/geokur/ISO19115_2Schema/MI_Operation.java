@@ -110,85 +110,11 @@ public class MI_Operation {
         }
     }
 
-    public void createDescription() {
+    public void addDescription(String description) {
         if (this.description == null) {
             this.description = new ArrayList<>();
         }
-    }
 
-    public void createCitation() {
-        if (this.citation == null) {
-            this.citation = new ArrayList<>();
-        }
-    }
-
-    public void createIdentifier() {
-        if (this.identifier == null) {
-            this.identifier = new ArrayList<>();
-        }
-    }
-
-    public void createStatus() {
-        if (this.status == null) {
-            this.status = new ArrayList<>();
-        }
-    }
-
-    public void createType() {
-        if (this.type == null) {
-            this.type = new ArrayList<>();
-        }
-    }
-
-    public void createOtherProperty() {
-        if (this.otherProperty == null) {
-            this.otherProperty = new ArrayList<>();
-        }
-    }
-
-    public void createOtherPropertyType() {
-        if (this.otherPropertyType == null) {
-            this.otherPropertyType = new ArrayList<>();
-        }
-    }
-
-    public void createChildOperation() {
-        if (this.childOperation == null) {
-            this.childOperation = new ArrayList<>();
-        }
-    }
-
-    public void createObjective() {
-        if (this.objective == null) {
-            this.objective = new ArrayList<>();
-        }
-    }
-
-    public void createParentOperation() {
-        if (this.parentOperation == null) {
-            this.parentOperation = new ArrayList<>();
-        }
-    }
-
-    public void createPlan() {
-        if (this.plan == null) {
-            this.plan = new ArrayList<>();
-        }
-    }
-
-    public void createPlatform() {
-        if (this.platform == null) {
-            this.platform = new ArrayList<>();
-        }
-    }
-
-    public void createSignificantEvent() {
-        if (this.significantEvent == null) {
-            this.significantEvent = new ArrayList<>();
-        }
-    }
-
-    public void addDescription(String description) {
         int elementNum = 0;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -203,6 +129,10 @@ public class MI_Operation {
     }
 
     public void addCitation(CI_Citation citation) {
+        if (this.citation == null) {
+            this.citation = new ArrayList<>();
+        }
+
         int elementNum = 1;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -217,6 +147,10 @@ public class MI_Operation {
     }
 
     public void addIdentifier(MD_Identifier identifier) {
+        if (this.identifier == null) {
+            this.identifier = new ArrayList<>();
+        }
+
         int elementNum = 2;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -231,6 +165,10 @@ public class MI_Operation {
     }
 
     public void addStatus(MD_ProgressCode status) {
+        if (this.status == null) {
+            this.status = new ArrayList<>();
+        }
+
         int elementNum = 3;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -245,6 +183,10 @@ public class MI_Operation {
     }
 
     public void addType(MI_OperationTypeCode type) {
+        if (this.type == null) {
+            this.type = new ArrayList<>();
+        }
+
         int elementNum = 4;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -259,6 +201,10 @@ public class MI_Operation {
     }
 
     public void addOtherProperty(Record otherProperty) {
+        if (this.otherProperty == null) {
+            this.otherProperty = new ArrayList<>();
+        }
+
         int elementNum = 5;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -273,6 +219,10 @@ public class MI_Operation {
     }
 
     public void addOtherPropertyType(RecordType otherPropertyType) {
+        if (this.otherPropertyType == null) {
+            this.otherPropertyType = new ArrayList<>();
+        }
+
         int elementNum = 6;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -287,6 +237,10 @@ public class MI_Operation {
     }
 
     public void addChildOperation(MI_Operation childOperation) {
+        if (this.childOperation == null) {
+            this.childOperation = new ArrayList<>();
+        }
+
         int elementNum = 7;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -301,6 +255,10 @@ public class MI_Operation {
     }
 
     public void addObjective(MI_Objective objective) {
+        if (this.objective == null) {
+            this.objective = new ArrayList<>();
+        }
+
         int elementNum = 8;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -315,6 +273,10 @@ public class MI_Operation {
     }
 
     public void addParentOperation(MI_Operation parentOperation) {
+        if (this.parentOperation == null) {
+            this.parentOperation = new ArrayList<>();
+        }
+
         int elementNum = 9;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -329,6 +291,10 @@ public class MI_Operation {
     }
 
     public void addPlan(MI_Plan plan) {
+        if (this.plan == null) {
+            this.plan = new ArrayList<>();
+        }
+
         int elementNum = 10;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -343,6 +309,10 @@ public class MI_Operation {
     }
 
     public void addPlatform(MI_Platform platform) {
+        if (this.platform == null) {
+            this.platform = new ArrayList<>();
+        }
+
         int elementNum = 11;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -357,6 +327,10 @@ public class MI_Operation {
     }
 
     public void addSignificantEvent(MI_Event significantEvent) {
+        if (this.significantEvent == null) {
+            this.significantEvent = new ArrayList<>();
+        }
+
         int elementNum = 12;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);

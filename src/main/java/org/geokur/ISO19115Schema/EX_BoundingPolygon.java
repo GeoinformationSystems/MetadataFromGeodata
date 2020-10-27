@@ -58,13 +58,11 @@ public class EX_BoundingPolygon extends EX_GeographicExtent {
         }
     }
 
-    public void createPolygon() {
+    public void addPolygon(GeometryData polygon) {
         if (this.polygon == null) {
             this.polygon = new ArrayList<>();
         }
-    }
 
-    public void addPolygon(GeometryData polygon) {
         int elementNum = 1;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);

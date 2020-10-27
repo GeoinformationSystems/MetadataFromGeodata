@@ -72,43 +72,11 @@ public class MI_EnvironmentalRecord {
         }
     }
 
-    public void createAverageAirTemperature() {
+    public void addAverageAirTemperature(String averageAirTemperature) {
         if (this.averageAirTemperature == null) {
             this.averageAirTemperature = new ArrayList<>();
         }
-    }
 
-    public void createMaxRelativeHumidity() {
-        if (this.maxRelativeHumidity == null) {
-            this.maxRelativeHumidity = new ArrayList<>();
-        }
-    }
-
-    public void createMaxAltitude() {
-        if (this.maxAltitude == null) {
-            this.maxAltitude = new ArrayList<>();
-        }
-    }
-
-    public void createMeteorologicalConditions() {
-        if (this.meteorologicalConditions == null) {
-            this.meteorologicalConditions = new ArrayList<>();
-        }
-    }
-
-    public void createSolarAzimuth() {
-        if (this.solarAzimuth == null) {
-            this.solarAzimuth = new ArrayList<>();
-        }
-    }
-
-    public void createSolarElevation() {
-        if (this.solarElevation == null) {
-            this.solarElevation = new ArrayList<>();
-        }
-    }
-
-    public void addAverageAirTemperature(String averageAirTemperature) {
         int elementNum = 0;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -123,6 +91,10 @@ public class MI_EnvironmentalRecord {
     }
 
     public void addMaxRelativeHumidity(String maxRelativeHumidity) {
+        if (this.maxRelativeHumidity == null) {
+            this.maxRelativeHumidity = new ArrayList<>();
+        }
+
         int elementNum = 1;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -137,6 +109,10 @@ public class MI_EnvironmentalRecord {
     }
 
     public void addMaxAltitude(String maxAltitude) {
+        if (this.maxAltitude == null) {
+            this.maxAltitude = new ArrayList<>();
+        }
+
         int elementNum = 2;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -151,6 +127,10 @@ public class MI_EnvironmentalRecord {
     }
 
     public void addMeteorologicalConditions(String meteorologicalConditions) {
+        if (this.meteorologicalConditions == null) {
+            this.meteorologicalConditions = new ArrayList<>();
+        }
+
         int elementNum = 3;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -165,6 +145,10 @@ public class MI_EnvironmentalRecord {
     }
 
     public void addSolarAzimuth(String solarAzimuth) {
+        if (this.solarAzimuth == null) {
+            this.solarAzimuth = new ArrayList<>();
+        }
+
         int elementNum = 4;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -179,6 +163,10 @@ public class MI_EnvironmentalRecord {
     }
 
     public void addSolarElevation(String solarElevation) {
+        if (this.solarElevation == null) {
+            this.solarElevation = new ArrayList<>();
+        }
+
         int elementNum = 5;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);

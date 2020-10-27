@@ -66,25 +66,11 @@ public class MI_RangeElementDescription {
         }
     }
 
-    public void createName() {
+    public void addName(String name) {
         if (this.name == null) {
             this.name = new ArrayList<>();
         }
-    }
 
-    public void createDefinition() {
-        if (this.definition == null) {
-            this.definition = new ArrayList<>();
-        }
-    }
-
-    public void createRangeElement() {
-        if (this.rangeElement == null) {
-            this.rangeElement = new ArrayList<>();
-        }
-    }
-
-    public void addName(String name) {
         int elementNum = 0;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -99,6 +85,10 @@ public class MI_RangeElementDescription {
     }
 
     public void addDefinition(String definition) {
+        if (this.definition == null) {
+            this.definition = new ArrayList<>();
+        }
+
         int elementNum = 1;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -113,6 +103,10 @@ public class MI_RangeElementDescription {
     }
 
     public void addRangeElement(Record rangeElement) {
+        if (this.rangeElement == null) {
+            this.rangeElement = new ArrayList<>();
+        }
+
         int elementNum = 2;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);

@@ -88,55 +88,11 @@ public class MI_AcquisitionInformation {
         }
     }
 
-    public void createScope() {
+    public void addScope(MD_Scope scope) {
         if (this.scope == null) {
             this.scope = new ArrayList<>();
         }
-    }
 
-    public void createAcquisitionPlan() {
-        if (this.acquisitionPlan == null) {
-            this.acquisitionPlan = new ArrayList<>();
-        }
-    }
-
-    public void createAcquisitionRequirement() {
-        if (this.acquisitionRequirement == null) {
-            this.acquisitionRequirement = new ArrayList<>();
-        }
-    }
-
-    public void createEnvironmentalConditions() {
-        if (this.environmentalConditions == null) {
-            this.environmentalConditions = new ArrayList<>();
-        }
-    }
-
-    public void createInstrument() {
-        if (this.instrument == null) {
-            this.instrument = new ArrayList<>();
-        }
-    }
-
-    public void createObjective() {
-        if (this.objective == null) {
-            this.objective = new ArrayList<>();
-        }
-    }
-
-    public void createOperation() {
-        if (this.operation == null) {
-            this.operation = new ArrayList<>();
-        }
-    }
-
-    public void createPlatform() {
-        if (this.platform == null) {
-            this.platform = new ArrayList<>();
-        }
-    }
-
-    public void addScope(MD_Scope scope) {
         int elementNum = 0;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -151,6 +107,10 @@ public class MI_AcquisitionInformation {
     }
 
     public void addAcquisitionPlan(MI_Plan acquisitionPlan) {
+        if (this.acquisitionPlan == null) {
+            this.acquisitionPlan = new ArrayList<>();
+        }
+
         int elementNum = 1;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -165,6 +125,10 @@ public class MI_AcquisitionInformation {
     }
 
     public void addAcquisitionRequirement(MI_Requirement acquisitionRequirement) {
+        if (this.acquisitionRequirement == null) {
+            this.acquisitionRequirement = new ArrayList<>();
+        }
+
         int elementNum = 2;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -179,6 +143,10 @@ public class MI_AcquisitionInformation {
     }
 
     public void addEnvironmentalConditions(MI_EnvironmentalRecord environmentalConditions) {
+        if (this.environmentalConditions == null) {
+            this.environmentalConditions = new ArrayList<>();
+        }
+
         int elementNum = 3;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -193,6 +161,10 @@ public class MI_AcquisitionInformation {
     }
 
     public void addInstrument(MI_Instrument instrument) {
+        if (this.instrument == null) {
+            this.instrument = new ArrayList<>();
+        }
+
         int elementNum = 4;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -207,6 +179,10 @@ public class MI_AcquisitionInformation {
     }
 
     public void addObjective(MI_Objective objective) {
+        if (this.objective == null) {
+            this.objective = new ArrayList<>();
+        }
+
         int elementNum = 5;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -221,6 +197,10 @@ public class MI_AcquisitionInformation {
     }
 
     public void addOperation(MI_Operation operation) {
+        if (this.operation == null) {
+            this.operation = new ArrayList<>();
+        }
+
         int elementNum = 6;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -235,6 +215,10 @@ public class MI_AcquisitionInformation {
     }
 
     public void addPlatform(MI_Platform platform) {
+        if (this.platform == null) {
+            this.platform = new ArrayList<>();
+        }
+
         int elementNum = 7;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);

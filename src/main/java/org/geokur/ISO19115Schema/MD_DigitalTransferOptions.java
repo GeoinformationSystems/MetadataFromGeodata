@@ -77,43 +77,11 @@ public class MD_DigitalTransferOptions {
         }
     }
 
-    public void createUnitsOfDistribution() {
+    public void addUnitsOfDistribution(String unitsOfDistribution) {
         if (this.unitsOfDistribution == null) {
             this.unitsOfDistribution = new ArrayList<>();
         }
-    }
 
-    public void createTransferSize() {
-        if (this.transferSize == null) {
-            this.transferSize = new ArrayList<>();
-        }
-    }
-
-    public void createOnLine() {
-        if (this.onLine == null) {
-            this.onLine = new ArrayList<>();
-        }
-    }
-
-    public void createOffLine() {
-        if (this.offLine == null) {
-            this.offLine = new ArrayList<>();
-        }
-    }
-
-    public void createTransferFrequency() {
-        if (this.transferFrequency == null) {
-            this.transferFrequency = new ArrayList<>();
-        }
-    }
-
-    public void createDistributionFormat() {
-        if (this.distributionFormat == null) {
-            this.distributionFormat = new ArrayList<>();
-        }
-    }
-
-    public void addUnitsOfDistribution(String unitsOfDistribution) {
         int elementNum = 0;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -128,6 +96,10 @@ public class MD_DigitalTransferOptions {
     }
 
     public void addTransferSize(Double transferSize) {
+        if (this.transferSize == null) {
+            this.transferSize = new ArrayList<>();
+        }
+
         int elementNum = 1;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -142,6 +114,10 @@ public class MD_DigitalTransferOptions {
     }
 
     public void addOnLine(CI_OnlineResource onLine) {
+        if (this.onLine == null) {
+            this.onLine = new ArrayList<>();
+        }
+
         int elementNum = 2;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -156,6 +132,10 @@ public class MD_DigitalTransferOptions {
     }
 
     public void addOffLine(MD_Medium offLine) {
+        if (this.offLine == null) {
+            this.offLine = new ArrayList<>();
+        }
+
         int elementNum = 3;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -170,6 +150,10 @@ public class MD_DigitalTransferOptions {
     }
 
     public void addTransferFrequency(String transferFrequency) {
+        if (this.transferFrequency == null) {
+            this.transferFrequency = new ArrayList<>();
+        }
+
         int elementNum = 4;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -184,6 +168,10 @@ public class MD_DigitalTransferOptions {
     }
 
     public void addDistributionFormat(MD_Format distributionFormat) {
+        if (this.distributionFormat == null) {
+            this.distributionFormat = new ArrayList<>();
+        }
+
         int elementNum = 5;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);

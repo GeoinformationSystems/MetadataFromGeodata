@@ -63,19 +63,11 @@ public class MD_AttributeGroup {
         }
     }
 
-    public void createContentType() {
+    public void addContentType(MD_CoverageContentTypeCode contentType) {
         if (this.contentType == null) {
             this.contentType = new ArrayList<>();
         }
-    }
 
-    public void createAttribute() {
-        if (this.attribute == null) {
-            this.attribute = new ArrayList<>();
-        }
-    }
-
-    public void addContentType(MD_CoverageContentTypeCode contentType) {
         int elementNum = 0;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -90,6 +82,10 @@ public class MD_AttributeGroup {
     }
 
     public void addAttribute(MD_RangeDimension attribute) {
+        if (this.attribute == null) {
+            this.attribute = new ArrayList<>();
+        }
+
         int elementNum = 1;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);

@@ -75,31 +75,11 @@ public class MD_GridSpatialRepresentation extends MD_SpatialRepresentation {
         }
     }
 
-    public void createNumberOfDimensions() {
+    public void addNumberOfDimensions(Integer numberOfDimensions) {
         if (this.numberOfDimensions == null) {
             this.numberOfDimensions = new ArrayList<>();
         }
-    }
 
-    public void createAxisDimensionProperties() {
-        if (this.axisDimensionProperties == null) {
-            this.axisDimensionProperties = new ArrayList<>();
-        }
-    }
-
-    public void createCellGeometry() {
-        if (this.cellGeometry == null) {
-            this.cellGeometry = new ArrayList<>();
-        }
-    }
-
-    public void createTransformationParameterAvailability() {
-        if (this.transformationParameterAvailability == null) {
-            this.transformationParameterAvailability = new ArrayList<>();
-        }
-    }
-
-    public void addNumberOfDimensions(Integer numberOfDimensions) {
         int elementNum = 0;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -114,6 +94,10 @@ public class MD_GridSpatialRepresentation extends MD_SpatialRepresentation {
     }
 
     public void addAxisDimensionProperties(MD_Dimension axisDimensionProperties) {
+        if (this.axisDimensionProperties == null) {
+            this.axisDimensionProperties = new ArrayList<>();
+        }
+
         int elementNum = 1;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -128,6 +112,10 @@ public class MD_GridSpatialRepresentation extends MD_SpatialRepresentation {
     }
 
     public void addCellGeometry(MD_CellGeometryCode cellGeometry) {
+        if (this.cellGeometry == null) {
+            this.cellGeometry = new ArrayList<>();
+        }
+
         int elementNum = 2;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -142,6 +130,10 @@ public class MD_GridSpatialRepresentation extends MD_SpatialRepresentation {
     }
 
     public void addTransformationParameterAvailability(Boolean transformationParameterAvailability) {
+        if (this.transformationParameterAvailability == null) {
+            this.transformationParameterAvailability = new ArrayList<>();
+        }
+
         int elementNum = 3;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);

@@ -85,49 +85,11 @@ public class LI_ProcessStep {
         }
     }
 
-    public void createDescription() {
+    public void addDescription(String description) {
         if (this.description == null) {
             this.description = new ArrayList<>();
         }
-    }
 
-    public void createRationale() {
-        if (this.rationale == null) {
-            this.rationale = new ArrayList<>();
-        }
-    }
-
-    public void createStepDateTime() {
-        if (this.stepDateTime == null) {
-            this.stepDateTime = new ArrayList<>();
-        }
-    }
-
-    public void createProcessor() {
-        if (this.processor == null) {
-            this.processor = new ArrayList<>();
-        }
-    }
-
-    public void createReference() {
-        if (this.reference == null) {
-            this.reference = new ArrayList<>();
-        }
-    }
-
-    public void createScope() {
-        if (this.scope == null) {
-            this.scope = new ArrayList<>();
-        }
-    }
-
-    public void createSource() {
-        if (this.source == null) {
-            this.source = new ArrayList<>();
-        }
-    }
-
-    public void addDescription(String description) {
         int elementNum = 0;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -142,6 +104,10 @@ public class LI_ProcessStep {
     }
 
     public void addRationale(String rationale) {
+        if (this.rationale == null) {
+            this.rationale = new ArrayList<>();
+        }
+
         int elementNum = 1;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -156,6 +122,10 @@ public class LI_ProcessStep {
     }
 
     public void addStepDateTime(String stepDateTime) {
+        if (this.stepDateTime == null) {
+            this.stepDateTime = new ArrayList<>();
+        }
+
         int elementNum = 2;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -170,6 +140,10 @@ public class LI_ProcessStep {
     }
 
     public void addProcessor(CI_Responsibility processor) {
+        if (this.processor == null) {
+            this.processor = new ArrayList<>();
+        }
+
         int elementNum = 3;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -184,6 +158,10 @@ public class LI_ProcessStep {
     }
 
     public void addReference(CI_Citation reference) {
+        if (this.reference == null) {
+            this.reference = new ArrayList<>();
+        }
+
         int elementNum = 4;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -198,6 +176,10 @@ public class LI_ProcessStep {
     }
 
     public void addScope(MD_Scope scope) {
+        if (this.scope == null) {
+            this.scope = new ArrayList<>();
+        }
+
         int elementNum = 5;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -212,6 +194,10 @@ public class LI_ProcessStep {
     }
 
     public void addSource(LI_Source source) {
+        if (this.source == null) {
+            this.source = new ArrayList<>();
+        }
+
         int elementNum = 6;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);

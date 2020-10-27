@@ -34,19 +34,11 @@ public abstract class CI_Party {
     public List<CI_Organisation> organisation;
 
     // methods
-    public void createName() {
+    public void addName(String name) {
         if (this.name == null) {
             this.name = new ArrayList<>();
         }
-    }
 
-    public void createContactInfo() {
-        if (this.contactInfo == null) {
-            this.contactInfo = new ArrayList<>();
-        }
-    }
-
-    public void addName(String name) {
         int elementNum = 0;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -61,6 +53,10 @@ public abstract class CI_Party {
     }
 
     public void addContactInfo(CI_Contact contactInfo) {
+        if (this.contactInfo == null) {
+            this.contactInfo = new ArrayList<>();
+        }
+
         int elementNum = 1;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);

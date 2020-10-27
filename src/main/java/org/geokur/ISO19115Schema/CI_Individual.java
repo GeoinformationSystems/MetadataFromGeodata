@@ -57,13 +57,11 @@ public class CI_Individual extends CI_Party {
         }
     }
 
-    public void createPositionName() {
+    public void addPositionName(String positionName) {
         if (this.positionName == null) {
             this.positionName = new ArrayList<>();
         }
-    }
 
-    public void addPositionName(String positionName) {
         int elementNum = 2;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);

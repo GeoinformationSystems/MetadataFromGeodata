@@ -87,49 +87,11 @@ public class LI_Source {
         }
     }
 
-    public void createDescription() {
+    public void addDescription(String description) {
         if (this.description == null) {
             this.description = new ArrayList<>();
         }
-    }
 
-    public void createSourceSpatialResolution() {
-        if (this.sourceSpatialResolution == null) {
-            this.sourceSpatialResolution = new ArrayList<>();
-        }
-    }
-
-    public void createSourceReferenceSystem() {
-        if (this.sourceReferenceSystem == null) {
-            this.sourceReferenceSystem = new ArrayList<>();
-        }
-    }
-
-    public void createSourceCitation() {
-        if (this.sourceCitation == null) {
-            this.sourceCitation = new ArrayList<>();
-        }
-    }
-
-    public void createSourceMetadata() {
-        if (this.sourceMetadata == null) {
-            this.sourceMetadata = new ArrayList<>();
-        }
-    }
-
-    public void createScope() {
-        if (this.scope == null) {
-            this.scope = new ArrayList<>();
-        }
-    }
-
-    public void createSourceStep() {
-        if (this.sourceStep == null) {
-            this.sourceStep = new ArrayList<>();
-        }
-    }
-
-    public void addDescription(String description) {
         int elementNum = 0;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -144,6 +106,10 @@ public class LI_Source {
     }
 
     public void addSourceSpatialResolution(MD_Resolution sourceSpatialResolution) {
+        if (this.sourceSpatialResolution == null) {
+            this.sourceSpatialResolution = new ArrayList<>();
+        }
+
         int elementNum = 1;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -158,6 +124,10 @@ public class LI_Source {
     }
 
     public void addSourceReferenceSystem(MD_ReferenceSystem sourceReferenceSystem) {
+        if (this.sourceReferenceSystem == null) {
+            this.sourceReferenceSystem = new ArrayList<>();
+        }
+
         int elementNum = 2;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -172,6 +142,10 @@ public class LI_Source {
     }
 
     public void addSourceCitation(CI_Citation sourceCitation) {
+        if (this.sourceCitation == null) {
+            this.sourceCitation = new ArrayList<>();
+        }
+
         int elementNum = 3;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -186,6 +160,10 @@ public class LI_Source {
     }
 
     public void addSourceMetadata(CI_Citation sourceMetadata) {
+        if (this.sourceMetadata == null) {
+            this.sourceMetadata = new ArrayList<>();
+        }
+
         int elementNum = 4;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -200,6 +178,10 @@ public class LI_Source {
     }
 
     public void addScope(MD_Scope scope) {
+        if (this.scope == null) {
+            this.scope = new ArrayList<>();
+        }
+
         int elementNum = 5;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -214,6 +196,10 @@ public class LI_Source {
     }
 
     public void addSourceStep(LI_ProcessStep sourceStep) {
+        if (this.sourceStep == null) {
+            this.sourceStep = new ArrayList<>();
+        }
+
         int elementNum = 6;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);

@@ -42,19 +42,11 @@ public class GeometryData {
     // methods
     public GeometryData() {}
 
-    public void createRsid() {
+    public void addRsid(MD_Identifier rsid) {
         if (this.rsid == null) {
             this.rsid = new ArrayList<>();
         }
-    }
 
-    public void createType() {
-        if (this.type == null) {
-            this.type = new ArrayList<>();
-        }
-    }
-
-    public void addRsid(MD_Identifier rsid) {
         int elementNum = 0;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -69,6 +61,10 @@ public class GeometryData {
     }
 
     public void addType(GeometryType type) {
+        if (this.type == null) {
+            this.type = new ArrayList<>();
+        }
+
         int elementNum = 1;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);

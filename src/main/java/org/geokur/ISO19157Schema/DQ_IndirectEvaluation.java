@@ -57,13 +57,11 @@ public class DQ_IndirectEvaluation extends DQ_DataEvaluation {
         }
     }
 
-    public void createDeductiveSource() {
+    public void addDeductiveSource(String deductiveSource) {
         if (this.deductiveSource == null) {
             this.deductiveSource = new ArrayList<>();
         }
-    }
 
-    public void addDeductiveSource(String deductiveSource) {
         int elementNum = 5;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);

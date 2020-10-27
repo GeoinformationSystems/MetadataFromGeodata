@@ -40,19 +40,11 @@ public abstract class DQ_Result {
     public List<DQ_DescriptiveResult> descriptiveResult;
 
     // methods
-    public void createResultScope() {
+    public void addResultScope(MD_Scope resultScope) {
         if (this.resultScope == null) {
             this.resultScope = new ArrayList<>();
         }
-    }
 
-    public void createDateTime() {
-        if (this.dateTime == null) {
-            this.dateTime = new ArrayList<>();
-        }
-    }
-
-    public void addResultScope(MD_Scope resultScope) {
         int elementNum = 0;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -67,6 +59,10 @@ public abstract class DQ_Result {
     }
 
     public void addDateTime(String dateTime) {
+        if (this.dateTime == null) {
+            this.dateTime = new ArrayList<>();
+        }
+
         int elementNum = 1;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);

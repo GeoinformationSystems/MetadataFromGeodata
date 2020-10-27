@@ -48,25 +48,11 @@ public abstract class SingleCRS extends CRS {
     public List<DerivedCRS> derivedCRS;
 
     // methods
-    public void createCoordinateSystem() {
+    public void addCoordinateSystem(CoordinateSystem coordinateSystem) {
         if (this.coordinateSystem == null) {
             this.coordinateSystem = new ArrayList<>();
         }
-    }
 
-    public void createDatum() {
-        if (this.datum == null) {
-            this.datum = new ArrayList<>();
-        }
-    }
-
-    public void createDatumEnsemble() {
-        if (this.datumEnsemble == null) {
-            this.datumEnsemble = new ArrayList<>();
-        }
-    }
-
-    public void addCoordinateSystem(CoordinateSystem coordinateSystem) {
         int elementNum = 5;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -81,6 +67,10 @@ public abstract class SingleCRS extends CRS {
     }
 
     public void addDatum(Datum datum) {
+        if (this.datum == null) {
+            this.datum = new ArrayList<>();
+        }
+
         int elementNum = 6;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -95,6 +85,10 @@ public abstract class SingleCRS extends CRS {
     }
 
     public void addDatumEnsemble(DatumEnsemble datumEnsemble) {
+        if (this.datumEnsemble == null) {
+            this.datumEnsemble = new ArrayList<>();
+        }
+
         int elementNum = 7;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);

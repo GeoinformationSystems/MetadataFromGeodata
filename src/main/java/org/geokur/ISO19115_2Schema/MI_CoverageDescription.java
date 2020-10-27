@@ -60,13 +60,11 @@ public class MI_CoverageDescription extends MD_CoverageDescription {
         }
     }
 
-    public void createRangeElementDescription() {
+    public void addRangeElementDescription(MI_RangeElementDescription rangeElementDescription) {
         if (this.rangeElementDescription == null) {
             this.rangeElementDescription = new ArrayList<>();
         }
-    }
 
-    public void addRangeElementDescription(MI_RangeElementDescription rangeElementDescription) {
         int elementNum = 0;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);

@@ -67,25 +67,11 @@ public class MD_Scope {
         }
     }
 
-    public void createLevel() {
+    public void addLevel(MD_ScopeCode level) {
         if (this.level == null) {
             this.level = new ArrayList<>();
         }
-    }
 
-    public void createExtent() {
-        if (this.extent == null) {
-            this.extent = new ArrayList<>();
-        }
-    }
-
-    public void createLevelDescription() {
-        if (this.levelDescription == null) {
-            this.levelDescription = new ArrayList<>();
-        }
-    }
-
-    public void addLevel(MD_ScopeCode level) {
         int elementNum = 0;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -100,6 +86,10 @@ public class MD_Scope {
     }
 
     public void addExtent(EX_Extent extent) {
+        if (this.extent == null) {
+            this.extent = new ArrayList<>();
+        }
+
         int elementNum = 1;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -114,6 +104,10 @@ public class MD_Scope {
     }
 
     public void addLevelDescription(MD_ScopeDescription levelDescription) {
+        if (this.levelDescription == null) {
+            this.levelDescription = new ArrayList<>();
+        }
+
         int elementNum = 2;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);

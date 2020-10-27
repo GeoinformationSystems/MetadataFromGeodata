@@ -60,19 +60,11 @@ public class MD_FeatureTypeInfo {
         }
     }
 
-    public void createFeatureTypeName() {
+    public void addFeatureTypeName(String featureTypeName) {
         if (this.featureTypeName == null) {
             this.featureTypeName = new ArrayList<>();
         }
-    }
 
-    public void createFeatureInstanceCount() {
-        if (this.featureInstanceCount == null) {
-            this.featureInstanceCount = new ArrayList<>();
-        }
-    }
-
-    public void addFeatureTypeName(String featureTypeName) {
         int elementNum = 0;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -87,6 +79,10 @@ public class MD_FeatureTypeInfo {
     }
 
     public void addFeatureInstanceCount(Integer featureInstanceCount) {
+        if (this.featureInstanceCount == null) {
+            this.featureInstanceCount = new ArrayList<>();
+        }
+
         int elementNum = 1;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);

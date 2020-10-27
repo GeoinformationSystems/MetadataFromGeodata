@@ -72,37 +72,11 @@ public class SV_Parameter {
         }
     }
 
-    public void createName() {
+    public void addName(String name) {
         if (this.name == null) {
             this.name = new ArrayList<>();
         }
-    }
 
-    public void createDirection() {
-        if (this.direction == null) {
-            this.direction = new ArrayList<>();
-        }
-    }
-
-    public void createDescription() {
-        if (this.description == null) {
-            this.description = new ArrayList<>();
-        }
-    }
-
-    public void createOptionality() {
-        if (this.optionality == null) {
-            this.optionality = new ArrayList<>();
-        }
-    }
-
-    public void createRepeatability() {
-        if (this.repeatability == null) {
-            this.repeatability = new ArrayList<>();
-        }
-    }
-
-    public void addName(String name) {
         int elementNum = 0;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -117,6 +91,10 @@ public class SV_Parameter {
     }
 
     public void addDirection(SV_ParameterDirection direction) {
+        if (this.direction == null) {
+            this.direction = new ArrayList<>();
+        }
+
         int elementNum = 1;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -131,6 +109,10 @@ public class SV_Parameter {
     }
 
     public void addDescription(String description) {
+        if (this.description == null) {
+            this.description = new ArrayList<>();
+        }
+
         int elementNum = 2;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -145,6 +127,10 @@ public class SV_Parameter {
     }
 
     public void addOptionality(Boolean optionality) {
+        if (this.optionality == null) {
+            this.optionality = new ArrayList<>();
+        }
+
         int elementNum = 3;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -159,6 +145,10 @@ public class SV_Parameter {
     }
 
     public void addRepeatability(Boolean repeatability) {
+        if (this.repeatability == null) {
+            this.repeatability = new ArrayList<>();
+        }
+
         int elementNum = 4;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);

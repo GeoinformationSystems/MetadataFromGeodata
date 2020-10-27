@@ -66,13 +66,11 @@ public class DatumEnsemble extends ObjectUsage {
         }
     }
 
-    public void createEnsembleAccuracy() {
+    public void addEnsembleAccuracy(DQ_PositionalAccuracy ensembleAccuracy) {
         if (this.ensembleAccuracy == null) {
             this.ensembleAccuracy = new ArrayList<>();
         }
-    }
 
-    public void addEnsembleAccuracy(DQ_PositionalAccuracy ensembleAccuracy) {
         int elementNum = 5;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);

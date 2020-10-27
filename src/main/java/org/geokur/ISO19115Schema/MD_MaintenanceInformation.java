@@ -78,43 +78,11 @@ public class MD_MaintenanceInformation {
         }
     }
 
-    public void createMaintenanceAndUpdateFrequency() {
+    public void addMaintenanceAndUpdateFrequency(MD_MaintenanceFrequencyCode maintenanceAndUpdateFrequency) {
         if (this.maintenanceAndUpdateFrequency == null) {
             this.maintenanceAndUpdateFrequency = new ArrayList<>();
         }
-    }
 
-    public void createMaintenanceDate() {
-        if (this.maintenanceDate == null) {
-            this.maintenanceDate = new ArrayList<>();
-        }
-    }
-
-    public void createUserDefinedMaintenanceFrequency() {
-        if (this.userDefinedMaintenanceFrequency == null) {
-            this.userDefinedMaintenanceFrequency = new ArrayList<>();
-        }
-    }
-
-    public void createMaintenanceScope() {
-        if (this.maintenanceScope == null) {
-            this.maintenanceScope = new ArrayList<>();
-        }
-    }
-
-    public void createMaintenanceNote() {
-        if (this.maintenanceNote == null) {
-            this.maintenanceNote = new ArrayList<>();
-        }
-    }
-
-    public void createContact() {
-        if (this.contact == null) {
-            this.contact = new ArrayList<>();
-        }
-    }
-
-    public void addMaintenanceAndUpdateFrequency(MD_MaintenanceFrequencyCode maintenanceAndUpdateFrequency) {
         int elementNum = 0;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -129,6 +97,10 @@ public class MD_MaintenanceInformation {
     }
 
     public void addMaintenanceDate(CI_Date maintenanceDate) {
+        if (this.maintenanceDate == null) {
+            this.maintenanceDate = new ArrayList<>();
+        }
+
         int elementNum = 1;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -143,6 +115,10 @@ public class MD_MaintenanceInformation {
     }
 
     public void addUserDefinedMaintenanceFrequency(String userDefinedMaintenanceFrequency) {
+        if (this.userDefinedMaintenanceFrequency == null) {
+            this.userDefinedMaintenanceFrequency = new ArrayList<>();
+        }
+
         int elementNum = 2;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -157,6 +133,10 @@ public class MD_MaintenanceInformation {
     }
 
     public void addMaintenanceScope(MD_Scope maintenanceScope) {
+        if (this.maintenanceScope == null) {
+            this.maintenanceScope = new ArrayList<>();
+        }
+
         int elementNum = 3;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -171,6 +151,10 @@ public class MD_MaintenanceInformation {
     }
 
     public void addMaintenanceNote(String maintenanceNote) {
+        if (this.maintenanceNote == null) {
+            this.maintenanceNote = new ArrayList<>();
+        }
+
         int elementNum = 4;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -185,6 +169,10 @@ public class MD_MaintenanceInformation {
     }
 
     public void addContact(CI_Responsibility contact) {
+        if (this.contact == null) {
+            this.contact = new ArrayList<>();
+        }
+
         int elementNum = 5;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);

@@ -76,37 +76,11 @@ public class MI_Band extends MD_Band {
         }
     }
 
-    public void createBandBoundaryDefinition() {
+    public void addBandBoundaryDefinition(MI_BandDefinition bandBoundaryDefinition) {
         if (this.bandBoundaryDefinition == null) {
             this.bandBoundaryDefinition = new ArrayList<>();
         }
-    }
 
-    public void createNominalSpatialResolution() {
-        if (this.nominalSpatialResolution == null) {
-            this.nominalSpatialResolution = new ArrayList<>();
-        }
-    }
-
-    public void createTransferFunctionType() {
-        if (this.transferFunctionType == null) {
-            this.transferFunctionType = new ArrayList<>();
-        }
-    }
-
-    public void createTransmittedPolarisation() {
-        if (this.transmittedPolarisation == null) {
-            this.transmittedPolarisation = new ArrayList<>();
-        }
-    }
-
-    public void createDetectedPolarisation() {
-        if (this.detectedPolarisation == null) {
-            this.detectedPolarisation = new ArrayList<>();
-        }
-    }
-
-    public void addBandBoundaryDefinition(MI_BandDefinition bandBoundaryDefinition) {
         int elementNum = 0;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -121,6 +95,10 @@ public class MI_Band extends MD_Band {
     }
 
     public void addNominalSpatialResolution(String nominalSpatialResolution) {
+        if (this.nominalSpatialResolution == null) {
+            this.nominalSpatialResolution = new ArrayList<>();
+        }
+
         int elementNum = 1;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -135,6 +113,10 @@ public class MI_Band extends MD_Band {
     }
 
     public void addTransferFunctionType(MI_TransferFunctionTypeCode transferFunctionType) {
+        if (this.transferFunctionType == null) {
+            this.transferFunctionType = new ArrayList<>();
+        }
+
         int elementNum = 2;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -149,6 +131,10 @@ public class MI_Band extends MD_Band {
     }
 
     public void addTransmittedPolarisation(MI_PolarisationOrientationCode transmittedPolarisation) {
+        if (this.transmittedPolarisation == null) {
+            this.transmittedPolarisation = new ArrayList<>();
+        }
+
         int elementNum = 3;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -163,6 +149,10 @@ public class MI_Band extends MD_Band {
     }
 
     public void addDetectedPolarisation(MI_PolarisationOrientationCode detectedPolarisation) {
+        if (this.detectedPolarisation == null) {
+            this.detectedPolarisation = new ArrayList<>();
+        }
+
         int elementNum = 4;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);

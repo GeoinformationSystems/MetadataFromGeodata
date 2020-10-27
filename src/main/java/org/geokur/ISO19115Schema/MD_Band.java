@@ -73,37 +73,11 @@ public class MD_Band extends MD_SampleDimension {
         }
     }
 
-    public void createBoundMax() {
+    public void addBoundMax(Double boundMax) {
         if (this.boundMax == null) {
             this.boundMax = new ArrayList<>();
         }
-    }
 
-    public void createBoundMin() {
-        if (this.boundMin == null) {
-            this.boundMin = new ArrayList<>();
-        }
-    }
-
-    public void createBoundUnit() {
-        if (this.boundUnit == null) {
-            this.boundUnit = new ArrayList<>();
-        }
-    }
-
-    public void createPeakResponse() {
-        if (this.peakResponse == null) {
-            this.peakResponse = new ArrayList<>();
-        }
-    }
-
-    public void createToneGradation() {
-        if (this.toneGradation == null) {
-            this.toneGradation = new ArrayList<>();
-        }
-    }
-
-    public void addBoundMax(Double boundMax) {
         int elementNum = 14;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -118,6 +92,10 @@ public class MD_Band extends MD_SampleDimension {
     }
 
     public void addBoundMin(Double boundMin) {
+        if (this.boundMin == null) {
+            this.boundMin = new ArrayList<>();
+        }
+
         int elementNum = 15;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -132,6 +110,10 @@ public class MD_Band extends MD_SampleDimension {
     }
 
     public void addBoundUnit(String boundUnit) {
+        if (this.boundUnit == null) {
+            this.boundUnit = new ArrayList<>();
+        }
+
         int elementNum = 16;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -146,6 +128,10 @@ public class MD_Band extends MD_SampleDimension {
     }
 
     public void addPeakResponse(Double peakResponse) {
+        if (this.peakResponse == null) {
+            this.peakResponse = new ArrayList<>();
+        }
+
         int elementNum = 17;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -160,6 +146,10 @@ public class MD_Band extends MD_SampleDimension {
     }
 
     public void addToneGradation(Integer toneGradation) {
+        if (this.toneGradation == null) {
+            this.toneGradation = new ArrayList<>();
+        }
+
         int elementNum = 18;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);

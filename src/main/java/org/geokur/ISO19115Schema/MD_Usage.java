@@ -80,49 +80,11 @@ public class MD_Usage {
         }
     }
 
-    public void createSpecificUsage() {
+    public void addSpecificUsage(String specificUsage) {
         if (this.specificUsage == null) {
             this.specificUsage = new ArrayList<>();
         }
-    }
 
-    public void createUsageDateTime() {
-        if (this.usageDateTime == null) {
-            this.usageDateTime = new ArrayList<>();
-        }
-    }
-
-    public void createUserDeterminedLimitations() {
-        if (this.userDeterminedLimitations == null) {
-            this.userDeterminedLimitations = new ArrayList<>();
-        }
-    }
-
-    public void createUserContactInfo() {
-        if (this.userContactInfo == null) {
-            this.userContactInfo = new ArrayList<>();
-        }
-    }
-
-    public void createResponse() {
-        if (this.response == null) {
-            this.response = new ArrayList<>();
-        }
-    }
-
-    public void createAdditionalDocumentation() {
-        if (this.additionalDocumentation == null) {
-            this.additionalDocumentation = new ArrayList<>();
-        }
-    }
-
-    public void createIdentifiedIssues() {
-        if (this.identifiedIssues == null) {
-            this.identifiedIssues = new ArrayList<>();
-        }
-    }
-
-    public void addSpecificUsage(String specificUsage) {
         int elementNum = 0;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -137,6 +99,10 @@ public class MD_Usage {
     }
 
     public void addUsageDateTime(String usageDateTime) {
+        if (this.usageDateTime == null) {
+            this.usageDateTime = new ArrayList<>();
+        }
+
         int elementNum = 1;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -151,6 +117,10 @@ public class MD_Usage {
     }
 
     public void addUserDeterminedLimitations(String userDeterminedLimitations) {
+        if (this.userDeterminedLimitations == null) {
+            this.userDeterminedLimitations = new ArrayList<>();
+        }
+
         int elementNum = 2;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -165,6 +135,10 @@ public class MD_Usage {
     }
 
     public void addUserContactInfo(CI_Responsibility userContactInfo) {
+        if (this.userContactInfo == null) {
+            this.userContactInfo = new ArrayList<>();
+        }
+
         int elementNum = 3;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -179,6 +153,10 @@ public class MD_Usage {
     }
 
     public void addResponse(String response) {
+        if (this.response == null) {
+            this.response = new ArrayList<>();
+        }
+
         int elementNum = 4;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -193,6 +171,10 @@ public class MD_Usage {
     }
 
     public void addAdditionalDocumentation(CI_Citation additionalDocumentation) {
+        if (this.additionalDocumentation == null) {
+            this.additionalDocumentation = new ArrayList<>();
+        }
+
         int elementNum = 5;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -207,6 +189,10 @@ public class MD_Usage {
     }
 
     public void addIdentifiedIssues(CI_Citation identifiedIssues) {
+        if (this.identifiedIssues == null) {
+            this.identifiedIssues = new ArrayList<>();
+        }
+
         int elementNum = 6;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);

@@ -69,31 +69,11 @@ public class DQM_BasicMeasure {
         }
     }
 
-    public void createName() {
+    public void addName(String name) {
         if (this.name == null) {
             this.name = new ArrayList<>();
         }
-    }
 
-    public void createDefinition() {
-        if (this.definition == null) {
-            this.definition = new ArrayList<>();
-        }
-    }
-
-    public void createExample() {
-        if (this.example == null) {
-            this.example = new ArrayList<>();
-        }
-    }
-
-    public void createValueType() {
-        if (this.valueType == null) {
-            this.valueType = new ArrayList<>();
-        }
-    }
-
-    public void addName(String name) {
         int elementNum = 0;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -108,6 +88,10 @@ public class DQM_BasicMeasure {
     }
 
     public void addDefinition(String definition) {
+        if (this.definition == null) {
+            this.definition = new ArrayList<>();
+        }
+
         int elementNum = 1;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -122,6 +106,10 @@ public class DQM_BasicMeasure {
     }
 
     public void addExample(DQM_Description example) {
+        if (this.example == null) {
+            this.example = new ArrayList<>();
+        }
+
         int elementNum = 2;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -136,6 +124,10 @@ public class DQM_BasicMeasure {
     }
 
     public void addValueType(String valueType) {
+        if (this.valueType == null) {
+            this.valueType = new ArrayList<>();
+        }
+
         int elementNum = 3;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);

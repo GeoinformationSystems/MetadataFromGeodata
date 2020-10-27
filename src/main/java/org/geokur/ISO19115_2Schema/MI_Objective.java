@@ -88,55 +88,11 @@ public class MI_Objective {
         }
     }
 
-    public void createIdentifier() {
+    public void addIdentifier(MD_Identifier identifier) {
         if (this.identifier == null) {
             this.identifier = new ArrayList<>();
         }
-    }
 
-    public void createPriority() {
-        if (this.priority == null) {
-            this.priority = new ArrayList<>();
-        }
-    }
-
-    public void createType() {
-        if (this.type == null) {
-            this.type = new ArrayList<>();
-        }
-    }
-
-    public void createFunction() {
-        if (this.function == null) {
-            this.function = new ArrayList<>();
-        }
-    }
-
-    public void createExtent() {
-        if (this.extent == null) {
-            this.extent = new ArrayList<>();
-        }
-    }
-
-    public void createObjectiveOccurence() {
-        if (this.objectiveOccurence == null) {
-            this.objectiveOccurence = new ArrayList<>();
-        }
-    }
-
-    public void createPass() {
-        if (this.pass == null) {
-            this.pass = new ArrayList<>();
-        }
-    }
-
-    public void createSensingInstrument() {
-        if (this.sensingInstrument == null) {
-            this.sensingInstrument = new ArrayList<>();
-        }
-    }
-
-    public void addIdentifier(MD_Identifier identifier) {
         int elementNum = 0;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -151,6 +107,10 @@ public class MI_Objective {
     }
 
     public void addPriority(String priority) {
+        if (this.priority == null) {
+            this.priority = new ArrayList<>();
+        }
+
         int elementNum = 1;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -165,6 +125,10 @@ public class MI_Objective {
     }
 
     public void addType(MI_ObjectiveTypeCode type) {
+        if (this.type == null) {
+            this.type = new ArrayList<>();
+        }
+
         int elementNum = 2;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -179,6 +143,10 @@ public class MI_Objective {
     }
 
     public void addFunction(String function) {
+        if (this.function == null) {
+            this.function = new ArrayList<>();
+        }
+
         int elementNum = 3;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -193,6 +161,10 @@ public class MI_Objective {
     }
 
     public void addExtent(EX_Extent extent) {
+        if (this.extent == null) {
+            this.extent = new ArrayList<>();
+        }
+
         int elementNum = 4;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -207,6 +179,10 @@ public class MI_Objective {
     }
 
     public void addObjectiveOccurence(MI_Event objectiveOccurence) {
+        if (this.objectiveOccurence == null) {
+            this.objectiveOccurence = new ArrayList<>();
+        }
+
         int elementNum = 5;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -221,6 +197,10 @@ public class MI_Objective {
     }
 
     public void addPass(MI_PlatformPass pass) {
+        if (this.pass == null) {
+            this.pass = new ArrayList<>();
+        }
+
         int elementNum = 6;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -235,6 +215,10 @@ public class MI_Objective {
     }
 
     public void addSensingInstrument(MI_Instrument sensingInstrument) {
+        if (this.sensingInstrument == null) {
+            this.sensingInstrument = new ArrayList<>();
+        }
+
         int elementNum = 7;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);

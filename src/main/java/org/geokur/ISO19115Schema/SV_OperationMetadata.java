@@ -81,49 +81,11 @@ public class SV_OperationMetadata {
         }
     }
 
-    public void createOperationName() {
+    public void addOperationName(String operationName) {
         if (this.operationName == null) {
             this.operationName = new ArrayList<>();
         }
-    }
 
-    public void createDistributedComputingPlatform() {
-        if (this.distributedComputingPlatform == null) {
-            this.distributedComputingPlatform = new ArrayList<>();
-        }
-    }
-
-    public void createOperationDescription() {
-        if (this.operationDescription == null) {
-            this.operationDescription = new ArrayList<>();
-        }
-    }
-
-    public void createInvocationName() {
-        if (this.invocationName == null) {
-            this.invocationName = new ArrayList<>();
-        }
-    }
-
-    public void createConnectPoint() {
-        if (this.connectPoint == null) {
-            this.connectPoint = new ArrayList<>();
-        }
-    }
-
-    public void createParameters() {
-        if (this.parameters == null) {
-            this.parameters = new ArrayList<>();
-        }
-    }
-
-    public void createDependsOn() {
-        if (this.dependsOn == null) {
-            this.dependsOn = new ArrayList<>();
-        }
-    }
-
-    public void addOperationName(String operationName) {
         int elementNum = 0;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -138,6 +100,10 @@ public class SV_OperationMetadata {
     }
 
     public void addDistributedComputingPlatform(DCPList distributedComputingPlatform) {
+        if (this.distributedComputingPlatform == null) {
+            this.distributedComputingPlatform = new ArrayList<>();
+        }
+
         int elementNum = 1;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -152,6 +118,10 @@ public class SV_OperationMetadata {
     }
 
     public void addOperationDescription(String operationDescription) {
+        if (this.operationDescription == null) {
+            this.operationDescription = new ArrayList<>();
+        }
+
         int elementNum = 2;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -166,6 +136,10 @@ public class SV_OperationMetadata {
     }
 
     public void addInvocationName(String invocationName) {
+        if (this.invocationName == null) {
+            this.invocationName = new ArrayList<>();
+        }
+
         int elementNum = 3;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -180,6 +154,10 @@ public class SV_OperationMetadata {
     }
 
     public void addConnectPoint(CI_OnlineResource connectPoint) {
+        if (this.connectPoint == null) {
+            this.connectPoint = new ArrayList<>();
+        }
+
         int elementNum = 4;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -194,6 +172,10 @@ public class SV_OperationMetadata {
     }
 
     public void addParameters(SV_Parameter parameters) {
+        if (this.parameters == null) {
+            this.parameters = new ArrayList<>();
+        }
+
         int elementNum = 5;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -208,6 +190,10 @@ public class SV_OperationMetadata {
     }
 
     public void addDependsOn(SV_OperationMetadata dependsOn) {
+        if (this.dependsOn == null) {
+            this.dependsOn = new ArrayList<>();
+        }
+
         int elementNum = 6;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);

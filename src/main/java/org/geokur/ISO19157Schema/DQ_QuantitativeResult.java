@@ -65,25 +65,11 @@ public class DQ_QuantitativeResult extends DQ_Result {
         }
     }
 
-    public void createValue() {
+    public void addValue(Record value) {
         if (this.value == null) {
             this.value = new ArrayList<>();
         }
-    }
 
-    public void createValueUnit() {
-        if (this.valueUnit == null) {
-            this.valueUnit = new ArrayList<>();
-        }
-    }
-
-    public void createValueRecordType() {
-        if (this.valueRecordType == null) {
-            this.valueRecordType = new ArrayList<>();
-        }
-    }
-
-    public void addValue(Record value) {
         int elementNum = 2;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -98,6 +84,10 @@ public class DQ_QuantitativeResult extends DQ_Result {
     }
 
     public void addValueUnit(String valueUnit) {
+        if (this.valueUnit == null) {
+            this.valueUnit = new ArrayList<>();
+        }
+
         int elementNum = 3;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -112,6 +102,10 @@ public class DQ_QuantitativeResult extends DQ_Result {
     }
 
     public void addValueRecordType(RecordType valueRecordType) {
+        if (this.valueRecordType == null) {
+            this.valueRecordType = new ArrayList<>();
+        }
+
         int elementNum = 4;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);

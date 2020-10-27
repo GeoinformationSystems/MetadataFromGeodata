@@ -66,19 +66,11 @@ public class OperationMethod extends IdentifiedObject {
         }
     }
 
-    public void createParameter() {
+    public void addParameter(GeneralOperationParameter parameter) {
         if (this.parameter == null) {
             this.parameter = new ArrayList<>();
         }
-    }
 
-    public void createFormulaReference() {
-        if (this.formulaReference == null) {
-            this.formulaReference = new ArrayList<>();
-        }
-    }
-
-    public void addParameter(GeneralOperationParameter parameter) {
         int elementNum = 4;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -93,6 +85,10 @@ public class OperationMethod extends IdentifiedObject {
     }
 
     public void addFormulaReference(Formula formulaReference) {
+        if (this.formulaReference == null) {
+            this.formulaReference = new ArrayList<>();
+        }
+
         int elementNum = 5;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);

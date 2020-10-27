@@ -65,19 +65,11 @@ public class DQ_StandaloneQualityReportInformation {
         }
     }
 
-    public void createReportReference() {
+    public void addReportReference(CI_Citation reportReference) {
         if (this.reportReference == null) {
             this.reportReference = new ArrayList<>();
         }
-    }
 
-    public void createAbstract() {
-        if (this.abstractElement == null) {
-            this.abstractElement = new ArrayList<>();
-        }
-    }
-
-    public void addReportReference(CI_Citation reportReference) {
         int elementNum = 0;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -92,6 +84,10 @@ public class DQ_StandaloneQualityReportInformation {
     }
 
     public void addAbstract(String abstractElement) {
+        if (this.abstractElement == null) {
+            this.abstractElement = new ArrayList<>();
+        }
+
         int elementNum = 1;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);

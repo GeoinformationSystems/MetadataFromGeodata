@@ -78,49 +78,11 @@ public class CI_OnlineResource {
         }
     }
 
-    public void createLinkage() {
+    public void addLinkage(String linkage) {
         if (this.linkage == null) {
             this.linkage = new ArrayList<>();
         }
-    }
 
-    public void createProtocol() {
-        if (this.protocol == null) {
-            this.protocol = new ArrayList<>();
-        }
-    }
-
-    public void createApplicationProfile() {
-        if (this.applicationProfile == null) {
-            this.applicationProfile = new ArrayList<>();
-        }
-    }
-
-    public void createName() {
-        if (this.name == null) {
-            this.name = new ArrayList<>();
-        }
-    }
-
-    public void createDescription() {
-        if (this.description == null) {
-            this.description = new ArrayList<>();
-        }
-    }
-
-    public void createFunction() {
-        if (this.function == null) {
-            this.function = new ArrayList<>();
-        }
-    }
-
-    public void createProtocolRequest() {
-        if (this.protocolRequest == null) {
-            this.protocolRequest = new ArrayList<>();
-        }
-    }
-
-    public void addLinkage(String linkage) {
         int elementNum = 0;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -135,6 +97,10 @@ public class CI_OnlineResource {
     }
 
     public void addProtocol(String protocol) {
+        if (this.protocol == null) {
+            this.protocol = new ArrayList<>();
+        }
+
         int elementNum = 1;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -149,6 +115,10 @@ public class CI_OnlineResource {
     }
 
     public void addApplicationProfile(String applicationProfile) {
+        if (this.applicationProfile == null) {
+            this.applicationProfile = new ArrayList<>();
+        }
+
         int elementNum = 2;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -163,6 +133,10 @@ public class CI_OnlineResource {
     }
 
     public void addName(String name) {
+        if (this.name == null) {
+            this.name = new ArrayList<>();
+        }
+
         int elementNum = 3;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -177,6 +151,10 @@ public class CI_OnlineResource {
     }
 
     public void addDescription(String description) {
+        if (this.description == null) {
+            this.description = new ArrayList<>();
+        }
+
         int elementNum = 4;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -191,6 +169,10 @@ public class CI_OnlineResource {
     }
 
     public void addFunction(CI_OnLineFunctionCode function) {
+        if (this.function == null) {
+            this.function = new ArrayList<>();
+        }
+
         int elementNum = 5;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -205,6 +187,10 @@ public class CI_OnlineResource {
     }
 
     public void addProtocolRequest(String protocolRequest) {
+        if (this.protocolRequest == null) {
+            this.protocolRequest = new ArrayList<>();
+        }
+
         int elementNum = 6;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);

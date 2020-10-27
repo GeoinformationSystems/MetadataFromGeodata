@@ -41,13 +41,11 @@ public abstract class ObjectUsage extends IdentifiedObject {
     public List<DatumEnsemble> datumEnsemble;
 
     // methods
-    public void createUsage() {
+    public void addUsage(ObjectDomain usage) {
         if (this.usage == null) {
             this.usage = new ArrayList<>();
         }
-    }
 
-    public void addUsage(ObjectDomain usage) {
         int elementNum = 4;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);

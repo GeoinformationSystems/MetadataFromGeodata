@@ -63,19 +63,11 @@ public class MD_ReferenceSystem {
         }
     }
 
-    public void createReferenceSystemIdentifier() {
+    public void addReferenceSystemIdentifier(MD_Identifier referenceSystemIdentifier) {
         if (this.referenceSystemIdentifier == null) {
             this.referenceSystemIdentifier = new ArrayList<>();
         }
-    }
 
-    public void createReferenceSystemType() {
-        if (this.referenceSystemType == null) {
-            this.referenceSystemType = new ArrayList<>();
-        }
-    }
-
-    public void addReferenceSystemIdentifier(MD_Identifier referenceSystemIdentifier) {
         int elementNum = 0;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -90,6 +82,10 @@ public class MD_ReferenceSystem {
     }
 
     public void addReferenceSystemType(MD_ReferenceSystemTypeCode referenceSystemType) {
+        if (this.referenceSystemType == null) {
+            this.referenceSystemType = new ArrayList<>();
+        }
+
         int elementNum = 1;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);

@@ -36,13 +36,12 @@ public abstract class DQ_Metaquality extends DQ_Element {
     public List<DQ_Homogeneity> homogeneity;
 
     // methods
-    public void createRelatedElement() {
+
+    public void addRelatedElement(DQ_Element relatedElement) {
         if (this.relatedElement == null) {
             this.relatedElement = new ArrayList<>();
         }
-    }
 
-    public void addRelatedElement(DQ_Element relatedElement) {
         int elementNum = 5;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);

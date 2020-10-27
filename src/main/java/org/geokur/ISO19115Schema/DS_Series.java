@@ -66,13 +66,11 @@ public class DS_Series extends DS_Aggregate {
         }
     }
 
-    public void createComposedOf() {
+    public void addComposedOf(DS_Resource composedOf) {
         if (this.composedOf == null) {
             this.composedOf = new ArrayList<>();
         }
-    }
 
-    public void addComposedOf(DS_Resource composedOf) {
         int elementNum = 2;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);

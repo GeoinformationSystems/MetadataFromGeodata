@@ -59,13 +59,11 @@ public class PT_FreeText {
         }
     }
 
-    public void createTextGroup() {
+    public void addTextGroup(LocalisedCharacterString textGroup) {
         if (this.textGroup == null) {
             this.textGroup = new ArrayList<>();
         }
-    }
 
-    public void addTextGroup(LocalisedCharacterString textGroup) {
         int elementNum = 0;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);

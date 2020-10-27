@@ -71,31 +71,11 @@ public class MI_GCPCollection extends MI_GeolocationInformation {
         }
     }
 
-    public void createCollectionIdentification() {
+    public void addCollectionIdentification(String collectionIdentification) {
         if (this.collectionIdentification == null) {
             this.collectionIdentification = new ArrayList<>();
         }
-    }
 
-    public void createCollectionName() {
-        if (this.collectionName == null) {
-            this.collectionName = new ArrayList<>();
-        }
-    }
-
-    public void createCoordinateReferenceSystem() {
-        if (this.coordinateReferenceSystem == null) {
-            this.coordinateReferenceSystem = new ArrayList<>();
-        }
-    }
-
-    public void createGcp() {
-        if (this.gcp == null) {
-            this.gcp = new ArrayList<>();
-        }
-    }
-
-    public void addCollectionIdentification(String collectionIdentification) {
         int elementNum = 1;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -110,6 +90,10 @@ public class MI_GCPCollection extends MI_GeolocationInformation {
     }
 
     public void addCollectionName(String collectionName) {
+        if (this.collectionName == null) {
+            this.collectionName = new ArrayList<>();
+        }
+
         int elementNum = 2;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -124,6 +108,10 @@ public class MI_GCPCollection extends MI_GeolocationInformation {
     }
 
     public void addCoordinateReferenceSystem(MD_ReferenceSystem coordinateReferenceSystem) {
+        if (this.coordinateReferenceSystem == null) {
+            this.coordinateReferenceSystem = new ArrayList<>();
+        }
+
         int elementNum = 3;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -138,6 +126,10 @@ public class MI_GCPCollection extends MI_GeolocationInformation {
     }
 
     public void addGcp(MI_GCP gcp) {
+        if (this.gcp == null) {
+            this.gcp = new ArrayList<>();
+        }
+
         int elementNum = 4;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);

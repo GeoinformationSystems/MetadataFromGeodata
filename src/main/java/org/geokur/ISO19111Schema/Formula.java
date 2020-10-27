@@ -62,7 +62,7 @@ public class Formula {
         }
     }
 
-    public void createFormula() {
+    public void addFormula(String formula) {
         try {
             if (this.formulaCitation != null) {
                 throw new UnionException(className);
@@ -74,23 +74,7 @@ public class Formula {
         } catch (UnionException e) {
             System.out.println(e.getMessage());
         }
-    }
 
-    public void createFormulaCitation() {
-        try {
-            if (this.formula != null) {
-                throw new UnionException(className);
-            } else {
-                if (this.formulaCitation == null) {
-                    this.formulaCitation = new ArrayList<>();
-                }
-            }
-        } catch (UnionException e) {
-            System.out.println(e.getMessage());
-        }
-    }
-
-    public void addFormula(String formula) {
         int elementNum = 0;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -105,6 +89,18 @@ public class Formula {
     }
 
     public void addFormulaCitation(CI_Citation formulaCitation) {
+        try {
+            if (this.formula != null) {
+                throw new UnionException(className);
+            } else {
+                if (this.formulaCitation == null) {
+                    this.formulaCitation = new ArrayList<>();
+                }
+            }
+        } catch (UnionException e) {
+            System.out.println(e.getMessage());
+        }
+
         int elementNum = 1;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);

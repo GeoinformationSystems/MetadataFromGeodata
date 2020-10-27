@@ -69,31 +69,11 @@ public class EX_VerticalExtent {
         }
     }
 
-    public void createMinimumValue() {
+    public void addMinimumValue(Double minimumValue) {
         if (this.minimumValue == null) {
             this.minimumValue = new ArrayList<>();
         }
-    }
 
-    public void createMaximumValue() {
-        if (this.maximumValue == null) {
-            this.maximumValue = new ArrayList<>();
-        }
-    }
-
-    public void createVerticalCRS() {
-        if (this.verticalCRS == null) {
-            this.verticalCRS = new ArrayList<>();
-        }
-    }
-
-    public void createVerticalCRSId() {
-        if (this.verticalCRSId == null) {
-            this.verticalCRSId = new ArrayList<>();
-        }
-    }
-
-    public void addMinimumValue(Double minimumValue) {
         int elementNum = 0;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -108,6 +88,10 @@ public class EX_VerticalExtent {
     }
 
     public void addMaximumValue(Double maximumValue) {
+        if (this.maximumValue == null) {
+            this.maximumValue = new ArrayList<>();
+        }
+
         int elementNum = 1;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -122,6 +106,10 @@ public class EX_VerticalExtent {
     }
 
     public void addVerticalCRS(String verticalCRS) {
+        if (this.verticalCRS == null) {
+            this.verticalCRS = new ArrayList<>();
+        }
+
         int elementNum = 2;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -136,6 +124,10 @@ public class EX_VerticalExtent {
     }
 
     public void addVerticalCRSId(MD_ReferenceSystem verticalCRSId) {
+        if (this.verticalCRSId == null) {
+            this.verticalCRSId = new ArrayList<>();
+        }
+
         int elementNum = 3;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);

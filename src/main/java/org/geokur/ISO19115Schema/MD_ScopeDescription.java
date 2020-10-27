@@ -70,7 +70,7 @@ public class MD_ScopeDescription {
         }
     }
 
-    public void createAttributes() {
+    public void addAttributes(String attributes) {
         try {
             if (this.features != null || this.featureInstances != null || this.attributeInstances != null || this.dataset != null || this.other != null) {
                 throw new UnionException(className);
@@ -82,79 +82,7 @@ public class MD_ScopeDescription {
         } catch (UnionException e) {
             System.out.println(e.getMessage());
         }
-    }
 
-    public void createFeatures() {
-        try {
-            if (this.attributes != null || this.featureInstances != null || this.attributeInstances != null || this.dataset != null || this.other != null) {
-                throw new UnionException(className);
-            } else {
-                if (this.features == null) {
-                    this.features = new ArrayList<>();
-                }
-            }
-        } catch (UnionException e) {
-            System.out.println(e.getMessage());
-        }
-    }
-
-    public void createFeatureInstances() {
-        try {
-            if (this.attributes != null || this.features != null || this.attributeInstances != null || this.dataset != null || this.other != null) {
-                throw new UnionException(className);
-            } else {
-                if (this.featureInstances == null) {
-                    this.featureInstances = new ArrayList<>();
-                }
-            }
-        } catch (UnionException e) {
-            System.out.println(e.getMessage());
-        }
-    }
-
-    public void createAttributeInstances() {
-        try {
-            if (this.attributes != null || this.features != null || this.featureInstances != null || this.dataset != null || this.other != null) {
-                throw new UnionException(className);
-            } else {
-                if (this.attributeInstances == null) {
-                    this.attributeInstances = new ArrayList<>();
-                }
-            }
-        } catch (UnionException e) {
-            System.out.println(e.getMessage());
-        }
-    }
-
-    public void createDataset() {
-        try {
-            if (this.attributes != null || this.features != null || this.featureInstances != null || this.attributeInstances != null || this.other != null) {
-                throw new UnionException(className);
-            } else {
-                if (this.dataset == null) {
-                    this.dataset = new ArrayList<>();
-                }
-            }
-        } catch (UnionException e) {
-            System.out.println(e.getMessage());
-        }
-    }
-
-    public void createOther() {
-        try {
-            if (this.attributes != null || this.features != null || this.featureInstances != null || this.attributeInstances != null || this.dataset != null) {
-                throw new UnionException(className);
-            } else {
-                if (this.other == null) {
-                    this.other = new ArrayList<>();
-                }
-            }
-        } catch (UnionException e) {
-            System.out.println(e.getMessage());
-        }
-    }
-
-    public void addAttributes(String attributes) {
         int elementNum = 0;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -169,6 +97,18 @@ public class MD_ScopeDescription {
     }
 
     public void addFeatures(String features) {
+        try {
+            if (this.attributes != null || this.featureInstances != null || this.attributeInstances != null || this.dataset != null || this.other != null) {
+                throw new UnionException(className);
+            } else {
+                if (this.features == null) {
+                    this.features = new ArrayList<>();
+                }
+            }
+        } catch (UnionException e) {
+            System.out.println(e.getMessage());
+        }
+
         int elementNum = 1;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -183,6 +123,18 @@ public class MD_ScopeDescription {
     }
 
     public void addFeatureInstances(String featureInstances) {
+        try {
+            if (this.attributes != null || this.features != null || this.attributeInstances != null || this.dataset != null || this.other != null) {
+                throw new UnionException(className);
+            } else {
+                if (this.featureInstances == null) {
+                    this.featureInstances = new ArrayList<>();
+                }
+            }
+        } catch (UnionException e) {
+            System.out.println(e.getMessage());
+        }
+
         int elementNum = 2;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -197,6 +149,18 @@ public class MD_ScopeDescription {
     }
 
     public void addAttributeInstances(String attributeInstances) {
+        try {
+            if (this.attributes != null || this.features != null || this.featureInstances != null || this.dataset != null || this.other != null) {
+                throw new UnionException(className);
+            } else {
+                if (this.attributeInstances == null) {
+                    this.attributeInstances = new ArrayList<>();
+                }
+            }
+        } catch (UnionException e) {
+            System.out.println(e.getMessage());
+        }
+
         int elementNum = 3;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -211,6 +175,18 @@ public class MD_ScopeDescription {
     }
 
     public void addDataset(String dataset) {
+        try {
+            if (this.attributes != null || this.features != null || this.featureInstances != null || this.attributeInstances != null || this.other != null) {
+                throw new UnionException(className);
+            } else {
+                if (this.dataset == null) {
+                    this.dataset = new ArrayList<>();
+                }
+            }
+        } catch (UnionException e) {
+            System.out.println(e.getMessage());
+        }
+
         int elementNum = 4;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -225,6 +201,18 @@ public class MD_ScopeDescription {
     }
 
     public void addOther(String other) {
+        try {
+            if (this.attributes != null || this.features != null || this.featureInstances != null || this.attributeInstances != null || this.dataset != null) {
+                throw new UnionException(className);
+            } else {
+                if (this.other == null) {
+                    this.other = new ArrayList<>();
+                }
+            }
+        } catch (UnionException e) {
+            System.out.println(e.getMessage());
+        }
+
         int elementNum = 5;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);

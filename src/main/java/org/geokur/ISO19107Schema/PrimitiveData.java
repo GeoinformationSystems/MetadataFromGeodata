@@ -40,13 +40,11 @@ public class PrimitiveData extends GeometryData {
     // methods
     public PrimitiveData() {}
 
-    public void createSegment() {
+    public void addSegment(PrimitiveData segment) {
         if (this.segment == null) {
             this.segment = new ArrayList<>();
         }
-    }
 
-    public void addSegment(PrimitiveData segment) {
         int elementNum = 2;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);

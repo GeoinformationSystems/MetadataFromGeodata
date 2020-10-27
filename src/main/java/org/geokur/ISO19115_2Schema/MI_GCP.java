@@ -65,19 +65,11 @@ public class MI_GCP {
         }
     }
 
-    public void createGeographicCoordinates() {
+    public void addGeographicCoordinates(DirectPosition geographicCoordinates) {
         if (this.geographicCoordinates == null) {
             this.geographicCoordinates = new ArrayList<>();
         }
-    }
 
-    public void createAccuracyReport() {
-        if (this.accuracyReport == null) {
-            this.accuracyReport = new ArrayList<>();
-        }
-    }
-
-    public void addGeographicCoordinates(DirectPosition geographicCoordinates) {
         int elementNum = 0;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -92,6 +84,10 @@ public class MI_GCP {
     }
 
     public void addAccuracyReport(DQ_Element accuracyReport) {
+        if (this.accuracyReport == null) {
+            this.accuracyReport = new ArrayList<>();
+        }
+
         int elementNum = 1;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);

@@ -80,49 +80,11 @@ public class MD_ApplicationSchemaInformation {
         }
     }
 
-    public void createName() {
+    public void addName(CI_Citation name) {
         if (this.name == null) {
             this.name = new ArrayList<>();
         }
-    }
 
-    public void createSchemaLanguage() {
-        if (this.schemaLanguage == null) {
-            this.schemaLanguage = new ArrayList<>();
-        }
-    }
-
-    public void createConstraintLanguage() {
-        if (this.constraintLanguage == null) {
-            this.constraintLanguage = new ArrayList<>();
-        }
-    }
-
-    public void createSchemaAscii() {
-        if (this.schemaAscii == null) {
-            this.schemaAscii = new ArrayList<>();
-        }
-    }
-
-    public void createGraphicsFile() {
-        if (this.graphicsFile == null) {
-            this.graphicsFile = new ArrayList<>();
-        }
-    }
-
-    public void createSoftwareDevelopmentFile() {
-        if (this.softwareDevelopmentFile == null) {
-            this.softwareDevelopmentFile = new ArrayList<>();
-        }
-    }
-
-    public void createSoftwareDevelopmentFileFormat() {
-        if (this.softwareDevelopmentFileFormat == null) {
-            this.softwareDevelopmentFileFormat = new ArrayList<>();
-        }
-    }
-
-    public void addName(CI_Citation name) {
         int elementNum = 0;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -137,6 +99,10 @@ public class MD_ApplicationSchemaInformation {
     }
 
     public void addSchemaLanguage(String schemaLanguage) {
+        if (this.schemaLanguage == null) {
+            this.schemaLanguage = new ArrayList<>();
+        }
+
         int elementNum = 1;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -151,6 +117,10 @@ public class MD_ApplicationSchemaInformation {
     }
 
     public void addConstraintLanguage(String constraintLanguage) {
+        if (this.constraintLanguage == null) {
+            this.constraintLanguage = new ArrayList<>();
+        }
+
         int elementNum = 2;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -165,6 +135,10 @@ public class MD_ApplicationSchemaInformation {
     }
 
     public void addSchemaAscii(String schemaAscii) {
+        if (this.schemaAscii == null) {
+            this.schemaAscii = new ArrayList<>();
+        }
+
         int elementNum = 3;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -179,6 +153,10 @@ public class MD_ApplicationSchemaInformation {
     }
 
     public void addGraphicsFile(CI_OnlineResource graphicsFile) {
+        if (this.graphicsFile == null) {
+            this.graphicsFile = new ArrayList<>();
+        }
+
         int elementNum = 4;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -193,6 +171,10 @@ public class MD_ApplicationSchemaInformation {
     }
 
     public void addSoftwareDevelopmentFile(CI_OnlineResource softwareDevelopmentFile) {
+        if (this.softwareDevelopmentFile == null) {
+            this.softwareDevelopmentFile = new ArrayList<>();
+        }
+
         int elementNum = 5;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -207,6 +189,10 @@ public class MD_ApplicationSchemaInformation {
     }
 
     public void addSoftwareDevelopmentFileFormat(String softwareDevelopmentFileFormat) {
+        if (this.softwareDevelopmentFileFormat == null) {
+            this.softwareDevelopmentFileFormat = new ArrayList<>();
+        }
+
         int elementNum = 6;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);

@@ -74,37 +74,11 @@ public class MD_FeatureCatalogueDescription extends MD_ContentInformation {
         }
     }
 
-    public void createComplianceCode() {
+    public void addComplianceCode(Boolean complianceCode) {
         if (this.complianceCode == null) {
             this.complianceCode = new ArrayList<>();
         }
-    }
 
-    public void createLocale() {
-        if (this.locale == null) {
-            this.locale = new ArrayList<>();
-        }
-    }
-
-    public void createIncludedWithDataset() {
-        if (this.includedWithDataset == null) {
-            this.includedWithDataset = new ArrayList<>();
-        }
-    }
-
-    public void createFeatureTypes() {
-        if (this.featureTypes == null) {
-            this.featureTypes = new ArrayList<>();
-        }
-    }
-
-    public void createFeatureCatalogueCitation() {
-        if (this.featureCatalogueCitation == null) {
-            this.featureCatalogueCitation = new ArrayList<>();
-        }
-    }
-
-    public void addComplianceCode(Boolean complianceCode) {
         int elementNum = 0;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -119,6 +93,10 @@ public class MD_FeatureCatalogueDescription extends MD_ContentInformation {
     }
 
     public void addLocale(PT_Locale locale) {
+        if (this.locale == null) {
+            this.locale = new ArrayList<>();
+        }
+
         int elementNum = 1;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -133,6 +111,10 @@ public class MD_FeatureCatalogueDescription extends MD_ContentInformation {
     }
 
     public void addIncludedWithDataset(Boolean includedWithDataset) {
+        if (this.includedWithDataset == null) {
+            this.includedWithDataset = new ArrayList<>();
+        }
+
         int elementNum = 2;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -147,6 +129,10 @@ public class MD_FeatureCatalogueDescription extends MD_ContentInformation {
     }
 
     public void addFeatureTypes(MD_FeatureTypeInfo featureTypes) {
+        if (this.featureTypes == null) {
+            this.featureTypes = new ArrayList<>();
+        }
+
         int elementNum = 3;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -161,6 +147,10 @@ public class MD_FeatureCatalogueDescription extends MD_ContentInformation {
     }
 
     public void addFeatureCatalogueCitation(CI_Citation featureCatalogueCitation) {
+        if (this.featureCatalogueCitation == null) {
+            this.featureCatalogueCitation = new ArrayList<>();
+        }
+
         int elementNum = 4;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);

@@ -36,19 +36,11 @@ public class Knot {
     // methods
     public Knot() {}
 
-    public void createValue() {
+    public void addValue(Double value) {
         if (this.value == null) {
             this.value = new ArrayList<>();
         }
-    }
 
-    public void createMultiplicity() {
-        if (this.multiplicity == null) {
-            this.multiplicity = new ArrayList<>();
-        }
-    }
-
-    public void addValue(Double value) {
         int elementNum = 0;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -63,6 +55,10 @@ public class Knot {
     }
 
     public void addMultiplicity(Integer multiplicity) {
+        if (this.multiplicity == null) {
+            this.multiplicity = new ArrayList<>();
+        }
+
         int elementNum = 1;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);

@@ -63,20 +63,16 @@ public class ShapeMetadata implements Metadata {
             }
 
             CI_Individual ciIndividual = new CI_Individual();
-            ciIndividual.createName();
             ciIndividual.addName(System.getProperty("user.name"));
             ciIndividual.finalizeClass();
 
             CI_Responsibility ciResponsibility = new CI_Responsibility();
-            ciResponsibility.createRole();
             ciResponsibility.addRole(new CI_RoleCode(CI_RoleCode.CI_RoleCodes.resourceProvider));
-            ciResponsibility.createParty();
             ciResponsibility.addParty(ciIndividual);
             ciResponsibility.finalizeClass();
 
             String identifierCode = "pid:" + UUID.randomUUID().toString();
             MD_Identifier mdIdentifier = new MD_Identifier();
-            mdIdentifier.createCode();
             mdIdentifier.addCode(identifierCode);
             mdIdentifier.finalizeClass();
 
@@ -85,9 +81,7 @@ public class ShapeMetadata implements Metadata {
             String lastModifiedString = lastModified.format(DateTimeFormatter.ISO_OFFSET_DATE_TIME); // datetime in ISO 8601 format
 
             CI_Date ciDate_MD_Metadata = new CI_Date();
-            ciDate_MD_Metadata.createDateType();
             ciDate_MD_Metadata.addDateType(new CI_DateTypeCode(CI_DateTypeCode.CI_DateTypeCodes.creation));
-            ciDate_MD_Metadata.createDate();
             ciDate_MD_Metadata.addDate(lastModifiedString);
             ciDate_MD_Metadata.finalizeClass();
 
@@ -144,73 +138,53 @@ public class ShapeMetadata implements Metadata {
             }
 
             MD_Identifier mdIdentifier_MD_ReferenceSystem = new MD_Identifier();
-            mdIdentifier_MD_ReferenceSystem.createCode();
             mdIdentifier_MD_ReferenceSystem.addCode(authority + "::" + srcCRSepsg);
-            mdIdentifier_MD_ReferenceSystem.createCodeSpace();
             mdIdentifier_MD_ReferenceSystem.addCodeSpace(authority);
-            mdIdentifier_MD_ReferenceSystem.createDescription();
             mdIdentifier_MD_ReferenceSystem.addDescription(srcCRS.getName().toString());
             mdIdentifier_MD_ReferenceSystem.finalizeClass();
 
             MD_ReferenceSystem mdReferenceSystem = new MD_ReferenceSystem();
-            mdReferenceSystem.createReferenceSystemIdentifier();
             mdReferenceSystem.addReferenceSystemIdentifier(mdIdentifier_MD_ReferenceSystem);
             mdReferenceSystem.finalizeClass();
 
             Extent extent = getExtent(collectionTransform);
 
             EX_GeographicBoundingBox exGeographicBoundingBox = new EX_GeographicBoundingBox();
-            exGeographicBoundingBox.createWestBoundLongitude();
             exGeographicBoundingBox.addWestBoundLongitude(extent.west);
-            exGeographicBoundingBox.createEastBoundLongitude();
             exGeographicBoundingBox.addEastBoundLongitude(extent.east);
-            exGeographicBoundingBox.createSouthBoundLatitude();
             exGeographicBoundingBox.addSouthBoundLatitude(extent.south);
-            exGeographicBoundingBox.createNorthBoundLatitude();
             exGeographicBoundingBox.addNorthBoundLatitude(extent.north);
             exGeographicBoundingBox.finalizeClass();
 
             EX_Extent exExtent = new EX_Extent();
-            exExtent.createDescription();
             exExtent.addDescription("geographical extent in WGS84, EPSG:4326");
-            exExtent.createGeographicElement();
             exExtent.addGeographicElement(exGeographicBoundingBox);
             exExtent.finalizeClass();
 
             Extent extentOrigCRS = getExtent(collection);
 
             EX_GeographicBoundingBox exGeographicBoundingBoxOrigCRS = new EX_GeographicBoundingBox();
-            exGeographicBoundingBoxOrigCRS.createWestBoundLongitude();
             exGeographicBoundingBoxOrigCRS.addWestBoundLongitude(extentOrigCRS.west);
-            exGeographicBoundingBoxOrigCRS.createEastBoundLongitude();
             exGeographicBoundingBoxOrigCRS.addEastBoundLongitude(extentOrigCRS.east);
-            exGeographicBoundingBoxOrigCRS.createSouthBoundLatitude();
             exGeographicBoundingBoxOrigCRS.addSouthBoundLatitude(extentOrigCRS.south);
-            exGeographicBoundingBoxOrigCRS.createNorthBoundLatitude();
             exGeographicBoundingBoxOrigCRS.addNorthBoundLatitude(extentOrigCRS.north);
             exGeographicBoundingBoxOrigCRS.finalizeClass();
 
             EX_Extent exExtentOrigCRS = new EX_Extent();
-            exExtentOrigCRS.createDescription();
             exExtentOrigCRS.addDescription("geographical extent in data CRS, EPSG:" + srcCRSepsg);
-            exExtentOrigCRS.createGeographicElement();
             exExtentOrigCRS.addGeographicElement(exGeographicBoundingBoxOrigCRS);
             exExtentOrigCRS.finalizeClass();
 
             String now = ZonedDateTime.now(ZoneOffset.UTC).format(DateTimeFormatter.ISO_INSTANT);
 
             CI_Date ciDate = new CI_Date();
-            ciDate.createDateType();
             ciDate.addDateType(new CI_DateTypeCode(CI_DateTypeCode.CI_DateTypeCodes.creation));
-            ciDate.createDate();
             ciDate.addDate(now);
             ciDate.finalizeClass();
 
             // TODO: informative title available?
             CI_Citation ciCitation = new CI_Citation();
-            ciCitation.createTitle();
             ciCitation.addTitle("");
-            ciCitation.createDate();
             ciCitation.addDate(ciDate);
             ciCitation.finalizeClass();
 
@@ -224,31 +198,22 @@ public class ShapeMetadata implements Metadata {
                     + "os: " + System.getProperty("os.name");
 
             MD_DataIdentification mdDataIdentification = new MD_DataIdentification();
-            mdDataIdentification.createCitation();
             mdDataIdentification.addCitation(ciCitation);
-            mdDataIdentification.createEnvironmentalDescription();
             mdDataIdentification.addEnvironmentalDescription(environmentalDescription);
-            mdDataIdentification.createExtent();
             mdDataIdentification.addExtent(exExtent);
             mdDataIdentification.addExtent(exExtentOrigCRS);
             mdDataIdentification.finalizeClass();
 
             MD_Metadata mdMetadata = new MD_Metadata();
-            mdMetadata.createContact();
             mdMetadata.addContact(ciResponsibility);
-            mdMetadata.createMetadataIdentifier();
             mdMetadata.addMetadataIdentifier(mdIdentifier);
-            mdMetadata.createIdentificationInfo();
             mdMetadata.addIdentificationInfo(mdDataIdentification);
-            mdMetadata.createDateInfo();
             mdMetadata.addDateInfo(ciDate_MD_Metadata);
-            mdMetadata.createReferenceSystemInfo();
             mdMetadata.addReferenceSystemInfo(mdReferenceSystem);
             mdMetadata.finalizeClass();
 
             System.out.println();
 
-            dsDataSet.createHas();
             dsDataSet.addHas(mdMetadata);
             dsDataSet.finalizeClass();
 

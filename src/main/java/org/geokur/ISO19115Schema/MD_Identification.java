@@ -106,127 +106,11 @@ public abstract class MD_Identification {
     public List<SV_ServiceIdentification> serviceIdentification;
 
     // methods
-    public void createCitation() {
+    public void addCitation(CI_Citation citation) {
         if (this.citation == null) {
             this.citation = new ArrayList<>();
         }
-    }
 
-    public void createAbstract() {
-        if (this.abstractElement == null) {
-            this.abstractElement = new ArrayList<>();
-        }
-    }
-
-    public void createPurpose() {
-        if (this.purpose == null) {
-            this.purpose = new ArrayList<>();
-        }
-    }
-
-    public void createCredit() {
-        if (this.credit == null) {
-            this.credit = new ArrayList<>();
-        }
-    }
-
-    public void createStatus() {
-        if (this.status == null) {
-            this.status = new ArrayList<>();
-        }
-    }
-
-    public void createPointOfContact() {
-        if (this.pointOfContact == null) {
-            this.pointOfContact = new ArrayList<>();
-        }
-    }
-
-    public void createSpatialRepresentationType() {
-        if (this.spatialRepresentationType == null) {
-            this.spatialRepresentationType = new ArrayList<>();
-        }
-    }
-
-    public void createSpatialResolution() {
-        if (this.spatialResolution == null) {
-            this.spatialResolution = new ArrayList<>();
-        }
-    }
-
-    public void createTemporalResolution() {
-        if (this.temporalResolution == null) {
-            this.temporalResolution = new ArrayList<>();
-        }
-    }
-
-    public void createTopicCategory() {
-        if (this.topicCategory == null) {
-            this.topicCategory = new ArrayList<>();
-        }
-    }
-
-    public void createExtent() {
-        if (this.extent == null) {
-            this.extent = new ArrayList<>();
-        }
-    }
-
-    public void createAdditionalDocumentation() {
-        if (this.additionalDocumentation == null) {
-            this.additionalDocumentation = new ArrayList<>();
-        }
-    }
-
-    public void createProcessingLevel() {
-        if (this.processingLevel == null) {
-            this.processingLevel = new ArrayList<>();
-        }
-    }
-
-    public void createResourceMaintenance() {
-        if (this.resourceMaintenance == null) {
-            this.resourceMaintenance = new ArrayList<>();
-        }
-    }
-
-    public void createGraphicOverview() {
-        if (this.graphicOverview == null) {
-            this.graphicOverview = new ArrayList<>();
-        }
-    }
-
-    public void createResourceFormat() {
-        if (this.resourceFormat == null) {
-            this.resourceFormat = new ArrayList<>();
-        }
-    }
-
-    public void createDescriptiveKeywords() {
-        if (this.descriptiveKeywords == null) {
-            this.descriptiveKeywords = new ArrayList<>();
-        }
-    }
-
-    public void createResourceSpecificUsage() {
-        if (this.resourceSpecificUsage == null) {
-            this.resourceSpecificUsage = new ArrayList<>();
-        }
-    }
-
-    public void createResourceConstraints() {
-        if (this.resourceConstraints == null) {
-            this.resourceConstraints = new ArrayList<>();
-        }
-    }
-
-    public void createAssociatedResource() {
-        if (this.associatedResource == null) {
-            this.associatedResource = new ArrayList<>();
-        }
-    }
-
-    public void addCitation(CI_Citation citation) {
         int elementNum = 0;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -241,6 +125,10 @@ public abstract class MD_Identification {
     }
 
     public void addAbstract(String abstractElement) {
+        if (this.abstractElement == null) {
+            this.abstractElement = new ArrayList<>();
+        }
+
         int elementNum = 1;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -255,6 +143,10 @@ public abstract class MD_Identification {
     }
 
     public void addPurpose(String purpose) {
+        if (this.purpose == null) {
+            this.purpose = new ArrayList<>();
+        }
+
         int elementNum = 2;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -269,6 +161,10 @@ public abstract class MD_Identification {
     }
 
     public void addCredit(String credit) {
+        if (this.credit == null) {
+            this.credit = new ArrayList<>();
+        }
+
         int elementNum = 3;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -283,6 +179,10 @@ public abstract class MD_Identification {
     }
 
     public void addStatus(MD_ProgressCode status) {
+        if (this.status == null) {
+            this.status = new ArrayList<>();
+        }
+
         int elementNum = 4;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -297,6 +197,10 @@ public abstract class MD_Identification {
     }
 
     public void addPointOfContact(CI_Responsibility pointOfContact) {
+        if (this.pointOfContact == null) {
+            this.pointOfContact = new ArrayList<>();
+        }
+
         int elementNum = 5;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -311,6 +215,10 @@ public abstract class MD_Identification {
     }
 
     public void addSpatialRepresentationType(MD_SpatialRepresentationTypeCode spatialRepresentationType) {
+        if (this.spatialRepresentationType == null) {
+            this.spatialRepresentationType = new ArrayList<>();
+        }
+
         int elementNum = 6;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -325,6 +233,10 @@ public abstract class MD_Identification {
     }
 
     public void addSpatialResolution(MD_Resolution spatialResolution) {
+        if (this.spatialResolution == null) {
+            this.spatialResolution = new ArrayList<>();
+        }
+
         int elementNum = 7;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -339,6 +251,10 @@ public abstract class MD_Identification {
     }
 
     public void addTemporalResolution(String temporalResolution) {
+        if (this.temporalResolution == null) {
+            this.temporalResolution = new ArrayList<>();
+        }
+
         int elementNum = 8;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -353,6 +269,10 @@ public abstract class MD_Identification {
     }
 
     public void addTopicCategory(MD_TopicCategoryCode topicCategory) {
+        if (this.topicCategory == null) {
+            this.topicCategory = new ArrayList<>();
+        }
+
         int elementNum = 9;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -367,6 +287,10 @@ public abstract class MD_Identification {
     }
 
     public void addExtent(EX_Extent extent) {
+        if (this.extent == null) {
+            this.extent = new ArrayList<>();
+        }
+
         int elementNum = 10;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -381,6 +305,10 @@ public abstract class MD_Identification {
     }
 
     public void addAdditionalDocumentation(CI_Citation additionalDocumentation) {
+        if (this.additionalDocumentation == null) {
+            this.additionalDocumentation = new ArrayList<>();
+        }
+
         int elementNum = 11;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -395,6 +323,10 @@ public abstract class MD_Identification {
     }
 
     public void addProcessingLevel(MD_Identifier processingLevel) {
+        if (this.processingLevel == null) {
+            this.processingLevel = new ArrayList<>();
+        }
+
         int elementNum = 12;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -409,6 +341,10 @@ public abstract class MD_Identification {
     }
 
     public void addResourceMaintenance(MD_MaintenanceInformation resourceMaintenance) {
+        if (this.resourceMaintenance == null) {
+            this.resourceMaintenance = new ArrayList<>();
+        }
+
         int elementNum = 13;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -423,6 +359,10 @@ public abstract class MD_Identification {
     }
 
     public void addGraphicOverview(MD_BrowseGraphic graphicOverview) {
+        if (this.graphicOverview == null) {
+            this.graphicOverview = new ArrayList<>();
+        }
+
         int elementNum = 14;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -437,6 +377,10 @@ public abstract class MD_Identification {
     }
 
     public void addResourceFormat(MD_Format resourceFormat) {
+        if (this.resourceFormat == null) {
+            this.resourceFormat = new ArrayList<>();
+        }
+
         int elementNum = 15;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -451,6 +395,10 @@ public abstract class MD_Identification {
     }
 
     public void addDescriptiveKeywords(MD_Keywords descriptiveKeywords) {
+        if (this.descriptiveKeywords == null) {
+            this.descriptiveKeywords = new ArrayList<>();
+        }
+
         int elementNum = 16;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -465,6 +413,10 @@ public abstract class MD_Identification {
     }
 
     public void addResourceSpecificUsage(MD_Usage resourceSpecificUsage) {
+        if (this.resourceSpecificUsage == null) {
+            this.resourceSpecificUsage = new ArrayList<>();
+        }
+
         int elementNum = 17;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -479,6 +431,10 @@ public abstract class MD_Identification {
     }
 
     public void addResourceConstraints(MD_Constraints resourceConstraints) {
+        if (this.resourceConstraints == null) {
+            this.resourceConstraints = new ArrayList<>();
+        }
+
         int elementNum = 18;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -493,6 +449,10 @@ public abstract class MD_Identification {
     }
 
     public void addAssociatedResource(MD_AssociatedResource associatedResource) {
+        if (this.associatedResource == null) {
+            this.associatedResource = new ArrayList<>();
+        }
+
         int elementNum = 19;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);

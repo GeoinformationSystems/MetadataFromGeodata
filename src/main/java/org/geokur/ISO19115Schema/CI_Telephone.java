@@ -63,19 +63,11 @@ public class CI_Telephone {
         }
     }
 
-    public void createNumber() {
+    public void addNumber(String number) {
         if (this.number == null) {
             this.number = new ArrayList<>();
         }
-    }
 
-    public void createNumberType() {
-        if (this.numberType == null) {
-            this.numberType = new ArrayList<>();
-        }
-    }
-
-    public void addNumber(String number) {
         int elementNum = 0;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -90,6 +82,10 @@ public class CI_Telephone {
     }
 
     public void addNumberType(CI_TelephoneTypeCode numberType) {
+        if (this.numberType == null) {
+            this.numberType = new ArrayList<>();
+        }
+
         int elementNum = 1;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);

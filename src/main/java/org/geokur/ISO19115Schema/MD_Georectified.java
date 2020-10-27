@@ -83,49 +83,11 @@ public class MD_Georectified extends MD_GridSpatialRepresentation {
         }
     }
 
-    public void createCheckPointAvailability() {
+    public void addCheckPointAvailability(Boolean checkPointAvailability) {
         if (this.checkPointAvailability == null) {
             this.checkPointAvailability = new ArrayList<>();
         }
-    }
 
-    public void createCheckPointDescription() {
-        if (this.checkPointDescription == null) {
-            this.checkPointDescription = new ArrayList<>();
-        }
-    }
-
-    public void createCornerPoints() {
-        if (this.cornerPoints == null) {
-            this.cornerPoints = new ArrayList<>();
-        }
-    }
-
-    public void createCentrePoint() {
-        if (this.centrePoint == null) {
-            this.centrePoint = new ArrayList<>();
-        }
-    }
-
-    public void createPointInPixel() {
-        if (this.pointInPixel == null) {
-            this.pointInPixel = new ArrayList<>();
-        }
-    }
-
-    public void createTransformationDimensionDescription() {
-        if (this.transformationDimensionDescription == null) {
-            this.transformationDimensionDescription = new ArrayList<>();
-        }
-    }
-
-    public void createTransformationDimensionMapping() {
-        if (this.transformationDimensionMapping == null) {
-            this.transformationDimensionMapping = new ArrayList<>();
-        }
-    }
-
-    public void addCheckPointAvailability(Boolean checkPointAvailability) {
         int elementNum = 4;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -140,6 +102,10 @@ public class MD_Georectified extends MD_GridSpatialRepresentation {
     }
 
     public void addCheckPointDescription(String checkPointDescription) {
+        if (this.checkPointDescription == null) {
+            this.checkPointDescription = new ArrayList<>();
+        }
+
         int elementNum = 5;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -154,6 +120,10 @@ public class MD_Georectified extends MD_GridSpatialRepresentation {
     }
 
     public void addCornerPoints(Coordinate cornerPoints) {
+        if (this.cornerPoints == null) {
+            this.cornerPoints = new ArrayList<>();
+        }
+
         int elementNum = 6;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -168,6 +138,10 @@ public class MD_Georectified extends MD_GridSpatialRepresentation {
     }
 
     public void addCentrePoint(Coordinate centrePoint) {
+        if (this.centrePoint == null) {
+            this.centrePoint = new ArrayList<>();
+        }
+
         int elementNum = 7;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -182,6 +156,10 @@ public class MD_Georectified extends MD_GridSpatialRepresentation {
     }
 
     public void addPointInPixel(MD_PixelOrientationCode pointInPixel) {
+        if (this.pointInPixel == null) {
+            this.pointInPixel = new ArrayList<>();
+        }
+
         int elementNum = 8;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -196,6 +174,10 @@ public class MD_Georectified extends MD_GridSpatialRepresentation {
     }
 
     public void addTransformationDimensionDescription(String transformationDimensionDescription) {
+        if (this.transformationDimensionDescription == null) {
+            this.transformationDimensionDescription = new ArrayList<>();
+        }
+
         int elementNum = 9;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -210,6 +192,10 @@ public class MD_Georectified extends MD_GridSpatialRepresentation {
     }
 
     public void addTransformationDimensionMapping(String transformationDimensionMapping) {
+        if (this.transformationDimensionMapping == null) {
+            this.transformationDimensionMapping = new ArrayList<>();
+        }
+
         int elementNum = 10;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);

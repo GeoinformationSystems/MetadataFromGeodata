@@ -64,19 +64,11 @@ public class LE_Algorithm {
         }
     }
 
-    public void createCitation() {
+    public void addCitation(CI_Citation citation) {
         if (this.citation == null) {
             this.citation = new ArrayList<>();
         }
-    }
 
-    public void createDescription() {
-        if (this.description == null) {
-            this.description = new ArrayList<>();
-        }
-    }
-
-    public void addCitation(CI_Citation citation) {
         int elementNum = 0;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -91,6 +83,10 @@ public class LE_Algorithm {
     }
 
     public void addDescription(String description) {
+        if (this.description == null) {
+            this.description = new ArrayList<>();
+        }
+
         int elementNum = 1;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);

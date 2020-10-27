@@ -69,31 +69,11 @@ public class MD_SecurityConstraints extends MD_Constraints {
         }
     }
 
-    public void createClassification() {
+    public void addClassification(MD_ClassificationCode classification) {
         if (this.classification == null) {
             this.classification = new ArrayList<>();
         }
-    }
 
-    public void createUserNote() {
-        if (this.userNote == null) {
-            this.userNote = new ArrayList<>();
-        }
-    }
-
-    public void createClassificationSystem() {
-        if (this.classificationSystem == null) {
-            this.classificationSystem = new ArrayList<>();
-        }
-    }
-
-    public void createHandlingDescription() {
-        if (this.handlingDescription == null) {
-            this.handlingDescription = new ArrayList<>();
-        }
-    }
-
-    public void addClassification(MD_ClassificationCode classification) {
         int elementNum = 6;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -108,6 +88,10 @@ public class MD_SecurityConstraints extends MD_Constraints {
     }
 
     public void addUserNote(String userNote) {
+        if (this.userNote == null) {
+            this.userNote = new ArrayList<>();
+        }
+
         int elementNum = 7;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -122,6 +106,10 @@ public class MD_SecurityConstraints extends MD_Constraints {
     }
 
     public void addClassificationSystem(String classificationSystem) {
+        if (this.classificationSystem == null) {
+            this.classificationSystem = new ArrayList<>();
+        }
+
         int elementNum = 8;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -136,6 +124,10 @@ public class MD_SecurityConstraints extends MD_Constraints {
     }
 
     public void addHandlingDescription(String handlingDescription) {
+        if (this.handlingDescription == null) {
+            this.handlingDescription = new ArrayList<>();
+        }
+
         int elementNum = 9;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);

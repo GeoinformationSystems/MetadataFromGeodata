@@ -57,13 +57,11 @@ public class MD_FeatureCatalogue extends MD_ContentInformation {
         }
     }
 
-    public void createFeatureCatalogue() {
+    public void addFeatureCatalogue(String featureCatalogue) {
         if (this.featureCatalogue == null) {
             this.featureCatalogue = new ArrayList<>();
         }
-    }
 
-    public void addFeatureCatalogue(String featureCatalogue) {
         int elementNum = 0;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);

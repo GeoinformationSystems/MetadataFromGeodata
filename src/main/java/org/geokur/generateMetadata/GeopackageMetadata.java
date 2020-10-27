@@ -71,7 +71,6 @@ public class GeopackageMetadata implements Metadata {
         // read geopackage file and put its metadata into DS_Resource
 
         DS_DataSet metadataDataSet = new DS_DataSet();
-        metadataDataSet.createHas();
         int numDataSet = new GeopackageMetadata(fileName).getNumGeodata();
         for (int i = 0; i < numDataSet; i++) {
             System.out.println("--------------------");
@@ -198,14 +197,11 @@ public class GeopackageMetadata implements Metadata {
 
             // get (1) basic information
             CI_Individual ciIndividual = new CI_Individual();
-            ciIndividual.createName();
             ciIndividual.addName(System.getProperty("user.name"));
             ciIndividual.finalizeClass();
 
             CI_Responsibility ciResponsibility = new CI_Responsibility();
-            ciResponsibility.createRole();
             ciResponsibility.addRole(new CI_RoleCode(CI_RoleCode.CI_RoleCodes.resourceProvider));
-            ciResponsibility.createParty();
             ciResponsibility.addParty(ciIndividual);
             ciResponsibility.finalizeClass();
 
@@ -213,11 +209,9 @@ public class GeopackageMetadata implements Metadata {
             String description = gpkg.getDescription(statement, contentAct);
 
             MD_Identifier mdIdentifier = new MD_Identifier();
-            mdIdentifier.createCode();
             mdIdentifier.addCode(identifierCode);
             if (description.length() > 0) {
                 // add only non empty descriptions
-                mdIdentifier.createDescription();
                 mdIdentifier.addDescription(description);
             }
             mdIdentifier.finalizeClass();
@@ -225,9 +219,7 @@ public class GeopackageMetadata implements Metadata {
             Instant lastChange = gpkg.getLastChange(statement, contentAct); // ISO 8601 date
 
             CI_Date ciDateCreation = new CI_Date();
-            ciDateCreation.createDateType();
             ciDateCreation.addDateType(new CI_DateTypeCode(CI_DateTypeCode.CI_DateTypeCodes.creation));
-            ciDateCreation.createDate();
             ciDateCreation.addDate(lastChange.toString());
             ciDateCreation.finalizeClass();
 
@@ -236,9 +228,7 @@ public class GeopackageMetadata implements Metadata {
             String lastModifiedString = lastModified.format(DateTimeFormatter.ISO_OFFSET_DATE_TIME); // datetime in ISO 8601 format
 
             CI_Date ciDateLastModified = new CI_Date();
-            ciDateLastModified.createDateType();
             ciDateLastModified.addDateType(new CI_DateTypeCode(CI_DateTypeCode.CI_DateTypeCodes.lastUpdate));
-            ciDateLastModified.createDate();
             ciDateLastModified.addDate(lastModifiedString);
             ciDateLastModified.finalizeClass();
 
@@ -250,11 +240,8 @@ public class GeopackageMetadata implements Metadata {
             String srsName = gpkg.getSRSName(statement, srsID);
 
             MD_Identifier mdIdentifier_MD_ReferenceSystem = new MD_Identifier();
-            mdIdentifier_MD_ReferenceSystem.createCode();
             mdIdentifier_MD_ReferenceSystem.addCode(srsOrganization + ":" + srsOrganizationCoordsysID);
-            mdIdentifier_MD_ReferenceSystem.createCodeSpace();
             mdIdentifier_MD_ReferenceSystem.addCodeSpace(srsOrganization);
-            mdIdentifier_MD_ReferenceSystem.createDescription();
             mdIdentifier_MD_ReferenceSystem.addDescription(srsName);
             mdIdentifier_MD_ReferenceSystem.finalizeClass();
 
@@ -263,17 +250,13 @@ public class GeopackageMetadata implements Metadata {
             String now = ZonedDateTime.now(ZoneOffset.UTC).format(DateTimeFormatter.ISO_INSTANT);
 
             CI_Date ciDate = new CI_Date();
-            ciDate.createDateType();
             ciDate.addDateType(new CI_DateTypeCode(CI_DateTypeCode.CI_DateTypeCodes.creation));
-            ciDate.createDate();
             ciDate.addDate(now);
             ciDate.finalizeClass();
 
             // TODO: informative title available?
             CI_Citation ciCitation = new CI_Citation();
-            ciCitation.createTitle();
             ciCitation.addTitle("");
-            ciCitation.createDate();
             ciCitation.addDate(ciDate);
             ciCitation.finalizeClass();
 
@@ -282,12 +265,10 @@ public class GeopackageMetadata implements Metadata {
             Extent extent;
 
             MD_DataIdentification mdDataIdentification = new MD_DataIdentification();
-            mdDataIdentification.createCitation();
             mdDataIdentification.addCitation(ciCitation);
 
             switch (dataType) {
                 case "features":
-                    mdDataIdentification.createSpatialRepresentationType();
                     mdDataIdentification.addSpatialRepresentationType(new MD_SpatialRepresentationTypeCode(MD_SpatialRepresentationTypeCode.MD_SpatialRepresentationTypeCodes.vector));
 
                     // get spatial extent
@@ -313,46 +294,32 @@ public class GeopackageMetadata implements Metadata {
                     + "file size: " + (int) geopackageFile.length() + " B; "
                     + "os: " + System.getProperty("os.name");
 
-            mdDataIdentification.createEnvironmentalDescription();
             mdDataIdentification.addEnvironmentalDescription(environmentalDescription);
 
             EX_GeographicBoundingBox exGeographicBoundingBox = new EX_GeographicBoundingBox();
-            exGeographicBoundingBox.createWestBoundLongitude();
             exGeographicBoundingBox.addWestBoundLongitude(extent.west);
-            exGeographicBoundingBox.createEastBoundLongitude();
             exGeographicBoundingBox.addEastBoundLongitude(extent.east);
-            exGeographicBoundingBox.createSouthBoundLatitude();
             exGeographicBoundingBox.addSouthBoundLatitude(extent.south);
-            exGeographicBoundingBox.createNorthBoundLatitude();
             exGeographicBoundingBox.addNorthBoundLatitude(extent.north);
             exGeographicBoundingBox.finalizeClass();
 
             EX_Extent exExtent = new EX_Extent();
-            exExtent.createDescription();
             exExtent.addDescription("geographical extent in WGS84, EPSG:4326");
-            exExtent.createGeographicElement();
             exExtent.addGeographicElement(exGeographicBoundingBox);
             exExtent.finalizeClass();
 
             EX_GeographicBoundingBox exGeographicBoundingBoxOrigCRS = new EX_GeographicBoundingBox();
-            exGeographicBoundingBoxOrigCRS.createWestBoundLongitude();
             exGeographicBoundingBoxOrigCRS.addWestBoundLongitude(extentOrigCRS.west);
-            exGeographicBoundingBoxOrigCRS.createEastBoundLongitude();
             exGeographicBoundingBoxOrigCRS.addEastBoundLongitude(extentOrigCRS.east);
-            exGeographicBoundingBoxOrigCRS.createSouthBoundLatitude();
             exGeographicBoundingBoxOrigCRS.addSouthBoundLatitude(extentOrigCRS.south);
-            exGeographicBoundingBoxOrigCRS.createNorthBoundLatitude();
             exGeographicBoundingBoxOrigCRS.addNorthBoundLatitude(extentOrigCRS.north);
             exGeographicBoundingBoxOrigCRS.finalizeClass();
             
             EX_Extent exExtentOrigCRS = new EX_Extent();
-            exExtentOrigCRS.createDescription();
             exExtentOrigCRS.addDescription("geographical extent in data CRS, EPSG:" + srcCRSepsg);
-            exExtentOrigCRS.createGeographicElement();
             exExtentOrigCRS.addGeographicElement(exGeographicBoundingBoxOrigCRS);
             exExtentOrigCRS.finalizeClass();
 
-            mdDataIdentification.createExtent();
             mdDataIdentification.addExtent(exExtent);
             mdDataIdentification.addExtent(exExtentOrigCRS);
             mdDataIdentification.finalizeClass();
@@ -363,9 +330,7 @@ public class GeopackageMetadata implements Metadata {
 
             // get (5) metadata contact
             CI_Citation ciCitationMetadataStandard = new CI_Citation();
-            ciCitationMetadataStandard.createTitle();
             ciCitationMetadataStandard.addTitle("ISO 19115-1");
-            ciCitationMetadataStandard.createEdition();
             ciCitationMetadataStandard.addEdition("First edition 2014-04-01");
             ciCitationMetadataStandard.finalizeClass();
 
@@ -403,21 +368,15 @@ public class GeopackageMetadata implements Metadata {
 
             // aggregate all data in MD_Metadata
             MD_Metadata mdMetadata = new MD_Metadata();
-            mdMetadata.createContact();
             mdMetadata.addContact(ciResponsibility);
-            mdMetadata.createMetadataIdentifier();
             mdMetadata.addMetadataIdentifier(mdIdentifier);
-            mdMetadata.createDateInfo();
             mdMetadata.addDateInfo(ciDateCreation);
             mdMetadata.addDateInfo(ciDateLastModified);
-            mdMetadata.createIdentificationInfo();
             mdMetadata.addIdentificationInfo(mdDataIdentification);
-            mdMetadata.createMetadataStandard();
             mdMetadata.addMetadataStandard(ciCitationMetadataStandard);
             mdMetadata.finalizeClass();
 
             dsDataSet.addHas(mdMetadata);
-//            dsDataSet.addHas(mdMetadata);
             dsDataSet.finalizeClass();
 
             // close/dispose database -> no more connection to collections

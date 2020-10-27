@@ -102,91 +102,11 @@ public class CI_Citation {
         }
     }
 
-    public void createTitle() {
+    public void addTitle(String title) {
         if (this.title == null) {
             this.title = new ArrayList<>();
         }
-    }
 
-    public void createAlternateTitle() {
-        if (this.alternateTitle == null) {
-            this.alternateTitle = new ArrayList<>();
-        }
-    }
-
-    public void createDate() {
-        if (this.date == null) {
-            this.date = new ArrayList<>();
-        }
-    }
-
-    public void createEdition() {
-        if (this.edition == null) {
-            this.edition = new ArrayList<>();
-        }
-    }
-
-    public void createEditionDate() {
-        if (this.editionDate == null) {
-            this.editionDate = new ArrayList<>();
-        }
-    }
-
-    public void createIdentifier() {
-        if (this.identifier == null) {
-            this.identifier = new ArrayList<>();
-        }
-    }
-
-    public void createCitedResponsibleParty() {
-        if (this.citedResponsibleParty == null) {
-            this.citedResponsibleParty = new ArrayList<>();
-        }
-    }
-
-    public void createPresentationForm() {
-        if (this.presentationForm == null) {
-            this.presentationForm = new ArrayList<>();
-        }
-    }
-
-    public void createSeries() {
-        if (this.series == null) {
-            this.series = new ArrayList<>();
-        }
-    }
-
-    public void createOtherCitationDetails() {
-        if (this.otherCitationDetails == null) {
-            this.otherCitationDetails = new ArrayList<>();
-        }
-    }
-
-    public void createISBN() {
-        if (this.ISBN == null) {
-            this.ISBN = new ArrayList<>();
-        }
-    }
-
-    public void createISSN() {
-        if (this.ISSN == null) {
-            this.ISSN = new ArrayList<>();
-        }
-    }
-
-    public void createOnlineResource() {
-        if (this.onlineResource == null) {
-            this.onlineResource = new ArrayList<>();
-        }
-    }
-
-    public void createGraphic() {
-        if (this.graphic == null) {
-            this.graphic = new ArrayList<>();
-        }
-    }
-
-    public void addTitle(String title) {
         int elementNum = 0;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -201,6 +121,10 @@ public class CI_Citation {
     }
 
     public void addAlternateTitle(String alternateTitle) {
+        if (this.alternateTitle == null) {
+            this.alternateTitle = new ArrayList<>();
+        }
+
         int elementNum = 1;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -215,6 +139,10 @@ public class CI_Citation {
     }
 
     public void addDate(CI_Date date) {
+        if (this.date == null) {
+            this.date = new ArrayList<>();
+        }
+
         int elementNum = 2;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -229,6 +157,10 @@ public class CI_Citation {
     }
 
     public void addEdition(String edition) {
+        if (this.edition == null) {
+            this.edition = new ArrayList<>();
+        }
+
         int elementNum = 3;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -243,6 +175,10 @@ public class CI_Citation {
     }
 
     public void addEditionDate(String editionDate) {
+        if (this.editionDate == null) {
+            this.editionDate = new ArrayList<>();
+        }
+
         int elementNum = 4;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -257,6 +193,10 @@ public class CI_Citation {
     }
 
     public void addIdentifier(MD_Identifier identifier) {
+        if (this.identifier == null) {
+            this.identifier = new ArrayList<>();
+        }
+
         int elementNum = 5;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -271,6 +211,10 @@ public class CI_Citation {
     }
 
     public void addCitedResponsibleParty(CI_Responsibility citedResponsibleParty) {
+        if (this.citedResponsibleParty == null) {
+            this.citedResponsibleParty = new ArrayList<>();
+        }
+
         int elementNum = 6;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -285,6 +229,10 @@ public class CI_Citation {
     }
 
     public void addPresentationForm(CI_PresentationFormCode presentationForm) {
+        if (this.presentationForm == null) {
+            this.presentationForm = new ArrayList<>();
+        }
+
         int elementNum = 7;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -299,6 +247,10 @@ public class CI_Citation {
     }
 
     public void addSeries(CI_Series series) {
+        if (this.series == null) {
+            this.series = new ArrayList<>();
+        }
+
         int elementNum = 8;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -313,6 +265,10 @@ public class CI_Citation {
     }
 
     public void addOtherCitationDetails(String otherCitationDetails) {
+        if (this.otherCitationDetails == null) {
+            this.otherCitationDetails = new ArrayList<>();
+        }
+
         int elementNum = 9;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -327,6 +283,10 @@ public class CI_Citation {
     }
 
     public void addISBN(String ISBN) {
+        if (this.ISBN == null) {
+            this.ISBN = new ArrayList<>();
+        }
+
         int elementNum = 10;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -341,6 +301,10 @@ public class CI_Citation {
     }
 
     public void addISSN(String ISSN) {
+        if (this.ISSN == null) {
+            this.ISSN = new ArrayList<>();
+        }
+
         int elementNum = 11;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -355,6 +319,10 @@ public class CI_Citation {
     }
 
     public void addOnlineResource(CI_OnlineResource onlineResource) {
+        if (this.onlineResource == null) {
+            this.onlineResource = new ArrayList<>();
+        }
+
         int elementNum = 12;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -369,6 +337,10 @@ public class CI_Citation {
     }
 
     public void addGraphic(MD_BrowseGraphic graphic) {
+        if (this.graphic == null) {
+            this.graphic = new ArrayList<>();
+        }
+
         int elementNum = 13;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);

@@ -95,73 +95,11 @@ public class MD_ImageDescription extends MD_CoverageDescription {
         }
     }
 
-    public void createIlluminationElevationAngle() {
+    public void addIlluminationElevationAngle(Double illuminationElevationAngle) {
         if (this.illuminationElevationAngle == null) {
             this.illuminationElevationAngle = new ArrayList<>();
         }
-    }
 
-    public void createIlluminationAzimuthAngle() {
-        if (this.illuminationAzimuthAngle == null) {
-            this.illuminationAzimuthAngle = new ArrayList<>();
-        }
-    }
-
-    public void createImagingCondition() {
-        if (this.imagingCondition == null) {
-            this.imagingCondition = new ArrayList<>();
-        }
-    }
-
-    public void createImageQualityCode() {
-        if (this.imageQualityCode == null) {
-            this.imageQualityCode = new ArrayList<>();
-        }
-    }
-
-    public void createCloudCoverPercentage() {
-        if (this.cloudCoverPercentage == null) {
-            this.cloudCoverPercentage = new ArrayList<>();
-        }
-    }
-
-    public void createCompressionGenerationQuantity() {
-        if (this.compressionGenerationQuantity == null) {
-            this.compressionGenerationQuantity = new ArrayList<>();
-        }
-    }
-
-    public void createTriangulationIndicator() {
-        if (this.triangulationIndicator == null) {
-            this.triangulationIndicator = new ArrayList<>();
-        }
-    }
-
-    public void createRadiometricCalibrationDataAvailability() {
-        if (this.radiometricCalibrationDataAvailability == null) {
-            this.radiometricCalibrationDataAvailability = new ArrayList<>();
-        }
-    }
-
-    public void createCameraCalibrationInformationAvailability() {
-        if (this.cameraCalibrationInformationAvailability == null) {
-            this.cameraCalibrationInformationAvailability = new ArrayList<>();
-        }
-    }
-
-    public void createFilmDistortionInformationAvailability() {
-        if (this.filmDistortionInformationAvailability == null) {
-            this.filmDistortionInformationAvailability = new ArrayList<>();
-        }
-    }
-
-    public void createLensDistortionInformationAvailability() {
-        if (this.lensDistortionInformationAvailability == null) {
-            this.lensDistortionInformationAvailability = new ArrayList<>();
-        }
-    }
-
-    public void addIlluminationElevationAngle(Double illuminationElevationAngle) {
         int elementNum = 3;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -176,6 +114,10 @@ public class MD_ImageDescription extends MD_CoverageDescription {
     }
 
     public void addIlluminationAzimuthAngle(Double illuminationAzimuthAngle) {
+        if (this.illuminationAzimuthAngle == null) {
+            this.illuminationAzimuthAngle = new ArrayList<>();
+        }
+
         int elementNum = 4;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -190,6 +132,10 @@ public class MD_ImageDescription extends MD_CoverageDescription {
     }
 
     public void addImagingCondition(MD_ImagingConditionCode imagingCondition) {
+        if (this.imagingCondition == null) {
+            this.imagingCondition = new ArrayList<>();
+        }
+
         int elementNum = 5;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -204,6 +150,10 @@ public class MD_ImageDescription extends MD_CoverageDescription {
     }
 
     public void addImageQualityCode(MD_Identifier imageQualityCode) {
+        if (this.imageQualityCode == null) {
+            this.imageQualityCode = new ArrayList<>();
+        }
+
         int elementNum = 6;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -218,6 +168,10 @@ public class MD_ImageDescription extends MD_CoverageDescription {
     }
 
     public void addCloudCoverPercentage(Double cloudCoverPercentage) {
+        if (this.cloudCoverPercentage == null) {
+            this.cloudCoverPercentage = new ArrayList<>();
+        }
+
         int elementNum = 7;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -232,6 +186,10 @@ public class MD_ImageDescription extends MD_CoverageDescription {
     }
 
     public void addCompressionGenerationQuantity(Integer compressionGenerationQuantity) {
+        if (this.compressionGenerationQuantity == null) {
+            this.compressionGenerationQuantity = new ArrayList<>();
+        }
+
         int elementNum = 8;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -246,6 +204,10 @@ public class MD_ImageDescription extends MD_CoverageDescription {
     }
 
     public void addTriangulationIndicator(Boolean triangulationIndicator) {
+        if (this.triangulationIndicator == null) {
+            this.triangulationIndicator = new ArrayList<>();
+        }
+
         int elementNum = 9;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -260,6 +222,10 @@ public class MD_ImageDescription extends MD_CoverageDescription {
     }
 
     public void addRadiometricCalibrationDataAvailability(Boolean radiometricCalibrationDataAvailability) {
+        if (this.radiometricCalibrationDataAvailability == null) {
+            this.radiometricCalibrationDataAvailability = new ArrayList<>();
+        }
+
         int elementNum = 10;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -274,6 +240,10 @@ public class MD_ImageDescription extends MD_CoverageDescription {
     }
 
     public void addCameraCalibrationInformationAvailability(Boolean cameraCalibrationInformationAvailability) {
+        if (this.cameraCalibrationInformationAvailability == null) {
+            this.cameraCalibrationInformationAvailability = new ArrayList<>();
+        }
+
         int elementNum = 11;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -288,6 +258,10 @@ public class MD_ImageDescription extends MD_CoverageDescription {
     }
 
     public void addFilmDistortionInformationAvailability(Boolean filmDistortionInformationAvailability) {
+        if (this.filmDistortionInformationAvailability == null) {
+            this.filmDistortionInformationAvailability = new ArrayList<>();
+        }
+
         int elementNum = 12;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -302,6 +276,10 @@ public class MD_ImageDescription extends MD_CoverageDescription {
     }
 
     public void addLensDistortionInformationAvailability(Boolean lensDistortionInformationAvailability) {
+        if (this.lensDistortionInformationAvailability == null) {
+            this.lensDistortionInformationAvailability = new ArrayList<>();
+        }
+
         int elementNum = 13;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);

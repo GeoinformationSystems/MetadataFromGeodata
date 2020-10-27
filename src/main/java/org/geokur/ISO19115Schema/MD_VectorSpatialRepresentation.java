@@ -63,19 +63,11 @@ public class MD_VectorSpatialRepresentation extends MD_SpatialRepresentation {
         }
     }
 
-    public void createTopologyLevel() {
+    public void addTopologyLevel(MD_TopologyLevelCode topologyLevel) {
         if (this.topologyLevel == null) {
             this.topologyLevel = new ArrayList<>();
         }
-    }
 
-    public void createGeometricObjects() {
-        if (this.geometricObjects == null) {
-            this.geometricObjects = new ArrayList<>();
-        }
-    }
-
-    public void addTopologyLevel(MD_TopologyLevelCode topologyLevel) {
         int elementNum = 0;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -90,6 +82,10 @@ public class MD_VectorSpatialRepresentation extends MD_SpatialRepresentation {
     }
 
     public void addGeometricObjects(MD_GeometricObjects geometricObjects) {
+        if (this.geometricObjects == null) {
+            this.geometricObjects = new ArrayList<>();
+        }
+
         int elementNum = 1;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);

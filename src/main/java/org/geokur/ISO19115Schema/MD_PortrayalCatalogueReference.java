@@ -59,13 +59,11 @@ public class MD_PortrayalCatalogueReference {
         }
     }
 
-    public void createPortrayalCatalogueCitation() {
+    public void addPortrayalCatalogueCitation(CI_Citation portrayalCatalogueCitation) {
         if (this.portrayalCatalogueCitation == null) {
             this.portrayalCatalogueCitation = new ArrayList<>();
         }
-    }
 
-    public void addPortrayalCatalogueCitation(CI_Citation portrayalCatalogueCitation) {
         int elementNum = 0;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);

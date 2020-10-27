@@ -60,13 +60,11 @@ public class MI_Georectified extends MD_Georectified {
         }
     }
 
-    public void createCheckPoint() {
+    public void addCheckPoint(MI_GCP checkPoint) {
         if (this.checkPoint == null) {
             this.checkPoint = new ArrayList<>();
         }
-    }
 
-    public void addCheckPoint(MI_GCP checkPoint) {
         int elementNum = 0;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);

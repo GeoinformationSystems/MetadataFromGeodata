@@ -33,13 +33,11 @@ public abstract class EX_GeographicExtent {
     public List<EX_GeographicDescription> geographicDescription;
 
     // methods
-    public void createExtentTypeCode() {
+    public void addExtentTypeCode(Boolean extentTypeCode) {
         if (this.extentTypeCode == null) {
             this.extentTypeCode = new ArrayList<>();
         }
-    }
 
-    public void addExtentTypeCode(Boolean extentTypeCode) {
         int elementNum = 0;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);

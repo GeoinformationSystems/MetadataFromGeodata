@@ -47,19 +47,11 @@ public abstract class SingleOperation extends CoordinateOperation {
     public List<PointMotionOperation> pointMotionOperation;
 
     // methods
-    public void createMethod() {
+    public void addMethod(OperationMethod method) {
         if (this.method == null) {
             this.method = new ArrayList<>();
         }
-    }
 
-    public void createParameterValue() {
-        if (this.parameterValue == null) {
-            this.parameterValue = new ArrayList<>();
-        }
-    }
-
-    public void addMethod(OperationMethod method) {
         int elementNum = 12;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -74,6 +66,10 @@ public abstract class SingleOperation extends CoordinateOperation {
     }
 
     public void addParameterValue(GeneralParameterValue parameterValue) {
+        if (this.parameterValue == null) {
+            this.parameterValue = new ArrayList<>();
+        }
+
         int elementNum = 13;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);

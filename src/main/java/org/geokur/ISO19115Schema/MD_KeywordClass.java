@@ -67,25 +67,11 @@ public class MD_KeywordClass {
         }
     }
 
-    public void createClassName() {
+    public void addClassName(String classNameElement) {
         if (this.classNameElement == null) {
             this.classNameElement = new ArrayList<>();
         }
-    }
 
-    public void createConceptIdentifier() {
-        if (this.conceptIdentifier == null) {
-            this.conceptIdentifier = new ArrayList<>();
-        }
-    }
-
-    public void createOntology() {
-        if (this.ontology == null) {
-            this.ontology = new ArrayList<>();
-        }
-    }
-
-    public void addClassName(String classNameElement) {
         int elementNum = 0;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -100,6 +86,10 @@ public class MD_KeywordClass {
     }
 
     public void addConceptIdentifier(String conceptIdentifier) {
+        if (this.conceptIdentifier == null) {
+            this.conceptIdentifier = new ArrayList<>();
+        }
+
         int elementNum = 1;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -114,6 +104,10 @@ public class MD_KeywordClass {
     }
 
     public void addOntology(CI_Citation ontology) {
+        if (this.ontology == null) {
+            this.ontology = new ArrayList<>();
+        }
+
         int elementNum = 2;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);

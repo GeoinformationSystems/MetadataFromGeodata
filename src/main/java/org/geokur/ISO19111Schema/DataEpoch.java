@@ -59,13 +59,11 @@ public class DataEpoch {
         }
     }
 
-    public void createCoordinateEpoch() {
+    public void addCoordinateEpoch(Double coordinateEpoch) {
         if (this.coordinateEpoch == null) {
             this.coordinateEpoch = new ArrayList<>();
         }
-    }
 
-    public void addCoordinateEpoch(Double coordinateEpoch) {
         int elementNum = 0;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);

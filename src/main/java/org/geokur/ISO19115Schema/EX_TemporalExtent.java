@@ -60,13 +60,11 @@ public class EX_TemporalExtent {
         }
     }
 
-    public void createExtent() {
+    public void addExtent(String extent) {
         if (this.extent == null) {
             this.extent = new ArrayList<>();
         }
-    }
 
-    public void addExtent(String extent) {
         int elementNum = 0;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);

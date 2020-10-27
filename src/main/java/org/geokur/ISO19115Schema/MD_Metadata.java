@@ -152,145 +152,11 @@ public class MD_Metadata {
         }
     }
 
-    public void createMetadataIdentifier() {
+    public void addMetadataIdentifier(MD_Identifier metadataIdentifier) {
         if (this.metadataIdentifier == null) {
             this.metadataIdentifier = new ArrayList<>();
         }
-    }
 
-    public void createDefaultLocale() {
-        if (this.defaultLocale == null) {
-            this.defaultLocale = new ArrayList<>();
-        }
-    }
-
-    public void createParentMetadata() {
-        if (this.parentMetadata == null) {
-            this.parentMetadata = new ArrayList<>();
-        }
-    }
-
-    public void createContact() {
-        if (this.contact == null) {
-            this.contact = new ArrayList<>();
-        }
-    }
-
-    public void createDateInfo() {
-        if (this.dateInfo == null) {
-            this.dateInfo = new ArrayList<>();
-        }
-    }
-
-    public void createMetadataStandard() {
-        if (this.metadataStandard == null) {
-            this.metadataStandard = new ArrayList<>();
-        }
-    }
-
-    public void createMetadataProfile() {
-        if (this.metadataProfile == null) {
-            this.metadataProfile = new ArrayList<>();
-        }
-    }
-
-    public void createAlternativeMetadataReference() {
-        if (this.alternativeMetadataReference == null) {
-            this.alternativeMetadataReference = new ArrayList<>();
-        }
-    }
-
-    public void createOtherLocale() {
-        if (this.otherLocale == null) {
-            this.otherLocale = new ArrayList<>();
-        }
-    }
-
-    public void createMetadataLinkage() {
-        if (this.metadataLinkage == null) {
-            this.metadataLinkage = new ArrayList<>();
-        }
-    }
-
-    public void createSpatialRepresentationInfo() {
-        if (this.spatialRepresentationInfo == null) {
-            this.spatialRepresentationInfo = new ArrayList<>();
-        }
-    }
-
-    public void createReferenceSystemInfo() {
-        if (this.referenceSystemInfo == null) {
-            this.referenceSystemInfo = new ArrayList<>();
-        }
-    }
-
-    public void createMetadataExtensionInfo() {
-        if (this.metadataExtensionInfo == null) {
-            this.metadataExtensionInfo = new ArrayList<>();
-        }
-    }
-
-    public void createIdentificationInfo() {
-        if (this.identificationInfo == null) {
-            this.identificationInfo = new ArrayList<>();
-        }
-    }
-
-    public void createContentInfo() {
-        if (this.contentInfo == null) {
-            this.contentInfo = new ArrayList<>();
-        }
-    }
-
-    public void createDistributionInfo() {
-        if (this.distributionInfo == null) {
-            this.distributionInfo = new ArrayList<>();
-        }
-    }
-
-    public void createDataQualityInfo() {
-        if (this.dataQualityInfo == null) {
-            this.dataQualityInfo = new ArrayList<>();
-        }
-    }
-
-    public void createPortrayalCatalogueInfo() {
-        if (this.portrayalCatalogueInfo == null) {
-            this.portrayalCatalogueInfo = new ArrayList<>();
-        }
-    }
-
-    public void createMetadataConstraints() {
-        if (this.metadataConstraints == null) {
-            this.metadataConstraints = new ArrayList<>();
-        }
-    }
-
-    public void createApplicationSchemaInfo() {
-        if (this.applicationSchemaInfo == null) {
-            this.applicationSchemaInfo = new ArrayList<>();
-        }
-    }
-
-    public void createMetadataMaintenance() {
-        if (this.metadataMaintenance == null) {
-            this.metadataMaintenance = new ArrayList<>();
-        }
-    }
-
-    public void createResourceLineage() {
-        if (this.resourceLineage == null) {
-            this.resourceLineage = new ArrayList<>();
-        }
-    }
-
-    public void createMetadataScope() {
-        if (this.metadataScope == null) {
-            this.metadataScope = new ArrayList<>();
-        }
-    }
-
-    public void addMetadataIdentifier(MD_Identifier metadataIdentifier) {
         int elementNum = 0;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -305,6 +171,10 @@ public class MD_Metadata {
     }
 
     public void addDefaultLocale(PT_Locale defaultLocale) {
+        if (this.defaultLocale == null) {
+            this.defaultLocale = new ArrayList<>();
+        }
+
         int elementNum = 1;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -319,6 +189,10 @@ public class MD_Metadata {
     }
 
     public void addParentMetadata(CI_Citation parentMetadata) {
+        if (this.parentMetadata == null) {
+            this.parentMetadata = new ArrayList<>();
+        }
+
         int elementNum = 2;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -333,6 +207,10 @@ public class MD_Metadata {
     }
 
     public void addContact(CI_Responsibility contact) {
+        if (this.contact == null) {
+            this.contact = new ArrayList<>();
+        }
+
         int elementNum = 3;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -347,6 +225,10 @@ public class MD_Metadata {
     }
 
     public void addDateInfo(CI_Date dateInfo) {
+        if (this.dateInfo == null) {
+            this.dateInfo = new ArrayList<>();
+        }
+
         int elementNum = 4;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -361,6 +243,10 @@ public class MD_Metadata {
     }
 
     public void addMetadataStandard(CI_Citation metadataStandard) {
+        if (this.metadataStandard == null) {
+            this.metadataStandard = new ArrayList<>();
+        }
+
         int elementNum = 5;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -375,6 +261,10 @@ public class MD_Metadata {
     }
 
     public void addMetadataProfile(CI_Citation metadataProfile) {
+        if (this.metadataProfile == null) {
+            this.metadataProfile = new ArrayList<>();
+        }
+
         int elementNum = 6;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -389,6 +279,10 @@ public class MD_Metadata {
     }
 
     public void addAlternativeMetadataReference(CI_Citation alternativeMetadataReference) {
+        if (this.alternativeMetadataReference == null) {
+            this.alternativeMetadataReference = new ArrayList<>();
+        }
+
         int elementNum = 7;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -403,6 +297,10 @@ public class MD_Metadata {
     }
 
     public void addOtherLocale(PT_Locale otherLocale) {
+        if (this.otherLocale == null) {
+            this.otherLocale = new ArrayList<>();
+        }
+
         int elementNum = 8;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -417,6 +315,10 @@ public class MD_Metadata {
     }
 
     public void addMetadataLinkage(CI_OnlineResource metadataLinkage) {
+        if (this.metadataLinkage == null) {
+            this.metadataLinkage = new ArrayList<>();
+        }
+
         int elementNum = 9;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -431,6 +333,10 @@ public class MD_Metadata {
     }
 
     public void addSpatialRepresentationInfo(MD_GridSpatialRepresentation spatialRepresentationInfo) {
+        if (this.spatialRepresentationInfo == null) {
+            this.spatialRepresentationInfo = new ArrayList<>();
+        }
+
         int elementNum = 10;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -445,6 +351,10 @@ public class MD_Metadata {
     }
 
     public void addReferenceSystemInfo(MD_ReferenceSystem referenceSystemInfo) {
+        if (this.referenceSystemInfo == null) {
+            this.referenceSystemInfo = new ArrayList<>();
+        }
+
         int elementNum = 11;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -459,6 +369,10 @@ public class MD_Metadata {
     }
 
     public void addMetadataExtensionInfo(MD_MetadataExtensionInformation metadataExtensionInfo) {
+        if (this.metadataExtensionInfo == null) {
+            this.metadataExtensionInfo = new ArrayList<>();
+        }
+
         int elementNum = 12;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -473,6 +387,10 @@ public class MD_Metadata {
     }
 
     public void addIdentificationInfo(MD_Identification identificationInfo) {
+        if (this.identificationInfo == null) {
+            this.identificationInfo = new ArrayList<>();
+        }
+
         int elementNum = 13;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -487,6 +405,10 @@ public class MD_Metadata {
     }
 
     public void addContentInfo(MD_FeatureCatalogueDescription contentInfo) {
+        if (this.contentInfo == null) {
+            this.contentInfo = new ArrayList<>();
+        }
+
         int elementNum = 14;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -501,6 +423,10 @@ public class MD_Metadata {
     }
 
     public void addDistributionInfo(MD_Distribution distributionInfo) {
+        if (this.distributionInfo == null) {
+            this.distributionInfo = new ArrayList<>();
+        }
+
         int elementNum = 15;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -515,6 +441,10 @@ public class MD_Metadata {
     }
 
     public void addDataQualityInfo(DQ_DataQuality dataQualityInfo) {
+        if (this.dataQualityInfo == null) {
+            this.dataQualityInfo = new ArrayList<>();
+        }
+
         int elementNum = 16;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -529,6 +459,10 @@ public class MD_Metadata {
     }
 
     public void addPortrayalCatalogueInfo(MD_PortrayalCatalogueReference portrayalCatalogueInfo) {
+        if (this.portrayalCatalogueInfo == null) {
+            this.portrayalCatalogueInfo = new ArrayList<>();
+        }
+
         int elementNum = 17;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -543,6 +477,10 @@ public class MD_Metadata {
     }
 
     public void addMetadataConstraints(MD_Constraints metadataConstraints) {
+        if (this.metadataConstraints == null) {
+            this.metadataConstraints = new ArrayList<>();
+        }
+
         int elementNum = 18;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -557,6 +495,10 @@ public class MD_Metadata {
     }
 
     public void addApplicationSchemaInfo(MD_ApplicationSchemaInformation applicationSchemaInfo) {
+        if (this.applicationSchemaInfo == null) {
+            this.applicationSchemaInfo = new ArrayList<>();
+        }
+
         int elementNum = 19;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -571,6 +513,10 @@ public class MD_Metadata {
     }
 
     public void addMetadataMaintenance(MD_MaintenanceInformation metadataMaintenance) {
+        if (this.metadataMaintenance == null) {
+            this.metadataMaintenance = new ArrayList<>();
+        }
+
         int elementNum = 20;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -585,6 +531,10 @@ public class MD_Metadata {
     }
 
     public void addResourceLineage(LI_Lineage resourceLineage) {
+        if (this.resourceLineage == null) {
+            this.resourceLineage = new ArrayList<>();
+        }
+
         int elementNum = 21;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -599,6 +549,10 @@ public class MD_Metadata {
     }
 
     public void addMetadataScope(MD_MetadataScope metadataScope) {
+        if (this.metadataScope == null) {
+            this.metadataScope = new ArrayList<>();
+        }
+
         int elementNum = 22;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);

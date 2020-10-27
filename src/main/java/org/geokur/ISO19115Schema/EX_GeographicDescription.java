@@ -59,13 +59,11 @@ public class EX_GeographicDescription extends EX_GeographicExtent {
         }
     }
 
-    public void createGeographicIdentifier() {
+    public void addGeographicIdentifier(MD_Identifier geographicIdentifier) {
         if (this.geographicIdentifier == null) {
             this.geographicIdentifier = new ArrayList<>();
         }
-    }
 
-    public void addGeographicIdentifier(MD_Identifier geographicIdentifier) {
         int elementNum = 1;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);

@@ -68,25 +68,11 @@ public class DQ_DataQuality {
         }
     }
 
-    public void createScope() {
+    public void addScope(MD_Scope scope) {
         if (this.scope == null) {
             this.scope = new ArrayList<>();
         }
-    }
 
-    public void createReport() {
-        if (this.report == null) {
-            this.report = new ArrayList<>();
-        }
-    }
-
-    public void createStandaloneQualityReport() {
-        if (this.standaloneQualityReport == null) {
-            this.standaloneQualityReport = new ArrayList<>();
-        }
-    }
-
-    public void addScope(MD_Scope scope) {
         int elementNum = 0;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -101,6 +87,10 @@ public class DQ_DataQuality {
     }
 
     public void addReport(DQ_Element report) {
+        if (this.report == null) {
+            this.report = new ArrayList<>();
+        }
+
         int elementNum = 1;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -115,6 +105,10 @@ public class DQ_DataQuality {
     }
 
     public void addStandaloneQualityReport(DQ_StandaloneQualityReportInformation standaloneQualityReport) {
+        if (this.standaloneQualityReport == null) {
+            this.standaloneQualityReport = new ArrayList<>();
+        }
+
         int elementNum = 2;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);

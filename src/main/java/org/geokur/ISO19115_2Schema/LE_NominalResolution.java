@@ -58,7 +58,7 @@ public class LE_NominalResolution {
         }
     }
 
-    public void createScanningResolution() {
+    public void addScanningResolution(String scanningResolution) {
         try {
             if (this.groundResolution != null) {
                 throw new UnionException(className);
@@ -70,23 +70,7 @@ public class LE_NominalResolution {
         } catch (UnionException e) {
             System.out.println(e.getMessage());
         }
-    }
 
-    public void createGroundResolution() {
-        try {
-            if (this.scanningResolution != null) {
-                throw new UnionException(className);
-            } else {
-                if (this.groundResolution == null) {
-                    this.groundResolution = new ArrayList<>();
-                }
-            }
-        } catch (UnionException e) {
-            System.out.println(e.getMessage());
-        }
-    }
-
-    public void addScanningResolution(String scanningResolution) {
         int elementNum = 0;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -101,6 +85,18 @@ public class LE_NominalResolution {
     }
 
     public void addGroundResolution(String groundResolution) {
+        try {
+            if (this.scanningResolution != null) {
+                throw new UnionException(className);
+            } else {
+                if (this.groundResolution == null) {
+                    this.groundResolution = new ArrayList<>();
+                }
+            }
+        } catch (UnionException e) {
+            System.out.println(e.getMessage());
+        }
+
         int elementNum = 1;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);

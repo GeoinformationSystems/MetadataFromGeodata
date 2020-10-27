@@ -64,19 +64,11 @@ public class DQM_Description {
         }
     }
 
-    public void createTextDescription() {
+    public void addTextDescription(String textDescription) {
         if (this.textDescription == null) {
             this.textDescription = new ArrayList<>();
         }
-    }
 
-    public void createExtendedDescription() {
-        if (this.extendedDescription == null) {
-            this.extendedDescription = new ArrayList<>();
-        }
-    }
-
-    public void addTextDescription(String textDescription) {
         int elementNum = 0;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -91,6 +83,10 @@ public class DQM_Description {
     }
 
     public void addExtendedDescription(MD_BrowseGraphic extendedDescription) {
+        if (this.extendedDescription == null) {
+            this.extendedDescription = new ArrayList<>();
+        }
+
         int elementNum = 1;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);

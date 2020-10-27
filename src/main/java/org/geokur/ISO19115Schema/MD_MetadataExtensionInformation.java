@@ -63,19 +63,11 @@ public class MD_MetadataExtensionInformation {
         }
     }
 
-    public void createExtensionInLineResource() {
+    public void addExtensionInLineResource(CI_OnlineResource extensionInLineResource) {
         if (this.extensionInLineResource == null) {
             this.extensionInLineResource = new ArrayList<>();
         }
-    }
 
-    public void createExtendedElementInformation() {
-        if (this.extendedElementInformation == null) {
-            this.extendedElementInformation = new ArrayList<>();
-        }
-    }
-
-    public void addExtensionInLineResource(CI_OnlineResource extensionInLineResource) {
         int elementNum = 0;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -90,6 +82,10 @@ public class MD_MetadataExtensionInformation {
     }
 
     public void addExtendedElementInformation(MD_ExtendedElementInformation extendedElementInformation) {
+        if (this.extendedElementInformation == null) {
+            this.extendedElementInformation = new ArrayList<>();
+        }
+
         int elementNum = 1;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);

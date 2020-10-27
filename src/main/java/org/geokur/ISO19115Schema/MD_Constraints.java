@@ -81,43 +81,11 @@ public class MD_Constraints {
         }
     }
 
-    public void createUseLimitation() {
+    public void addUseLimitation(String useLimitation) {
         if (this.useLimitation == null) {
             this.useLimitation = new ArrayList<>();
         }
-    }
 
-    public void createConstraintApplicationScope() {
-        if (this.constraintApplicationScope == null) {
-            this.constraintApplicationScope = new ArrayList<>();
-        }
-    }
-
-    public void createGraphic() {
-        if (this.graphic == null) {
-            this.graphic = new ArrayList<>();
-        }
-    }
-
-    public void createReference() {
-        if (this.reference == null) {
-            this.reference = new ArrayList<>();
-        }
-    }
-
-    public void createReleasability() {
-        if (this.releasability == null) {
-            this.releasability = new ArrayList<>();
-        }
-    }
-
-    public void createResponsibleParty() {
-        if (this.responsibleParty == null) {
-            this.responsibleParty = new ArrayList<>();
-        }
-    }
-
-    public void addUseLimitation(String useLimitation) {
         int elementNum = 0;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -132,6 +100,10 @@ public class MD_Constraints {
     }
 
     public void addConstraintApplicationScope(MD_Scope constraintApplicationScope) {
+        if (this.constraintApplicationScope == null) {
+            this.constraintApplicationScope = new ArrayList<>();
+        }
+
         int elementNum = 1;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -146,6 +118,10 @@ public class MD_Constraints {
     }
 
     public void addGraphic(MD_BrowseGraphic graphic) {
+        if (this.graphic == null) {
+            this.graphic = new ArrayList<>();
+        }
+
         int elementNum = 2;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -160,6 +136,10 @@ public class MD_Constraints {
     }
 
     public void addReference(CI_Citation reference) {
+        if (this.reference == null) {
+            this.reference = new ArrayList<>();
+        }
+
         int elementNum = 3;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -174,6 +154,10 @@ public class MD_Constraints {
     }
 
     public void addReleasability(MD_Releasability releasability) {
+        if (this.releasability == null) {
+            this.releasability = new ArrayList<>();
+        }
+
         int elementNum = 4;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -188,6 +172,10 @@ public class MD_Constraints {
     }
 
     public void addResponsibleParty(CI_Responsibility responsibleParty) {
+        if (this.responsibleParty == null) {
+            this.responsibleParty = new ArrayList<>();
+        }
+
         int elementNum = 5;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);

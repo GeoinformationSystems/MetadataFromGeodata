@@ -71,31 +71,11 @@ public class MD_DataIdentification extends MD_Identification {
         }
     }
 
-    public void createDefaultLocale() {
+    public void addDefaultLocale(PT_Locale defaultLocale) {
         if (this.defaultLocale == null) {
             this.defaultLocale = new ArrayList<>();
         }
-    }
 
-    public void createOtherLocale() {
-        if (this.otherLocale == null) {
-            this.otherLocale = new ArrayList<>();
-        }
-    }
-
-    public void createEnvironmentalDescription() {
-        if (this.environmentalDescription == null) {
-            this.environmentalDescription = new ArrayList<>();
-        }
-    }
-
-    public void createSupplementalInformation() {
-        if (this.supplementalInformation == null) {
-            this.supplementalInformation = new ArrayList<>();
-        }
-    }
-
-    public void addDefaultLocale(PT_Locale defaultLocale) {
         int elementNum = 20;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -110,6 +90,10 @@ public class MD_DataIdentification extends MD_Identification {
     }
 
     public void addOtherLocale(PT_Locale otherLocale) {
+        if (this.otherLocale == null) {
+            this.otherLocale = new ArrayList<>();
+        }
+
         int elementNum = 21;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -124,6 +108,10 @@ public class MD_DataIdentification extends MD_Identification {
     }
 
     public void addEnvironmentalDescription(String environmentalDescription) {
+        if (this.environmentalDescription == null) {
+            this.environmentalDescription = new ArrayList<>();
+        }
+
         int elementNum = 22;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -138,6 +126,10 @@ public class MD_DataIdentification extends MD_Identification {
     }
 
     public void addSupplementalInformation(String supplementalInformation) {
+        if (this.supplementalInformation == null) {
+            this.supplementalInformation = new ArrayList<>();
+        }
+
         int elementNum = 23;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);

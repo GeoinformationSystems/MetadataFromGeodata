@@ -86,55 +86,11 @@ public class LE_ProcessParameter {
         }
     }
 
-    public void createName() {
+    public void addName(String name) {
         if (this.name == null) {
             this.name = new ArrayList<>();
         }
-    }
 
-    public void createDirection() {
-        if (this.direction == null) {
-            this.direction = new ArrayList<>();
-        }
-    }
-
-    public void createDescription() {
-        if (this.description == null) {
-            this.description = new ArrayList<>();
-        }
-    }
-
-    public void createOptionality() {
-        if (this.optionality == null) {
-            this.optionality = new ArrayList<>();
-        }
-    }
-
-    public void createRepeatability() {
-        if (this.repeatability == null) {
-            this.repeatability = new ArrayList<>();
-        }
-    }
-
-    public void createValueType() {
-        if (this.valueType == null) {
-            this.valueType = new ArrayList<>();
-        }
-    }
-
-    public void createValue() {
-        if (this.value == null) {
-            this.value = new ArrayList<>();
-        }
-    }
-
-    public void createResource() {
-        if (this.resource == null) {
-            this.resource = new ArrayList<>();
-        }
-    }
-
-    public void addName(String name) {
         int elementNum = 0;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -149,6 +105,10 @@ public class LE_ProcessParameter {
     }
 
     public void addDirection(LE_ParameterDirectionCode direction) {
+        if (this.direction == null) {
+            this.direction = new ArrayList<>();
+        }
+
         int elementNum = 1;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -163,6 +123,10 @@ public class LE_ProcessParameter {
     }
 
     public void addDescription(String description) {
+        if (this.description == null) {
+            this.description = new ArrayList<>();
+        }
+
         int elementNum = 2;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -177,6 +141,10 @@ public class LE_ProcessParameter {
     }
 
     public void addOptionality(String optionality) {
+        if (this.optionality == null) {
+            this.optionality = new ArrayList<>();
+        }
+
         int elementNum = 3;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -191,6 +159,10 @@ public class LE_ProcessParameter {
     }
 
     public void addRepeatability(String repeatability) {
+        if (this.repeatability == null) {
+            this.repeatability = new ArrayList<>();
+        }
+
         int elementNum = 4;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -205,6 +177,10 @@ public class LE_ProcessParameter {
     }
 
     public void addValueType(RecordType valueType) {
+        if (this.valueType == null) {
+            this.valueType = new ArrayList<>();
+        }
+
         int elementNum = 5;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -219,6 +195,10 @@ public class LE_ProcessParameter {
     }
 
     public void addValue(Record value) {
+        if (this.value == null) {
+            this.value = new ArrayList<>();
+        }
+
         int elementNum = 6;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
@@ -233,6 +213,10 @@ public class LE_ProcessParameter {
     }
 
     public void addResource(LE_Source resource) {
+        if (this.resource == null) {
+            this.resource = new ArrayList<>();
+        }
+
         int elementNum = 7;
         try {
             List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);

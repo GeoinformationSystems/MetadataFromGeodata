@@ -7,6 +7,7 @@ package org.geokur.ISO19103Schema;
 
 import org.geokur.ISO191xxProfile.InstantiationCallException;
 
+import javax.xml.bind.JAXBElement;
 import javax.xml.bind.annotation.*;
 import java.util.*;
 
@@ -20,13 +21,21 @@ public class Record {
     // methods
     public Record() {}
 
-    public void createField() {
+    public void addField(String value) {
         if (this.field == null) {
             this.field = new ArrayList<>();
         }
+
+        RecordEntry recordEntry = new RecordEntry();
+        recordEntry.setValue(value);
+        this.field.add(recordEntry);
     }
 
     public void addField(String fieldName, String value) {
+        if (this.field == null) {
+            this.field = new ArrayList<>();
+        }
+
         RecordEntry recordEntry = new RecordEntry();
         recordEntry.setFieldName(fieldName);
         recordEntry.setValue(value);
