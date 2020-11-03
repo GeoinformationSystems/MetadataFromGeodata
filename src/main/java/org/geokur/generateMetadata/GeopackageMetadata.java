@@ -6,21 +6,23 @@
 package org.geokur.generateMetadata;
 
 import org.geokur.ISO19103Schema.Record;
-import org.geokur.ISO19103Schema.RecordType;
 import org.geokur.ISO19115Schema.*;
-import org.geokur.ISO19115_2Schema.MI_AcquisitionInformation;
-import org.geokur.ISO19115_2Schema.MI_Metadata;
-import org.geokur.ISO19115_2Schema.MI_Operation;
+import org.geokur.ISO19157Schema.*;
 import org.geotools.data.DataStore;
 import org.geotools.data.DataStoreFinder;
 import org.geotools.data.simple.SimpleFeatureCollection;
+import org.geotools.data.simple.SimpleFeatureIterator;
 import org.geotools.data.store.ReprojectingFeatureCollection;
+import org.geotools.geometry.jts.JTS;
 import org.geotools.geometry.jts.ReferencedEnvelope;
 import org.geotools.referencing.CRS;
 import org.geotools.referencing.crs.DefaultGeographicCRS;
+import org.locationtech.jts.geom.*;
+import org.opengis.feature.simple.SimpleFeature;
 import org.opengis.referencing.FactoryException;
 import org.opengis.referencing.crs.CoordinateReferenceSystem;
 import org.opengis.referencing.operation.MathTransform;
+import org.opengis.referencing.operation.TransformException;
 
 import java.io.File;
 import java.io.IOException;
@@ -194,6 +196,78 @@ public class GeopackageMetadata implements Metadata {
                 srcCRSepsg = "4326";
             }
 
+            // get centerpoints and area approximations of polygons
+            boolean polygonSwitch = true;
+            List<Point> centerWGS84All = new ArrayList<>();
+            List<Point> centerUTMAll = new ArrayList<>();
+            List<Double> areaKm2WGS84All = new ArrayList<>();
+            List<Double> areaKm2UTMAll = new ArrayList<>();
+
+            SimpleFeatureIterator collectionIterator = collectionTransform.features(); // always refer to WGS84
+            while (collectionIterator.hasNext()) {
+                SimpleFeature simpleFeature = collectionIterator.next();
+                Point centerWGS84 = ((Geometry) simpleFeature.getDefaultGeometry()).getCentroid();
+                double areaDegWGS84 = ((Geometry) simpleFeature.getDefaultGeometry()).getArea();
+                double areaKm2WGS84 = Math.toRadians(areaDegWGS84) * 637100; // approximation from degree area (WGS84) to km^2
+                centerWGS84All.add(centerWGS84);
+                areaKm2WGS84All.add(areaKm2WGS84);
+                if (areaDegWGS84 == 0.0) {
+                    // assumed not to be polygon
+                    polygonSwitch = false;
+                }
+
+                // transformation to UTM projection for better area calculation
+                // get UTM zone and valid transformation
+                int zoneUTM = (int) Math.ceil((centerWGS84.getX() + 180) / 6);
+                if (zoneUTM == 0) {
+                    zoneUTM = 1;
+                }
+                // always use EPSG code for south hemisphere (no negative coordinates possible)
+                CoordinateReferenceSystem UTMCRS = CRS.decode("EPSG:" + "327" + String.format("%02d", zoneUTM));
+                MathTransform mathTransformUTM = CRS.findMathTransform(DefaultGeographicCRS.WGS84, UTMCRS, true);
+
+                if (polygonSwitch) {
+                    // transform polygon geometry to valid UTM zone and calculate area
+                    Geometry geometryAct = (Geometry) simpleFeature.getDefaultGeometry();
+                    Geometry geometryActUTM = JTS.transform(geometryAct.getBoundary(), mathTransformUTM);
+                    Coordinate[] coordinates = geometryActUTM.getCoordinates();
+                    int coordinatesLast = coordinates.length - 1;
+                    Coordinate[] coordinatesClosed = null;
+                    if (coordinates[0] != coordinates[coordinatesLast]) {
+                        // coordinates necessarily have to form a closed ring
+                        if (Math.abs(coordinates[0].x - coordinates[coordinatesLast].x) <= 2e-16 &&
+                                Math.abs(coordinates[0].y - coordinates[coordinatesLast].y) <= 2e-16) {
+                            // basically the same values, but not identical
+                            coordinatesClosed = coordinates;
+                            coordinatesClosed[coordinatesLast] = coordinatesClosed[0];
+                        } else {
+                            // close polygon ring with adding the first coordinate
+                            coordinatesClosed = new Coordinate[coordinates.length + 1];
+                            System.arraycopy(coordinates, 0, coordinatesClosed, 0, coordinates.length);
+                            coordinatesClosed[coordinates.length] = coordinates[0];
+                        }
+                    }
+                    GeometryFactory geometryFactory = new GeometryFactory();
+                    Polygon polygon = geometryFactory.createPolygon(coordinatesClosed);
+
+                    Point centerUTM = polygon.getCentroid();
+                    double areaKm2UTM = polygon.getArea() / 1e6;
+                    centerUTMAll.add(centerUTM);
+                    areaKm2UTMAll.add(areaKm2UTM);
+                }
+            }
+            collectionIterator.close();
+
+            // get quality criteria as number of polygons per 1000 square kilometer
+            double polygonPerKm2 = 0;
+            if (polygonSwitch) {
+                double areaKm2UTMAllSum = 0;
+                for (double areaAct : areaKm2UTMAll) {
+                    areaKm2UTMAllSum = areaKm2UTMAllSum + areaAct;
+                }
+                polygonPerKm2 = centerWGS84All.size() / areaKm2UTMAllSum * 1000;
+            }
+
 
             // get (1) basic information
             CI_Individual ciIndividual = new CI_Individual();
@@ -326,6 +400,41 @@ public class GeopackageMetadata implements Metadata {
 
 
             // get (4) data quality
+            DQ_DataQuality dqDataQuality = new DQ_DataQuality();
+            if (polygonSwitch) {
+                DQ_MeasureReference dqMeasureReference = new DQ_MeasureReference();
+                dqMeasureReference.addNameOfMeasure("polygons per area");
+                dqMeasureReference.addMeasureDescription("Number of polygons per 1000 square kilometer.");
+                dqMeasureReference.finalizeClass();
+
+                DQ_FullInspection dqFullInspection = new DQ_FullInspection();
+                dqFullInspection.addDateTime(now);
+                dqFullInspection.addEvaluationMethodType(new DQ_EvaluationMethodTypeCode(DQ_EvaluationMethodTypeCode.DQ_EvaluationMethodTypeCodes.directInternal));
+                dqFullInspection.finalizeClass();
+
+                Record record = new Record();
+                record.addField(String.format("%f", polygonPerKm2));
+                record.finalizeClass();
+
+                DQ_QuantitativeResult dqQuantitativeResult = new DQ_QuantitativeResult();
+                dqQuantitativeResult.addDateTime(now);
+                dqQuantitativeResult.addValue(record);
+                dqQuantitativeResult.addValueUnit("polygons per 1000 square km");
+
+                DQ_Representativity dqRepresentativity = new DQ_Representativity();
+                dqRepresentativity.addMeasure(dqMeasureReference);
+                dqRepresentativity.addEvaluationMethod(dqFullInspection);
+                dqRepresentativity.addResult(dqQuantitativeResult);
+                dqRepresentativity.finalizeClass();
+
+                MD_Scope mdScope = new MD_Scope();
+                mdScope.addLevel(new MD_ScopeCode(MD_ScopeCode.MD_ScopeCodes.dataset));
+                mdScope.finalizeClass();
+
+                dqDataQuality.addScope(mdScope);
+                dqDataQuality.addReport(dqRepresentativity);
+                dqDataQuality.finalizeClass();
+            }
 
 
             // get (5) metadata contact
@@ -337,34 +446,6 @@ public class GeopackageMetadata implements Metadata {
 
             // get (6) provenance
 
-//            Record record = new Record();
-//            record.createField();
-//            record.addField("key 01", "value 01");
-//            record.addField("key 02", "value 02");
-//            record.finalizeClass();
-//
-//            RecordType recordType = new RecordType();
-//            recordType.createField();
-//            recordType.addField("key 01", "String");
-//            recordType.addField("key 02", "String");
-//            recordType.finalizeClass();
-//
-//            MI_Operation miOperation = new MI_Operation();
-//            miOperation.createOtherProperty();
-//            miOperation.addOtherProperty(record);
-//            miOperation.createOtherPropertyType();
-//            miOperation.addOtherPropertyType(recordType);
-//
-//            MI_AcquisitionInformation miAcquisitionInformation = new MI_AcquisitionInformation();
-//            miAcquisitionInformation.createOperation();
-//            miAcquisitionInformation.addOperation(miOperation);
-//
-//            MI_Metadata miMetadata = new MI_Metadata();
-//            miMetadata.createAcquisitionInformation();
-//            miMetadata.addAcquisitionInformation(miAcquisitionInformation);
-//            miMetadata.createContact();
-//            miMetadata.addContact(ciResponsibility);
-
 
             // aggregate all data in MD_Metadata
             MD_Metadata mdMetadata = new MD_Metadata();
@@ -374,6 +455,9 @@ public class GeopackageMetadata implements Metadata {
             mdMetadata.addDateInfo(ciDateLastModified);
             mdMetadata.addIdentificationInfo(mdDataIdentification);
             mdMetadata.addMetadataStandard(ciCitationMetadataStandard);
+            if (polygonSwitch) {
+                mdMetadata.addDataQualityInfo(dqDataQuality);
+            }
             mdMetadata.finalizeClass();
 
             dsDataSet.addHas(mdMetadata);
@@ -382,7 +466,7 @@ public class GeopackageMetadata implements Metadata {
             // close/dispose database -> no more connection to collections
             dataStore.dispose();
 
-        } catch (IOException | FactoryException e) {
+        } catch (IOException | FactoryException | TransformException e) {
             System.out.println(e.getMessage());
         }
 
