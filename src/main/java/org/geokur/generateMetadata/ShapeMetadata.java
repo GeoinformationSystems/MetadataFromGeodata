@@ -1,6 +1,6 @@
 /*
- * Copyright (c) 2020. Michael Wagner.
- * All rights reserved.
+ * Copyright 2020
+ * @author: Michael Wagner
  */
 
 package org.geokur.generateMetadata;

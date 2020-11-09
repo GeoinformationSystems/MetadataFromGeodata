@@ -1,4 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright 2020
+  ~ @author: Michael Wagner
+  -->
+
 <MD_PixelOrientationCode codespace="http://standards.iso.org/iso/19115/-3/msr/1.0">
     <entry>
         <code>center</code>

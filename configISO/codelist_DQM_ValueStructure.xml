@@ -1,4 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright 2020
+  ~ @author: Michael Wagner
+  -->
+
 <DQM_ValueStructure codespace="http://standards.iso.org/iso/19157/-2/dqm/1.0">
     <entry>
         <code>bag</code>

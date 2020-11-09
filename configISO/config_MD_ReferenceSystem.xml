@@ -1,4 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright 2020
+  ~ @author: Michael Wagner
+  -->
+
 <MD_ReferenceSystem namespace="mrs">
     <element>
         <name>referenceSystemIdentifier</name>

@@ -1,6 +1,6 @@
 /*
- * Copyright (c) 2020. Michael Wagner.
- * All rights reserved.
+ * Copyright 2020
+ * @author: Michael Wagner
  */
 
 package org.geokur.generateMetadata;
@@ -59,7 +59,7 @@ public class AsciiMetadata implements Metadata {
         //TODO: allow shape file as geodata source
 
         // open geopackage as sqlite database
-        GeopackageMetadata gpkg = new GeopackageMetadata(fileNameGeodata);
+        Geopackage gpkg = new Geopackage(fileNameGeodata);
         Connection connection = gpkg.getConnection();
         Statement statement = gpkg.getStatement(connection);
 
