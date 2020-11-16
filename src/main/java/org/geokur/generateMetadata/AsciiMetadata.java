@@ -58,7 +58,7 @@ public class AsciiMetadata implements Metadata {
 
         //TODO: allow shape file as geodata source
 
-        // open geopackage as sqlite database
+        // open geopackage
         Geopackage gpkg = new Geopackage(fileNameGeodata);
         Connection connection = gpkg.getConnection();
         Statement statement = gpkg.getStatement(connection);
@@ -68,7 +68,6 @@ public class AsciiMetadata implements Metadata {
             // read geopackage content
             List<List<String>> geoColContent = new ArrayList<>();
             for (String geoColNameJoinAct : geoColNameJoin) {
-//                geoColContent.add(gpkg.getTableColContent(statement, geoTableName.get(0), geoColNameJoinAct));
                 geoColContent.add(gpkg.getTableColContent(statement, geoTableNameAct, geoColNameJoinAct));
             }
 
@@ -92,6 +91,7 @@ public class AsciiMetadata implements Metadata {
 
             // get indices of all relevant combinations in asciiColNameJoin
             List<Integer> idxRelevant = new ArrayList<>();
+            List<String> joinCritGeoExist = new ArrayList<>(); // elements in joinCritGeo used in csv file, too
             for (int csvCt1 = 0; csvCt1 < csvContent.fileContentJoin.size(); csvCt1++) {
                 // loop over all entries in csv
                 StringBuilder joinCritActCsv = new StringBuilder();
@@ -102,6 +102,10 @@ public class AsciiMetadata implements Metadata {
                 if (joinCritGeo.contains(joinCritActCsv.toString())) {
                     // this combination of criteria is valid for current geodata
                     idxRelevant.add(csvCt1);
+
+                    if (!joinCritGeoExist.contains(joinCritActCsv.toString())) {
+                        joinCritGeoExist.add(joinCritActCsv.toString());
+                    }
                 }
             }
 
@@ -232,8 +236,9 @@ public class AsciiMetadata implements Metadata {
             mdDataIdentification.addCitation(ciCitation);
 
             String environmentalDescription = "file name: " + fileName + "; "
-                    + "layer name: " + geoTableNameAct + "; "
                     + "file size: " + (int) csvFile.length() + " B; "
+                    + "geographical file: " + fileNameGeodata + "; "
+                    + "layer name: " + geoTableNameAct + "; "
                     + "os: " + System.getProperty("os.name");
 
             mdDataIdentification.addSpatialRepresentationType(new MD_SpatialRepresentationTypeCode(MD_SpatialRepresentationTypeCode.MD_SpatialRepresentationTypeCodes.textTable));
@@ -273,6 +278,12 @@ public class AsciiMetadata implements Metadata {
                     dqCompletenessCommissionsRate.add(makeDQCompletenessCommission(csvContent.headerAssessment.get(i), numDataAll, excessDataAll[i], "rate"));
                 }
             }
+
+            // metaquality - number of polygons per area
+            int idxGeoTableNameAct = gpkg.getContentIndex(geoTableNameAct);
+            Geopackage gpkgLoaded = new Geopackage(fileNameGeodata, idxGeoTableNameAct);
+            System.out.println(gpkgLoaded.polygonPerKm2);
+
 
             // frame around data quality fields
             MD_Scope mdScope = new MD_Scope();

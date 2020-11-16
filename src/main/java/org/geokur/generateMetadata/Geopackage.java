@@ -16,6 +16,9 @@ import org.geotools.referencing.CRS;
 import org.geotools.referencing.crs.DefaultGeographicCRS;
 import org.locationtech.jts.geom.*;
 import org.opengis.feature.simple.SimpleFeature;
+import org.opengis.feature.type.AttributeDescriptor;
+import org.opengis.feature.type.AttributeType;
+import org.opengis.feature.type.GeometryType;
 import org.opengis.referencing.FactoryException;
 import org.opengis.referencing.crs.CoordinateReferenceSystem;
 import org.opengis.referencing.operation.MathTransform;
@@ -30,11 +33,13 @@ import java.util.*;
 public class Geopackage {
     String fileName;
     int contentAct;
+    String contentName;
     File file;
     Statement statement;
     DataStore dataStore;
     SimpleFeatureCollection collection;
     SimpleFeatureCollection collectionTransform;
+    CoordinateReferenceSystem srcCRS;
     String srcCRSepsg;
     boolean polygonSwitch;
     double polygonPerKm2;
@@ -46,11 +51,20 @@ public class Geopackage {
     public Geopackage(String fileName, int contentAct) {
         this.fileName = fileName;
         this.contentAct = contentAct;
+    }
+
+    public Geopackage(String fileName, String contentName) {
+        this.fileName = fileName;
+        this.contentName = contentName;
+        this.contentAct = -999;
+    }
+
+    void open() {
+        // open geopackage and get the collection and a collection transformed to standard WGS84
 
         file = new File(fileName);
 
         // open geopackage as sqlite database
-//        Geopackage gpkg = new Geopackage(fileName, contentAct);
         Connection connection = getConnection();
         statement = getStatement(connection);
 
@@ -59,91 +73,126 @@ public class Geopackage {
         params.put("dbtype", "geopkg");
         params.put("database", file.toString());
 
-        CoordinateReferenceSystem srcCRS;
-        boolean markerTransform;
-
-
         try {
             dataStore = DataStoreFinder.getDataStore(params);
-            String typeName = dataStore.getTypeNames()[contentAct];
-            collection = dataStore.getFeatureSource(typeName).getFeatures();
+            if (contentAct!=-999) {
+                // defined number of layer in geopackage
+                String typeName = dataStore.getTypeNames()[contentAct];
+                collection = dataStore.getFeatureSource(typeName).getFeatures();
+            } else {
+                // defined name of layer in geopackage
+                collection = dataStore.getFeatureSource(contentName).getFeatures();
+            }
             srcCRS = collection.getSchema().getCoordinateReferenceSystem();
 
             MathTransform mathTransform = CRS.findMathTransform(srcCRS, DefaultGeographicCRS.WGS84, true);
             // transform to WGS84 for standard extent lon/lat
             if (!mathTransform.isIdentity()) {
-                markerTransform = true;
+                // transformation necessary
                 collectionTransform = project(collection, "epsg:4326");
+                findEpsgCode(srcCRS);
             } else {
-                markerTransform = false;
+                // special case for WGS84 - no test of CRS and no transformation necessary
                 collectionTransform = collection;
-            }
-
-            // find correct epsg code for existing data
-            String authority = "EPSG";
-            if (markerTransform) {
-                Set<String> supportedCodes = CRS.getSupportedCodes(authority);
-                String srcCRSName = srcCRS.getName().toString();
-
-                List<String> matchingEPSGCode = new ArrayList<>();
-                List<Integer> matchingLevenshteinDistance = new ArrayList<>();
-
-                System.out.println("Comparison of CRS to find the correct EPSG identifier");
-                System.out.print("[          ]");
-                int ct = 0;
-                int ct2 = 0;
-                for (String supportedCode : supportedCodes) {
-                    ct++;
-                    if (!supportedCode.matches("[0-9]+")) {
-                        // only interpret numerical epsg codes (the first supported code might be WGS84 as text)
-                        continue;
-                    }
-                    if ((ct % (supportedCodes.size() / 10)) == 0) {
-                        // construct wait bar on console output
-                        ct2++;
-                        System.out.print("\b\b\b\b\b\b\b\b\b\b\b");
-                        for (int i = 1; i <= ct2; i++) {
-                            System.out.print("#");
-                        }
-                        for (int i = ct2 + 1; i <= 10; i++) {
-                            System.out.print(" ");
-                        }
-                        System.out.print("]");
-                    }
-                    try {
-                        CoordinateReferenceSystem actCRS = CRS.decode(authority + ":" + supportedCode);
-                        MathTransform mathTransformFind = CRS.findMathTransform(srcCRS, actCRS, true);
-                        if (mathTransformFind.isIdentity()) {
-                            matchingEPSGCode.add(supportedCode);
-                            String actCRSName = actCRS.getName().toString();
-                            matchingLevenshteinDistance.add(levenshteinDistance(srcCRSName, actCRSName));
-                        }
-                    } catch (FactoryException ignored) {
-                    }
-                }
-                System.out.println();
-                int idxMatching = matchingLevenshteinDistance.indexOf(Collections.min(matchingLevenshteinDistance));
-                srcCRSepsg = matchingEPSGCode.get(idxMatching);
-            } else {
-                // special case for WGS84 - no test of CRS
                 srcCRSepsg = "4326";
             }
+        } catch (IOException | FactoryException e) {
+            System.out.println(e.getMessage());
+        }
+    }
 
-            // get centerpoints and area approximations of polygons
-            polygonSwitch = true;
-            List<Point> centerWGS84All = new ArrayList<>();
-            List<Point> centerUTMAll = new ArrayList<>();
-            List<Double> areaKm2WGS84All = new ArrayList<>();
-            List<Double> areaKm2UTMAll = new ArrayList<>();
+    private void findEpsgCode(CoordinateReferenceSystem srcCRS) {
+        // find correct epsg code for existing data
 
+        String authority = "EPSG";
+
+        Set<String> supportedCodes = CRS.getSupportedCodes(authority);
+        String srcCRSName = srcCRS.getName().toString();
+
+        List<String> matchingEPSGCode = new ArrayList<>();
+        List<Integer> matchingLevenshteinDistance = new ArrayList<>();
+
+        System.out.println("Comparison of CRS to find the correct EPSG identifier");
+        System.out.print("[          ]");
+        int ct = 0;
+        int ct2 = 0;
+        for (String supportedCode : supportedCodes) {
+            ct++;
+            if (!supportedCode.matches("[0-9]+")) {
+                // only interpret numerical epsg codes (the first supported code might be WGS84 as text)
+                continue;
+            }
+            if ((ct % (supportedCodes.size() / 10)) == 0) {
+                // construct wait bar on console output
+                ct2++;
+                System.out.print("\b\b\b\b\b\b\b\b\b\b\b");
+                for (int i = 1; i <= ct2; i++) {
+                    System.out.print("#");
+                }
+                for (int i = ct2 + 1; i <= 10; i++) {
+                    System.out.print(" ");
+                }
+                System.out.print("]");
+            }
+            try {
+                CoordinateReferenceSystem actCRS = CRS.decode(authority + ":" + supportedCode);
+                MathTransform mathTransformFind = CRS.findMathTransform(srcCRS, actCRS, true);
+                if (mathTransformFind.isIdentity()) {
+                    matchingEPSGCode.add(supportedCode);
+                    String actCRSName = actCRS.getName().toString();
+                    matchingLevenshteinDistance.add(levenshteinDistance(srcCRSName, actCRSName));
+                }
+            } catch (FactoryException ignored) {
+            }
+        }
+        System.out.println();
+        int idxMatching = matchingLevenshteinDistance.indexOf(Collections.min(matchingLevenshteinDistance));
+        srcCRSepsg = matchingEPSGCode.get(idxMatching);
+    }
+
+    List<FeatureDescriptor> getCenterArea() {
+        // get centerpoints and area approximations of polygons
+        // further get attributes
+
+        polygonSwitch = true;
+        List<FeatureDescriptor> featureDescriptors = new ArrayList<>();
+
+        // get names of attributes
+        List<AttributeDescriptor> attributeDescriptorList = collectionTransform.getSchema().getAttributeDescriptors();
+        List<Integer> attributeUsage = new ArrayList<>();
+        List<String> attributeNames = new ArrayList<>();
+        int ct = -1;
+        for (AttributeDescriptor attributeDescriptor : attributeDescriptorList) {
+            ct++;
+            String typeName = attributeDescriptor.getType().getName().toString();
+            if (!typeName.equals("geom")) {
+                attributeUsage.add(ct);
+                attributeNames.add(attributeDescriptor.getLocalName());
+            }
+        }
+
+        Point centerWGS84;
+        double areaKm2WGS84;
+        Point centerUTM = null;
+        double areaKm2UTM = 0.0;
+
+        try {
             SimpleFeatureIterator collectionIterator = collectionTransform.features(); // always refer to WGS84
+            int ct2 = -1;
             while (collectionIterator.hasNext()) {
+                // loop over all features in particular table in geopackage
+                ct2++;
+
+                List<String> attributeValues = new ArrayList<>();
+
                 SimpleFeature simpleFeature = collectionIterator.next();
-                Point centerWGS84 = ((Geometry) simpleFeature.getDefaultGeometry()).getCentroid();
+                for (Integer attributeAct : attributeUsage) {
+                    // get attributes of actual feature
+                    attributeValues.add(simpleFeature.getAttribute(attributeAct).toString());
+                }
+                centerWGS84 = ((Geometry) simpleFeature.getDefaultGeometry()).getCentroid();
                 double areaDegWGS84 = ((Geometry) simpleFeature.getDefaultGeometry()).getArea();
-                double areaKm2WGS84 = Math.toRadians(areaDegWGS84) * 637100; // approximation from degree area (WGS84) to km^2
-                centerWGS84All.add(centerWGS84);
-                areaKm2WGS84All.add(areaKm2WGS84);
+                areaKm2WGS84 = Math.toRadians(areaDegWGS84) * 637100; // approximation from degree area (WGS84) to km^2
                 if (areaDegWGS84 == 0.0) {
                     // assumed not to be polygon
                     polygonSwitch = false;
@@ -183,27 +232,32 @@ public class Geopackage {
                     GeometryFactory geometryFactory = new GeometryFactory();
                     Polygon polygon = geometryFactory.createPolygon(coordinatesClosed);
 
-                    Point centerUTM = polygon.getCentroid();
-                    double areaKm2UTM = polygon.getArea() / 1e6;
-                    centerUTMAll.add(centerUTM);
-                    areaKm2UTMAll.add(areaKm2UTM);
+                    centerUTM = polygon.getCentroid();
+                    areaKm2UTM = polygon.getArea() / 1e6;
                 }
+                FeatureDescriptor featureDescriptor = new FeatureDescriptor(ct2, centerWGS84, centerUTM, areaKm2WGS84,
+                        areaKm2UTM, attributeNames, attributeValues);
+                featureDescriptors.add(featureDescriptor);
             }
             collectionIterator.close();
 
-            // get quality criteria as number of polygons per 1000 square kilometer
-            polygonPerKm2 = 0;
-            if (polygonSwitch) {
-                double areaKm2UTMAllSum = 0;
-                for (double areaAct : areaKm2UTMAll) {
-                    areaKm2UTMAllSum = areaKm2UTMAllSum + areaAct;
-                }
-                polygonPerKm2 = centerWGS84All.size() / areaKm2UTMAllSum * 1000;
-            }
-
-
-        } catch (IOException | FactoryException | TransformException e) {
+        } catch (FactoryException | TransformException e) {
             System.out.println(e.getMessage());
+        }
+
+        return featureDescriptors;
+    }
+
+    void getPolygonPerArea(List<Double> areaKm2UTMAll) {
+        // get quality criteria as number of polygons per 1000 square kilometer
+
+        polygonPerKm2 = 0;
+        if (polygonSwitch) {
+            double areaKm2UTMAllSum = 0;
+            for (double areaAct : areaKm2UTMAll) {
+                areaKm2UTMAllSum = areaKm2UTMAllSum + areaAct;
+            }
+            polygonPerKm2 = areaKm2UTMAll.size() / areaKm2UTMAllSum * 1000;
         }
     }
 
@@ -238,6 +292,28 @@ public class Geopackage {
         }
         return stmt;
     }
+
+    int getContentIndex(String tableName) {
+        // get index of table with tableName
+
+        int contentIndex = -999;
+
+        File file = new File(this.fileName);
+        Map<String, String> params = new HashMap<>();
+        params.put("dbtype", "geopkg");
+        params.put("database", file.toString());
+
+        try {
+            dataStore = DataStoreFinder.getDataStore(params);
+            String[] typeNames = dataStore.getTypeNames();
+            contentIndex = Arrays.asList(typeNames).indexOf(tableName);
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
+
+        return contentIndex;
+    }
+
 
     SimpleFeatureCollection project(SimpleFeatureCollection collection, String epsgIdentifier) {
         // reprojecting SimpleFeatureCollection to desired EPSG Identifier

@@ -8,7 +8,7 @@ Currently all extracted metadata is stored in an xml file, and a flattened sqlit
 
 ## Structure
 
-## Use
+## Usage
 
 ## Java Libraries
 - commons-io 2.7 - Apache 2.0 license

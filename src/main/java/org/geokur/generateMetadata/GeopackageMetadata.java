@@ -95,6 +95,13 @@ public class GeopackageMetadata implements Metadata {
         // metadataScope:                5 metadataContact
 
         Geopackage gpkg = new Geopackage(fileName, contentAct);
+        gpkg.open();
+        List<FeatureDescriptor> featureDescriptors = gpkg.getCenterArea();
+        List<Double> areaKm2UTM = new ArrayList<>();
+        for (FeatureDescriptor featureDescriptor : featureDescriptors) {
+            areaKm2UTM.add(featureDescriptor.getAreaKm2UTM());
+        }
+        gpkg.getPolygonPerArea(areaKm2UTM);
 
         // get (1) basic information
         CI_Individual ciIndividual = new CI_Individual();
@@ -231,7 +238,8 @@ public class GeopackageMetadata implements Metadata {
         if (gpkg.polygonSwitch) {
             DQ_MeasureReference dqMeasureReference = new DQ_MeasureReference();
             dqMeasureReference.addNameOfMeasure("polygons per area");
-            dqMeasureReference.addMeasureDescription("Number of polygons per 1000 square kilometer.");
+            dqMeasureReference.addMeasureDescription("Number of polygons per 1000 square kilometer." +
+                    "Area size summarized by all polygons, regardless of overlapping.");
             dqMeasureReference.finalizeClass();
 
             DQ_FullInspection dqFullInspection = new DQ_FullInspection();
@@ -240,7 +248,7 @@ public class GeopackageMetadata implements Metadata {
             dqFullInspection.finalizeClass();
 
             Record record = new Record();
-            record.addField(String.format("%f", gpkg.polygonPerKm2));
+            record.addField(String.format(Locale.ENGLISH, "%f", gpkg.polygonPerKm2));
             record.finalizeClass();
 
             DQ_QuantitativeResult dqQuantitativeResult = new DQ_QuantitativeResult();
