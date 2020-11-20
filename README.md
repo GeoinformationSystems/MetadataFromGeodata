@@ -1,10 +1,16 @@
 # WriteMetadataXML
 
-Write MetadataXML is package which extracts metadata from different geographical data formats.
-At present, it is possible to obtain metadata from geopackages, Esri shapefiles,
-and ascii tables linked to a geopackage via an ID. The metadata elements are ISO 19115/19157 compliant.
+Write MetadataXML is a Java application, which reads geographic and quality information from geodata files and
+creates metadata files. The application can be used to read OGC Geopackage files (https://www.geopackage.org/),
+Esri Shapefiles (https://desktop.arcgis.com/en/arcmap/10.3/manage-data/shapefiles/what-is-a-shapefile.htm),
+and ASCII files linked to a Geopackage file via an ID.
 
-Currently all extracted metadata is stored in an xml file, and a flattened sqlite database as a second variant.
+The generated metadata is ISO 19115-1:2014 (Geographic information - Metadata https://www.iso.org/standard/53798.html)
+and ISO 19157:2013 (Geographic information - Data quality https://www.iso.org/standard/32575.html) compliant.
+Thus, the created XML files can be used as inputs for (geograpic) metadata catalogues.
+
+All read metadata is stored in an xml file and a flattened sqlite database. 
+The latter serves as an extension point to generate output in other standard compliant formats.
 
 ## Structure
 
