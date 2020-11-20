@@ -32,10 +32,10 @@ public class MetadataGenerator {
 
 //        String fileName = "rasterExample.gpkg";
 //        String fileName = "TestGeopackage.gpkg";
-        String fileName = "paraguay.gpkg";
+//        String fileName = "paraguay.gpkg";
 //        String fileName = "TestPointsShape.shp";
 //        String fileName = "TestPointsShapeETRS.shp";
-//        String fileName = "paraguay.csv";
+        String fileName = "paraguay.csv";
 
         String fileNameXML = "ds_resource.xml";
         String fileNameDB = "ds_resource.db";
@@ -84,15 +84,13 @@ public class MetadataGenerator {
                 List<String> asciiColNameJoin = new ArrayList<>();
                 asciiColNameJoin.add("ahID");
                 asciiColNameJoin.add("geoID");
-                List<String> asciiColNameDefinePrimary = new ArrayList<>();
-//                asciiColNameDefinePrimary.add("tabID"); // TODO: what is tabID - ignore or primary definition?
-                asciiColNameDefinePrimary.add("commodityID");
-                List<String> asciiColNameDefineSecondary = new ArrayList<>();
-                asciiColNameDefineSecondary.add("year");
+                List<String> asciiColNameDefine = new ArrayList<>();
+                asciiColNameDefine.add("commodityID");
+                asciiColNameDefine.add("year");
                 List<String> asciiColNameIgnore = new ArrayList<>();
                 asciiColNameIgnore.add("id");
                 asciiColNameIgnore.add("tabID");
-                asciiMetadata.defineProperties("paraguay.gpkg", geoTableName, geoColNameJoin, asciiColNameJoin, asciiColNameDefinePrimary, asciiColNameDefineSecondary, asciiColNameIgnore);
+                asciiMetadata.defineProperties("paraguay.gpkg", geoTableName, geoColNameJoin, asciiColNameJoin, asciiColNameDefine, asciiColNameIgnore);
                 metadata = asciiMetadata.getMetadata();
                 break;
             default:

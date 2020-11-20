@@ -59,7 +59,23 @@ public class Geopackage {
         this.contentAct = -999;
     }
 
+    // overloaded method open
     void open() {
+        openCore();
+    }
+
+    void open(int contentAct) {
+        this.contentAct = contentAct;
+        openCore();
+    }
+
+    void open(String contentName) {
+        this.contentName = contentName;
+        this.contentAct = -999;
+        openCore();
+    }
+
+    void openCore() {
         // open geopackage and get the collection and a collection transformed to standard WGS84
 
         file = new File(fileName);

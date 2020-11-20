@@ -31,8 +31,7 @@ public class AsciiMetadata implements Metadata {
     List<String> geoTableName;
     List<String> geoColNameJoin;
     List<String> asciiColNameJoin;
-    List<String> asciiColNameDefinePrimary;
-    List<String> asciiColNameDefineSecondary;
+    List<String> asciiColNameDefine;
     List<String> asciiColNameIgnore;
 
     public AsciiMetadata(String fileName, DS_DataSet dsDataSet) {
@@ -41,15 +40,14 @@ public class AsciiMetadata implements Metadata {
     }
 
     public void defineProperties(String fileNameGeodata, List<String> geoTableName, List<String> geoColNameJoin, List<String> asciiColNameJoin,
-                                 List<String> asciiColNameDefinePrimary, List<String> asciiColNameDefineSecondary, List<String> asciiColNameIgnore) {
-         // definition of additional data necessary for analysis
+                                 List<String> asciiColNameDefine, List<String> asciiColNameIgnore) {
+        // definition of additional data necessary for analysis
 
         this.fileNameGeodata = fileNameGeodata;
         this.geoTableName = geoTableName;
         this.geoColNameJoin = geoColNameJoin;
         this.asciiColNameJoin = asciiColNameJoin;
-        this.asciiColNameDefinePrimary = asciiColNameDefinePrimary;
-        this.asciiColNameDefineSecondary = asciiColNameDefineSecondary;
+        this.asciiColNameDefine = asciiColNameDefine;
         this.asciiColNameIgnore = asciiColNameIgnore;
     }
 
@@ -72,8 +70,9 @@ public class AsciiMetadata implements Metadata {
             }
 
             // read all relevant ascii content (concatenate all column names for the sake of performance)
-            CSVReader csvContent = new CSVReader(fileName, ",", asciiColNameJoin, asciiColNameDefinePrimary, asciiColNameDefineSecondary, asciiColNameIgnore);
+            CSVReader csvContent = new CSVReader(fileName, ",", asciiColNameJoin, asciiColNameDefine, asciiColNameIgnore);
             csvContent.getContent();
+            int csvNumAssessment = csvContent.headerAssessment.size();
 
             // get current list of combined join criteria (concatenate all columns given in geoColNameJoin)
             // double entries are removed
@@ -111,19 +110,17 @@ public class AsciiMetadata implements Metadata {
 
             // get a list of relevant csv data in current geodata
             List<String[]> csvContentMaskedJoin = new ArrayList<>(); // for excess items also join parameters necessary
-            List<String[]> csvContentMaskedDefinePrimary = new ArrayList<>();
-            List<String[]> csvContentMaskedDefineSecondary = new ArrayList<>();
+            List<String[]> csvContentMaskedDefine = new ArrayList<>();
             List<String[]> csvContentMaskedAssessment = new ArrayList<>();
             for (Integer idxRelevantAct : idxRelevant) {
                 csvContentMaskedJoin.add(csvContent.fileContentJoin.get(idxRelevantAct));
-                csvContentMaskedDefinePrimary.add(csvContent.fileContentDefinePrimary.get(idxRelevantAct));
-                csvContentMaskedDefineSecondary.add(csvContent.fileContentDefineSecondary.get(idxRelevantAct));
+                csvContentMaskedDefine.add(csvContent.fileContentDefine.get(idxRelevantAct));
                 csvContentMaskedAssessment.add(csvContent.fileContentAssessment.get(idxRelevantAct));
             }
 
             // get number/rate of missing values in each assessed column of ascii data
             int numDataAll = csvContentMaskedAssessment.size();
-            int[] numDataAssessment = new int[csvContent.headerAssessment.size()];
+            int[] numDataAssessment = new int[csvNumAssessment];
             Arrays.fill(numDataAssessment, 0); // preallocate with zero
             for (String[] tmp : csvContentMaskedAssessment) {
                 int i = -1;
@@ -139,26 +136,22 @@ public class AsciiMetadata implements Metadata {
             // get number/rate of excess items in each assessed column of ascii data -> concatenate all definition rows
             String joinDelimiter = "##";
             List<String> joinCritAsciiDefined = new ArrayList<>();
-            for (int i = 0; i < csvContentMaskedDefinePrimary.size(); i++) {
+            for (int i = 0; i < csvContentMaskedDefine.size(); i++) {
                 StringBuilder joinCritAsciiAct = new StringBuilder();
                 for (String tmp : csvContentMaskedJoin.get(i)) {
                     joinCritAsciiAct.append(joinDelimiter);
                     joinCritAsciiAct.append(tmp);
                 }
-                for (String tmp : csvContentMaskedDefinePrimary.get(i)) {
+                for (String tmp : csvContentMaskedDefine.get(i)) {
                     joinCritAsciiAct.append(joinDelimiter); // delimiter between fields for minimizing cluttered entries
-                    joinCritAsciiAct.append(tmp);
-                }
-                for (String tmp : csvContentMaskedDefineSecondary.get(i)) {
-                    joinCritAsciiAct.append(joinDelimiter);
                     joinCritAsciiAct.append(tmp);
                 }
                 joinCritAsciiDefined.add(joinCritAsciiAct.toString());
             }
             List<List<Integer>> joinCritAsciiDefinedIndices = getStringOccurrenceIndices(joinCritAsciiDefined);
-            int[] excessDataAll = new int[csvContent.headerAssessment.size()]; // excess data (0 means no duplicate, 1 means no duplicate)
+            int[] excessDataAll = new int[csvNumAssessment]; // excess data (0 means no duplicate, 1 means no duplicate)
             Arrays.fill(excessDataAll, 0);
-            for (int ctAssessmentColumn = 0; ctAssessmentColumn < csvContent.headerAssessment.size(); ctAssessmentColumn++) {
+            for (int ctAssessmentColumn = 0; ctAssessmentColumn < csvNumAssessment; ctAssessmentColumn++) {
                 // loop over assessment columns
                 for (List<Integer> idxElementAct : joinCritAsciiDefinedIndices) {
                     // loop over index list
@@ -186,6 +179,60 @@ public class AsciiMetadata implements Metadata {
                 }
             }
 
+            // get polygons per area (per 1000 square kilometer)
+            // only polygons with data representations in ascii file are taken into account
+            gpkg.open(geoTableNameAct);
+            gpkg.getCenterArea();
+            double polygonPerArea;
+            if (gpkg.polygonSwitch) {
+                List<FeatureDescriptor> featureDescriptors = gpkg.getCenterArea();
+                List<Integer> featureDescriptorsUsed = new ArrayList<>();
+                double areaKm2UTM = 0.0;
+                int ct = -1;
+                for (FeatureDescriptor featureDescriptor : featureDescriptors) {
+                    ct++;
+                    String attributeValueMerged = featureDescriptor.getAttributeValuesIntendedMerged(geoColNameJoin);
+                    if (joinCritGeoExist.contains(attributeValueMerged)) {
+                        featureDescriptorsUsed.add(ct);
+                        areaKm2UTM = areaKm2UTM + featureDescriptor.getAreaKm2UTM();
+                    }
+                }
+                polygonPerArea = featureDescriptorsUsed.size() / areaKm2UTM * 1000;
+            } else {
+                polygonPerArea = -999;
+            }
+            gpkg.dispose();
+
+            // get number of years per attribute
+            List<Integer> numYearsAssessmentCols = new ArrayList<>();
+            boolean[][] idxMaskedRelevantTemporalAll = new boolean[csvNumAssessment][numDataAll];
+            for (int i = 0; i < csvNumAssessment; i++) {
+                // preallocate boolean matrix
+                Arrays.fill(idxMaskedRelevantTemporalAll[i], false);
+            }
+            for (int i = 0; i < numDataAll; i++) {
+                // fill boolean index matrix
+                String[] tmp = csvContentMaskedAssessment.get(i);
+                for (int j = 0; j < csvNumAssessment; j++) {
+                    if (!tmp[j].equals("")) {
+                        idxMaskedRelevantTemporalAll[j][i] = true;
+                    }
+                }
+            }
+            List<List<String>> yearsMaskedAssessment = new ArrayList<>();
+            List<List<String>> yearsMaskedAssessmentUnique = new ArrayList<>();
+            for (int i = 0; i < csvNumAssessment; i++) {
+                // get available years of all columns of masked assessment data
+                // colIdx = 1 means second column is defined as years column!
+                yearsMaskedAssessment.add(getListFromLogicalIndex(csvContentMaskedDefine, 1, idxMaskedRelevantTemporalAll[i]));
+                yearsMaskedAssessmentUnique.add(getStringListUniqueMembers(yearsMaskedAssessment.get(i)));
+                numYearsAssessmentCols.add(yearsMaskedAssessmentUnique.get(i).size());
+            }
+
+
+            ///////////////////////////////////
+            // Instantiate Metadata Elements //
+            ///////////////////////////////////
 
             // get (1) basic information
             String identifierCode = "pid:" + UUID.randomUUID().toString();
@@ -249,7 +296,7 @@ public class AsciiMetadata implements Metadata {
             // get (4) data quality
             // completenessOmission of data in attribute rows - count of missing data
             List<DQ_CompletenessOmission> dqCompletenessOmissionsCount = new ArrayList<>();
-            for (int i = 0; i < csvContent.headerAssessment.size(); i++) {
+            for (int i = 0; i < csvNumAssessment; i++) {
                 if ((numDataAll - numDataAssessment[i]) > 0) {
                     dqCompletenessOmissionsCount.add(makeDQCompletenessOmission(csvContent.headerAssessment.get(i), numDataAll, numDataAssessment[i], "count"));
                 }
@@ -257,7 +304,7 @@ public class AsciiMetadata implements Metadata {
 
             // completenessOmission of data in attribute rows - rate of missing data
             List<DQ_CompletenessOmission> dqCompletenessOmissionsRate = new ArrayList<>();
-            for (int i = 0; i < csvContent.headerAssessment.size(); i++) {
+            for (int i = 0; i < csvNumAssessment; i++) {
                 if ((numDataAll - numDataAssessment[i]) > 0) {
                     dqCompletenessOmissionsRate.add(makeDQCompletenessOmission(csvContent.headerAssessment.get(i), numDataAll, numDataAssessment[i], "rate"));
                 }
@@ -265,7 +312,7 @@ public class AsciiMetadata implements Metadata {
 
             // completenessCommission of data in attribute rows - count of excess items
             List<DQ_CompletenessCommission> dqCompletenessCommissionsCount = new ArrayList<>();
-            for (int i = 0; i < csvContent.headerAssessment.size(); i++) {
+            for (int i = 0; i < csvNumAssessment; i++) {
                 if (excessDataAll[i] > 0) {
                     dqCompletenessCommissionsCount.add(makeDQCompletenessCommission(csvContent.headerAssessment.get(i), numDataAll, excessDataAll[i], "count"));
                 }
@@ -273,17 +320,49 @@ public class AsciiMetadata implements Metadata {
 
             // completenessCommission of data in attribute rows - rate of excess items
             List<DQ_CompletenessCommission> dqCompletenessCommissionsRate = new ArrayList<>();
-            for (int i = 0; i < csvContent.headerAssessment.size(); i++) {
+            for (int i = 0; i < csvNumAssessment; i++) {
                 if (excessDataAll[i] > 0) {
                     dqCompletenessCommissionsRate.add(makeDQCompletenessCommission(csvContent.headerAssessment.get(i), numDataAll, excessDataAll[i], "rate"));
                 }
             }
 
             // metaquality - number of polygons per area
-            int idxGeoTableNameAct = gpkg.getContentIndex(geoTableNameAct);
-            Geopackage gpkgLoaded = new Geopackage(fileNameGeodata, idxGeoTableNameAct);
-            System.out.println(gpkgLoaded.polygonPerKm2);
+            DQ_Representativity dqRepresentativitySpatial = new DQ_Representativity();
+            if (gpkg.polygonSwitch) {
+                DQ_MeasureReference dqMeasureReference = new DQ_MeasureReference();
+                dqMeasureReference.addNameOfMeasure("polygons per area");
+                dqMeasureReference.addMeasureDescription("Number of polygons per 1000 square kilometer. " +
+                        "Area size summarized by all polygons, regardless of overlapping.");
+                dqMeasureReference.finalizeClass();
 
+                DQ_FullInspection dqFullInspection = new DQ_FullInspection();
+                dqFullInspection.addDateTime(now);
+                dqFullInspection.addEvaluationMethodType(new DQ_EvaluationMethodTypeCode(DQ_EvaluationMethodTypeCode.DQ_EvaluationMethodTypeCodes.directInternal));
+                dqFullInspection.finalizeClass();
+
+                Record record = new Record();
+                record.addField(String.format(Locale.ENGLISH, "%f", polygonPerArea));
+                record.finalizeClass();
+
+                DQ_QuantitativeResult dqQuantitativeResult = new DQ_QuantitativeResult();
+                dqQuantitativeResult.addDateTime(now);
+                dqQuantitativeResult.addValue(record);
+                dqQuantitativeResult.addValueUnit("polygons per 1000 square km");
+
+                dqRepresentativitySpatial.addMeasure(dqMeasureReference);
+                dqRepresentativitySpatial.addEvaluationMethod(dqFullInspection);
+                dqRepresentativitySpatial.addResult(dqQuantitativeResult);
+                dqRepresentativitySpatial.finalizeClass();
+            }
+
+            // metaquality - number of different years per attribute
+            List<DQ_Representativity> dqRepresentativitiesTemporal = new ArrayList<>();
+            for (int i = 0; i < csvNumAssessment; i++) {
+                dqRepresentativitiesTemporal.add(makeDQRepresentativityTemporal(csvContent.headerAssessment.get(i), numYearsAssessmentCols.get(i), now));
+            }
+
+            // metaquality - number of different commodity elements per attribute
+            DQ_Representativity dqRepresentativityThematic = new DQ_Representativity();
 
             // frame around data quality fields
             MD_Scope mdScope = new MD_Scope();
@@ -320,6 +399,15 @@ public class AsciiMetadata implements Metadata {
             for (DQ_CompletenessCommission dqCompletenessCommission : dqCompletenessCommissionsRate) {
                 dqDataQuality.addReport(dqCompletenessCommission);
             }
+
+            if (gpkg.polygonSwitch) {
+                dqDataQuality.addReport(dqRepresentativitySpatial);
+            }
+            for (DQ_Representativity dqRepresentativityTemporal : dqRepresentativitiesTemporal) {
+                dqDataQuality.addReport(dqRepresentativityTemporal);
+            }
+            dqDataQuality.addReport(dqRepresentativityThematic);
+
             dqDataQuality.finalizeClass();
 
 
@@ -536,6 +624,65 @@ public class AsciiMetadata implements Metadata {
 
         return dqCompletenessCommission;
     }
+
+    static DQ_Representativity makeDQRepresentativityTemporal(String nameAttribute, int numDataActual, String now) {
+        // instantiate DQ_Representativity class for number of different years
+        DQ_MeasureReference dqMeasureReference = new DQ_MeasureReference();
+        dqMeasureReference.addNameOfMeasure("number of different years");
+        dqMeasureReference.addMeasureDescription("Number of different years at given attribute. Different years do not necessarily have be consecutive.");
+        dqMeasureReference.finalizeClass();
+
+        DQ_EvaluationMethod dqEvaluationMethod = new DQ_FullInspection();
+        dqEvaluationMethod.addEvaluationMethodType(new DQ_EvaluationMethodTypeCode(DQ_EvaluationMethodTypeCode.DQ_EvaluationMethodTypeCodes.directInternal));
+        dqEvaluationMethod.addDateTime(now);
+        dqEvaluationMethod.addEvaluationMethodDescription("number of different years at given attribute");
+        dqEvaluationMethod.finalizeClass();
+
+        MD_ScopeDescription mdScopeDescription = new MD_ScopeDescription();
+        mdScopeDescription.addAttributes(nameAttribute);
+        mdScopeDescription.finalizeClass();
+
+        MD_Scope mdScopeAttribute = new MD_Scope();
+        mdScopeAttribute.addLevel(new MD_ScopeCode(MD_ScopeCode.MD_ScopeCodes.attribute));
+        mdScopeAttribute.addLevelDescription(mdScopeDescription);
+        mdScopeAttribute.finalizeClass();
+
+        String stringNumDataActual;
+        stringNumDataActual = Integer.toString(numDataActual);
+
+        Record record = new Record();
+        record.addField("value", stringNumDataActual);
+        record.finalizeClass();
+
+        DQ_QuantitativeResult dqQuantitativeResult = new DQ_QuantitativeResult();
+        dqQuantitativeResult.addResultScope(mdScopeAttribute);
+        dqQuantitativeResult.addDateTime(now);
+        dqQuantitativeResult.addValue(record);
+        dqQuantitativeResult.addValueUnit("number of years");
+        dqQuantitativeResult.finalizeClass();
+
+        DQ_Representativity dqRepresentativity = new DQ_Representativity();
+        dqRepresentativity.addMeasure(dqMeasureReference);
+        dqRepresentativity.addEvaluationMethod(dqEvaluationMethod);
+        dqRepresentativity.addResult(dqQuantitativeResult);
+        dqRepresentativity.finalizeClass();
+
+        return dqRepresentativity;
+    }
+
+    static List<String> getListFromLogicalIndex(List<String[]> vals, int colIdx, boolean[] idx) {
+        // enable logical indexing of one dimensional array
+        // vals is a list with arrays in each list element; number of elements must equal length of array idx
+
+        List<String> valsExtracted = new ArrayList<>();
+        for (int i = 0; i < idx.length; i++) {
+            if (idx[i]) {
+                valsExtracted.add(vals.get(i)[colIdx]);
+            }
+        }
+
+        return valsExtracted;
+    }
 }
 
 
@@ -544,30 +691,26 @@ class CSVReader {
     String fileName;
     String splitChar;
     List<String> colNamesJoin;
-    List<String> colNamesDefinePrimary;
-    List<String> colNamesDefineSecondary;
+    List<String> colNamesDefine;
     List<String> colNamesIgnore;
 
     List<String> header = new ArrayList<>();
     List<String[]> fileContentJoin = new ArrayList<>();
-    List<String[]> fileContentDefinePrimary = new ArrayList<>();
-    List<String[]> fileContentDefineSecondary = new ArrayList<>();
+    List<String[]> fileContentDefine = new ArrayList<>();
     List<String> headerAssessment = new ArrayList<>();
     List<String[]> fileContentAssessment = new ArrayList<>();
 
-    CSVReader(String fileName, String splitChar, List<String> colNamesJoin, List<String> colNamesDefinePrimary,
-            List<String> colNamesDefineSecondary, List<String> colNamesIgnore) {
+    CSVReader(String fileName, String splitChar, List<String> colNamesJoin, List<String> colNamesDefine,
+            List<String> colNamesIgnore) {
         this.fileName = fileName;
         this.splitChar = splitChar;
         this.colNamesJoin = colNamesJoin;
-        this.colNamesDefinePrimary = colNamesDefinePrimary;
-        this.colNamesDefineSecondary = colNamesDefineSecondary;
+        this.colNamesDefine = colNamesDefine;
         this.colNamesIgnore = colNamesIgnore;
     }
 
     void getContent() {
-        List<String> colNamesDefining = Stream.concat(colNamesJoin.stream(), colNamesDefinePrimary.stream()).collect(Collectors.toList());
-        colNamesDefining = Stream.concat(colNamesDefining.stream(), colNamesDefineSecondary.stream()).collect(Collectors.toList());
+        List<String> colNamesDefining = Stream.concat(colNamesJoin.stream(), colNamesDefine.stream()).collect(Collectors.toList());
 
         String line;
 
@@ -579,13 +722,9 @@ class CSVReader {
             for (String colName : colNamesJoin) {
                 idxColsJoin.add(header.indexOf(colName));
             }
-            List<Integer> idxColsDefinePrimary = new ArrayList<>();
-            for (String colName : colNamesDefinePrimary) {
-                idxColsDefinePrimary.add(header.indexOf(colName));
-            }
-            List<Integer> idxColsDefineSecondary = new ArrayList<>();
-            for (String colName : colNamesDefineSecondary) {
-                idxColsDefineSecondary.add(header.indexOf(colName));
+            List<Integer> idxColsDefine = new ArrayList<>();
+            for (String colName : colNamesDefine) {
+                idxColsDefine.add(header.indexOf(colName));
             }
             List<Integer> idxColsAssessment = new ArrayList<>();
             for (int i = 0; i < header.size(); i++) {
@@ -598,24 +737,19 @@ class CSVReader {
             while ((line = br.readLine()) != null) {
                 String[] lineParted = line.split(splitChar, -1);
                 String[] linePartedJoin = new String[colNamesJoin.size()];
-                String[] linePartedDefinePrimary = new String[colNamesDefinePrimary.size()];
-                String[] linePartedDefineSecondary = new String[colNamesDefineSecondary.size()];
+                String[] linePartedDefine = new String[colNamesDefine.size()];
                 String[] linePartedAssessment = new String[idxColsAssessment.size()];
                 for (int i = 0; i < colNamesJoin.size(); i++) {
                     linePartedJoin[i] = lineParted[idxColsJoin.get(i)];
                 }
-                for (int i = 0; i < colNamesDefinePrimary.size(); i++) {
-                    linePartedDefinePrimary[i] = lineParted[idxColsDefinePrimary.get(i)];
-                }
-                for (int i = 0; i < colNamesDefineSecondary.size(); i++) {
-                    linePartedDefineSecondary[i] = lineParted[idxColsDefineSecondary.get(i)];
+                for (int i = 0; i < colNamesDefine.size(); i++) {
+                    linePartedDefine[i] = lineParted[idxColsDefine.get(i)];
                 }
                 for (int i = 0; i < idxColsAssessment.size(); i++) {
                     linePartedAssessment[i] = lineParted[idxColsAssessment.get(i)];
                 }
                 fileContentJoin.add(linePartedJoin);
-                fileContentDefinePrimary.add(linePartedDefinePrimary);
-                fileContentDefineSecondary.add(linePartedDefineSecondary);
+                fileContentDefine.add(linePartedDefine);
                 fileContentAssessment.add(linePartedAssessment);
             }
         } catch (IOException e) {

@@ -7,6 +7,7 @@ package org.geokur.generateMetadata;
 
 import org.locationtech.jts.geom.Point;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public final class FeatureDescriptor {
@@ -57,5 +58,41 @@ public final class FeatureDescriptor {
 
     public List<String> getAttributeValues() {
         return attributeValues;
+    }
+
+    public List<Integer> getAttributeIndex(List<String> attributeNamesIntended) {
+        // get index of given attribute names
+
+        List<Integer> attributeIndex = new ArrayList<>();
+        for (String attributeNameIntended : attributeNamesIntended) {
+            attributeIndex.add(attributeNames.indexOf(attributeNameIntended));
+        }
+
+        return attributeIndex;
+    }
+
+    public List<String> getAttributeValuesIntended(List<String> attributeNamesIntended){
+        // get attribute values of attributes given via name
+
+        List<String> attributeValuesIntended = new ArrayList<>();
+        List<Integer> attributeIndex = getAttributeIndex(attributeNamesIntended);
+        for (Integer attributeIndexAct : attributeIndex) {
+            attributeValuesIntended.add(attributeValues.get(attributeIndexAct));
+        }
+
+        return attributeValuesIntended;
+    }
+
+    public String getAttributeValuesIntendedMerged(List<String> attributeNamesIntended) {
+        // merge attribute values into one single string
+
+        List<String> attributeValuesIntended = getAttributeValuesIntended(attributeNamesIntended);
+
+        StringBuilder attributeValueMerged = new StringBuilder();
+        for (String attributeValue : attributeValuesIntended) {
+            attributeValueMerged.append(attributeValue);
+        }
+
+        return attributeValueMerged.toString();
     }
 }
