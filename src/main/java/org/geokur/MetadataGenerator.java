@@ -88,10 +88,13 @@ public class MetadataGenerator {
                 List<String> asciiColNameDefine = new ArrayList<>();
                 asciiColNameDefine.add("commodityID");
                 asciiColNameDefine.add("year");
+                List<String> descriptionAsciiColNameDefine = new ArrayList<>();
+                descriptionAsciiColNameDefine.add("thematic");
+                descriptionAsciiColNameDefine.add("temporal");
                 List<String> asciiColNameIgnore = new ArrayList<>();
                 asciiColNameIgnore.add("id");
                 asciiColNameIgnore.add("tabID");
-                asciiMetadata.defineProperties("paraguay.gpkg", geoTableName, geoColNameJoin, asciiColNameJoin, asciiColNameDefine, asciiColNameIgnore);
+                asciiMetadata.defineProperties("paraguay.gpkg", geoTableName, geoColNameJoin, asciiColNameJoin, asciiColNameDefine, asciiColNameIgnore, descriptionAsciiColNameDefine);
                 metadata = asciiMetadata.getMetadata();
                 break;
             default:

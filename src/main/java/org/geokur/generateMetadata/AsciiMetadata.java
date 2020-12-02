@@ -34,6 +34,7 @@ public class AsciiMetadata implements Metadata {
     List<String> asciiColNameJoin;
     List<String> asciiColNameDefine;
     List<String> asciiColNameIgnore;
+    List<String> descriptionAsciiColNameDefine;
 
     public AsciiMetadata(String fileName, DS_DataSet dsDataSet) {
         this.fileName = fileName;
@@ -41,7 +42,7 @@ public class AsciiMetadata implements Metadata {
     }
 
     public void defineProperties(String fileNameGeodata, List<String> geoTableName, List<String> geoColNameJoin, List<String> asciiColNameJoin,
-                                 List<String> asciiColNameDefine, List<String> asciiColNameIgnore) {
+                                 List<String> asciiColNameDefine, List<String> asciiColNameIgnore, List<String> descriptionAsciiColNameDefine) {
         // definition of additional data necessary for analysis
 
         this.fileNameGeodata = fileNameGeodata;
@@ -50,6 +51,7 @@ public class AsciiMetadata implements Metadata {
         this.asciiColNameJoin = asciiColNameJoin;
         this.asciiColNameDefine = asciiColNameDefine;
         this.asciiColNameIgnore = asciiColNameIgnore;
+        this.descriptionAsciiColNameDefine = descriptionAsciiColNameDefine;
     }
 
     public DS_Resource getMetadata() {
@@ -204,19 +206,29 @@ public class AsciiMetadata implements Metadata {
             }
             gpkg.dispose();
 
+            // get index of either temporal or thematic columns in csvContentMaskedDefine
+            int idxTemporal = descriptionAsciiColNameDefine.indexOf("temporal");
+            int idxThematic = descriptionAsciiColNameDefine.indexOf("thematic");
+            List<String> csvContentMaskedTemporal = new ArrayList<>();
+            List<String> csvContentMaskedThematic = new ArrayList<>();
+            for (String[] tmp : csvContentMaskedDefine) {
+                csvContentMaskedTemporal.add(tmp[idxTemporal]);
+                csvContentMaskedThematic.add(tmp[idxThematic]);
+            }
+
             // get number of years per attribute
             List<Integer> numYearsAssessmentCols = new ArrayList<>();
-            boolean[][] idxMaskedRelevantTemporalAll = new boolean[csvNumAssessment][numDataAll];
+            boolean[][] idxMaskedRelevantAll = new boolean[csvNumAssessment][numDataAll];
             for (int i = 0; i < csvNumAssessment; i++) {
                 // preallocate boolean matrix
-                Arrays.fill(idxMaskedRelevantTemporalAll[i], false);
+                Arrays.fill(idxMaskedRelevantAll[i], false);
             }
             for (int i = 0; i < numDataAll; i++) {
                 // fill boolean index matrix
                 String[] tmp = csvContentMaskedAssessment.get(i);
                 for (int j = 0; j < csvNumAssessment; j++) {
                     if (!tmp[j].equals("")) {
-                        idxMaskedRelevantTemporalAll[j][i] = true;
+                        idxMaskedRelevantAll[j][i] = true;
                     }
                 }
             }
@@ -224,11 +236,35 @@ public class AsciiMetadata implements Metadata {
             List<List<String>> yearsMaskedAssessmentUnique = new ArrayList<>();
             for (int i = 0; i < csvNumAssessment; i++) {
                 // get available years of all columns of masked assessment data
-                // colIdx = 1 means second column is defined as years column!
-                yearsMaskedAssessment.add(getListFromLogicalIndex(csvContentMaskedDefine, 1, idxMaskedRelevantTemporalAll[i]));
+                yearsMaskedAssessment.add(getListFromLogicalIndex(csvContentMaskedTemporal, idxMaskedRelevantAll[i]));
                 yearsMaskedAssessmentUnique.add(getStringListUniqueMembers(yearsMaskedAssessment.get(i)));
                 numYearsAssessmentCols.add(yearsMaskedAssessmentUnique.get(i).size());
             }
+
+            // get number of commodities per attribute
+            List<Integer> numCommoditiesAssessmentCols = new ArrayList<>();
+            List<List<String>> commoditiesMaskedAssessment = new ArrayList<>();
+            List<List<String>> commoditiesMaskedAssessmentUnique = new ArrayList<>();
+            for (int i = 0; i < csvNumAssessment; i++) {
+                // get available commodities of all columns of masked assessment data
+                commoditiesMaskedAssessment.add(getListFromLogicalIndex(csvContentMaskedThematic, idxMaskedRelevantAll[i]));
+                commoditiesMaskedAssessmentUnique.add(getStringListUniqueMembers(commoditiesMaskedAssessment.get(i)));
+                numCommoditiesAssessmentCols.add(commoditiesMaskedAssessmentUnique.get(i).size());
+            }
+
+            // get distribution parameters of number of years per attribute over all spatial units
+            List<String> csvContentMaskedJoined = new ArrayList<>();
+            for (String[] csvContentMaskedJoinAct : csvContentMaskedJoin) {
+                StringBuilder tmp = new StringBuilder();
+                for (String csvContentMaskedJoinActI : csvContentMaskedJoinAct) {
+                    tmp.append(csvContentMaskedJoinActI);
+                }
+                csvContentMaskedJoined.add(tmp.toString());
+            }
+
+            CsvMaskedContent csvMaskedContent = new CsvMaskedContent(csvContentMaskedJoined, csvContentMaskedTemporal, csvContentMaskedThematic, csvContentMaskedAssessment, idxMaskedRelevantAll);
+            List<List<Double>> temporalPerGeo = csvMaskedContent.getTemporalPerGeo();
+
 
 
             ///////////////////////////////////
@@ -363,7 +399,10 @@ public class AsciiMetadata implements Metadata {
             }
 
             // metaquality - number of different commodity elements per attribute
-            DQ_Representativity dqRepresentativityThematic = new DQ_Representativity();
+            List<DQ_Representativity> dqRepresentativitiesThematic = new ArrayList<>();
+            for (int i = 0; i < csvNumAssessment; i++) {
+                dqRepresentativitiesThematic.add(makeDQRepresentativityThematic(csvContent.headerAssessment.get(i), numCommoditiesAssessmentCols.get(i), now));
+            }
 
             // frame around data quality fields
             MD_Scope mdScope = new MD_Scope();
@@ -407,7 +446,9 @@ public class AsciiMetadata implements Metadata {
             for (DQ_Representativity dqRepresentativityTemporal : dqRepresentativitiesTemporal) {
                 dqDataQuality.addReport(dqRepresentativityTemporal);
             }
-            dqDataQuality.addReport(dqRepresentativityThematic);
+            for (DQ_Representativity dqRepresentativityThematic : dqRepresentativitiesThematic) {
+                dqDataQuality.addReport((dqRepresentativityThematic));
+            }
 
             dqDataQuality.finalizeClass();
 
@@ -671,14 +712,59 @@ public class AsciiMetadata implements Metadata {
         return dqRepresentativity;
     }
 
-    static List<String> getListFromLogicalIndex(List<String[]> vals, int colIdx, boolean[] idx) {
+    static DQ_Representativity makeDQRepresentativityThematic(String nameAttribute, int numDataActual, String now) {
+        // instantiate DQ_Representativity class for number of different commodities
+        DQ_MeasureReference dqMeasureReference = new DQ_MeasureReference();
+        dqMeasureReference.addNameOfMeasure("number of different commodity elements");
+        dqMeasureReference.addMeasureDescription("Number of different commodity elements at given attribute. All commodity elements are equally interpreted");
+        dqMeasureReference.finalizeClass();
+
+        DQ_EvaluationMethod dqEvaluationMethod = new DQ_FullInspection();
+        dqEvaluationMethod.addEvaluationMethodType(new DQ_EvaluationMethodTypeCode(DQ_EvaluationMethodTypeCode.DQ_EvaluationMethodTypeCodes.directInternal));
+        dqEvaluationMethod.addDateTime(now);
+        dqEvaluationMethod.addEvaluationMethodDescription("number of different commodity elements at given attribute");
+        dqEvaluationMethod.finalizeClass();
+
+        MD_ScopeDescription mdScopeDescription = new MD_ScopeDescription();
+        mdScopeDescription.addAttributes(nameAttribute);
+        mdScopeDescription.finalizeClass();
+
+        MD_Scope mdScopeAttribute = new MD_Scope();
+        mdScopeAttribute.addLevel(new MD_ScopeCode(MD_ScopeCode.MD_ScopeCodes.attribute));
+        mdScopeAttribute.addLevelDescription(mdScopeDescription);
+        mdScopeAttribute.finalizeClass();
+
+        String stringNumDataActual;
+        stringNumDataActual = Integer.toString(numDataActual);
+
+        Record record = new Record();
+        record.addField("value", stringNumDataActual);
+        record.finalizeClass();
+
+        DQ_QuantitativeResult dqQuantitativeResult = new DQ_QuantitativeResult();
+        dqQuantitativeResult.addResultScope(mdScopeAttribute);
+        dqQuantitativeResult.addDateTime(now);
+        dqQuantitativeResult.addValue(record);
+        dqQuantitativeResult.addValueUnit("number of commodity elements");
+        dqQuantitativeResult.finalizeClass();
+
+        DQ_Representativity dqRepresentativity = new DQ_Representativity();
+        dqRepresentativity.addMeasure(dqMeasureReference);
+        dqRepresentativity.addEvaluationMethod(dqEvaluationMethod);
+        dqRepresentativity.addResult(dqQuantitativeResult);
+        dqRepresentativity.finalizeClass();
+
+        return dqRepresentativity;
+    }
+
+    static List<String> getListFromLogicalIndex(List<String> vals, boolean[] idx) {
         // enable logical indexing of one dimensional array
         // vals is a list with arrays in each list element; number of elements must equal length of array idx
 
         List<String> valsExtracted = new ArrayList<>();
         for (int i = 0; i < idx.length; i++) {
             if (idx[i]) {
-                valsExtracted.add(vals.get(i)[colIdx]);
+                valsExtracted.add(vals.get(i));
             }
         }
 
@@ -779,4 +865,122 @@ class CSVReader {
 //        }
 //        return value;
 //    }
+}
+
+
+class CsvMaskedContent {
+    List<String> geographic;
+    List<String> temporal;
+    List<String> thematic;
+    List<String[]> values;
+    boolean[][] idxValues;
+
+    CsvMaskedContent(List<String> geographic, List<String> temporal, List<String> thematic, List<String[]> values, boolean[][] idxValues) {
+        this.geographic = geographic;
+        this.temporal = temporal;
+        this.thematic = thematic;
+        this.values = values;
+        this.idxValues = idxValues;
+    }
+
+    List<List<Double>> getTemporalPerGeo() {
+        // get statistical parameters of temporal units per geographical units for each attribute in this.values
+
+        List<List<Double>> temporalPerGeo = new ArrayList<>();
+        List<String> geographicUnique = AsciiMetadata.getStringListUniqueMembers(geographic);
+
+        int numGeographic = geographicUnique.size();
+        int numFeatures = geographic.size();
+        int numValueEntities = idxValues.length;
+
+        boolean[][] idxGeographic = new boolean[numGeographic][geographic.size()];
+        for (int i = 0; i < numGeographic; i++) {
+            // logical index of geographical features
+            Arrays.fill(idxGeographic[i], false);
+            for (int j = 0; j < numFeatures; j++) {
+                if (geographic.get(j).equals(geographicUnique.get(i))) {
+                    idxGeographic[i][j] = true;
+                }
+            }
+        }
+
+//        int[][] numTemporal = new int[numGeographic][numValueEntities];
+        int[][] numTemporal = new int[numValueEntities][numGeographic];
+        // 2-D representation of years within numGeographic (inner order) and numFeatures (outer order)
+//        List<List<String>> years = new ArrayList<>();
+
+        for (int i = 0; i < numValueEntities; i++) {
+            for (int j = 0; j < numGeographic; j++) {
+                List<String> tmp = new ArrayList<>();
+                for (int k = 0; k < numFeatures; k++) {
+                    if (idxGeographic[j][k] && idxValues[i][k]) {
+                        tmp.add(temporal.get(k));
+                    }
+                }
+//                years.add(tmp);
+                numTemporal[i][j] = AsciiMetadata.getStringListUniqueMembers(tmp).size();
+            }
+        }
+
+        for (int i = 0; i < numValueEntities; i++) {
+            List<Double> tmp = new ArrayList<>();
+            tmp.add(getMean(numTemporal[i]));
+            tmp.add(getQuantile(numTemporal[i], 0));
+            tmp.add(getQuantile(numTemporal[i], .05));
+            tmp.add(getQuantile(numTemporal[i], .25));
+            tmp.add(getQuantile(numTemporal[i], .5));
+            tmp.add(getQuantile(numTemporal[i], .75));
+            tmp.add(getQuantile(numTemporal[i], .95));
+            tmp.add(getQuantile(numTemporal[i], 1));
+
+            temporalPerGeo.add(tmp);
+        }
+
+        return temporalPerGeo;
+    }
+
+    double getMean(int[] values) {
+        // calculate average of an integer list
+
+        double sum = 0;
+        for (int tmp : values) {
+            sum += tmp;
+        }
+        return sum / values.length;
+    }
+
+    double getQuantile(int[] values, double p) {
+        // calculate empirical quantile of an integer list
+        // quantiles are given as a fraction of 1 (e.g., 0.5 for median)
+        // quantiles are calculated following Matlab method:
+        // values in array get the empirical probabilities: p_i = 1/n * (i - .5)
+        // p within the range of p_i lead to quantile values from piecewise linear interpolation between adjacent values
+        // p out of the range of p_i give min/max of values
+
+        int n = values.length;
+        Arrays.sort(values);
+        double[] pVals = new double[n];
+        for (int i = 1; i <= n; i++) {
+            pVals[i - 1] = (i - .5) / n;
+        }
+
+        double quantile;
+        if (values.length == 1) {
+            // if values consists of one entry only -> always return this value
+            quantile = values[0];
+        } else if (p < pVals[0]) {
+            // below minimal p return minimum of value array
+            quantile = values[0];
+        } else if (p > pVals[n - 1]) {
+            // above maximal p return maximum of value array
+            quantile = values[n - 1];
+        } else {
+            // within p range -> piecewise interpolation
+            int rankLower = (int) Math.floor(n*p + .5) - 1; // 0-based ranks
+            int rankUpper = rankLower + 1;
+            quantile = values[rankLower] + (values[rankUpper] - values[rankLower]) * (p - pVals[rankLower]) / (pVals[rankUpper] - pVals[rankLower]);
+        }
+
+        return quantile;
+    }
 }
