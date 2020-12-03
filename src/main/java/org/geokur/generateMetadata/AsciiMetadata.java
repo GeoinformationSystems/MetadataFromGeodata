@@ -252,7 +252,7 @@ public class AsciiMetadata implements Metadata {
                 numCommoditiesAssessmentCols.add(commoditiesMaskedAssessmentUnique.get(i).size());
             }
 
-            // get distribution parameters of number of years per attribute over all spatial units
+            // prepare for various distribution parameters
             List<String> csvContentMaskedJoined = new ArrayList<>();
             for (String[] csvContentMaskedJoinAct : csvContentMaskedJoin) {
                 StringBuilder tmp = new StringBuilder();
@@ -263,7 +263,12 @@ public class AsciiMetadata implements Metadata {
             }
 
             CsvMaskedContent csvMaskedContent = new CsvMaskedContent(csvContentMaskedJoined, csvContentMaskedTemporal, csvContentMaskedThematic, csvContentMaskedAssessment, idxMaskedRelevantAll);
+
+            // get distribution parameters of number of years per attribute over all spatial units
             List<List<EmpiricalDistributionProperty>> temporalPerGeo = csvMaskedContent.getTemporalPerGeo();
+
+            // get distribution parameters of number of commodities per attribute over all spatial units
+            List<List<EmpiricalDistributionProperty>> thematicPerGeo = csvMaskedContent.getThematicPerGeo();
 
 
 
@@ -410,6 +415,12 @@ public class AsciiMetadata implements Metadata {
                 dqRepresentativitiesTempPerGeo.add(makeDQRepresentativityParamTempPerGeo(csvContent.headerAssessment.get(i), temporalPerGeo.get(i), now));
             }
 
+            // metaquality - distribution parameters of different commodities per geographical unit per attribute
+            List<DQ_Representativity> dqRepresentativitiesThematicPerGeo = new ArrayList<>();
+            for (int i = 0; i < csvNumAssessment; i++) {
+                dqRepresentativitiesThematicPerGeo.add(makeDQRepresentativityParamThematicPerGeo(csvContent.headerAssessment.get(i), thematicPerGeo.get(i), now));
+            }
+
             // frame around data quality fields
             MD_Scope mdScope = new MD_Scope();
             mdScope.addLevel(new MD_ScopeCode(MD_ScopeCode.MD_ScopeCodes.dataset));
@@ -457,6 +468,9 @@ public class AsciiMetadata implements Metadata {
             }
             for (DQ_Representativity dqRepresentativityTempPerGeo : dqRepresentativitiesTempPerGeo) {
                 dqDataQuality.addReport(dqRepresentativityTempPerGeo);
+            }
+            for (DQ_Representativity dqRepresentativityThematicPerGeo : dqRepresentativitiesThematicPerGeo) {
+                dqDataQuality.addReport(dqRepresentativityThematicPerGeo);
             }
 
             dqDataQuality.finalizeClass();
@@ -770,7 +784,7 @@ public class AsciiMetadata implements Metadata {
         // instantiate DQ_Representativity class for distribution parameters of temporal units per geographic units
         DQ_MeasureReference dqMeasureReference = new DQ_MeasureReference();
         dqMeasureReference.addNameOfMeasure("distribution parameters of different temporal elements per geographical unit");
-        dqMeasureReference.addMeasureDescription("Parameters for distribution of number of different temporal elements per geographic unit at given attribute. Parameters included are mean, min, 5/25/50/75/95 % quantiles, max");
+        dqMeasureReference.addMeasureDescription("Parameters for distribution of number of different temporal elements per geographic unit at given attribute.");
         dqMeasureReference.finalizeClass();
 
         DQ_EvaluationMethod dqEvaluationMethod = new DQ_FullInspection();
@@ -799,6 +813,50 @@ public class AsciiMetadata implements Metadata {
         dqQuantitativeResult.addDateTime(now);
         dqQuantitativeResult.addValue(record);
         dqQuantitativeResult.addValueUnit("number of temporal elements per geographical unit");
+        dqQuantitativeResult.finalizeClass();
+
+        DQ_Representativity dqRepresentativity = new DQ_Representativity();
+        dqRepresentativity.addMeasure(dqMeasureReference);
+        dqRepresentativity.addEvaluationMethod(dqEvaluationMethod);
+        dqRepresentativity.addResult(dqQuantitativeResult);
+        dqRepresentativity.finalizeClass();
+
+        return dqRepresentativity;
+    }
+
+    static DQ_Representativity makeDQRepresentativityParamThematicPerGeo(String nameAttribute, List<EmpiricalDistributionProperty> thematicPerGeo, String now) {
+        // instantiate DQ_Representativity class for distribution parameters of thematic units per geographic units
+        DQ_MeasureReference dqMeasureReference = new DQ_MeasureReference();
+        dqMeasureReference.addNameOfMeasure("distribution parameters of different thematic elements per geographical unit");
+        dqMeasureReference.addMeasureDescription("Parameters for distribution of number of different thematic elements per geographic unit at given attribute.");
+        dqMeasureReference.finalizeClass();
+
+        DQ_EvaluationMethod dqEvaluationMethod = new DQ_FullInspection();
+        dqEvaluationMethod.addEvaluationMethodType(new DQ_EvaluationMethodTypeCode(DQ_EvaluationMethodTypeCode.DQ_EvaluationMethodTypeCodes.directInternal));
+        dqEvaluationMethod.addDateTime(now);
+        dqEvaluationMethod.addEvaluationMethodDescription("distribution parameters of different thematic elements per geographical unit at given attribute");
+        dqEvaluationMethod.finalizeClass();
+
+        MD_ScopeDescription mdScopeDescription = new MD_ScopeDescription();
+        mdScopeDescription.addAttributes(nameAttribute);
+        mdScopeDescription.finalizeClass();
+
+        MD_Scope mdScopeAttribute = new MD_Scope();
+        mdScopeAttribute.addLevel(new MD_ScopeCode(MD_ScopeCode.MD_ScopeCodes.attribute));
+        mdScopeAttribute.addLevelDescription(mdScopeDescription);
+        mdScopeAttribute.finalizeClass();
+
+        Record record = new Record();
+        for (EmpiricalDistributionProperty tmp : thematicPerGeo) {
+            record.addField(tmp.propertyName, Double.toString(tmp.value));
+        }
+        record.finalizeClass();
+
+        DQ_QuantitativeResult dqQuantitativeResult = new DQ_QuantitativeResult();
+        dqQuantitativeResult.addResultScope(mdScopeAttribute);
+        dqQuantitativeResult.addDateTime(now);
+        dqQuantitativeResult.addValue(record);
+        dqQuantitativeResult.addValueUnit("number of thematic elements per geographical unit");
         dqQuantitativeResult.finalizeClass();
 
         DQ_Representativity dqRepresentativity = new DQ_Representativity();
@@ -989,6 +1047,59 @@ class CsvMaskedContent {
         }
 
         return temporalPerGeo;
+    }
+
+    List<List<EmpiricalDistributionProperty>> getThematicPerGeo() {
+        // get statistical parameters of thematic units per geographical units for each attribute in this.values
+
+        List<List<EmpiricalDistributionProperty>> thematicPerGeo = new ArrayList<>();
+        List<String> geographicUnique = AsciiMetadata.getStringListUniqueMembers(geographic);
+
+        int numGeographic = geographicUnique.size();
+        int numFeatures = geographic.size();
+        int numValueEntities = idxValues.length;
+
+        boolean[][] idxGeographic = new boolean[numGeographic][geographic.size()];
+        for (int i = 0; i < numGeographic; i++) {
+            // logical index of geographical features
+            Arrays.fill(idxGeographic[i], false);
+            for (int j = 0; j < numFeatures; j++) {
+                if (geographic.get(j).equals(geographicUnique.get(i))) {
+                    idxGeographic[i][j] = true;
+                }
+            }
+        }
+
+        int[][] numThematic = new int[numValueEntities][numGeographic];
+        // 2-D representation of commodities within numGeographic (inner order) and numFeatures (outer order)
+
+        for (int i = 0; i < numValueEntities; i++) {
+            for (int j = 0; j < numGeographic; j++) {
+                List<String> tmp = new ArrayList<>();
+                for (int k = 0; k < numFeatures; k++) {
+                    if (idxGeographic[j][k] && idxValues[i][k]) {
+                        tmp.add(thematic.get(k));
+                    }
+                }
+                numThematic[i][j] = AsciiMetadata.getStringListUniqueMembers(tmp).size();
+            }
+        }
+
+        for (int i = 0; i < numValueEntities; i++) {
+            List<EmpiricalDistributionProperty> tmp = new ArrayList<>();
+            tmp.add(new EmpiricalDistributionProperty("mean", getMean(numThematic[i])));
+            tmp.add(new EmpiricalDistributionProperty("min", getQuantile(numThematic[i], 0)));
+            tmp.add(new EmpiricalDistributionProperty("5 % quantile", getQuantile(numThematic[i], .05)));
+            tmp.add(new EmpiricalDistributionProperty("25 % quantile", getQuantile(numThematic[i], .25)));
+            tmp.add(new EmpiricalDistributionProperty("50 % quantile", getQuantile(numThematic[i], .5)));
+            tmp.add(new EmpiricalDistributionProperty("75 % quantile", getQuantile(numThematic[i], .75)));
+            tmp.add(new EmpiricalDistributionProperty("95 % quantile", getQuantile(numThematic[i], .95)));
+            tmp.add(new EmpiricalDistributionProperty("max", getQuantile(numThematic[i], 1)));
+
+            thematicPerGeo.add(tmp);
+        }
+
+        return thematicPerGeo;
     }
 
     double getMean(int[] values) {
