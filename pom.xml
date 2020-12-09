@@ -11,7 +11,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.geokur</groupId>
-    <artifactId>WriteMetadataXML</artifactId>
+    <artifactId>metadataFromGeodata</artifactId>
     <version>1.0</version>
 
     <packaging>jar</packaging>

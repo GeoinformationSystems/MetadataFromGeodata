@@ -1,0 +1,44 @@
+## properties for running MetadataGenerator from metadataFromGeodata
+# lines with starting # are comments
+# blank lines are ignored
+
+
+## filename of metadata profile
+profile = config/profile_GeoKur.json
+
+
+## filename of geodata
+# geodata = exampleGeo.gpkg
+# geodata = exampleGeoTable.csv
+geodata = exampleGeoShpETRS.shp
+
+
+## filename of outputs (xml and sqlite database)
+outXML = exampleOut.xml
+outDB = exampleOut.db
+
+
+## in the case of csv ascii table additional input necessary - ignored otherwise
+# the order of the following items is important
+# geoColNameJoin and asciiColNameJoin
+# asciiColNameDefine and descriptionAsciiColNameDefine
+
+geodataReference = exampleGeo.gpkg
+
+geoTableName = level_1
+geoTableName = level_2
+
+geoColNameJoin = ahID
+geoColNameJoin = geoID
+
+asciiColNameJoin = ahID
+asciiColNameJoin = geoID
+
+asciiColNameDefine = commodityID
+asciiColNameDefine = year
+
+descriptionAsciiColNameDefine = thematic
+descriptionAsciiColNameDefine = temporal
+
+asciiColNameIgnore = id
+asciiColNameIgnore = tabID
