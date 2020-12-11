@@ -10,16 +10,20 @@ import org.geokur.ISO19115Schema.*;
 import org.geotools.data.FileDataStore;
 import org.geotools.data.FileDataStoreFinder;
 import org.geotools.data.simple.SimpleFeatureCollection;
+import org.geotools.data.simple.SimpleFeatureIterator;
 import org.geotools.data.store.ReprojectingFeatureCollection;
 import org.geotools.feature.FeatureCollection;
+import org.geotools.geometry.jts.JTS;
 import org.geotools.geometry.jts.ReferencedEnvelope;
 import org.geotools.referencing.CRS;
 import org.geotools.referencing.crs.DefaultGeographicCRS;
+import org.locationtech.jts.geom.*;
 import org.opengis.feature.simple.SimpleFeature;
 import org.opengis.feature.simple.SimpleFeatureType;
 import org.opengis.referencing.FactoryException;
 import org.opengis.referencing.crs.CoordinateReferenceSystem;
 import org.opengis.referencing.operation.MathTransform;
+import org.opengis.referencing.operation.TransformException;
 
 import java.io.File;
 import java.io.IOException;
@@ -57,6 +61,7 @@ public class ShapeMetadata implements Metadata {
             // transform to WGS84 for standard extent lon/lat
             if (!mathTransform.isIdentity()) {
                 markerTransform = true;
+                // TODO: no transformation, but gather boundaries including single feature transformation!
                 collectionTransform = project(collection, "epsg:4326");
             } else {
                 markerTransform = false;
@@ -258,10 +263,11 @@ public class ShapeMetadata implements Metadata {
         }
     }
 
-    private Extent getExtent(FeatureCollection<SimpleFeatureType, SimpleFeature> collection) {
+    private Extent getExtent(SimpleFeatureCollection collection) {
         // get extent of feature collection
 
-        ReferencedEnvelope envelope = collection.getBounds();
+        Envelope envelope = new Envelope();
+        envelope = collection.getBounds();
 
         Extent extent = new Extent();
         extent.west = envelope.getMinX();
@@ -271,20 +277,6 @@ public class ShapeMetadata implements Metadata {
 
         return extent;
     }
-
-//    private List<Double> getExtent(FeatureCollection<SimpleFeatureType, SimpleFeature> collection) {
-//        // get extent of feature collection
-//        // return list contains in this order: west boundary, east boundary, south boundary, north boundary
-//
-//        List<Double> extent = new ArrayList<>();
-//        ReferencedEnvelope envelope = collection.getBounds();
-//        extent.add(envelope.getMinX());
-//        extent.add(envelope.getMaxX());
-//        extent.add(envelope.getMinY());
-//        extent.add(envelope.getMaxY());
-//
-//        return extent;
-//    }
 
     private int levenshteinDistance(String x, String y) {
         // calculation of Levenshtein distance (edit distance)

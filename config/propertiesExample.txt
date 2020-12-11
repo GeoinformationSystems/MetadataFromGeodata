@@ -8,9 +8,10 @@ profile = config/profile_GeoKur.json
 
 
 ## filename of geodata
-# geodata = exampleGeo.gpkg
-# geodata = exampleGeoTable.csv
-geodata = exampleGeoShpETRS.shp
+geodata = examples/exampleGeo.gpkg
+# geodata = examples/exampleGeoTable.csv
+# geodata = examples/exampleGeoShp.shp
+# geodata = examples/exampleGeoShpETRS.shp
 
 
 ## filename of outputs (xml and sqlite database)
@@ -23,7 +24,7 @@ outDB = exampleOut.db
 # geoColNameJoin and asciiColNameJoin
 # asciiColNameDefine and descriptionAsciiColNameDefine
 
-geodataReference = exampleGeo.gpkg
+geodataReference = examples/exampleGeo.gpkg
 
 geoTableName = level_1
 geoTableName = level_2
