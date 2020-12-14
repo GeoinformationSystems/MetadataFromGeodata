@@ -40,6 +40,7 @@ public class Geopackage {
     SimpleFeatureCollection collectionTransform;
     CoordinateReferenceSystem srcCRS;
     String srcCRSepsg;
+    boolean markerTransform;
     boolean polygonSwitch;
     double polygonPerKm2;
 
@@ -104,10 +105,12 @@ public class Geopackage {
             // transform to WGS84 for standard extent lon/lat
             if (!mathTransform.isIdentity()) {
                 // transformation necessary
+                markerTransform = true;
                 collectionTransform = project(collection, "epsg:4326");
                 findEpsgCode(srcCRS);
             } else {
                 // special case for WGS84 - no test of CRS and no transformation necessary
+                markerTransform = false;
                 collectionTransform = collection;
                 srcCRSepsg = "4326";
             }
@@ -482,6 +485,39 @@ public class Geopackage {
         // get extent of feature collection
 
         ReferencedEnvelope envelope = collection.getBounds();
+
+        Extent extent = new Extent();
+        extent.west = envelope.getMinX();
+        extent.east = envelope.getMaxX();
+        extent.south = envelope.getMinY();
+        extent.north = envelope.getMaxY();
+
+        return extent;
+    }
+
+    Extent getExtentReproject(SimpleFeatureCollection collection) {
+        // get extent of feature collection while reprojected
+
+        CoordinateReferenceSystem srcCRS = collection.getSchema().getCoordinateReferenceSystem();
+        Envelope envelope = new Envelope();
+
+        try {
+            SimpleFeatureIterator collectionIterator = collection.features();
+            while (collectionIterator.hasNext()) {
+                // loop over all features and extent envelope
+                SimpleFeature simpleFeature = collectionIterator.next();
+
+                // transformation to target projection
+                MathTransform mathTransform = CRS.findMathTransform(srcCRS, DefaultGeographicCRS.WGS84, true);
+                Geometry geometryAct = (Geometry) simpleFeature.getDefaultGeometry();
+                Geometry geometryActTransform = JTS.transform(geometryAct.getBoundary(), mathTransform);
+                envelope.expandToInclude(geometryActTransform.getEnvelopeInternal());
+            }
+            collectionIterator.close();
+
+        } catch (FactoryException | TransformException e) {
+            System.out.println(e.getMessage());
+        }
 
         Extent extent = new Extent();
         extent.west = envelope.getMinX();

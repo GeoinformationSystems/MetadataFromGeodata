@@ -80,7 +80,22 @@ The metadataFromGeodata project is structured into several packages:
   content via metadata_id
 - metadata content table (e.g., exampleGeo_gpkg_1_metadata) summarizes all metadata content
 - properties allows future extensions
-  
+
+
+## Extracted Metadata Elements
+The following measures can be extracted. The specific quantities depend on the input format.
+
+- *Basic Information*: user name, role, uid, description, file creation date, last update
+- *Reference System*: spatial reference system (SRS) defining organization, SRS ID, SRS description
+- *Structure of Spatial Data*: metadata creation date, spatial representation type, environmental description, geographical
+  extent in source SRS, geographical extent in standard SRS (WGS84, EPSG:4326)
+- *Data Quality*: counts and rates of missing items per attribute, counts and rates of excess items, polygons per area,
+  count of temporal units, count of thematic units, empirical distribution parameters of various combinations of spatial-
+  temporal-thematic units
+- *Metadata Contact*: link to ISO standard
+
+
+
 
 ## Java Libraries
 - commons-io 2.7 - Apache 2.0 license

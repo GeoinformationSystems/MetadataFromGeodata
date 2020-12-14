@@ -105,6 +105,8 @@ public class GeopackageMetadata implements Metadata {
         gpkg.getPolygonPerArea(areaKm2UTM);
 
         // get (1) basic information
+        System.out.println("Basic Information:");
+
         CI_Individual ciIndividual = new CI_Individual();
         ciIndividual.addName(System.getProperty("user.name"));
         ciIndividual.finalizeClass();
@@ -143,6 +145,8 @@ public class GeopackageMetadata implements Metadata {
 
 
         // get (2) reference system
+        System.out.println("Reference System:");
+
         Integer srsID = gpkg.getSRSID(gpkg.statement, contentAct);
         String srsOrganization = gpkg.getSRSOrganization(gpkg.statement, srsID);
         Integer srsOrganizationCoordsysID = gpkg.getSRSOrganizationCoordsysID(gpkg.statement, srsID);
@@ -154,8 +158,14 @@ public class GeopackageMetadata implements Metadata {
         mdIdentifier_MD_ReferenceSystem.addDescription(srsName);
         mdIdentifier_MD_ReferenceSystem.finalizeClass();
 
+        MD_ReferenceSystem mdReferenceSystem = new MD_ReferenceSystem();
+        mdReferenceSystem.addReferenceSystemIdentifier(mdIdentifier_MD_ReferenceSystem);
+        mdReferenceSystem.finalizeClass();
+
 
         // get (3) structure of spatial data
+        System.out.println("Structure of Spatial Data:");
+
         String now = ZonedDateTime.now(ZoneOffset.UTC).format(DateTimeFormatter.ISO_INSTANT);
 
         CI_Date ciDate = new CI_Date();
@@ -182,10 +192,15 @@ public class GeopackageMetadata implements Metadata {
 
                 // get spatial extent
                 extentOrigCRS = gpkg.getExtent(gpkg.collection);
-                extent = gpkg.getExtent(gpkg.collectionTransform);
+                if (gpkg.markerTransform && gpkg.polygonSwitch) {
+                    extent = gpkg.getExtentReproject(gpkg.collection);
+                } else if (gpkg.markerTransform) {
+                    extent = gpkg.getExtent(gpkg.collectionTransform);
+                } else {
+                    extent = gpkg.getExtent(gpkg.collection);
+                }
 
                 break;
-
             case "2d-gridded-coverage":
                 extentOrigCRS = gpkg.getExtent(gpkg.statement, contentAct);
                 extent = extentOrigCRS; // TODO: insert correct transforming of CRS in case of raster data
@@ -235,11 +250,13 @@ public class GeopackageMetadata implements Metadata {
 
 
         // get (4) data quality
+        System.out.println("Data Quality:");
+
         DQ_DataQuality dqDataQuality = new DQ_DataQuality();
         if (gpkg.polygonSwitch) {
             DQ_MeasureReference dqMeasureReference = new DQ_MeasureReference();
             dqMeasureReference.addNameOfMeasure("polygons per area");
-            dqMeasureReference.addMeasureDescription("Number of polygons per 1000 square kilometer." +
+            dqMeasureReference.addMeasureDescription("Number of polygons per 1000 square kilometer. " +
                     "Area size summarized by all polygons, regardless of overlapping.");
             dqMeasureReference.finalizeClass();
 
@@ -274,6 +291,8 @@ public class GeopackageMetadata implements Metadata {
 
 
         // get (5) metadata contact
+        System.out.println("Metadata Contact:");
+
         CI_Citation ciCitationMetadataStandard = new CI_Citation();
         ciCitationMetadataStandard.addTitle("ISO 19115-1");
         ciCitationMetadataStandard.addEdition("First edition 2014-04-01");
@@ -290,6 +309,7 @@ public class GeopackageMetadata implements Metadata {
         mdMetadata.addDateInfo(ciDateCreation);
         mdMetadata.addDateInfo(ciDateLastModified);
         mdMetadata.addIdentificationInfo(mdDataIdentification);
+        mdMetadata.addReferenceSystemInfo(mdReferenceSystem);
         mdMetadata.addMetadataStandard(ciCitationMetadataStandard);
         if (gpkg.polygonSwitch) {
             mdMetadata.addDataQualityInfo(dqDataQuality);

@@ -12,14 +12,11 @@ import org.geotools.data.FileDataStoreFinder;
 import org.geotools.data.simple.SimpleFeatureCollection;
 import org.geotools.data.simple.SimpleFeatureIterator;
 import org.geotools.data.store.ReprojectingFeatureCollection;
-import org.geotools.feature.FeatureCollection;
 import org.geotools.geometry.jts.JTS;
-import org.geotools.geometry.jts.ReferencedEnvelope;
 import org.geotools.referencing.CRS;
 import org.geotools.referencing.crs.DefaultGeographicCRS;
 import org.locationtech.jts.geom.*;
 import org.opengis.feature.simple.SimpleFeature;
-import org.opengis.feature.simple.SimpleFeatureType;
 import org.opengis.referencing.FactoryException;
 import org.opengis.referencing.crs.CoordinateReferenceSystem;
 import org.opengis.referencing.operation.MathTransform;
@@ -27,6 +24,8 @@ import org.opengis.referencing.operation.TransformException;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.attribute.BasicFileAttributes;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
@@ -46,6 +45,31 @@ public class ShapeMetadata implements Metadata {
 
     public DS_Resource getMetadata() {
         // read shape file and put its metadata into DS_Resource
+        //
+        // order of classes according to MD_Metadata:
+        // metadataIdentifier:           1 basicInformation
+        // defaultLocale:                1 basicInformation
+        // parentMetadata:               1 basicInformation
+        // contact:                      1 basicInformation
+        // dateInfo:                     1 basicInformation
+        // metadataStandard:             5 metadataContact
+        // metadataProfile:              5 metadataContact
+        // alternativeMetadataReference: 5 metadataContact
+        // otherLocale:                  1 basicInformation
+        // metadataLinkage:              1 basicInformation
+        // spatialRepresentationInfo:    3 structureOfSpatialData
+        // referenceSystemInfo:          2 referenceSystem
+        // metadataExtensionInfo:        5 metadataContact
+        // identificationInfo:           3 structureOfSpatialData
+        // contentInfo:                  3 structureOfSpatialData
+        // distributionInfo:             1 basicInformation
+        // dataQualityInfo:              4 dataQuality
+        // portrayalCatalogueInfo:       5 metadataContact
+        // metadataConstraints:          1 basicInformation
+        // applicationSchemaInfo:        5 metadataContact
+        // metadataMaintenance:          5 metadataContact
+        // resourceLineage:              6 provenance
+        // metadataScope:                5 metadataContact
 
         File file = new File(fileName);
 
@@ -61,12 +85,22 @@ public class ShapeMetadata implements Metadata {
             // transform to WGS84 for standard extent lon/lat
             if (!mathTransform.isIdentity()) {
                 markerTransform = true;
-                // TODO: no transformation, but gather boundaries including single feature transformation!
                 collectionTransform = project(collection, "epsg:4326");
             } else {
                 markerTransform = false;
                 collectionTransform = collection;
             }
+
+            // find out whether we have a polygon or points
+            SimpleFeatureIterator iterator = collection.features();
+            SimpleFeature simpleFeature = iterator.next();
+            String geometryType = simpleFeature.getDefaultGeometry().toString().toLowerCase();
+            boolean markerPoint = geometryType.contains("point");
+            iterator.close();
+
+
+            // get (1) basic information
+            System.out.println("Basic Information:");
 
             CI_Individual ciIndividual = new CI_Individual();
             ciIndividual.addName(System.getProperty("user.name"));
@@ -82,14 +116,27 @@ public class ShapeMetadata implements Metadata {
             mdIdentifier.addCode(identifierCode);
             mdIdentifier.finalizeClass();
 
+            ZonedDateTime creation = ZonedDateTime.parse(Files.readAttributes(file.toPath(), BasicFileAttributes.class).creationTime().toString());
+            creation = creation.withZoneSameInstant(ZoneId.of("UTC")); // convert to UTC timezone
+            String creationString = creation.format(DateTimeFormatter.ISO_OFFSET_DATE_TIME); // datetime in ISO 8601 format
+
             ZonedDateTime lastModified = ZonedDateTime.ofInstant(Instant.ofEpochMilli(file.lastModified()), ZoneId.systemDefault()); // local timezone
             lastModified = lastModified.withZoneSameInstant(ZoneId.of("UTC")); // convert to UTC timezone
             String lastModifiedString = lastModified.format(DateTimeFormatter.ISO_OFFSET_DATE_TIME); // datetime in ISO 8601 format
 
-            CI_Date ciDate_MD_Metadata = new CI_Date();
-            ciDate_MD_Metadata.addDateType(new CI_DateTypeCode(CI_DateTypeCode.CI_DateTypeCodes.creation));
-            ciDate_MD_Metadata.addDate(lastModifiedString);
-            ciDate_MD_Metadata.finalizeClass();
+            CI_Date ciDateCreation = new CI_Date();
+            ciDateCreation.addDateType(new CI_DateTypeCode(CI_DateTypeCode.CI_DateTypeCodes.creation));
+            ciDateCreation.addDate(creationString);
+            ciDateCreation.finalizeClass();
+
+            CI_Date ciDateLastModified = new CI_Date();
+            ciDateLastModified.addDateType(new CI_DateTypeCode(CI_DateTypeCode.CI_DateTypeCodes.lastUpdate));
+            ciDateLastModified.addDate(lastModifiedString);
+            ciDateLastModified.finalizeClass();
+
+
+            // get (2) reference system
+            System.out.println("Reference System:");
 
             // find correct epsg code for existing data
             String authority = "EPSG";
@@ -153,7 +200,19 @@ public class ShapeMetadata implements Metadata {
             mdReferenceSystem.addReferenceSystemIdentifier(mdIdentifier_MD_ReferenceSystem);
             mdReferenceSystem.finalizeClass();
 
-            Extent extent = getExtent(collectionTransform);
+
+            // get (3) structure of spatial data
+            System.out.println("Structure of Spatial Data:");
+
+            Extent extent;
+            if (markerTransform && !markerPoint) {
+                // polygons need finer granular reprojecting for extent calculation
+                extent = getExtentReproject(collection);
+            } else if (markerTransform) {
+                extent = getExtent(collectionTransform);
+            } else {
+                extent = getExtent(collection);
+            }
 
             EX_GeographicBoundingBox exGeographicBoundingBox = new EX_GeographicBoundingBox();
             exGeographicBoundingBox.addWestBoundLongitude(extent.west);
@@ -210,12 +269,32 @@ public class ShapeMetadata implements Metadata {
             mdDataIdentification.addExtent(exExtentOrigCRS);
             mdDataIdentification.finalizeClass();
 
+
+            // get (4) data quality
+            System.out.println("Data Quality:");
+
+
+            // get (5) metadata contact
+            System.out.println("Metadata Contact:");
+
+            CI_Citation ciCitationMetadataStandard = new CI_Citation();
+            ciCitationMetadataStandard.addTitle("ISO 19115-1");
+            ciCitationMetadataStandard.addEdition("First edition 2014-04-01");
+            ciCitationMetadataStandard.finalizeClass();
+
+
+            // get (6) provenance
+
+
+            // aggregate all data in MD_Metadata
             MD_Metadata mdMetadata = new MD_Metadata();
             mdMetadata.addContact(ciResponsibility);
             mdMetadata.addMetadataIdentifier(mdIdentifier);
+            mdMetadata.addDateInfo(ciDateCreation);
+            mdMetadata.addDateInfo(ciDateLastModified);
             mdMetadata.addIdentificationInfo(mdDataIdentification);
-            mdMetadata.addDateInfo(ciDate_MD_Metadata);
             mdMetadata.addReferenceSystemInfo(mdReferenceSystem);
+            mdMetadata.addMetadataStandard(ciCitationMetadataStandard);
             mdMetadata.finalizeClass();
 
             System.out.println();
@@ -266,8 +345,40 @@ public class ShapeMetadata implements Metadata {
     private Extent getExtent(SimpleFeatureCollection collection) {
         // get extent of feature collection
 
+        Envelope envelope = collection.getBounds();
+
+        Extent extent = new Extent();
+        extent.west = envelope.getMinX();
+        extent.east = envelope.getMaxX();
+        extent.south = envelope.getMinY();
+        extent.north = envelope.getMaxY();
+
+        return extent;
+    }
+
+    private Extent getExtentReproject(SimpleFeatureCollection collection) {
+        // get extent of feature collection while reprojected
+
+        CoordinateReferenceSystem srcCRS = collection.getSchema().getCoordinateReferenceSystem();
         Envelope envelope = new Envelope();
-        envelope = collection.getBounds();
+
+        try {
+            SimpleFeatureIterator collectionIterator = collection.features();
+            while (collectionIterator.hasNext()) {
+                // loop over all features and extent envelope
+                SimpleFeature simpleFeature = collectionIterator.next();
+
+                // transformation to target projection
+                MathTransform mathTransform = CRS.findMathTransform(srcCRS, DefaultGeographicCRS.WGS84, true);
+                Geometry geometryAct = (Geometry) simpleFeature.getDefaultGeometry();
+                Geometry geometryActTransform = JTS.transform(geometryAct.getBoundary(), mathTransform);
+                envelope.expandToInclude(geometryActTransform.getEnvelopeInternal());
+            }
+            collectionIterator.close();
+
+        } catch (FactoryException | TransformException e) {
+            System.out.println(e.getMessage());
+        }
 
         Extent extent = new Extent();
         extent.west = envelope.getMinX();

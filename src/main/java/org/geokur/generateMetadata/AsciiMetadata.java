@@ -280,6 +280,8 @@ public class AsciiMetadata implements Metadata {
             ///////////////////////////////////
 
             // get (1) basic information
+            System.out.println("Basic Information:");
+
             String identifierCode = "pid:" + UUID.randomUUID().toString();
 
             MD_Identifier mdIdentifier = new MD_Identifier();
@@ -308,9 +310,12 @@ public class AsciiMetadata implements Metadata {
 
 
             // get (2) reference system
+            System.out.println("Reference System:");
 
 
             // get (3) structure of spatial data
+            System.out.println("Structure of Spatial Data:");
+
             String now = ZonedDateTime.now(ZoneOffset.UTC).format(DateTimeFormatter.ISO_INSTANT);
 
             CI_Date ciDate = new CI_Date();
@@ -339,6 +344,8 @@ public class AsciiMetadata implements Metadata {
 
 
             // get (4) data quality
+            System.out.println("Data Quality:");
+
             // completenessOmission of data in attribute rows - count of missing data
             List<DQ_CompletenessOmission> dqCompletenessOmissionsCount = new ArrayList<>();
             for (int i = 0; i < csvNumAssessment; i++) {
@@ -489,6 +496,8 @@ public class AsciiMetadata implements Metadata {
 
 
             // get (5) metadata contact
+            System.out.println("Metadata Contact:");
+
             CI_Citation ciCitationMetadataStandard = new CI_Citation();
             ciCitationMetadataStandard.addTitle("ISO 19115-1");
             ciCitationMetadataStandard.addEdition("First edition 2014-04-01");

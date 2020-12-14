@@ -85,7 +85,7 @@ public class MetadataGenerator {
         }
 
         // order xml file to SQLite database
-        // read xml file with JDOM2 library in order to get a document
+        // read xml file with JDOM2 library in order to get a documentl
         try {
             Document doc = new SAXBuilder().build(properties.filenameXml);
             Element docRoot = doc.getRootElement();
