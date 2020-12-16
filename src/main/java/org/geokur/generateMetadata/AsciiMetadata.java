@@ -187,7 +187,7 @@ public class AsciiMetadata implements Metadata {
             gpkg.open(geoTableNameAct);
             gpkg.getCenterArea();
             double polygonPerArea;
-            if (gpkg.polygonSwitch) {
+            if (gpkg.geometryType.equals("polygon")) {
                 List<FeatureDescriptor> featureDescriptors = gpkg.getCenterArea();
                 List<Integer> featureDescriptorsUsed = new ArrayList<>();
                 double areaKm2UTM = 0.0;
@@ -380,7 +380,7 @@ public class AsciiMetadata implements Metadata {
 
             // metaquality - number of polygons per area
             DQ_Representativity dqRepresentativitySpatial = new DQ_Representativity();
-            if (gpkg.polygonSwitch) {
+            if (gpkg.geometryType.equals("polygon")) {
                 DQ_MeasureReference dqMeasureReference = new DQ_MeasureReference();
                 dqMeasureReference.addNameOfMeasure("polygons per area");
                 dqMeasureReference.addMeasureDescription("Number of polygons per 1000 square kilometer. " +
@@ -473,7 +473,7 @@ public class AsciiMetadata implements Metadata {
                 dqDataQuality.addReport(dqCompletenessCommission);
             }
 
-            if (gpkg.polygonSwitch) {
+            if (gpkg.geometryType.equals("polygon")) {
                 dqDataQuality.addReport(dqRepresentativitySpatial);
             }
             for (DQ_Representativity dqRepresentativityTemporal : dqRepresentativitiesTemporal) {

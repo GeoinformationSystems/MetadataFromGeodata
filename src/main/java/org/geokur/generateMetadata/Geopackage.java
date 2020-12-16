@@ -40,8 +40,12 @@ public class Geopackage {
     SimpleFeatureCollection collectionTransform;
     CoordinateReferenceSystem srcCRS;
     String srcCRSepsg;
+    String geometryType = "geometry";
     boolean markerTransform;
-    boolean polygonSwitch;
+    List<Geometry> geometriesOrig = new ArrayList<>();
+    List<Geometry> geometriesWGS84 = new ArrayList<>();
+    List<Geometry> geometriesUTM = new ArrayList<>();
+    List<Integer> zonesUTM = new ArrayList<>();
     double polygonPerKm2;
 
     public Geopackage(String fileName) {
@@ -114,6 +118,24 @@ public class Geopackage {
                 collectionTransform = collection;
                 srcCRSepsg = "4326";
             }
+
+            // get type of geometry
+            SimpleFeatureIterator collectionIterator = collection.features();
+            SimpleFeature simpleFeature = collectionIterator.next();
+            String geometryTypeString = simpleFeature.getDefaultGeometry().toString().toLowerCase();
+            if (geometryTypeString.contains("polygon")) {
+                geometryType = "polygon";
+            } else if (geometryTypeString.contains("line")) {
+                geometryType = "line";
+            } else if (geometryTypeString.contains("point")) {
+                geometryType = "point";
+            }
+            collectionIterator.close();
+
+            // reproject data
+            projectToWGS84();
+            projectToUTM();
+
         } catch (IOException | FactoryException e) {
             System.out.println(e.getMessage());
         }
@@ -163,16 +185,68 @@ public class Geopackage {
             } catch (FactoryException ignored) {
             }
         }
-        System.out.println();
         int idxMatching = matchingLevenshteinDistance.indexOf(Collections.min(matchingLevenshteinDistance));
         srcCRSepsg = matchingEPSGCode.get(idxMatching);
+    }
+
+    private int findUTMZone(Geometry geometry) {
+        // find correct UTM zone for areal and other calculations
+
+        int zoneUTM;
+        zoneUTM = (int) Math.ceil((geometry.getCentroid().getX() + 180) / 6);
+        if (zoneUTM == 0) {
+            zoneUTM = 1;
+        }
+
+        return zoneUTM;
+    }
+
+    private void projectToWGS84() {
+        // reproject to WGS84 if necessary
+
+        SimpleFeatureIterator iterator = collection.features();
+        CoordinateReferenceSystem srcCRS = collection.getSchema().getCoordinateReferenceSystem();
+        try {
+            MathTransform mathTransformWGS84 = CRS.findMathTransform(srcCRS, DefaultGeographicCRS.WGS84, true);
+
+            int ct = -1;
+            while (iterator.hasNext()) {
+                ct++;
+                SimpleFeature simpleFeature = iterator.next();
+                geometriesOrig.add((Geometry) simpleFeature.getDefaultGeometry());
+                if (!markerTransform) {
+                    geometriesWGS84.add(geometriesOrig.get(ct));
+                } else {
+                    geometriesWGS84.add(JTS.transform(geometriesOrig.get(ct), mathTransformWGS84));
+                }
+                zonesUTM.add(findUTMZone(geometriesWGS84.get(ct)));
+            }
+            iterator.close();
+
+        } catch (FactoryException | TransformException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    private void projectToUTM() {
+        // reproject to UTM at correct zone
+
+        // always use EPSG code for south hemisphere (no negative coordinates possible)
+        try {
+            for (int i = 0; i < geometriesWGS84.size(); i++) {
+                CoordinateReferenceSystem UTMCRS = CRS.decode("EPSG:" + "327" + String.format("%02d", zonesUTM.get(i)));
+                MathTransform mathTransformUTM = CRS.findMathTransform(DefaultGeographicCRS.WGS84, UTMCRS, true);
+                geometriesUTM.add(JTS.transform(geometriesWGS84.get(i), mathTransformUTM));
+            }
+        } catch (FactoryException | TransformException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     List<FeatureDescriptor> getCenterArea() {
         // get centerpoints and area approximations of polygons
         // further get attributes
 
-        polygonSwitch = true;
         List<FeatureDescriptor> featureDescriptors = new ArrayList<>();
 
         // get names of attributes
@@ -195,7 +269,7 @@ public class Geopackage {
         double areaKm2UTM = 0.0;
 
         try {
-            SimpleFeatureIterator collectionIterator = collectionTransform.features(); // always refer to WGS84
+            SimpleFeatureIterator collectionIterator = collection.features();
             int ct2 = -1;
             while (collectionIterator.hasNext()) {
                 // loop over all features in particular table in geopackage
@@ -208,13 +282,22 @@ public class Geopackage {
                     // get attributes of actual feature
                     attributeValues.add(simpleFeature.getAttribute(attributeAct).toString());
                 }
-                centerWGS84 = ((Geometry) simpleFeature.getDefaultGeometry()).getCentroid();
+
+                Geometry geometryActWGS84;
+                if (markerTransform) {
+                    // fine granular transformation to EPSG:4326
+                    CoordinateReferenceSystem srcCRS = collection.getSchema().getCoordinateReferenceSystem();
+                    MathTransform mathTransformWGS84 = CRS.findMathTransform(srcCRS, DefaultGeographicCRS.WGS84, true);
+                    Geometry geometryAct = (Geometry) simpleFeature.getDefaultGeometry();
+                    geometryActWGS84 = JTS.transform(geometryAct.getBoundary(), mathTransformWGS84);
+                } else {
+                    // no transformation necessary
+                    geometryActWGS84 = (Geometry) simpleFeature.getDefaultGeometry();
+                }
+
+                centerWGS84 = geometryActWGS84.getCentroid();
                 double areaDegWGS84 = ((Geometry) simpleFeature.getDefaultGeometry()).getArea();
                 areaKm2WGS84 = Math.toRadians(areaDegWGS84) * 637100; // approximation from degree area (WGS84) to km^2
-                if (areaDegWGS84 == 0.0) {
-                    // assumed not to be polygon
-                    polygonSwitch = false;
-                }
 
                 // transformation to UTM projection for better area calculation
                 // get UTM zone and valid transformation
@@ -226,33 +309,16 @@ public class Geopackage {
                 CoordinateReferenceSystem UTMCRS = CRS.decode("EPSG:" + "327" + String.format("%02d", zoneUTM));
                 MathTransform mathTransformUTM = CRS.findMathTransform(DefaultGeographicCRS.WGS84, UTMCRS, true);
 
-                if (polygonSwitch) {
-                    // transform polygon geometry to valid UTM zone and calculate area
-                    Geometry geometryAct = (Geometry) simpleFeature.getDefaultGeometry();
-                    Geometry geometryActUTM = JTS.transform(geometryAct.getBoundary(), mathTransformUTM);
-                    Coordinate[] coordinates = geometryActUTM.getCoordinates();
-                    int coordinatesLast = coordinates.length - 1;
-                    Coordinate[] coordinatesClosed = null;
-                    if (coordinates[0] != coordinates[coordinatesLast]) {
-                        // coordinates necessarily have to form a closed ring
-                        if (Math.abs(coordinates[0].x - coordinates[coordinatesLast].x) <= 2e-16 &&
-                                Math.abs(coordinates[0].y - coordinates[coordinatesLast].y) <= 2e-16) {
-                            // basically the same values, but not identical
-                            coordinatesClosed = coordinates;
-                            coordinatesClosed[coordinatesLast] = coordinatesClosed[0];
-                        } else {
-                            // close polygon ring with adding the first coordinate
-                            coordinatesClosed = new Coordinate[coordinates.length + 1];
-                            System.arraycopy(coordinates, 0, coordinatesClosed, 0, coordinates.length);
-                            coordinatesClosed[coordinates.length] = coordinates[0];
-                        }
-                    }
-                    GeometryFactory geometryFactory = new GeometryFactory();
-                    Polygon polygon = geometryFactory.createPolygon(coordinatesClosed);
+                // transform polygon geometry to valid UTM zone and calculate area
+                Geometry geometryActUTM = JTS.transform(geometryActWGS84, mathTransformUTM);
+                Coordinate[] coordinates = geometryActUTM.getCoordinates();
+                Coordinate[] coordinatesClosed = getCoordinatesClosed(coordinates);
+                GeometryFactory geometryFactory = new GeometryFactory();
+                Polygon polygon = geometryFactory.createPolygon(coordinatesClosed);
 
-                    centerUTM = polygon.getCentroid();
-                    areaKm2UTM = polygon.getArea() / 1e6;
-                }
+                centerUTM = polygon.getCentroid();
+                areaKm2UTM = polygon.getArea() / 1e6;
+
                 FeatureDescriptor featureDescriptor = new FeatureDescriptor(ct2, centerWGS84, centerUTM, areaKm2WGS84,
                         areaKm2UTM, attributeNames, attributeValues);
                 featureDescriptors.add(featureDescriptor);
@@ -266,11 +332,54 @@ public class Geopackage {
         return featureDescriptors;
     }
 
+    double getResolution() {
+        // get resolution
+        // polygons: median of distance between adjacent border points over all polygons
+        // TODO: lines: median of distance between adjacent line points over all lines
+        // TODO: points: median of distance between all 2-point combinations
+
+        List<Double> distances = new ArrayList<>();
+
+        try {
+            SimpleFeatureIterator collectionIterator = collection.features();
+            while (collectionIterator.hasNext()) {
+                // loop over all features in particular table in geopackage
+
+                SimpleFeature simpleFeature = collectionIterator.next();
+
+                Point centerWGS84 = ((Geometry) simpleFeature.getDefaultGeometry()).getCentroid();
+
+                // transformation to UTM projection for better area calculation
+                // get UTM zone and valid transformation
+                int zoneUTM = (int) Math.ceil((centerWGS84.getX() + 180) / 6);
+                if (zoneUTM == 0) {
+                    zoneUTM = 1;
+                }
+                // always use EPSG code for south hemisphere (no negative coordinates possible)
+                CoordinateReferenceSystem UTMCRS = CRS.decode("EPSG:" + "327" + String.format("%02d", zoneUTM));
+                MathTransform mathTransformUTM = CRS.findMathTransform(DefaultGeographicCRS.WGS84, UTMCRS, true);
+
+                if (geometryType.equals("polygon")) {
+                    // transform polygon geometry to valid UTM zone and calculate area
+                    Geometry geometryAct = (Geometry) simpleFeature.getDefaultGeometry();
+                    Geometry geometryActUTM = JTS.transform(geometryAct.getBoundary(), mathTransformUTM);
+                    Coordinate[] coordinates = geometryActUTM.getCoordinates();
+                }
+            }
+            collectionIterator.close();
+
+        } catch (FactoryException | TransformException e) {
+            System.out.println(e.getMessage());
+        }
+
+        return 1.0;
+    }
+
     void getPolygonPerArea(List<Double> areaKm2UTMAll) {
         // get quality criteria as number of polygons per 1000 square kilometer
 
         polygonPerKm2 = 0;
-        if (polygonSwitch) {
+        if (geometryType.equals("polygon")) {
             double areaKm2UTMAllSum = 0;
             for (double areaAct : areaKm2UTMAll) {
                 areaKm2UTMAllSum = areaKm2UTMAllSum + areaAct;
@@ -344,6 +453,29 @@ public class Geopackage {
             System.out.println(e.getMessage());
         }
         return outCollection;
+    }
+
+    Coordinate[] getCoordinatesClosed(Coordinate[] coordinates) {
+        // close coordinate rings for full polygons
+        // TODO: handle multipolygons
+
+        int coordinatesLast = coordinates.length - 1;
+        Coordinate[] coordinatesClosed = null;
+        if (coordinates[0] != coordinates[coordinatesLast]) {
+            // coordinates necessarily have to form a closed ring
+            if (Math.abs(coordinates[0].x - coordinates[coordinatesLast].x) <= 2e-16 &&
+                    Math.abs(coordinates[0].y - coordinates[coordinatesLast].y) <= 2e-16) {
+                // basically the same values, but not identical
+                coordinatesClosed = coordinates;
+                coordinatesClosed[coordinatesLast] = coordinatesClosed[0];
+            } else {
+                // close polygon ring with adding the first coordinate
+                coordinatesClosed = new Coordinate[coordinates.length + 1];
+                System.arraycopy(coordinates, 0, coordinatesClosed, 0, coordinates.length);
+                coordinatesClosed[coordinates.length] = coordinates[0];
+            }
+        }
+        return coordinatesClosed;
     }
 
     String getDescription(Statement stmt, Integer contentAct) {

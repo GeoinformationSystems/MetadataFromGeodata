@@ -9,6 +9,8 @@ profile = config/profile_GeoKur.json
 
 ## filename of geodata
 geodata = examples/exampleGeo.gpkg
+# geodata = examples/exampleGeoPointLine.gpkg
+# geodata = examples/exampleGeoETRS.gpkg
 # geodata = examples/exampleGeoTable.csv
 # geodata = examples/exampleGeoShp.shp
 # geodata = examples/exampleGeoShpETRS.shp

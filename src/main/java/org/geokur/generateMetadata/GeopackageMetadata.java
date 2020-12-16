@@ -97,12 +97,15 @@ public class GeopackageMetadata implements Metadata {
 
         Geopackage gpkg = new Geopackage(fileName, contentAct);
         gpkg.open();
-        List<FeatureDescriptor> featureDescriptors = gpkg.getCenterArea();
-        List<Double> areaKm2UTM = new ArrayList<>();
-        for (FeatureDescriptor featureDescriptor : featureDescriptors) {
-            areaKm2UTM.add(featureDescriptor.getAreaKm2UTM());
+        if (gpkg.geometryType.equals("polygon")) {
+            List<FeatureDescriptor> featureDescriptors = gpkg.getCenterArea();
+            List<Double> areaKm2UTM = new ArrayList<>();
+            for (FeatureDescriptor featureDescriptor : featureDescriptors) {
+                areaKm2UTM.add(featureDescriptor.getAreaKm2UTM());
+            }
+            gpkg.getPolygonPerArea(areaKm2UTM);
         }
-        gpkg.getPolygonPerArea(areaKm2UTM);
+//        gpkg.getResolution();
 
         // get (1) basic information
         System.out.println("Basic Information:");
@@ -192,7 +195,7 @@ public class GeopackageMetadata implements Metadata {
 
                 // get spatial extent
                 extentOrigCRS = gpkg.getExtent(gpkg.collection);
-                if (gpkg.markerTransform && gpkg.polygonSwitch) {
+                if (gpkg.markerTransform && gpkg.geometryType.equals("polygon")) {
                     extent = gpkg.getExtentReproject(gpkg.collection);
                 } else if (gpkg.markerTransform) {
                     extent = gpkg.getExtent(gpkg.collectionTransform);
@@ -253,7 +256,7 @@ public class GeopackageMetadata implements Metadata {
         System.out.println("Data Quality:");
 
         DQ_DataQuality dqDataQuality = new DQ_DataQuality();
-        if (gpkg.polygonSwitch) {
+        if (gpkg.geometryType.equals("polygon")) {
             DQ_MeasureReference dqMeasureReference = new DQ_MeasureReference();
             dqMeasureReference.addNameOfMeasure("polygons per area");
             dqMeasureReference.addMeasureDescription("Number of polygons per 1000 square kilometer. " +
@@ -311,7 +314,7 @@ public class GeopackageMetadata implements Metadata {
         mdMetadata.addIdentificationInfo(mdDataIdentification);
         mdMetadata.addReferenceSystemInfo(mdReferenceSystem);
         mdMetadata.addMetadataStandard(ciCitationMetadataStandard);
-        if (gpkg.polygonSwitch) {
+        if (gpkg.geometryType.equals("polygon")) {
             mdMetadata.addDataQualityInfo(dqDataQuality);
         }
         mdMetadata.finalizeClass();
