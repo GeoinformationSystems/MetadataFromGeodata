@@ -11,6 +11,9 @@ Thus, the created XML files can be used as inputs for (geographic) metadata cata
 A xml file stores all read metadata and additionally a flattened sqlite database is generated. 
 The latter serves as an extension point to generate output in other standard compliant formats.
 
+This project is one result of the project GeoKur. Look at the project page https://geokur.geo.tu-dresden.de/ for further
+information.
+
 
 ## Usage
 Use the IDE of your choice and build, e.g., a jar file. The package needs one argument - the filename of a property file.
@@ -110,7 +113,7 @@ The following measures can be extracted. The specific quantities depend on the i
 
 ## Known Limits/Bugs
 - only geopackages are allowed as geographic source for ascii files
-- currently coordinate reference system other than EPSG:4326 are not working due to failing transformations
+- resolution is still work in progress
 
 
 ## License
