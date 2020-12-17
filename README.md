@@ -88,7 +88,7 @@ The following measures can be extracted. The specific quantities depend on the i
 - *Basic Information*: user name, role, uid, description, file creation date, last update
 - *Reference System*: spatial reference system (SRS) defining organization, SRS ID, SRS description
 - *Structure of Spatial Data*: metadata creation date, spatial representation type, environmental description, geographical
-  extent in source SRS, geographical extent in standard SRS (WGS84, EPSG:4326)
+  extent in source SRS, geographical extent in standard SRS (WGS84, EPSG:4326), median resolution
 - *Data Quality*: counts and rates of missing items per attribute, counts and rates of excess items, polygons per area,
   count of temporal units, count of thematic units, empirical distribution parameters of various combinations of spatial-
   temporal-thematic units

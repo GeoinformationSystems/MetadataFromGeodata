@@ -105,7 +105,6 @@ public class GeopackageMetadata implements Metadata {
             }
             gpkg.getPolygonPerArea(areaKm2UTM);
         }
-//        gpkg.getResolution();
 
         // get (1) basic information
         System.out.println("Basic Information:");
@@ -202,6 +201,16 @@ public class GeopackageMetadata implements Metadata {
                 } else {
                     extent = gpkg.getExtent(gpkg.collection);
                 }
+
+                // get spatial resolution
+                MD_Resolution mdResolutionVal = new MD_Resolution();
+                mdResolutionVal.addDistance(gpkg.getResolution());
+                mdResolutionVal.finalizeClass();
+                MD_Resolution mdResolutionDesc = new MD_Resolution();
+                mdResolutionDesc.addLevelOfDetail("Median distance between points, either border points (polygon and line) or single features (point); given in meter ");
+                mdResolutionDesc.finalizeClass();
+                mdDataIdentification.addSpatialResolution(mdResolutionVal);
+                mdDataIdentification.addSpatialResolution(mdResolutionDesc);
 
                 break;
             case "2d-gridded-coverage":
