@@ -206,11 +206,7 @@ public class GeopackageMetadata implements Metadata {
                 MD_Resolution mdResolutionVal = new MD_Resolution();
                 mdResolutionVal.addDistance(gpkg.getResolution());
                 mdResolutionVal.finalizeClass();
-                MD_Resolution mdResolutionDesc = new MD_Resolution();
-                mdResolutionDesc.addLevelOfDetail("Median distance between points, either border points (polygon and line) or single features (point); given in meter ");
-                mdResolutionDesc.finalizeClass();
                 mdDataIdentification.addSpatialResolution(mdResolutionVal);
-                mdDataIdentification.addSpatialResolution(mdResolutionDesc);
 
                 break;
             case "2d-gridded-coverage":

@@ -42,10 +42,12 @@ public class Geopackage {
     String srcCRSepsg;
     String geometryType = "geometry";
     boolean markerTransform;
-    List<Geometry> geometriesOrig = new ArrayList<>();
-    List<Geometry> geometriesWGS84 = new ArrayList<>();
-    List<Geometry> geometriesUTM = new ArrayList<>();
+    List<Geometry> geometriesOrig = new ArrayList<>(); // geometries in original CRS
+    List<Geometry> geometriesWGS84 = new ArrayList<>(); // geometries in EPSG:4326
+    List<Geometry> geometriesUTM = new ArrayList<>(); // geometries in best fitting UTM zone (ETRS89)
+    List<Geometry> geometriesUTMStandard = new ArrayList<>(); // like UTM, but with one zone only for resolution calculation
     List<Integer> zonesUTM = new ArrayList<>();
+    int zoneUTMStandard;
     double polygonPerKm2;
 
     public Geopackage(String fileName) {
@@ -223,6 +225,8 @@ public class Geopackage {
             }
             iterator.close();
 
+            zoneUTMStandard = median(zonesUTM.toArray(new Integer[0]));
+
         } catch (FactoryException | TransformException e) {
             System.out.println(e.getMessage());
         }
@@ -236,7 +240,19 @@ public class Geopackage {
             for (int i = 0; i < geometriesWGS84.size(); i++) {
                 CoordinateReferenceSystem UTMCRS = CRS.decode("EPSG:" + "327" + String.format("%02d", zonesUTM.get(i)));
                 MathTransform mathTransformUTM = CRS.findMathTransform(DefaultGeographicCRS.WGS84, UTMCRS, true);
-                geometriesUTM.add(JTS.transform(geometriesWGS84.get(i), mathTransformUTM));
+                if (geometryType.equals("polygon")) {
+                    geometriesUTM.add(JTS.transform(geometriesWGS84.get(i).getBoundary(), mathTransformUTM));
+                } else {
+                    geometriesUTM.add(JTS.transform(geometriesWGS84.get(i), mathTransformUTM));
+                }
+
+                CoordinateReferenceSystem UTMCRSStandard = CRS.decode("EPSG:" + "327" + String.format("%02d", zoneUTMStandard));
+                MathTransform mathTransformUTMStandard = CRS.findMathTransform(DefaultGeographicCRS.WGS84, UTMCRSStandard, true);
+                if (geometryType.equals("polygon")) {
+                    geometriesUTMStandard.add(JTS.transform(geometriesWGS84.get(i).getBoundary(), mathTransformUTMStandard));
+                } else {
+                    geometriesUTMStandard.add(JTS.transform(geometriesWGS84.get(i), mathTransformUTMStandard));
+                }
             }
         } catch (FactoryException | TransformException e) {
             System.out.println(e.getMessage());
@@ -269,10 +285,10 @@ public class Geopackage {
         double areaKm2UTM;
 
         SimpleFeatureIterator collectionIterator = collection.features();
-        int ct2 = -1;
+        ct = -1;
         while (collectionIterator.hasNext()) {
             // loop over all features in particular table in geopackage
-            ct2++;
+            ct++;
 
             List<String> attributeValues = new ArrayList<>();
 
@@ -294,7 +310,7 @@ public class Geopackage {
             centerUTM = polygon.getCentroid();
             areaKm2UTM = polygon.getArea() / 1e6;
 
-            FeatureDescriptor featureDescriptor = new FeatureDescriptor(ct2, centerWGS84, centerUTM, areaKm2WGS84,
+            FeatureDescriptor featureDescriptor = new FeatureDescriptor(ct, centerWGS84, centerUTM, areaKm2WGS84,
                     areaKm2UTM, attributeNames, attributeValues);
             featureDescriptors.add(featureDescriptor);
         }
@@ -306,7 +322,8 @@ public class Geopackage {
 
     double getResolution() {
         // get resolution
-        // polygons: median of distance between adjacent border points over all polygons
+        // polygons/lines: median of distance between adjacent border points over all polygons
+        // points: mean distance between points calculated as sqrt(A/n) - with area A of convex hull over all n points
 
         List<Double> distances = new ArrayList<>();
         if (geometryType.equals("polygon") || geometryType.equals("line")) {
@@ -314,25 +331,24 @@ public class Geopackage {
             for (Geometry geometryAct : geometriesUTM) {
                 Coordinate[] tmp = geometryAct.getCoordinates();
                 for (int i = 0; i < tmp.length - 1; i++) {
-                    distances.add(Math.sqrt(Math.pow(tmp[i].x - tmp[i + 1].x, 2) + Math.pow(tmp[i].y - tmp[i + 1].y, 2)));
+                    distances.add(Math.sqrt(Math.pow(tmp[i].x - tmp[i + 1].x, 2) + Math.pow(tmp[i].y - tmp[i + 1].y, 2)) / 1e3); // distance in km
                 }
             }
         } else {
             // for points
-            List<Double> xCoord = new ArrayList<>();
-            List<Double> yCoord = new ArrayList<>();
-            for (Geometry geometryAct : geometriesUTM) {
-                xCoord.add(geometryAct.getCoordinate().x);
-                yCoord.add(geometryAct.getCoordinate().y);
+            List<Coordinate> points = new ArrayList<>();
+            for (Geometry geometryAct : geometriesUTMStandard) {
+                points.add((new CoordinateXY(geometryAct.getCoordinate().x, geometryAct.getCoordinate().y)));
             }
-            for (int i = 0; i < xCoord.size() - 1; i++) {
-                for (int j = i + 1; j < xCoord.size(); j++) {
-                    distances.add(Math.sqrt(Math.pow(xCoord.get(i) - xCoord.get(j), 2) + Math.pow(yCoord.get(i) - yCoord.get(j), 2)));
-                }
-            }
+
+            Coordinate[] pointsConvHull = getConvexHull(points);
+            GeometryFactory geometryFactory = new GeometryFactory();
+            Polygon polygon = geometryFactory.createPolygon(pointsConvHull);
+
+            distances.add(Math.sqrt(polygon.getArea() / geometriesUTMStandard.size() / 1e6)); // distance in km
         }
 
-        return median(distances);
+        return median(distances.toArray(new Double[0]));
     }
 
     void getPolygonPerArea(List<Double> areaKm2UTMAll) {
@@ -704,23 +720,126 @@ public class Geopackage {
         return Arrays.stream(numbers).min().orElse(Integer.MAX_VALUE);
     }
 
-    private double median(List<Double> values) {
+    private double median(Double[] values) {
         // calculation of the median of a list
 
         double medianVal;
-        int numValues = values.size();
-        Collections.sort(values);
+        int numValues = values.length;
+        Arrays.sort(values);
         if (numValues % 2 == 1) {
             // odd number of elements
             int medianIdx = numValues/2; // always similar to Math.floor
-            medianVal = values.get(medianIdx);
+            medianVal = values[medianIdx];
         } else {
             // even number of elements - mean between elements in the middle
              int medianIdxUpper = numValues/2;
              int medianIdxLower = medianIdxUpper - 1;
-             medianVal = (values.get(medianIdxUpper) + values.get(medianIdxLower)) / 2;
+             medianVal = (values[medianIdxUpper] + values[medianIdxLower]) / 2;
         }
 
         return medianVal;
+    }
+
+    private int median(Integer[] values) {
+        // calculation of the median of a list
+
+        int medianVal;
+        int numValues = values.length;
+        Arrays.sort(values);
+        if (numValues % 2 == 1) {
+            // odd number of elements
+            int medianIdx = numValues/2; // always similar to Math.floor
+            medianVal = values[medianIdx];
+        } else {
+            // even number of elements - mean between elements in the middle
+            int medianIdxUpper = numValues/2;
+            int medianIdxLower = medianIdxUpper - 1;
+            medianVal = (values[medianIdxUpper] + values[medianIdxLower]) / 2;
+        }
+
+        return medianVal;
+    }
+
+    private double mean(List<Double> values) {
+        // calculation of the mean of a list
+
+        double sumVal = 0;
+        int numValues = values.size();
+        for (double value : values) {
+            sumVal += value;
+        }
+
+        return sumVal / numValues;
+    }
+
+    private Coordinate[] getConvexHull(List<Coordinate> points) {
+        // calculate convex hull following Jarvis march algorithm (gift wrapping)
+
+        List<Coordinate> edgePoints = new ArrayList<>();
+        double yMax = Double.NEGATIVE_INFINITY;
+        int idxNorthest = 0;
+        int ct = -1;
+
+        // get northest point as starting point
+        for (Coordinate tmp : points) {
+            ct++;
+            if (tmp.y > yMax) {
+                yMax = tmp.y;
+                idxNorthest = ct;
+            }
+        }
+        edgePoints.add(points.get(idxNorthest));
+        points.remove(idxNorthest);
+
+        // go counter clockwise around points, the next point has the lowest angle with Math.atan2 function
+        List<Double> anglesDetected = new ArrayList<>();
+        anglesDetected.add(-180.0); // no angle for first value
+        ct = -1;
+        do {
+            ct++;
+            Coordinate lastPoint = edgePoints.get(edgePoints.size() - 1);
+            List<Double> angles = new ArrayList<>();
+            for (Coordinate point : points) {
+                angles.add(Math.atan2(point.y - lastPoint.y, point.x - lastPoint.x) * 180 / Math.PI);
+            }
+
+            // get logical array with true if larger than previous detected angle
+            List<Boolean> angleCondition = new ArrayList<>();
+            for (Double angle : angles) {
+                if (angle > anglesDetected.get(anglesDetected.size() - 1)) {
+                    angleCondition.add(true);
+                } else {
+                    angleCondition.add(false);
+                }
+            }
+
+            // find lowest angle from list, but larger than previous angle
+            int idxNext = 0;
+            double angleMin = Double.MAX_VALUE;
+            for (int i = 0; i < angles.size(); i++) {
+                if (angleCondition.get(i) && angles.get(i) < angleMin) {
+                    angleMin = angles.get(i);
+                    idxNext = i;
+                }
+            }
+
+            edgePoints.add(points.get(idxNext));
+            anglesDetected.add(angles.get(idxNext));
+            points.remove(idxNext);
+
+            if (ct == 0) {
+                // add first point after first iteration
+                // it has to be available for the search of the last edge of the convex hull
+                points.add(edgePoints.get(0));
+            }
+
+        } while (!edgePoints.get(edgePoints.size() - 1).equals(edgePoints.get(0)));
+
+        Coordinate[] edgeCoordinates = new Coordinate[edgePoints.size()];
+        for (int i = 0; i < edgePoints.size(); i++) {
+            edgeCoordinates[i] = edgePoints.get(i);
+        }
+
+        return edgeCoordinates;
     }
 }
