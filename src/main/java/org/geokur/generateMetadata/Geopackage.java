@@ -219,7 +219,11 @@ public class Geopackage {
                 if (!markerTransform) {
                     geometriesWGS84.add(geometriesOrig.get(ct));
                 } else {
-                    geometriesWGS84.add(JTS.transform(geometriesOrig.get(ct), mathTransformWGS84));
+                    if (geometryType.equals("polygon")) {
+                        geometriesWGS84.add(JTS.transform(geometriesOrig.get(ct).getBoundary(), mathTransformWGS84));
+                    } else {
+                        geometriesWGS84.add(JTS.transform(geometriesOrig.get(ct), mathTransformWGS84));
+                    }
                 }
                 zonesUTM.add(findUTMZone(geometriesWGS84.get(ct)));
             }
@@ -233,7 +237,7 @@ public class Geopackage {
     }
 
     private void projectToUTM() {
-        // reproject to UTM at correct zone
+        // reproject to UTM at correct zone and to median zone
 
         // always use EPSG code for south hemisphere (no negative coordinates possible)
         try {
@@ -345,7 +349,12 @@ public class Geopackage {
             GeometryFactory geometryFactory = new GeometryFactory();
             Polygon polygon = geometryFactory.createPolygon(pointsConvHull);
 
-            distances.add(Math.sqrt(polygon.getArea() / geometriesUTMStandard.size() / 1e6)); // distance in km
+            // correction factor of distance depending on number of points
+            // due to misinterpreting of convex hull -> additional buffer necessary
+            int n = geometriesUTMStandard.size();
+            double factorCorrection = Math.sqrt(n / Math.pow(Math.sqrt(n) - 1, 2));
+
+            distances.add(factorCorrection * Math.sqrt(polygon.getArea() / geometriesUTMStandard.size() / 1e6)); // corrected distance in km
         }
 
         return median(distances.toArray(new Double[0]));

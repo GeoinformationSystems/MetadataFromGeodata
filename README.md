@@ -113,6 +113,7 @@ The following measures can be extracted. The specific quantities depend on the i
 
 ## Known Limits/Bugs
 - only geopackages are allowed as geographic source for ascii files
+- resolution of point data has a bug in case of globally distributed points (too large distance calculated)
 
 
 ## License

@@ -37,6 +37,14 @@ public class ShapeMetadata implements Metadata {
 
     String fileName;
     DS_DataSet dsDataSet;
+    String geometryType = "geometry";
+    boolean markerTransform;
+    List<Geometry> geometriesOrig = new ArrayList<>(); // geometries in original CRS
+    List<Geometry> geometriesWGS84 = new ArrayList<>(); // geometries in EPSG:4326
+    List<Geometry> geometriesUTM = new ArrayList<>(); // geometries in best fitting UTM zone (ETRS89)
+    List<Geometry> geometriesUTMStandard = new ArrayList<>(); // like UTM, but with one zone only for resolution calculation
+    List<Integer> zonesUTM = new ArrayList<>();
+    int zoneUTMStandard;
 
     public ShapeMetadata(String fileName, DS_DataSet dsDataSet) {
         this.fileName = fileName;
@@ -80,7 +88,7 @@ public class ShapeMetadata implements Metadata {
             // coordinate reference system
             CoordinateReferenceSystem srcCRS = collection.getSchema().getCoordinateReferenceSystem();
             SimpleFeatureCollection collectionTransform;
-            boolean markerTransform;
+
             MathTransform mathTransform = CRS.findMathTransform(srcCRS, DefaultGeographicCRS.WGS84, true);
             // transform to WGS84 for standard extent lon/lat
             if (!mathTransform.isIdentity()) {
@@ -94,8 +102,14 @@ public class ShapeMetadata implements Metadata {
             // find out whether we have a polygon or points
             SimpleFeatureIterator iterator = collection.features();
             SimpleFeature simpleFeature = iterator.next();
-            String geometryType = simpleFeature.getDefaultGeometry().toString().toLowerCase();
-            boolean markerPoint = geometryType.contains("point");
+            String geometryTypeString = simpleFeature.getDefaultGeometry().toString().toLowerCase();
+            if (geometryTypeString.contains("polygon")) {
+                geometryType = "polygon";
+            } else if (geometryTypeString.contains("line")) {
+                geometryType = "line";
+            } else if (geometryTypeString.contains("point")) {
+                geometryType = "point";
+            }
             iterator.close();
 
 
@@ -205,7 +219,7 @@ public class ShapeMetadata implements Metadata {
             System.out.println("Structure of Spatial Data:");
 
             Extent extent;
-            if (markerTransform && !markerPoint) {
+            if (markerTransform && geometryType.equals("polygon")) {
                 // polygons need finer granular reprojecting for extent calculation
                 extent = getExtentReproject(collection);
             } else if (markerTransform) {
@@ -253,6 +267,11 @@ public class ShapeMetadata implements Metadata {
             ciCitation.addDate(ciDate);
             ciCitation.finalizeClass();
 
+            // get spatial resolution
+            MD_Resolution mdResolution = new MD_Resolution();
+            mdResolution.addDistance(getResolution(collection));
+            mdResolution.finalizeClass();
+
             // find all files belonging to actual shape file -> base name plus allowed extensions
             Shape shape = new Shape(file);
             shape.getShapeFileList();
@@ -267,6 +286,7 @@ public class ShapeMetadata implements Metadata {
             mdDataIdentification.addEnvironmentalDescription(environmentalDescription);
             mdDataIdentification.addExtent(exExtent);
             mdDataIdentification.addExtent(exExtentOrigCRS);
+            mdDataIdentification.addSpatialResolution(mdResolution);
             mdDataIdentification.finalizeClass();
 
 
@@ -389,6 +409,157 @@ public class ShapeMetadata implements Metadata {
         return extent;
     }
 
+    private int findUTMZone(Geometry geometry) {
+        // find correct UTM zone for areal and other calculations
+
+        int zoneUTM;
+        zoneUTM = (int) Math.ceil((geometry.getCentroid().getX() + 180) / 6);
+        if (zoneUTM == 0) {
+            zoneUTM = 1;
+        }
+
+        return zoneUTM;
+    }
+
+    private void projectToWGS84(SimpleFeatureCollection collection) {
+        // reproject to WGS84 if necessary
+
+        SimpleFeatureIterator iterator = collection.features();
+        CoordinateReferenceSystem srcCRS = collection.getSchema().getCoordinateReferenceSystem();
+        try {
+            MathTransform mathTransformWGS84 = CRS.findMathTransform(srcCRS, DefaultGeographicCRS.WGS84, true);
+
+            int ct = -1;
+            while (iterator.hasNext()) {
+                ct++;
+                SimpleFeature simpleFeature = iterator.next();
+                geometriesOrig.add((Geometry) simpleFeature.getDefaultGeometry());
+                if (!markerTransform) {
+                    geometriesWGS84.add(geometriesOrig.get(ct));
+                } else {
+                    if (geometryType.equals("polygon")) {
+                        geometriesWGS84.add(JTS.transform(geometriesOrig.get(ct).getBoundary(), mathTransformWGS84));
+                    } else {
+                        geometriesWGS84.add(JTS.transform(geometriesOrig.get(ct), mathTransformWGS84));
+                    }
+                }
+                zonesUTM.add(findUTMZone(geometriesWGS84.get(ct)));
+            }
+            iterator.close();
+
+            zoneUTMStandard = median(zonesUTM.toArray(new Integer[0]));
+
+        } catch (FactoryException | TransformException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    private void projectToUTM() {
+        // reproject to UTM at correct zone and to median zone
+
+        // always use EPSG code for south hemisphere (no negative coordinates possible)
+        try {
+            for (int i = 0; i < geometriesWGS84.size(); i++) {
+                CoordinateReferenceSystem UTMCRS = CRS.decode("EPSG:" + "327" + String.format("%02d", zonesUTM.get(i)));
+                MathTransform mathTransformUTM = CRS.findMathTransform(DefaultGeographicCRS.WGS84, UTMCRS, true);
+                if (geometryType.equals("polygon")) {
+                    geometriesUTM.add(JTS.transform(geometriesWGS84.get(i).getBoundary(), mathTransformUTM));
+                } else {
+                    geometriesUTM.add(JTS.transform(geometriesWGS84.get(i), mathTransformUTM));
+                }
+
+                CoordinateReferenceSystem UTMCRSStandard = CRS.decode("EPSG:" + "327" + String.format("%02d", zoneUTMStandard));
+                MathTransform mathTransformUTMStandard = CRS.findMathTransform(DefaultGeographicCRS.WGS84, UTMCRSStandard, true);
+                if (geometryType.equals("polygon")) {
+                    geometriesUTMStandard.add(JTS.transform(geometriesWGS84.get(i).getBoundary(), mathTransformUTMStandard));
+                } else {
+                    geometriesUTMStandard.add(JTS.transform(geometriesWGS84.get(i), mathTransformUTMStandard));
+                }
+            }
+        } catch (FactoryException | TransformException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    private double getResolution(SimpleFeatureCollection collection) {
+        // get resolution
+        // polygons/lines: median of distance between adjacent border points over all polygons
+        // points: mean distance between points calculated as sqrt(A/n) - with area A of convex hull over all n points
+
+        projectToWGS84(collection);
+        projectToUTM();
+
+        List<Double> distances = new ArrayList<>();
+        if (geometryType.equals("polygon") || geometryType.equals("line")) {
+            // for polygons and lines
+            for (Geometry geometryAct : geometriesUTM) {
+                Coordinate[] tmp = geometryAct.getCoordinates();
+                for (int i = 0; i < tmp.length - 1; i++) {
+                    distances.add(Math.sqrt(Math.pow(tmp[i].x - tmp[i + 1].x, 2) + Math.pow(tmp[i].y - tmp[i + 1].y, 2)) / 1e3); // distance in km
+                }
+            }
+        } else {
+            // for points
+            List<Coordinate> points = new ArrayList<>();
+            for (Geometry geometryAct : geometriesUTMStandard) {
+                points.add((new CoordinateXY(geometryAct.getCoordinate().x, geometryAct.getCoordinate().y)));
+            }
+
+            Coordinate[] pointsConvHull = getConvexHull(points);
+            GeometryFactory geometryFactory = new GeometryFactory();
+            Polygon polygon = geometryFactory.createPolygon(pointsConvHull);
+
+            // correction factor of distance depending on number of points
+            // due to misinterpreting of convex hull -> additional buffer necessary
+            int n = geometriesUTMStandard.size();
+            double factorCorrection = Math.sqrt(n / Math.pow(Math.sqrt(n) - 1, 2));
+
+            distances.add(factorCorrection * Math.sqrt(polygon.getArea() / n / 1e6)); // corrected distance in km
+        }
+
+        return median(distances.toArray(new Double[0]));
+    }
+
+    private double median(Double[] values) {
+        // calculation of the median of a list
+
+        double medianVal;
+        int numValues = values.length;
+        Arrays.sort(values);
+        if (numValues % 2 == 1) {
+            // odd number of elements
+            int medianIdx = numValues/2; // always similar to Math.floor
+            medianVal = values[medianIdx];
+        } else {
+            // even number of elements - mean between elements in the middle
+            int medianIdxUpper = numValues/2;
+            int medianIdxLower = medianIdxUpper - 1;
+            medianVal = (values[medianIdxUpper] + values[medianIdxLower]) / 2;
+        }
+
+        return medianVal;
+    }
+
+    private int median(Integer[] values) {
+        // calculation of the median of a list
+
+        int medianVal;
+        int numValues = values.length;
+        Arrays.sort(values);
+        if (numValues % 2 == 1) {
+            // odd number of elements
+            int medianIdx = numValues/2; // always similar to Math.floor
+            medianVal = values[medianIdx];
+        } else {
+            // even number of elements - mean between elements in the middle
+            int medianIdxUpper = numValues/2;
+            int medianIdxLower = medianIdxUpper - 1;
+            medianVal = (values[medianIdxUpper] + values[medianIdxLower]) / 2;
+        }
+
+        return medianVal;
+    }
+
     private int levenshteinDistance(String x, String y) {
         // calculation of Levenshtein distance (edit distance)
         // source https://www.baeldung.com/java-levenshtein-distance
@@ -419,5 +590,76 @@ public class ShapeMetadata implements Metadata {
 
     private int min(int... numbers) {
         return Arrays.stream(numbers).min().orElse(Integer.MAX_VALUE);
+    }
+
+    private Coordinate[] getConvexHull(List<Coordinate> points) {
+        // calculate convex hull following Jarvis march algorithm (gift wrapping)
+
+        List<Coordinate> edgePoints = new ArrayList<>();
+        double yMax = Double.NEGATIVE_INFINITY;
+        int idxNorthest = 0;
+        int ct = -1;
+
+        // get northest point as starting point
+        for (Coordinate tmp : points) {
+            ct++;
+            if (tmp.y > yMax) {
+                yMax = tmp.y;
+                idxNorthest = ct;
+            }
+        }
+        edgePoints.add(points.get(idxNorthest));
+        points.remove(idxNorthest);
+
+        // go counter clockwise around points, the next point has the lowest angle with Math.atan2 function
+        List<Double> anglesDetected = new ArrayList<>();
+        anglesDetected.add(-180.0); // no angle for first value
+        ct = -1;
+        do {
+            ct++;
+            Coordinate lastPoint = edgePoints.get(edgePoints.size() - 1);
+            List<Double> angles = new ArrayList<>();
+            for (Coordinate point : points) {
+                angles.add(Math.atan2(point.y - lastPoint.y, point.x - lastPoint.x) * 180 / Math.PI);
+            }
+
+            // get logical array with true if larger than previous detected angle
+            List<Boolean> angleCondition = new ArrayList<>();
+            for (Double angle : angles) {
+                if (angle > anglesDetected.get(anglesDetected.size() - 1)) {
+                    angleCondition.add(true);
+                } else {
+                    angleCondition.add(false);
+                }
+            }
+
+            // find lowest angle from list, but larger than previous angle
+            int idxNext = 0;
+            double angleMin = Double.MAX_VALUE;
+            for (int i = 0; i < angles.size(); i++) {
+                if (angleCondition.get(i) && angles.get(i) < angleMin) {
+                    angleMin = angles.get(i);
+                    idxNext = i;
+                }
+            }
+
+            edgePoints.add(points.get(idxNext));
+            anglesDetected.add(angles.get(idxNext));
+            points.remove(idxNext);
+
+            if (ct == 0) {
+                // add first point after first iteration
+                // it has to be available for the search of the last edge of the convex hull
+                points.add(edgePoints.get(0));
+            }
+
+        } while (!edgePoints.get(edgePoints.size() - 1).equals(edgePoints.get(0)));
+
+        Coordinate[] edgeCoordinates = new Coordinate[edgePoints.size()];
+        for (int i = 0; i < edgePoints.size(); i++) {
+            edgeCoordinates[i] = edgePoints.get(i);
+        }
+
+        return edgeCoordinates;
     }
 }

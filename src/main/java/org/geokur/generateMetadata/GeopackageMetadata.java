@@ -203,10 +203,10 @@ public class GeopackageMetadata implements Metadata {
                 }
 
                 // get spatial resolution
-                MD_Resolution mdResolutionVal = new MD_Resolution();
-                mdResolutionVal.addDistance(gpkg.getResolution());
-                mdResolutionVal.finalizeClass();
-                mdDataIdentification.addSpatialResolution(mdResolutionVal);
+                MD_Resolution mdResolution = new MD_Resolution();
+                mdResolution.addDistance(gpkg.getResolution());
+                mdResolution.finalizeClass();
+                mdDataIdentification.addSpatialResolution(mdResolution);
 
                 break;
             case "2d-gridded-coverage":
