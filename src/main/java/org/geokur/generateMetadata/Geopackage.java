@@ -582,22 +582,6 @@ public class Geopackage {
         return dataType;
     }
 
-    static class Extent {
-        Double west;
-        Double east;
-        Double south;
-        Double north;
-
-        public Extent(){}
-
-        public Extent(Double missingValue) {
-            west = missingValue;
-            east = missingValue;
-            south = missingValue;
-            north = missingValue;
-        }
-    }
-
     Extent getExtent(SimpleFeatureCollection collection) {
         // get extent of feature collection
 

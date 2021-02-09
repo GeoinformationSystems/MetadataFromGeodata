@@ -109,6 +109,8 @@ The following measures can be extracted. The specific quantities depend on the i
 - gt-shapefile 23.1 - LGPL license
 - gt-epsg-hsql 23.1 - LGPL license
 - gson 2.8.6 - Apache 2.0 license
+- tika-parsers 1.2.5 - Apache 2.0 license
+- postgresql 42.2.18 - BSD 2-clause
 
 
 ## Known Limits/Bugs

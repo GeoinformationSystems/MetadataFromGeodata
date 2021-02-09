@@ -182,8 +182,8 @@ public class GeopackageMetadata implements Metadata {
         ciCitation.finalizeClass();
 
         String dataType = gpkg.getDataType(gpkg.statement, contentAct);
-        Geopackage.Extent extentOrigCRS;
-        Geopackage.Extent extent;
+        Extent extentOrigCRS;
+        Extent extent;
 
         MD_DataIdentification mdDataIdentification = new MD_DataIdentification();
         mdDataIdentification.addCitation(ciCitation);
@@ -215,8 +215,8 @@ public class GeopackageMetadata implements Metadata {
 
                 break;
             default:
-                extentOrigCRS = new Geopackage.Extent(-999.0);
-                extent = new Geopackage.Extent(-999.0);
+                extentOrigCRS = new Extent(-999.0);
+                extent = new Extent(-999.0);
                 break;
         }
 
@@ -281,6 +281,7 @@ public class GeopackageMetadata implements Metadata {
             dqQuantitativeResult.addDateTime(now);
             dqQuantitativeResult.addValue(record);
             dqQuantitativeResult.addValueUnit("polygons per 1000 square km");
+            dqQuantitativeResult.finalizeClass();
 
             DQ_Representativity dqRepresentativity = new DQ_Representativity();
             dqRepresentativity.addMeasure(dqMeasureReference);

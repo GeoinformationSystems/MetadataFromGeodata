@@ -10,11 +10,10 @@ import org.geokur.ISO19103Schema.Record;
 import org.geokur.ISO19115Schema.*;
 import org.geokur.ISO19157Schema.*;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.Instant;
 import java.time.ZoneId;
@@ -35,23 +34,72 @@ public class AsciiMetadata implements Metadata {
     List<String> asciiColNameDefine;
     List<String> asciiColNameIgnore;
     List<String> descriptionAsciiColNameDefine;
+    String postgresHostname;
+    String postgresDatabase;
+    String postgresUser;
+    String postgresPasswd;
 
-    public AsciiMetadata(String fileName, DS_DataSet dsDataSet) {
-        this.fileName = fileName;
+    public AsciiMetadata(Properties properties, DS_DataSet dsDataSet) {
+        this.fileName = properties.filename;
         this.dsDataSet = dsDataSet;
+        this.fileNameGeodata = properties.geodataReference;
+        this.geoTableName = properties.geoTableNames;
+        this.geoColNameJoin = properties.geoColNamesJoin;
+        this.asciiColNameJoin = properties.asciiColNamesJoin;
+        this.asciiColNameDefine = properties.asciiColNamesDefine;
+        this.asciiColNameIgnore = properties.asciiColNamesIgnore;
+        this.descriptionAsciiColNameDefine = properties.descriptionAsciiColNamesDefine;
+        this.postgresHostname = properties.postgresHostname;
+        this.postgresDatabase = properties.postgresDatabase;
+        this.postgresUser = properties.postgresUser;
+        this.postgresPasswd = properties.postgresPasswd;
+
+        pushToPostgresql();
     }
 
-    public void defineProperties(String fileNameGeodata, List<String> geoTableName, List<String> geoColNameJoin, List<String> asciiColNameJoin,
-                                 List<String> asciiColNameDefine, List<String> asciiColNameIgnore, List<String> descriptionAsciiColNameDefine) {
-        // definition of additional data necessary for analysis
 
-        this.fileNameGeodata = fileNameGeodata;
-        this.geoTableName = geoTableName;
-        this.geoColNameJoin = geoColNameJoin;
-        this.asciiColNameJoin = asciiColNameJoin;
-        this.asciiColNameDefine = asciiColNameDefine;
-        this.asciiColNameIgnore = asciiColNameIgnore;
-        this.descriptionAsciiColNameDefine = descriptionAsciiColNameDefine;
+    public void pushToPostgresql() {
+        // put all data from csv file to postgresql database
+
+        Connection connection = null;
+        Statement statement = null;
+
+        String url = "jdbc:postgresql://" + postgresHostname + "/" + postgresDatabase;
+        String delimiter = ",";
+
+        try {
+            // connect to database
+            connection = DriverManager.getConnection(url, postgresUser, postgresPasswd);
+            statement = connection.createStatement();
+
+            // open stream to csv file
+            BufferedReader reader = new BufferedReader(new FileReader(fileName));
+            String[] header = reader.readLine().split(delimiter);
+            String line;
+
+            // create table in database with necessary columns to mirror csv, datatype currently bigint
+            statement.executeUpdate("DROP TABLE IF EXISTS tmpData");
+            StringBuilder command = new StringBuilder();
+            command.append("CREATE TABLE tmpData (");
+            for (String headerAct : header) {
+                command.append(headerAct).append(" decimal");
+                if (!headerAct.equals(header[header.length - 1])) {
+                    command.append(",");
+                } else {
+                    command.append(")");
+                }
+            }
+            statement.executeUpdate(command.toString());
+            reader.close();
+
+            // copy csv content to sql database using system command psql (much faster)
+            String commandCopy = "\\COPY tmpData FROM '" + fileName + "' DELIMITER '" + delimiter + "' CSV HEADER";
+            ProcessBuilder pb = new ProcessBuilder().command("psql", "-h", "127.0.0.1", "-d", "metadataDB", "-c", commandCopy);
+            pb.inheritIO().start();
+            connection.close();
+        } catch (SQLException | IOException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     public DS_Resource getMetadata() {

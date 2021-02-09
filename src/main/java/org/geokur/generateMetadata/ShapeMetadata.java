@@ -286,6 +286,7 @@ public class ShapeMetadata implements Metadata {
             mdDataIdentification.addEnvironmentalDescription(environmentalDescription);
             mdDataIdentification.addExtent(exExtent);
             mdDataIdentification.addExtent(exExtentOrigCRS);
+            mdDataIdentification.addSpatialRepresentationType(new MD_SpatialRepresentationTypeCode(MD_SpatialRepresentationTypeCode.MD_SpatialRepresentationTypeCodes.vector));
             mdDataIdentification.addSpatialResolution(mdResolution);
             mdDataIdentification.finalizeClass();
 
@@ -344,22 +345,6 @@ public class ShapeMetadata implements Metadata {
             System.out.println(e.getMessage());
         }
         return outCollection;
-    }
-
-    static class Extent {
-        Double west;
-        Double east;
-        Double south;
-        Double north;
-
-        public Extent(){}
-
-        public Extent(Double missingValue) {
-            west = missingValue;
-            east = missingValue;
-            south = missingValue;
-            north = missingValue;
-        }
     }
 
     private Extent getExtent(SimpleFeatureCollection collection) {

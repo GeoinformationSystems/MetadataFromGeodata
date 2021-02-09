@@ -29,6 +29,12 @@ public class MetadataGenerator {
         String filenameProperties = argv[0];
         Properties properties = readProperties(filenameProperties);
 
+        String displayFile = "File: " + properties.filename;
+        String displayLine = "-".repeat(displayFile.length());
+        System.out.println(displayLine);
+        System.out.println(displayFile);
+        System.out.println(displayLine);
+
         // remove out files if existing (test cases)
         try {
             Files.deleteIfExists(new File(properties.filenameXml).toPath());
@@ -47,27 +53,18 @@ public class MetadataGenerator {
         // todo: add other geodata types
         switch (fileNameExtension[fileNameExtension.length - 1]) {
             case "shp":
-                System.out.println("-------------");
-                System.out.println("Shape content ");
-                System.out.println("-------------");
                 metadata = new ShapeMetadata(properties.filename, new DS_DataSet()).getMetadata();
                 break;
             case "gpkg":
-                System.out.println("------------------");
-                System.out.println("Geopackage content");
-                System.out.println("------------------");
                 metadata = new GeopackageMetadata(properties.filename, new DS_DataSet()).getMetadata();
                 break;
             case "csv":
-                System.out.println("-------------");
-                System.out.println("Ascii content");
-                System.out.println("-------------");
-                AsciiMetadata asciiMetadata = new AsciiMetadata(properties.filename, new DS_DataSet());
-                asciiMetadata.defineProperties(properties.geodataReference, properties.geoTableNames, properties.geoColNamesJoin,
-                        properties.asciiColNamesJoin, properties.asciiColNamesDefine, properties.asciiColNamesIgnore,
-                        properties.descriptionAsciiColNamesDefine);
-                metadata = asciiMetadata.getMetadata();
+                metadata = new AsciiMetadata(properties, new DS_DataSet()).getMetadata();
                 break;
+//            case "tif":
+//            case "tiff":
+//                metadata = new GeoTIFFMetadata(properties.filename, new DS_DataSet()).getMetadata();
+//                break;
             default:
                 // file format not supported -> return empty document
                 metadata = null;
@@ -85,7 +82,7 @@ public class MetadataGenerator {
         }
 
         // order xml file to SQLite database
-        // read xml file with JDOM2 library in order to get a documentl
+        // read xml file with JDOM2 library in order to get a document
         try {
             Document doc = new SAXBuilder().build(properties.filenameXml);
             Element docRoot = doc.getRootElement();
@@ -144,7 +141,7 @@ public class MetadataGenerator {
             properties.setFilenameDB(propertyContent.get(idx));
 
             String filename = properties.filename;
-            if (filename.substring(filename.length() - 3, filename.length()).equals("csv")) {
+            if (filename.startsWith("csv", filename.length() - 3)) {
                 // in case of a csv file additional data shall/might be given
                 List<Integer> idx2;
 
@@ -211,6 +208,33 @@ public class MetadataGenerator {
                     asciiColNamesIgnore.add(propertyContent.get(i));
                 }
                 properties.setAsciiColNamesIgnore(asciiColNamesIgnore);
+
+                // get postgres properties
+                idx = propertyName.indexOf("postgreshostname");
+                if (idx == -1) {
+                    throw new ListContentException("postgresHostname", filenameProperties);
+                }
+                properties.setPostgresHostname(propertyContent.get(idx));
+
+                idx = propertyName.indexOf("postgresdatabase");
+                if (idx == -1) {
+                    throw new ListContentException("postgresDatabase", filenameProperties);
+                }
+                properties.setPostgresDatabase(propertyContent.get(idx));
+
+                idx = propertyName.indexOf("postgresuser");
+                if (idx == -1) {
+                    throw new ListContentException("postgresUser", filenameProperties);
+                }
+                properties.setPostgresUser(propertyContent.get(idx));
+
+                // postgresPasswd can be empty - no ListContentException
+                idx = propertyName.indexOf("postgrespasswd");
+                if (idx == -1) {
+                    properties.setPostgresPasswd("");
+                } else {
+                    properties.setPostgresPasswd(propertyContent.get(idx));
+                }
             }
 
         } catch (IOException | ListContentException e) {
@@ -234,63 +258,83 @@ public class MetadataGenerator {
     }
 }
 
-class Properties {
-    String profileFilename;
-    String filename;
-    String filenameXml;
-    String filenameDB;
-    String geodataReference;
-    List<String> geoTableNames;
-    List<String> geoColNamesJoin;
-    List<String> asciiColNamesJoin;
-    List<String> asciiColNamesDefine;
-    List<String> descriptionAsciiColNamesDefine;
-    List<String> asciiColNamesIgnore;
-
-
-    Properties(){}
-
-    public void setProfileFilename(String profileFilename) {
-        this.profileFilename = profileFilename;
-    }
-
-    public void setFilename(String filename) {
-        this.filename = filename;
-    }
-
-    public void setFilenameXml(String filenameXml) {
-        this.filenameXml = filenameXml;
-    }
-
-    public void setFilenameDB(String filenameDB) {
-        this.filenameDB = filenameDB;
-    }
-
-    public void setGeodataReference(String geodataReference) {
-        this.geodataReference = geodataReference;
-    }
-
-    public void setGeoTableNames(List<String> geoTableNames) {
-        this.geoTableNames = geoTableNames;
-    }
-
-    public void setGeoColNamesJoin(List<String> geoColNamesJoin) {
-        this.geoColNamesJoin = geoColNamesJoin;
-    }
-
-    public void setAsciiColNamesJoin(List<String> asciiColNamesJoin) {
-        this.asciiColNamesJoin = asciiColNamesJoin;
-    }
-
-    public void setAsciiColNamesDefine(List<String> asciiColNamesDefine) {
-        this.asciiColNamesDefine = asciiColNamesDefine;
-    }
-
-    public void setDescriptionAsciiColNamesDefine(List<String> descriptionAsciiColNamesDefine) {
-        this.descriptionAsciiColNamesDefine = descriptionAsciiColNamesDefine;
-    }
-
-    public void setAsciiColNamesIgnore(List<String> asciiColNamesIgnore) {
-        this.asciiColNamesIgnore = asciiColNamesIgnore;
-    }
-}
+//class Properties {
+//    String profileFilename;
+//    String filename;
+//    String filenameXml;
+//    String filenameDB;
+//    String geodataReference;
+//    List<String> geoTableNames;
+//    List<String> geoColNamesJoin;
+//    List<String> asciiColNamesJoin;
+//    List<String> asciiColNamesDefine;
+//    List<String> descriptionAsciiColNamesDefine;
+//    List<String> asciiColNamesIgnore;
+//    String postgresHostname;
+//    String postgresDatabase;
+//    String postgresUser;
+//    String postgresPasswd;
+//
+//
+//    Properties(){}
+//
+//    public void setProfileFilename(String profileFilename) {
+//        this.profileFilename = profileFilename;
+//    }
+//
+//    public void setFilename(String filename) {
+//        this.filename = filename;
+//    }
+//
+//    public void setFilenameXml(String filenameXml) {
+//        this.filenameXml = filenameXml;
+//    }
+//
+//    public void setFilenameDB(String filenameDB) {
+//        this.filenameDB = filenameDB;
+//    }
+//
+//    public void setGeodataReference(String geodataReference) {
+//        this.geodataReference = geodataReference;
+//    }
+//
+//    public void setGeoTableNames(List<String> geoTableNames) {
+//        this.geoTableNames = geoTableNames;
+//    }
+//
+//    public void setGeoColNamesJoin(List<String> geoColNamesJoin) {
+//        this.geoColNamesJoin = geoColNamesJoin;
+//    }
+//
+//    public void setAsciiColNamesJoin(List<String> asciiColNamesJoin) {
+//        this.asciiColNamesJoin = asciiColNamesJoin;
+//    }
+//
+//    public void setAsciiColNamesDefine(List<String> asciiColNamesDefine) {
+//        this.asciiColNamesDefine = asciiColNamesDefine;
+//    }
+//
+//    public void setDescriptionAsciiColNamesDefine(List<String> descriptionAsciiColNamesDefine) {
+//        this.descriptionAsciiColNamesDefine = descriptionAsciiColNamesDefine;
+//    }
+//
+//    public void setAsciiColNamesIgnore(List<String> asciiColNamesIgnore) {
+//        this.asciiColNamesIgnore = asciiColNamesIgnore;
+//    }
+//
+//    public void setPostgresHostname(String postgresHostname) {
+//        this.postgresHostname = postgresHostname;
+//    }
+//
+//    public void setPostgresDatabase(String postgresDatabase) {
+//        this.postgresDatabase = postgresDatabase;
+//    }
+//
+//    public void setPostgresUser(String postgresUser) {
+//        this.postgresUser = postgresUser;
+//    }
+//
+//    public void setPostgresPasswd(String postgresPasswd) {
+//        this.postgresPasswd = postgresPasswd;
+//    }
+//}
