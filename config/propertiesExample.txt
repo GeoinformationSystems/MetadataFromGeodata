@@ -45,3 +45,9 @@ descriptionAsciiColNameDefine = temporal
 
 asciiColNameIgnore = id
 asciiColNameIgnore = tabID
+
+postgresUse = true
+postgresHostname = 127.0.0.1
+postgresDatabase = metadataDB
+postgresUser = mwagner
+postgresPasswd =

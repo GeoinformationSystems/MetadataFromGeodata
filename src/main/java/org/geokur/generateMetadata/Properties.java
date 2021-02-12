@@ -20,6 +20,7 @@ public class Properties {
     public List<String> asciiColNamesDefine;
     public List<String> descriptionAsciiColNamesDefine;
     public List<String> asciiColNamesIgnore;
+    public boolean postgresUse;
     public String postgresHostname;
     public String postgresDatabase;
     public String postgresUser;
@@ -70,6 +71,10 @@ public class Properties {
 
     public void setAsciiColNamesIgnore(List<String> asciiColNamesIgnore) {
         this.asciiColNamesIgnore = asciiColNamesIgnore;
+    }
+
+    public void setPostgresUse(boolean postgresUse) {
+        this.postgresUse = postgresUse;
     }
 
     public void setPostgresHostname(String postgresHostname) {

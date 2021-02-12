@@ -117,6 +117,7 @@ public class MetadataGenerator {
                 propertyName.add(lineParted[0].trim().toLowerCase());
                 propertyContent.add(lineParted[1].trim());
             }
+            br.close();
 
             int idx;
             idx = propertyName.indexOf("profile");
@@ -209,31 +210,41 @@ public class MetadataGenerator {
                 }
                 properties.setAsciiColNamesIgnore(asciiColNamesIgnore);
 
-                // get postgres properties
-                idx = propertyName.indexOf("postgreshostname");
+                // get postgres properties (if postgredsUse = true - otherwise do not use postgres database)
+                // postgresUse is optional
+                idx = propertyName.indexOf("postgresuse");
                 if (idx == -1) {
-                    throw new ListContentException("postgresHostname", filenameProperties);
-                }
-                properties.setPostgresHostname(propertyContent.get(idx));
-
-                idx = propertyName.indexOf("postgresdatabase");
-                if (idx == -1) {
-                    throw new ListContentException("postgresDatabase", filenameProperties);
-                }
-                properties.setPostgresDatabase(propertyContent.get(idx));
-
-                idx = propertyName.indexOf("postgresuser");
-                if (idx == -1) {
-                    throw new ListContentException("postgresUser", filenameProperties);
-                }
-                properties.setPostgresUser(propertyContent.get(idx));
-
-                // postgresPasswd can be empty - no ListContentException
-                idx = propertyName.indexOf("postgrespasswd");
-                if (idx == -1) {
-                    properties.setPostgresPasswd("");
+                    properties.setPostgresUse(false);
                 } else {
-                    properties.setPostgresPasswd(propertyContent.get(idx));
+                    properties.setPostgresUse(Boolean.parseBoolean(propertyContent.get(idx)));
+                }
+
+                if (properties.postgresUse) {
+                    idx = propertyName.indexOf("postgreshostname");
+                    if (idx == -1) {
+                        throw new ListContentException("postgresHostname", filenameProperties);
+                    }
+                    properties.setPostgresHostname(propertyContent.get(idx));
+
+                    idx = propertyName.indexOf("postgresdatabase");
+                    if (idx == -1) {
+                        throw new ListContentException("postgresDatabase", filenameProperties);
+                    }
+                    properties.setPostgresDatabase(propertyContent.get(idx));
+
+                    idx = propertyName.indexOf("postgresuser");
+                    if (idx == -1) {
+                        throw new ListContentException("postgresUser", filenameProperties);
+                    }
+                    properties.setPostgresUser(propertyContent.get(idx));
+
+                    // postgresPasswd can be empty - no ListContentException
+                    idx = propertyName.indexOf("postgrespasswd");
+                    if (idx == -1) {
+                        properties.setPostgresPasswd("");
+                    } else {
+                        properties.setPostgresPasswd(propertyContent.get(idx));
+                    }
                 }
             }
 

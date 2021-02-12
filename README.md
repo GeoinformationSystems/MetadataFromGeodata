@@ -42,6 +42,12 @@ In the case of an *ascii file in csv format* more content in the property file s
 - `descriptionAsciiColNameDefine = thematic/temporal` gives the description whether columns in asciiColNameDefine are of
   thematic or temporal type. The order of asciiColNameDefine and descriptionAsciiColNameDefine must be given accordingly.
 - `asciiColNameIgnore = columnName` indicates a column to be ignored. Multiple entries with asciiColNameIgnore are possible.
+- `postgresUse = true/false` if true, a postgresql database is used to derive data quality elements from csv content
+  -> faster and for larger files the only useful decision
+- `postgresHostname = 127.0.0.1` hostname for postgresql database
+- `postgresDatabase = databaseName` name of postgres database
+- `postgresUser = userName` name of postgres user
+- `postgresPasswd =` password for postgres user (can be left empty if login equals postgres user)
 
 
 ## Structure
@@ -96,8 +102,6 @@ The following measures can be extracted. The specific quantities depend on the i
   count of temporal units, count of thematic units, empirical distribution parameters of various combinations of spatial-
   temporal-thematic units
 - *Metadata Contact*: link to ISO standard
-
-
 
 
 ## Java Libraries
