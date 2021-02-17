@@ -83,18 +83,18 @@ public class MetadataGenerator {
 
         // order xml file to SQLite database
         // read xml file with JDOM2 library in order to get a document
-        try {
-            Document doc = new SAXBuilder().build(properties.filenameXml);
-            Element docRoot = doc.getRootElement();
-            MetadataDatabase metadataDatabase = new MetadataDatabase();
-            metadataDatabase.generateFlatFromElement(docRoot);
-            Database database = new Database(properties.filenameDB);
-            database.createNewDatabase();
-            database.addToDatabase(properties.filename);
-            database.writeMetadataToDatabase(properties.filename, metadataDatabase);
-        } catch (IOException | JDOMException e) {
-            System.out.println(e.getMessage());
-        }
+//        try {
+//            Document doc = new SAXBuilder().build(properties.filenameXml);
+//            Element docRoot = doc.getRootElement();
+//            MetadataDatabase metadataDatabase = new MetadataDatabase();
+//            metadataDatabase.generateFlatFromElement(docRoot);
+//            Database database = new Database(properties.filenameDB);
+//            database.createNewDatabase();
+//            database.addToDatabase(properties.filename);
+//            database.writeMetadataToDatabase(properties.filename, metadataDatabase);
+//        } catch (IOException | JDOMException e) {
+//            System.out.println(e.getMessage());
+//        }
     }
 
     private static Properties readProperties(String filenameProperties) {
@@ -245,6 +245,28 @@ public class MetadataGenerator {
                     } else {
                         properties.setPostgresPasswd(propertyContent.get(idx));
                     }
+
+                    idx = propertyName.indexOf("postgrestable");
+                    if (idx == -1) {
+                        throw new ListContentException("postgresTable", filenameProperties);
+                    }
+                    properties.setPostgresTable(propertyContent.get(idx));
+
+                    idx = propertyName.indexOf("coljoinnumerical");
+                    if (idx == -1) {
+                        throw new ListContentException("colJoinNumerical", filenameProperties);
+                    }
+                    properties.setColJoinNumerical(Boolean.parseBoolean(propertyContent.get(idx)));
+
+                    idx2 = getIndices(propertyName, "coljoinsequential");
+                    List<Boolean> colJoinSequential = new ArrayList<>();
+                    for (int i : idx2) {
+                        colJoinSequential.add(Boolean.parseBoolean(propertyContent.get(i)));
+                    }
+                    if (idx2.size() == 0) {
+                        throw new ListContentException("colJoinSequential", filenameProperties);
+                    }
+                    properties.setColJoinSequential(colJoinSequential);
                 }
             }
 

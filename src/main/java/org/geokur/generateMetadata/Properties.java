@@ -25,6 +25,9 @@ public class Properties {
     public String postgresDatabase;
     public String postgresUser;
     public String postgresPasswd;
+    public String postgresTable;
+    public boolean colJoinNumerical;
+    public List<Boolean> colJoinSequential;
 
 
     public Properties(){}
@@ -91,5 +94,17 @@ public class Properties {
 
     public void setPostgresPasswd(String postgresPasswd) {
         this.postgresPasswd = postgresPasswd;
+    }
+
+    public void setPostgresTable(String postgresTable) {
+        this.postgresTable = postgresTable;
+    }
+
+    public void setColJoinNumerical(boolean colJoinNumerical) {
+        this.colJoinNumerical = colJoinNumerical;
+    }
+
+    public void setColJoinSequential(List<Boolean> colJoinSequential) {
+        this.colJoinSequential = colJoinSequential;
     }
 }
