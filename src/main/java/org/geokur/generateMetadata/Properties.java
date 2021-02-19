@@ -28,6 +28,10 @@ public class Properties {
     public String postgresTable;
     public boolean colJoinNumerical;
     public List<Boolean> colJoinSequential;
+    public boolean thematicMapping;
+    public String thematicMappingFile;
+    public String thematicMappingColFrom;
+    public String thematicMappingColTo;
 
 
     public Properties(){}
@@ -106,5 +110,21 @@ public class Properties {
 
     public void setColJoinSequential(List<Boolean> colJoinSequential) {
         this.colJoinSequential = colJoinSequential;
+    }
+
+    public void setThematicMapping(boolean thematicMapping) {
+        this.thematicMapping = thematicMapping;
+    }
+
+    public void setThematicMappingFile(String thematicMappingFile) {
+        this.thematicMappingFile = thematicMappingFile;
+    }
+
+    public void setThematicMappingColFrom(String thematicMappingColFrom) {
+        this.thematicMappingColFrom = thematicMappingColFrom;
+    }
+
+    public void setThematicMappingColTo(String thematicMappingColTo) {
+        this.thematicMappingColTo = thematicMappingColTo;
     }
 }

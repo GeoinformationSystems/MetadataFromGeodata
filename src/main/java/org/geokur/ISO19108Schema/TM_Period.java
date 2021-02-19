@@ -4,9 +4,8 @@
  * @contact: michael.wagner@tu-dresden.de
  */
 
-package org.geokur.ISO19115Schema;
+package org.geokur.ISO19108Schema;
 
-import org.geokur.ISO19108Schema.TM_Primitive;
 import org.geokur.ISO191xxProfile.MaximumOccurrenceException;
 import org.geokur.ISO191xxProfile.ObligationException;
 import org.geokur.ISO191xxProfile.ProfileException;
@@ -19,27 +18,28 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-@XmlRootElement(name = "EX_TemporalExtent", namespace = "http://standards.iso.org/iso/19115/-3/gex/1.0")
-public class EX_TemporalExtent {
+@XmlRootElement(name = "TM_Period", namespace = "http://www.opengis.net/gml/3.2")
+public class TM_Period extends TM_GeometricPrimitive {
 
     // occurrence and obligation
-    private final String[] elementName = {"extent"};
-    private final int[] elementMax = {1};
-    private final boolean[] elementObligation = {true};
+    private final String[] elementName = {"begin", "end"};
+    private final int[] elementMax = {1, 1};
+    private final boolean[] elementObligation = {true, true};
 
     private final String className = this.getClass().getSimpleName();
     private final boolean[] elementUsed = new boolean[elementName.length];
 
     // class variables
-    @XmlElementWrapper(name = "extent", namespace = "http://standards.iso.org/iso/19115/-3/gex/1.0")
+    @XmlElementWrapper(name = "begin", namespace = "http://www.opengis.net/gml/3.2")
     @XmlElementRef
-    public List<TM_Primitive> extent;
+    public List<TM_Instant> begin;
 
-    // variables for correct marshalling of specified classes
-    public List<EX_SpatialTemporalExtent> spatialTemporalExtent;
+    @XmlElementWrapper(name = "end", namespace = "http://www.opengis.net/gml/3.2")
+    @XmlElementRef
+    public List<TM_Instant> end;
 
     // methods
-    public EX_TemporalExtent(){
+    public TM_Period(){
         for (int i = 0; i < elementName.length; i++) {
             elementUsed[i] = true;
         }
@@ -47,12 +47,12 @@ public class EX_TemporalExtent {
         // use profile (used elements and their obligation)
         if (ProfileReader.profile != null) {
             for (int i = 0; i < elementName.length; i++) {
-                List<String> tempList = Arrays.asList(ProfileReader.profile.used.EX_TemporalExtent);
+                List<String> tempList = Arrays.asList(ProfileReader.profile.used.TM_Period);
                 if (!tempList.contains(elementName[i])) {
                     // element not used
                     elementUsed[i] = false;
                 }
-                tempList = Arrays.asList(ProfileReader.profile.obligation.EX_TemporalExtent);
+                tempList = Arrays.asList(ProfileReader.profile.obligation.TM_Period);
                 if (!tempList.contains(elementName[i])) {
                     // element not mandatory
                     elementObligation[i] = false;
@@ -64,9 +64,9 @@ public class EX_TemporalExtent {
         }
     }
 
-    public void addExtent(TM_Primitive extent) {
-        if (this.extent == null) {
-            this.extent = new ArrayList<>();
+    public void addBegin(TM_Instant begin) {
+        if (this.begin == null) {
+            this.begin = new ArrayList<>();
         }
 
         int elementNum = 0;
@@ -75,7 +75,25 @@ public class EX_TemporalExtent {
             if (tempList.size() >= elementMax[elementNum]) {
                 throw new MaximumOccurrenceException(className + " - " + elementName[elementNum], elementMax[elementNum]);
             } else {
-                this.extent.add(extent);
+                this.begin.add(begin);
+            }
+        } catch (MaximumOccurrenceException | NoSuchFieldException | IllegalAccessException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public void addEnd(TM_Instant end) {
+        if (this.end == null) {
+            this.end = new ArrayList<>();
+        }
+
+        int elementNum = 1;
+        try {
+            List<?> tempList = (List<?>) this.getClass().getField(elementName[elementNum]).get(this);
+            if (tempList.size() >= elementMax[elementNum]) {
+                throw new MaximumOccurrenceException(className + " - " + elementName[elementNum], elementMax[elementNum]);
+            } else {
+                this.end.add(end);
             }
         } catch (MaximumOccurrenceException | NoSuchFieldException | IllegalAccessException e) {
             System.out.println(e.getMessage());

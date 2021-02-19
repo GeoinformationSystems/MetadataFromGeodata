@@ -151,7 +151,9 @@
         "DataEpoch": [],
         "PointMotionOperation": [],
         "OperationMethod": [],
-        "Formula": []
+        "Formula": [],
+        "TM_Instant": [],
+        "TM_Period": []
     },
 
     "obligation": {
@@ -306,7 +308,9 @@
         "DataEpoch": [],
         "PointMotionOperation": [],
         "OperationMethod": [],
-        "Formula": []
+        "Formula": [],
+        "TM_Instant": [],
+        "TM_Period": []
     },
 
     "all": {

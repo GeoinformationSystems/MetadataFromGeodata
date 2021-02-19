@@ -7,6 +7,9 @@
 package org.geokur.generateMetadata;
 
 import org.geokur.ISO19103Schema.Record;
+import org.geokur.ISO19108Schema.TM_Instant;
+import org.geokur.ISO19108Schema.TM_Period;
+import org.geokur.ISO19108Schema.TM_Primitive;
 import org.geokur.ISO19115Schema.*;
 import org.geokur.ISO19157Schema.*;
 
@@ -41,8 +44,14 @@ public class AsciiMetadata implements Metadata {
     String postgresPasswd;
     String tableName;
     String tableNameMasked;
+    boolean thematicMapping;
+    String thematicMappingFile;
+    String thematicMappingColFrom;
+    String thematicMappingColTo;
+
     Connection connectionAscii = null;
     Statement statementAscii = null;
+    Map<String, String> thematicMappingDictionary;
 
     public AsciiMetadata(Properties properties, DS_DataSet dsDataSet) {
         this.fileName = properties.filename;
@@ -66,6 +75,13 @@ public class AsciiMetadata implements Metadata {
             this.tableName = properties.postgresTable;
             this.tableNameMasked = tableName + "_masked";
             pushToPostgresql();
+        }
+        this.thematicMapping = properties.thematicMapping;
+        if (this.thematicMapping) {
+            this.thematicMappingFile = properties.thematicMappingFile;
+            this.thematicMappingColFrom = properties.thematicMappingColFrom;
+            this.thematicMappingColTo = properties.thematicMappingColTo;
+            this.thematicMappingDictionary = getMappingDictionary();
         }
     }
 
@@ -104,9 +120,17 @@ public class AsciiMetadata implements Metadata {
             reader.close();
 
             // copy csv content to sql database using system command psql (much faster)
+//            ResultSet tmpRS;
+//            tmpRS = statementAscii.executeQuery("SELECT COUNT(*) FROM " + tableName);
+//            tmpRS.next();
+//            while(tmpRS.getInt(1) == 0) {
             String commandCopy = "\\COPY " + tableName + " FROM '" + fileName + "' DELIMITER '" + delimiter + "' CSV HEADER";
             ProcessBuilder pb = new ProcessBuilder().command("psql", "-h", postgresHostname, "-d", postgresDatabase, "-c", commandCopy);
             pb.inheritIO().start();
+            Thread.sleep(500); // seems to be necessary for safer copying
+//                tmpRS = statementAscii.executeQuery("SELECT COUNT(*) FROM " + tableName);
+//                tmpRS.next();
+//            }
 
             // add joined criteria column
             statementAscii.executeUpdate("ALTER TABLE " + tableName + " ADD COLUMN joincritascii TEXT");
@@ -118,9 +142,34 @@ public class AsciiMetadata implements Metadata {
             command.append(asciiColNameJoin.get(asciiColNameJoin.size() - 1)).append(")");
             statementAscii.executeUpdate(command.toString());
 
-        } catch (SQLException | IOException e) {
+        } catch (SQLException | IOException | InterruptedException e) {
             System.out.println(e.getMessage());
         }
+    }
+
+    public Map<String, String> getMappingDictionary() {
+        // get mapping dictionary from csv file
+
+        Map<String, String> dictionary = new HashMap<>();
+
+        String delimiter = ",";
+        try (BufferedReader reader = new BufferedReader(new FileReader(thematicMappingFile))) {
+            // read header line
+            List<String> header = Arrays.asList(reader.readLine().toLowerCase().split(delimiter));
+            int idxColFrom = header.indexOf(thematicMappingColFrom.toLowerCase());
+            int idxColTo = header.indexOf(thematicMappingColTo.toLowerCase());
+
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] lineParted = line.split(delimiter, -1);
+                dictionary.put(lineParted[idxColFrom], lineParted[idxColTo]);
+            }
+            reader.close();
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
+
+        return dictionary;
     }
 
     public DS_Resource getMetadata() {
@@ -146,6 +195,8 @@ public class AsciiMetadata implements Metadata {
             int numDataAll = -1;
             double polygonPerArea = -1;
             int[] excessDataAll = null;
+            List<List<String>> yearsAssessmentCols = new ArrayList<>();
+            List<List<String>> commoditiesAssessmentCols = new ArrayList<>();
             List<Integer> numGeoAssessmentCols = new ArrayList<>();
             List<Integer> numYearsAssessmentCols = new ArrayList<>();
             List<Integer> numCommoditiesAssessmentCols = new ArrayList<>();
@@ -201,7 +252,6 @@ public class AsciiMetadata implements Metadata {
                     }
                     csvNumAssessment = colNamesAssessment.size();
 
-                    System.out.println("marker 2");
                     // add new table with masked data from tmpdata and add incremental index column
                     StringBuilder command;
                     statementAscii.executeUpdate("DROP TABLE IF EXISTS " + tableNameMasked);
@@ -297,7 +347,6 @@ public class AsciiMetadata implements Metadata {
                     command.append("ALTER TABLE ").append(tableNameMasked).append(" ADD COLUMN idxadded SERIAL");
                     statementAscii.executeUpdate(command.toString());
 
-                    System.out.println("marker 3");
                     // get number of values for each assessment column
                     numDataAssessment = new int[csvNumAssessment];
                     for (int i = 0; i < csvNumAssessment; i++) {
@@ -308,7 +357,6 @@ public class AsciiMetadata implements Metadata {
                         numDataAssessment[i] = tmp.getInt(1);
                     }
 
-                    System.out.println("marker 4");
                     // get number of all values (with masking)
                     command = new StringBuilder();
                     command.append("SELECT COUNT(idxadded) FROM ").append(tableNameMasked);
@@ -321,7 +369,6 @@ public class AsciiMetadata implements Metadata {
                         continue;
                     }
 
-                    System.out.println("marker 5");
                     // get polygons per area (per 1000 square kilometer)
                     // only polygons with data representations in ascii file are taken into account
                     List<String> joinCritGeoExist = new ArrayList<>(); // elements in joinCritGeo used in csv file, too
@@ -352,7 +399,6 @@ public class AsciiMetadata implements Metadata {
                     }
                     gpkg.dispose();
 
-                    System.out.println("marker 6");
                     // get number/rate of excess items in each assessed column of ascii data -> concatenate all join and definition rows# and find duplicates
                     statementAscii.executeUpdate("ALTER TABLE " + tableNameMasked + " ADD COLUMN joindefinecritascii TEXT");
                     command = new StringBuilder();
@@ -385,7 +431,6 @@ public class AsciiMetadata implements Metadata {
                         excessDataAll[ct] = numAll - numDistinct;
                     }
 
-                    System.out.println("marker 7");
                     // get number of geo/years/commodities for all columns of masked assessment data
                     for (int i = 0; i < csvNumAssessment; i++) {
                         // spatial dimension
@@ -398,25 +443,34 @@ public class AsciiMetadata implements Metadata {
                         numGeoAssessmentCols.add(tmpRS.getInt(1));
 
                         // temporal dimension
+                        List<String> yearsAssessmentColsAct = new ArrayList<>();
                         command = new StringBuilder();
-                        command.append("SELECT COUNT(DISTINCT(").append(asciiColNameDefine.get(idxTemporal)).append(")) FROM ")
+                        command.append("SELECT DISTINCT(").append(asciiColNameDefine.get(idxTemporal)).append(") FROM ")
                                 .append(tableNameMasked).append(" WHERE ").append(colNamesAssessment.get(i))
                                 .append(" IS NOT NULL");
                         tmpRS = statementAscii.executeQuery(command.toString());
-                        tmpRS.next();
-                        numYearsAssessmentCols.add(tmpRS.getInt(1));
+                        while (tmpRS.next()) {
+                            yearsAssessmentColsAct.add(tmpRS.getString(1));
+                        }
+                        Collections.sort(yearsAssessmentColsAct);
+                        yearsAssessmentCols.add(yearsAssessmentColsAct);
+                        numYearsAssessmentCols.add(yearsAssessmentColsAct.size());
 
-                        // thematic dimension
+                        // thematic dimension - get all distinct thematic classes and number
+                        List<String> commoditiesAssessmentColsAct = new ArrayList<>();
                         command = new StringBuilder();
-                        command.append("SELECT COUNT(DISTINCT(").append(asciiColNameDefine.get(idxThematic)).append(")) FROM ")
+                        command.append("SELECT DISTINCT(").append(asciiColNameDefine.get(idxThematic)).append(") FROM ")
                                 .append(tableNameMasked).append(" WHERE ").append(colNamesAssessment.get(i))
                                 .append(" IS NOT NULL");
                         tmpRS = statementAscii.executeQuery(command.toString());
-                        tmpRS.next();
-                        numCommoditiesAssessmentCols.add(tmpRS.getInt(1));
+                        while (tmpRS.next()) {
+                            commoditiesAssessmentColsAct.add(tmpRS.getString(1));
+                        }
+                        Collections.sort(commoditiesAssessmentColsAct);
+                        commoditiesAssessmentCols.add(commoditiesAssessmentColsAct);
+                        numCommoditiesAssessmentCols.add(commoditiesAssessmentColsAct.size());
                     }
 
-                    System.out.println("marker 8");
                     // get combinations
                     // get count properties of temporal units per geographical unit
                     temporalPerGeo = new ArrayList<>();
@@ -690,22 +744,24 @@ public class AsciiMetadata implements Metadata {
 
                 // get number of years per attribute
                 List<List<String>> yearsMaskedAssessment = new ArrayList<>();
-                List<List<String>> yearsMaskedAssessmentUnique = new ArrayList<>();
                 for (int i = 0; i < csvNumAssessment; i++) {
                     // get available years of all columns of masked assessment data
                     yearsMaskedAssessment.add(getListFromLogicalIndex(csvContentMaskedTemporal, idxMaskedRelevantAll[i]));
-                    yearsMaskedAssessmentUnique.add(getStringListUniqueMembers(yearsMaskedAssessment.get(i)));
-                    numYearsAssessmentCols.add(yearsMaskedAssessmentUnique.get(i).size());
+                    List<String> yearsAssessmentColsAct = getStringListUniqueMembers(yearsMaskedAssessment.get(i));
+                    Collections.sort(yearsAssessmentColsAct);
+                    yearsAssessmentCols.add(yearsAssessmentColsAct);
+                    numYearsAssessmentCols.add(yearsAssessmentCols.get(i).size());
                 }
 
                 // get number of commodities per attribute
                 List<List<String>> commoditiesMaskedAssessment = new ArrayList<>();
-                List<List<String>> commoditiesMaskedAssessmentUnique = new ArrayList<>();
                 for (int i = 0; i < csvNumAssessment; i++) {
                     // get available commodities of all columns of masked assessment data
                     commoditiesMaskedAssessment.add(getListFromLogicalIndex(csvContentMaskedThematic, idxMaskedRelevantAll[i]));
-                    commoditiesMaskedAssessmentUnique.add(getStringListUniqueMembers(commoditiesMaskedAssessment.get(i)));
-                    numCommoditiesAssessmentCols.add(commoditiesMaskedAssessmentUnique.get(i).size());
+                    List<String> commoditiesAssessmentColsAct = getStringListUniqueMembers(commoditiesMaskedAssessment.get(i));
+                    Collections.sort(commoditiesAssessmentColsAct);
+                    commoditiesAssessmentCols.add(commoditiesAssessmentColsAct);
+                    numCommoditiesAssessmentCols.add(commoditiesAssessmentCols.get(i).size());
                 }
 
                 // prepare for various distribution parameters
@@ -735,6 +791,30 @@ public class AsciiMetadata implements Metadata {
             ///////////////////////////////////
             // Instantiate Metadata Elements //
             ///////////////////////////////////
+            // order of classes according to MD_Metadata:
+            // metadataIdentifier:           1 basicInformation
+            // defaultLocale:                1 basicInformation
+            // parentMetadata:               1 basicInformation
+            // contact:                      1 basicInformation
+            // dateInfo:                     1 basicInformation
+            // metadataStandard:             5 metadataContact
+            // metadataProfile:              5 metadataContact
+            // alternativeMetadataReference: 5 metadataContact
+            // otherLocale:                  1 basicInformation
+            // metadataLinkage:              1 basicInformation
+            // spatialRepresentationInfo:    3 structureOfSpatialData
+            // referenceSystemInfo:          2 referenceSystem
+            // metadataExtensionInfo:        5 metadataContact
+            // identificationInfo:           3 structureOfSpatialData
+            // contentInfo:                  3 structureOfSpatialData
+            // distributionInfo:             1 basicInformation
+            // dataQualityInfo:              4 dataQuality
+            // portrayalCatalogueInfo:       5 metadataContact
+            // metadataConstraints:          1 basicInformation
+            // applicationSchemaInfo:        5 metadataContact
+            // metadataMaintenance:          5 metadataContact
+            // resourceLineage:              6 provenance
+            // metadataScope:                5 metadataContact
 
             // get (1) basic information
             System.out.println("Basic Information:");
@@ -788,6 +868,54 @@ public class AsciiMetadata implements Metadata {
 
             MD_DataIdentification mdDataIdentification = new MD_DataIdentification();
             mdDataIdentification.addCitation(ciCitation);
+
+            for (int i = 0; i < csvNumAssessment; i++) {
+                // temporal dimension
+                EX_Extent exExtent = new EX_Extent();
+                exExtent.addDescription("attributeName:" + colNamesAssessment.get(i));
+                TemporalRegularity tr = getRegularity(yearsAssessmentCols.get(i));
+                if (tr.regularity) {
+                    // if temporal resolution is incremental by 1 only give begin and end
+                    TM_Instant tmInstantBegin = new TM_Instant();
+                    tmInstantBegin.addPosition(String.valueOf(tr.begin));
+                    TM_Instant tmInstantEnd = new TM_Instant();
+                    tmInstantEnd.addPosition(String.valueOf(tr.end));
+                    TM_Period tmPeriod = new TM_Period();
+                    tmPeriod.addBegin(tmInstantBegin);
+                    tmPeriod.addEnd(tmInstantEnd);
+                    tmPeriod.finalizeClass();
+                    EX_TemporalExtent exTemporalExtent = new EX_TemporalExtent();
+                    exTemporalExtent.addExtent(tmPeriod);
+                    exTemporalExtent.finalizeClass();
+                    exExtent.addTemporalElement(exTemporalExtent);
+                } else {
+                    // give all single temporal data
+                    for (String tmp : yearsAssessmentCols.get(i)) {
+                        TM_Instant tmInstant = new TM_Instant();
+                        tmInstant.addPosition(tmp);
+                        EX_TemporalExtent exTemporalExtent = new EX_TemporalExtent();
+                        exTemporalExtent.addExtent(tmInstant);
+                        exTemporalExtent.finalizeClass();
+                        exExtent.addTemporalElement(exTemporalExtent);
+                    }
+                }
+                exExtent.finalizeClass();
+                mdDataIdentification.addExtent(exExtent);
+
+                // thematic dimension
+                MD_Keywords mdKeywords = new MD_Keywords();
+                mdKeywords.addType(new MD_KeywordTypeCode(MD_KeywordTypeCode.MD_KeywordTypeCodes.theme));
+                mdKeywords.addKeyword("attributeName: " + colNamesAssessment.get(i));
+                for (String tmp : commoditiesAssessmentCols.get(i)) {
+                    if (thematicMapping) {
+                        mdKeywords.addKeyword(thematicMappingDictionary.get(tmp));
+                    } else {
+                        mdKeywords.addKeyword(tmp);
+                    }
+                }
+                mdKeywords.finalizeClass();
+                mdDataIdentification.addDescriptiveKeywords(mdKeywords);
+            }
 
             String environmentalDescription = "file name: " + fileName + "; "
                     + "file size: " + (int) csvFile.length() + " B; "
@@ -1531,6 +1659,49 @@ public class AsciiMetadata implements Metadata {
         }
         return false;
     }
+
+    static List<String> applyDictionary(List<String> list, HashMap<String, String> dictionary) {
+        // apply hashmap dictionary on list of strings - mapping
+
+        List<String> out = new ArrayList<>();
+        for (String tmp : list) {
+            out.add(dictionary.get(tmp));
+        }
+
+        return out;
+    }
+
+    TemporalRegularity getRegularity(List<String> list) {
+        // test of regularity of strings - used for annual date representations
+
+        TemporalRegularity tr = new TemporalRegularity();
+
+        if (list.size()==0) {
+            // no element included - no regularity
+            tr.regularity = false;
+            return tr;
+        }
+
+        try {
+            List<Integer> listInt = new ArrayList<>();
+            for (String tmp : list) {
+                int tmpInt = Integer.parseInt(tmp);
+                listInt.add(tmpInt);
+            }
+
+            int n = listInt.size();
+            tr.begin = Collections.min(listInt);
+            tr.end = Collections.max(listInt);
+            if ((tr.end - tr.begin + 1) == n) {
+                tr.regularity = true;
+            }
+
+        } catch (NumberFormatException e) {
+            tr.regularity = false;
+        }
+
+        return tr;
+    }
 }
 
 
@@ -1815,4 +1986,13 @@ class EmpiricalDistributionProperty {
         this.propertyName = propertyName;
         this.value = value;
     }
+}
+
+
+class TemporalRegularity {
+    boolean regularity;
+    int begin;
+    int end;
+
+    public TemporalRegularity() {}
 }

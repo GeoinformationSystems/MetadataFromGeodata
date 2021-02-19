@@ -268,6 +268,34 @@ public class MetadataGenerator {
                     }
                     properties.setColJoinSequential(colJoinSequential);
                 }
+
+                // apply thematic mapping if desired
+                idx = propertyName.indexOf("thematicmapping");
+                if (idx == -1) {
+                    properties.setThematicMapping(false);
+                } else {
+                    properties.setThematicMapping(Boolean.parseBoolean(propertyContent.get(idx)));
+                }
+
+                if (properties.thematicMapping) {
+                    idx = propertyName.indexOf("thematicmappingfile");
+                    if (idx == -1) {
+                        throw new ListContentException("thematicMappingFile", filenameProperties);
+                    }
+                    properties.setThematicMappingFile(propertyContent.get(idx));
+
+                    idx = propertyName.indexOf("thematicmappingcolfrom");
+                    if (idx == -1) {
+                        throw new ListContentException("thematicMappingColFrom", filenameProperties);
+                    }
+                    properties.setThematicMappingColFrom(propertyContent.get(idx));
+
+                    idx = propertyName.indexOf("thematicmappingcolto");
+                    if (idx == -1) {
+                        throw new ListContentException("thematicMappingColTo", filenameProperties);
+                    }
+                    properties.setThematicMappingColTo(propertyContent.get(idx));
+                }
             }
 
         } catch (IOException | ListContentException e) {

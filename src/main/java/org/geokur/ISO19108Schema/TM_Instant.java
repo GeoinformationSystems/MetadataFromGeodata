@@ -4,26 +4,24 @@
  * @contact: michael.wagner@tu-dresden.de
  */
 
-package org.geokur.ISO19115Schema;
+package org.geokur.ISO19108Schema;
 
-import org.geokur.ISO19108Schema.TM_Primitive;
 import org.geokur.ISO191xxProfile.MaximumOccurrenceException;
 import org.geokur.ISO191xxProfile.ObligationException;
 import org.geokur.ISO191xxProfile.ProfileException;
 import org.geokur.ISO191xxProfile.ProfileReader;
 
-import javax.xml.bind.annotation.XmlElementRef;
-import javax.xml.bind.annotation.XmlElementWrapper;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-@XmlRootElement(name = "EX_TemporalExtent", namespace = "http://standards.iso.org/iso/19115/-3/gex/1.0")
-public class EX_TemporalExtent {
+@XmlRootElement(name = "TM_Instant", namespace = "http://www.opengis.net/gml/3.2")
+public class TM_Instant extends TM_GeometricPrimitive{
 
     // occurrence and obligation
-    private final String[] elementName = {"extent"};
+    private final String[] elementName = {"position"};
     private final int[] elementMax = {1};
     private final boolean[] elementObligation = {true};
 
@@ -31,15 +29,11 @@ public class EX_TemporalExtent {
     private final boolean[] elementUsed = new boolean[elementName.length];
 
     // class variables
-    @XmlElementWrapper(name = "extent", namespace = "http://standards.iso.org/iso/19115/-3/gex/1.0")
-    @XmlElementRef
-    public List<TM_Primitive> extent;
-
-    // variables for correct marshalling of specified classes
-    public List<EX_SpatialTemporalExtent> spatialTemporalExtent;
+    @XmlElement(name = "position", namespace = "http://www.opengis.net/gml/3.2")
+    public List<String> position;
 
     // methods
-    public EX_TemporalExtent(){
+    public TM_Instant(){
         for (int i = 0; i < elementName.length; i++) {
             elementUsed[i] = true;
         }
@@ -47,12 +41,12 @@ public class EX_TemporalExtent {
         // use profile (used elements and their obligation)
         if (ProfileReader.profile != null) {
             for (int i = 0; i < elementName.length; i++) {
-                List<String> tempList = Arrays.asList(ProfileReader.profile.used.EX_TemporalExtent);
+                List<String> tempList = Arrays.asList(ProfileReader.profile.used.TM_Instant);
                 if (!tempList.contains(elementName[i])) {
                     // element not used
                     elementUsed[i] = false;
                 }
-                tempList = Arrays.asList(ProfileReader.profile.obligation.EX_TemporalExtent);
+                tempList = Arrays.asList(ProfileReader.profile.obligation.TM_Instant);
                 if (!tempList.contains(elementName[i])) {
                     // element not mandatory
                     elementObligation[i] = false;
@@ -64,9 +58,9 @@ public class EX_TemporalExtent {
         }
     }
 
-    public void addExtent(TM_Primitive extent) {
-        if (this.extent == null) {
-            this.extent = new ArrayList<>();
+    public void addPosition(String position) {
+        if (this.position == null) {
+            this.position = new ArrayList<>();
         }
 
         int elementNum = 0;
@@ -75,7 +69,7 @@ public class EX_TemporalExtent {
             if (tempList.size() >= elementMax[elementNum]) {
                 throw new MaximumOccurrenceException(className + " - " + elementName[elementNum], elementMax[elementNum]);
             } else {
-                this.extent.add(extent);
+                this.position.add(position);
             }
         } catch (MaximumOccurrenceException | NoSuchFieldException | IllegalAccessException e) {
             System.out.println(e.getMessage());

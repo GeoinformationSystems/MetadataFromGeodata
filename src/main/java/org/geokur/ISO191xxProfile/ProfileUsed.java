@@ -163,6 +163,8 @@ public class ProfileUsed {
     public String[] PointMotionOperation;
     public String[] OperationMethod;
     public String[] Formula;
+    public String[] TM_Instant;
+    public String[] TM_Period;
 
     public void setDS_DataSet(String[] DS_DataSet) {
         this.DS_DataSet = DS_DataSet;
@@ -786,5 +788,13 @@ public class ProfileUsed {
 
     public void setFormula(String[] formula) {
         Formula = formula;
+    }
+
+    public void setTM_Instant(String[] TM_Instant) {
+        this.TM_Instant = TM_Instant;
+    }
+
+    public void setTM_Period(String[] TM_Period) {
+        this.TM_Period = TM_Period;
     }
 }
