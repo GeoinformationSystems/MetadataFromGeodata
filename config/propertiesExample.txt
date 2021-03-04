@@ -14,6 +14,8 @@ geodata = examples/exampleGeo.gpkg
 # geodata = examples/exampleGeoTable.csv
 # geodata = examples/exampleGeoShp.shp
 # geodata = examples/exampleGeoShpETRS.shp
+# geodata = examples/rasterExample.tif
+# geodata = examples/rasterExampleETRS.tif
 
 
 ## filename of outputs (xml and sqlite database)
@@ -46,8 +48,20 @@ descriptionAsciiColNameDefine = temporal
 asciiColNameIgnore = id
 asciiColNameIgnore = tabID
 
+# postgres database properties (only used if postgresUse = true)
 postgresUse = true
 postgresHostname = 127.0.0.1
 postgresDatabase = metadataDB
 postgresUser = mwagner
 postgresPasswd =
+postgresTable = tmpdata
+
+colJoinNumerical = true
+colJoinSequential = true
+colJoinSequential = false
+
+# mapping of thematic classes
+thematicMapping = true
+thematicMappingFile = examples/exampleIDCommodities.csv
+thematicMappingColFrom = commodityID
+thematicMappingColTo = target

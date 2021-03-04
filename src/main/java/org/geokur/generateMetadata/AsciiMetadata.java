@@ -164,7 +164,6 @@ public class AsciiMetadata implements Metadata {
                 String[] lineParted = line.split(delimiter, -1);
                 dictionary.put(lineParted[idxColFrom], lineParted[idxColTo]);
             }
-            reader.close();
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }
@@ -183,7 +182,7 @@ public class AsciiMetadata implements Metadata {
         Statement statement = gpkg.getStatement(connection);
 
         for (String geoTableNameAct : geoTableName) {
-            String displayTableName = "geoTableName" + geoTableNameAct;
+            String displayTableName = "geoTableName: " + geoTableNameAct;
             String displayLine = "-".repeat(displayTableName.length());
             System.out.println(displayLine);
             System.out.println(displayTableName);
@@ -310,7 +309,7 @@ public class AsciiMetadata implements Metadata {
                             }
                         }
                         command = new StringBuilder();
-                        command.append("CREATE TABLE ").append(tableNameMasked).append(" AS SELECT * FROM ").append(tableName).append(" WHERE ");
+                        command.append("CREATE TEMP TABLE ").append(tableNameMasked).append(" AS SELECT * FROM ").append(tableName).append(" WHERE ");
                         for (int i = 0; i < geoColContent.size(); i++) {
                             String colTmp = asciiColNameJoin.get(i) + "_numerical";
                             if (colJoinSequential.get(i)) {
@@ -334,7 +333,7 @@ public class AsciiMetadata implements Metadata {
                         }
                     } else {
                         command = new StringBuilder();
-                        command.append("CREATE TABLE ").append(tableNameMasked).append(" AS SELECT * FROM ").append(tableName).append(" WHERE ");
+                        command.append("CREATE TEMP TABLE ").append(tableNameMasked).append(" AS SELECT * FROM ").append(tableName).append(" WHERE ");
                         for (int i = 0; i < joinCritGeo.size() - 1; i++) {
                             command.append("joincritascii='").append(joinCritGeo.get(i)).append("' OR ");
                         }
@@ -346,6 +345,9 @@ public class AsciiMetadata implements Metadata {
                     command = new StringBuilder();
                     command.append("ALTER TABLE ").append(tableNameMasked).append(" ADD COLUMN idxadded SERIAL");
                     statementAscii.executeUpdate(command.toString());
+
+                    statementAscii.executeUpdate("ANALYZE " + tableNameMasked);
+                    //TODO: CREATE INDEX ON table_name (column_name)
 
                     // get number of values for each assessment column
                     numDataAssessment = new int[csvNumAssessment];
@@ -869,13 +871,16 @@ public class AsciiMetadata implements Metadata {
             MD_DataIdentification mdDataIdentification = new MD_DataIdentification();
             mdDataIdentification.addCitation(ciCitation);
 
+            // TODO: spatial resolution and spatial extent (via flagging in Geopackage class)
+
             for (int i = 0; i < csvNumAssessment; i++) {
                 // temporal dimension
                 EX_Extent exExtent = new EX_Extent();
-                exExtent.addDescription("attributeName:" + colNamesAssessment.get(i));
+                exExtent.addDescription("attributeName: " + colNamesAssessment.get(i));
                 TemporalRegularity tr = getRegularity(yearsAssessmentCols.get(i));
+                // resolution will be -999
                 if (tr.regularity) {
-                    // if temporal resolution is incremental by 1 only give begin and end
+                    // if temporal resolution is evenly incremented give begin and end and temporal resolution
                     TM_Instant tmInstantBegin = new TM_Instant();
                     tmInstantBegin.addPosition(String.valueOf(tr.begin));
                     TM_Instant tmInstantEnd = new TM_Instant();
@@ -900,6 +905,7 @@ public class AsciiMetadata implements Metadata {
                     }
                 }
                 exExtent.finalizeClass();
+                mdDataIdentification.addTemporalResolution(String.valueOf(tr.resolution));
                 mdDataIdentification.addExtent(exExtent);
 
                 // thematic dimension
@@ -934,7 +940,6 @@ public class AsciiMetadata implements Metadata {
             // completenessOmission of data in attribute rows - count of missing data
             List<DQ_CompletenessOmission> dqCompletenessOmissionsCount = new ArrayList<>();
             for (int i = 0; i < csvNumAssessment; i++) {
-                assert numDataAssessment != null;
                 if ((numDataAll - numDataAssessment[i]) > 0) {
                     dqCompletenessOmissionsCount.add(makeDQCompletenessOmission(colNamesAssessment.get(i), numDataAll, numDataAssessment[i], "count"));
                 }
@@ -1239,7 +1244,6 @@ public class AsciiMetadata implements Metadata {
 
         Record record = new Record();
         record.addField(stringMissing);
-        record.addField("value", stringMissing);
         record.finalizeClass();
 
         DQ_QuantitativeResult dqQuantitativeResult = new DQ_QuantitativeResult();
@@ -1301,7 +1305,7 @@ public class AsciiMetadata implements Metadata {
         }
 
         Record record = new Record();
-        record.addField("value", stringMissing);
+        record.addField(stringMissing);
         record.finalizeClass();
 
         DQ_QuantitativeResult dqQuantitativeResult = new DQ_QuantitativeResult();
@@ -1349,7 +1353,7 @@ public class AsciiMetadata implements Metadata {
         stringNumDataActual = Integer.toString(numDataActual);
 
         Record record = new Record();
-        record.addField("value", stringNumDataActual);
+        record.addField(stringNumDataActual);
         record.finalizeClass();
 
         DQ_QuantitativeResult dqQuantitativeResult = new DQ_QuantitativeResult();
@@ -1394,7 +1398,7 @@ public class AsciiMetadata implements Metadata {
         stringNumDataActual = Integer.toString(numDataActual);
 
         Record record = new Record();
-        record.addField("value", stringNumDataActual);
+        record.addField(stringNumDataActual);
         record.finalizeClass();
 
         DQ_QuantitativeResult dqQuantitativeResult = new DQ_QuantitativeResult();
@@ -1439,7 +1443,7 @@ public class AsciiMetadata implements Metadata {
         stringNumDataActual = Integer.toString(numDataActual);
 
         Record record = new Record();
-        record.addField("value", stringNumDataActual);
+        record.addField(stringNumDataActual);
         record.finalizeClass();
 
         DQ_QuantitativeResult dqQuantitativeResult = new DQ_QuantitativeResult();
@@ -1672,13 +1676,17 @@ public class AsciiMetadata implements Metadata {
     }
 
     TemporalRegularity getRegularity(List<String> list) {
-        // test of regularity of strings - used for annual date representations
+        // test of regularity of strings - only possible for date in integer form
+        // TODO: make datetime given as ZonedDateTime available
 
         TemporalRegularity tr = new TemporalRegularity();
 
         if (list.size()==0) {
             // no element included - no regularity
             tr.regularity = false;
+            tr.resolution = -999;
+            tr.begin = -999;
+            tr.end = -999;
             return tr;
         }
 
@@ -1690,14 +1698,30 @@ public class AsciiMetadata implements Metadata {
             }
 
             int n = listInt.size();
+
+            int resolution = listInt.get(1) - listInt.get(0);
+            for (int i = 2; i < n; i++) {
+                int tmp = listInt.get(i) - listInt.get(i - 1);
+                if (tmp != resolution) {
+                    // no constant resolution
+                    tr.regularity = false;
+                    tr.resolution = -999;
+                    tr.begin = Collections.min(listInt);
+                    tr.end = Collections.max(listInt);
+                    return tr;
+                }
+            }
+
             tr.begin = Collections.min(listInt);
             tr.end = Collections.max(listInt);
-            if ((tr.end - tr.begin + 1) == n) {
-                tr.regularity = true;
-            }
+            tr.resolution = resolution;
+            tr.regularity = true;
 
         } catch (NumberFormatException e) {
             tr.regularity = false;
+            tr.resolution = -999;
+            tr.begin = -999;
+            tr.end = -999;
         }
 
         return tr;
@@ -1993,6 +2017,7 @@ class TemporalRegularity {
     boolean regularity;
     int begin;
     int end;
+    int resolution;
 
     public TemporalRegularity() {}
 }

@@ -6,36 +6,40 @@
 
 package org.geokur.generateMetadata;
 
-import org.apache.tika.exception.TikaException;
-import org.apache.tika.parser.ParseContext;
-import org.apache.tika.parser.gdal.GDALParser;
-import org.apache.tika.sax.BodyContentHandler;
 import org.geokur.ISO19103Schema.Coordinate;
-import org.geotools.data.DataSourceException;
-import org.geotools.gce.geotiff.GeoTiffReader;
-import org.xml.sax.SAXException;
+import org.geotools.coverage.grid.GridCoverage2D;
+import org.geotools.coverage.grid.GridGeometry2D;
+import org.geotools.coverage.grid.io.AbstractGridFormat;
+import org.geotools.coverage.grid.io.GridCoverage2DReader;
+import org.geotools.coverage.grid.io.GridFormatFinder;
+import org.geotools.referencing.CRS;
+import org.opengis.geometry.Envelope;
+import org.opengis.referencing.FactoryException;
+import org.opengis.referencing.crs.CoordinateReferenceSystem;
+import org.opengis.referencing.operation.MathTransform;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
+import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class GeoTIFF {
     String fileName;
     int dimensionality;
-    int numBands;
-    int[] size;
+//    int numBands;
+    int[] size = new int[2];
     Extent extent;
-    Coordinate cornerLL;
-    Coordinate cornerLR;
-    Coordinate cornerUR;
-    Coordinate cornerUL;
+    Coordinate cornerLL = new Coordinate();
+    Coordinate cornerLR = new Coordinate();
+    Coordinate cornerUR = new Coordinate();
+    Coordinate cornerUL = new Coordinate();
     SRSDescription srsDescription;
     String cellRepresentation;
     boolean resolutionIsotropy;
     double resolutionIsotropic;
     double[] resolutionAnisotropic;
-    double[] bandsNoDataValue;
+//    double[] bandsNoDataValue;
 
 
     public GeoTIFF(String fileName) {
@@ -45,32 +49,46 @@ public class GeoTIFF {
     void open() {
         File file = new File(fileName);
 
-        GDALParser parser = new GDALParser();
-        BodyContentHandler handler = new BodyContentHandler();
-        org.apache.tika.metadata.Metadata metaTika = new org.apache.tika.metadata.Metadata();
-        ParseContext context = new ParseContext();
+        AbstractGridFormat format = GridFormatFinder.findFormat(file);
+        GridCoverage2DReader reader = format.getReader(file);
 
         try {
-            InputStream stream = new FileInputStream(file);
-            parser.parse(stream, handler, metaTika, context);
-            String parsedStuff = handler.toString();
+            GridCoverage2D coverage = reader.read(null);
+            GridGeometry2D geometry = coverage.getGridGeometry();
 
-            GdalInfoParser gdalInfoParser = new GdalInfoParser(parsedStuff);
-            dimensionality = gdalInfoParser.dimensionality;
-            numBands = gdalInfoParser.numBands;
-            size = gdalInfoParser.getSize();
-            extent = gdalInfoParser.getExtent();
-            cornerLL = gdalInfoParser.cornerLL;
-            cornerLR = gdalInfoParser.cornerLR;
-            cornerUR = gdalInfoParser.cornerUR;
-            cornerUL = gdalInfoParser.cornerUL;
-            srsDescription = gdalInfoParser.getSRSDescription();
-            cellRepresentation = gdalInfoParser.getCellRepresentation();
-            resolutionAnisotropic = gdalInfoParser.getResolution();
-            bandsNoDataValue = gdalInfoParser.getNoDataValue();
+            int axisX = geometry.axisDimensionX;
+            int axisY = geometry.axisDimensionY;
+            size[axisX] = geometry.getGridRange().getHigh(axisX);
+            size[axisY] = geometry.getGridRange().getHigh(axisY);
 
+            Envelope envelope = coverage.getEnvelope();
+            cornerLL.addX(envelope.getMinimum(axisX));
+            cornerLL.addY(envelope.getMinimum(axisY));
+            cornerLL.finalizeClass();
+            cornerLR.addX(envelope.getMaximum(axisX));
+            cornerLR.addY(envelope.getMinimum(axisY));
+            cornerLR.finalizeClass();
+            cornerUR.addX(envelope.getMaximum(axisX));
+            cornerUR.addY(envelope.getMaximum(axisY));
+            cornerUR.finalizeClass();
+            cornerUL.addX(envelope.getMinimum(axisX));
+            cornerUL.addY(envelope.getMaximum(axisY));
+            cornerUL.finalizeClass();
 
-            if (Math.abs(resolutionAnisotropic[0]) - Math.abs(resolutionAnisotropic[1]) > 1e-10) {
+            extent = new Extent();
+            extent.west = envelope.getMinimum(axisX);
+            extent.east = envelope.getMaximum(axisX);
+            extent.south = envelope.getMinimum(axisY);
+            extent.north = envelope.getMaximum(axisY);
+
+            CoordinateReferenceSystem srcCRS = coverage.getCoordinateReferenceSystem2D();
+            String srcCRSWKT = srcCRS.toWKT();
+            srsDescription = getSrsDescription(srcCRSWKT.split("\n"));
+
+            cellRepresentation = "Area";
+
+            resolutionAnisotropic = reader.getResolutionLevels()[0];
+            if (Math.abs(resolutionAnisotropic[0]) - Math.abs(resolutionAnisotropic[1]) > 1e-4) {
                 // resolution is anisotropic
                 resolutionIsotropy = false;
             } else {
@@ -79,17 +97,141 @@ public class GeoTIFF {
                 resolutionIsotropic = Math.abs(resolutionAnisotropic[0]);
             }
 
-        } catch (IOException | SAXException | TikaException e) {
+        } catch (IOException e) {
             System.out.println(e.getMessage());
         }
+    }
 
-        //TODO: ??????????????????
-        try {
-            GeoTiffReader reader = new GeoTiffReader(file);
-            System.out.println(reader.toString());
-        } catch (DataSourceException e) {
-            System.out.println(e.getMessage());
+    private String findEpsgCode(CoordinateReferenceSystem srcCRS) {
+        // find correct epsg code for existing data
+
+        String authority = "EPSG";
+
+        Set<String> supportedCodes = CRS.getSupportedCodes(authority);
+        String srcCRSName = srcCRS.getName().toString();
+
+        List<String> matchingEPSGCode = new ArrayList<>();
+        List<Integer> matchingLevenshteinDistance = new ArrayList<>();
+
+        System.out.println("Comparison of CRS to find the correct EPSG identifier");
+        System.out.print("[          ]");
+        int ct = 0;
+        int ct2 = 0;
+        for (String supportedCode : supportedCodes) {
+            ct++;
+            if (!supportedCode.matches("[0-9]+")) {
+                // only interpret numerical epsg codes (the first supported code might be WGS84 as text)
+                continue;
+            }
+            if ((ct % (supportedCodes.size() / 10)) == 0) {
+                // construct wait bar on console output
+                ct2++;
+                System.out.print("\b\b\b\b\b\b\b\b\b\b\b");
+                for (int i = 1; i <= ct2; i++) {
+                    System.out.print("#");
+                }
+                for (int i = ct2 + 1; i <= 10; i++) {
+                    System.out.print(" ");
+                }
+                System.out.print("]");
+            }
+            try {
+                CoordinateReferenceSystem actCRS = CRS.decode(authority + ":" + supportedCode);
+                MathTransform mathTransformFind = CRS.findMathTransform(srcCRS, actCRS, true);
+                if (mathTransformFind.isIdentity()) {
+                    matchingEPSGCode.add(supportedCode);
+                    String actCRSName = actCRS.getName().toString();
+                    matchingLevenshteinDistance.add(levenshteinDistance(srcCRSName, actCRSName));
+                }
+            } catch (FactoryException ignored) {
+            }
+        }
+        int idxMatching = matchingLevenshteinDistance.indexOf(Collections.min(matchingLevenshteinDistance));
+
+        return matchingEPSGCode.get(idxMatching);
+    }
+
+    public SRSDescription getSrsDescription(String[] crsWKT) {
+        // try to obtain crs authority and id from crs in wkt format
+
+        SRSDescription srsDescription = new SRSDescription();
+
+        // get indentation width in actual strings
+        String indentationString = "";
+        for (String line : crsWKT) {
+            Pattern pattern = Pattern.compile("^\\s+\\w");
+            Matcher matcher = pattern.matcher(line);
+            if (matcher.find()) {
+                indentationString = line.substring(matcher.start(), matcher.end() - 1);
+                break;
+            }
         }
 
+        // get srs description
+        for (String line : crsWKT) {
+            String stringID = "^" + indentationString + "ID\\[";
+            Pattern patternID = Pattern.compile(stringID, Pattern.CASE_INSENSITIVE);
+            Matcher matcherID = patternID.matcher(line);
+
+            String stringAUTH = "^" + indentationString + "AUTHORITY\\[";
+            Pattern patternAUTH = Pattern.compile(stringAUTH, Pattern.CASE_INSENSITIVE);
+            Matcher matcherAUTH = patternAUTH.matcher(line);
+
+            if (matcherID.find() || matcherAUTH.find()) {
+                String[] tmp = removeNullEntries(line.split("[ ,\"\\[\\]]"));
+                srsDescription.setSrsOrganization(tmp[tmp.length - 2]);
+                srsDescription.setSrsOrganizationCoordsysID(Integer.parseInt(tmp[tmp.length - 1]));
+            }
+        }
+
+        String[] tmp = removeNullEntries(crsWKT[0].split("[,\"\\[\\]]"));
+        srsDescription.setSrsName(tmp[tmp.length - 1]);
+
+        return srsDescription;
+    }
+
+    public String[] removeNullEntries(String[] input) {
+        // remove empty strings in input array
+
+        List<String> outList = new ArrayList<>();
+        for (String inputLine : input) {
+            if (!inputLine.isBlank()) {
+                outList.add(inputLine);
+            }
+        }
+
+        return outList.toArray(new String[0]);
+    }
+
+    int levenshteinDistance(String x, String y) {
+        // calculation of Levenshtein distance (edit distance)
+        // source https://www.baeldung.com/java-levenshtein-distance
+
+        int[][] dp = new int[x.length() + 1][y.length() + 1];
+
+        for (int i = 0; i <= x.length(); i++) {
+            for (int j = 0; j <= y.length(); j++) {
+                if (i == 0) {
+                    dp[i][j] = j;
+                }
+                else if (j == 0) {
+                    dp[i][j] = i;
+                }
+                else {
+                    dp[i][j] = min(dp[i - 1][j - 1] + costOfSubstitution(x.charAt(i - 1), y.charAt(j - 1)),
+                            dp[i - 1][j] + 1,
+                            dp[i][j - 1] + 1);
+                }
+            }
+        }
+        return dp[x.length()][y.length()];
+    }
+
+    private int costOfSubstitution(char a, char b) {
+        return a == b ? 0 : 1;
+    }
+
+    private int min(int... numbers) {
+        return Arrays.stream(numbers).min().orElse(Integer.MAX_VALUE);
     }
 }

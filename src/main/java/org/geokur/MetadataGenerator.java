@@ -61,10 +61,10 @@ public class MetadataGenerator {
             case "csv":
                 metadata = new AsciiMetadata(properties, new DS_DataSet()).getMetadata();
                 break;
-//            case "tif":
-//            case "tiff":
-//                metadata = new GeoTIFFMetadata(properties.filename, new DS_DataSet()).getMetadata();
-//                break;
+            case "tif":
+            case "tiff":
+                metadata = new GeoTIFFMetadata(properties.filename, new DS_DataSet()).getMetadata();
+                break;
             default:
                 // file format not supported -> return empty document
                 metadata = null;
@@ -83,18 +83,18 @@ public class MetadataGenerator {
 
         // order xml file to SQLite database
         // read xml file with JDOM2 library in order to get a document
-//        try {
-//            Document doc = new SAXBuilder().build(properties.filenameXml);
-//            Element docRoot = doc.getRootElement();
-//            MetadataDatabase metadataDatabase = new MetadataDatabase();
-//            metadataDatabase.generateFlatFromElement(docRoot);
-//            Database database = new Database(properties.filenameDB);
-//            database.createNewDatabase();
-//            database.addToDatabase(properties.filename);
-//            database.writeMetadataToDatabase(properties.filename, metadataDatabase);
-//        } catch (IOException | JDOMException e) {
-//            System.out.println(e.getMessage());
-//        }
+        try {
+            Document doc = new SAXBuilder().build(properties.filenameXml);
+            Element docRoot = doc.getRootElement();
+            MetadataDatabase metadataDatabase = new MetadataDatabase();
+            metadataDatabase.generateFlatFromElement(docRoot);
+            Database database = new Database(properties.filenameDB);
+            database.createNewDatabase();
+            database.addToDatabase(properties.filename);
+            database.writeMetadataToDatabase(properties.filename, metadataDatabase);
+        } catch (IOException | JDOMException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     private static Properties readProperties(String filenameProperties) {
