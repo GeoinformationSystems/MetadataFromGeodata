@@ -6,8 +6,9 @@
 
 package org.geokur.generateMetadata;
 
+import org.geokur.ISO19103Schema.Record;
 import org.geokur.ISO19115Schema.*;
-import org.geokur.ISO19157Schema.DQ_DataQuality;
+import org.geokur.ISO19157Schema.*;
 
 import java.io.File;
 import java.io.IOException;
@@ -211,11 +212,32 @@ public class GeoTIFFMetadata implements Metadata {
             mdScope.addLevel(new MD_ScopeCode(MD_ScopeCode.MD_ScopeCodes.dataset));
             mdScope.finalizeClass();
 
+            CI_Date ciDateReport = new CI_Date();
+            ciDateReport.addDate(now);
+            ciDateReport.addDateType(new CI_DateTypeCode(CI_DateTypeCode.CI_DateTypeCodes.creation));
+            ciDateReport.finalizeClass();
 
+            CI_Citation ciCitationReport = new CI_Citation();
+            ciCitationReport.addTitle("Reporting as standalone quality report");
+            ciCitationReport.addDate(ciDateReport);
+            ciCitationReport.finalizeClass();
+
+            DQ_StandaloneQualityReportInformation dqStandaloneQualityReportInformation = new DQ_StandaloneQualityReportInformation();
+            dqStandaloneQualityReportInformation.addReportReference(ciCitationReport);
+            dqStandaloneQualityReportInformation.addAbstract("The standalone quality report attached to this quality evaluation is providing more details on the derivation and aggregation method.");
+            dqStandaloneQualityReportInformation.finalizeClass();
 
             DQ_DataQuality dqDataQuality = new DQ_DataQuality();
             dqDataQuality.addScope(mdScope);
-//            dqDataQuality.addReport();
+            dqDataQuality.addStandaloneQualityReport(dqStandaloneQualityReportInformation);
+            for (int i = 0; i < geoTIFF.numBands; i++) {
+                // data omission (count) for all bands
+                dqDataQuality.addReport(makeDQCompletenessOmission("band " + (i + 1), geoTIFF.numCells, geoTIFF.numNoData[i], "count"));
+            }
+            for (int i = 0; i < geoTIFF.numBands; i++) {
+                // data omission (rate) for all bands
+                dqDataQuality.addReport(makeDQCompletenessOmission("band " + (i + 1), geoTIFF.numCells, geoTIFF.numNoData[i], "rate"));
+            }
             dqDataQuality.finalizeClass();
 
 
@@ -253,5 +275,68 @@ public class GeoTIFFMetadata implements Metadata {
         }
 
         return dsDataSet;
+    }
+
+    DQ_CompletenessOmission makeDQCompletenessOmission(String bandName, int numDataAll, int numDataMissing, String method) {
+        // instantiate DQ_CompletenessOmission class for count or rate (defined by "method" argument) of missing values
+
+        DQ_MeasureReference dqMeasureReference = new DQ_MeasureReference();
+        if (method.equals("count")) {
+            dqMeasureReference.addNameOfMeasure("number of missing items");
+            dqMeasureReference.addMeasureDescription("count of all items that should have been in the data set or sample and are missing");
+        } else if (method.equals("rate")) {
+            dqMeasureReference.addNameOfMeasure("rate of missing items");
+            dqMeasureReference.addMeasureDescription("rate of all items that should have been in the data set or sample and are missing");
+        }
+        dqMeasureReference.finalizeClass();
+
+        DQ_EvaluationMethod dqEvaluationMethod = new DQ_FullInspection();
+        dqEvaluationMethod.addEvaluationMethodType(new DQ_EvaluationMethodTypeCode(DQ_EvaluationMethodTypeCode.DQ_EvaluationMethodTypeCodes.directInternal));
+        if (method.equals("count")) {
+            dqEvaluationMethod.addEvaluationMethodDescription("count of missing items in the data set");
+        } else if (method.equals("rate")) {
+            dqEvaluationMethod.addEvaluationMethodDescription("rate of missing items in the data set");
+        }
+        dqEvaluationMethod.finalizeClass();
+
+        MD_ScopeDescription mdScopeDescription = new MD_ScopeDescription();
+        mdScopeDescription.addAttributes(bandName);
+        mdScopeDescription.finalizeClass();
+
+        MD_Scope mdScopeAttribute = new MD_Scope();
+        mdScopeAttribute.addLevel(new MD_ScopeCode(MD_ScopeCode.MD_ScopeCodes.dataset));
+        mdScopeAttribute.addLevelDescription(mdScopeDescription);
+        mdScopeAttribute.finalizeClass();
+
+        String stringMissing;
+        if (method.equals("count")) {
+            stringMissing = Integer.toString(numDataMissing);
+        } else if (method.equals("rate")) {
+            stringMissing = Double.toString((double) numDataMissing/numDataAll * 100);
+        } else {
+            stringMissing = "";
+        }
+
+        Record record = new Record();
+        record.addField(stringMissing);
+        record.finalizeClass();
+
+        DQ_QuantitativeResult dqQuantitativeResult = new DQ_QuantitativeResult();
+        dqQuantitativeResult.addResultScope(mdScopeAttribute);
+        dqQuantitativeResult.addValue(record);
+        if (method.equals("count")) {
+            dqQuantitativeResult.addValueUnit("same unit as in " + bandName + " column");
+        } else if (method.equals("rate")) {
+            dqQuantitativeResult.addValueUnit("%");
+        }
+        dqQuantitativeResult.finalizeClass();
+
+        DQ_CompletenessOmission dqCompletenessOmission = new DQ_CompletenessOmission();
+        dqCompletenessOmission.addMeasure(dqMeasureReference);
+        dqCompletenessOmission.addEvaluationMethod(dqEvaluationMethod);
+        dqCompletenessOmission.addResult(dqQuantitativeResult);
+        dqCompletenessOmission.finalizeClass();
+
+        return dqCompletenessOmission;
     }
 }

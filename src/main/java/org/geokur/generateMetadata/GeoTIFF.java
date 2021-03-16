@@ -7,28 +7,35 @@
 package org.geokur.generateMetadata;
 
 import org.geokur.ISO19103Schema.Coordinate;
+import org.geotools.coverage.grid.GridCoordinates2D;
 import org.geotools.coverage.grid.GridCoverage2D;
 import org.geotools.coverage.grid.GridGeometry2D;
 import org.geotools.coverage.grid.io.AbstractGridFormat;
 import org.geotools.coverage.grid.io.GridCoverage2DReader;
 import org.geotools.coverage.grid.io.GridFormatFinder;
+import org.geotools.geometry.DirectPosition2D;
 import org.geotools.referencing.CRS;
+import org.opengis.geometry.DirectPosition;
 import org.opengis.geometry.Envelope;
 import org.opengis.referencing.FactoryException;
 import org.opengis.referencing.crs.CoordinateReferenceSystem;
 import org.opengis.referencing.operation.MathTransform;
+import org.opengis.referencing.operation.TransformException;
 
+import java.awt.image.Raster;
 import java.io.File;
 import java.io.IOException;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class GeoTIFF {
     String fileName;
-    int dimensionality;
-//    int numBands;
-    int[] size = new int[2];
+    int dimensionality = 2;
+    int numBands;
+    int[] size = new int[dimensionality];
     Extent extent;
     Coordinate cornerLL = new Coordinate();
     Coordinate cornerLR = new Coordinate();
@@ -39,7 +46,9 @@ public class GeoTIFF {
     boolean resolutionIsotropy;
     double resolutionIsotropic;
     double[] resolutionAnisotropic;
-//    double[] bandsNoDataValue;
+    double[] bandsNoDataValue;
+    int[] numNoData;
+    int numCells;
 
 
     public GeoTIFF(String fileName) {
@@ -58,8 +67,9 @@ public class GeoTIFF {
 
             int axisX = geometry.axisDimensionX;
             int axisY = geometry.axisDimensionY;
-            size[axisX] = geometry.getGridRange().getHigh(axisX);
-            size[axisY] = geometry.getGridRange().getHigh(axisY);
+            size[axisX] = geometry.getGridRange().getHigh(axisX) + 1;
+            size[axisY] = geometry.getGridRange().getHigh(axisY) + 1;
+            numCells = size[axisX] * size[axisY];
 
             Envelope envelope = coverage.getEnvelope();
             cornerLL.addX(envelope.getMinimum(axisX));
@@ -97,9 +107,48 @@ public class GeoTIFF {
                 resolutionIsotropic = Math.abs(resolutionAnisotropic[0]);
             }
 
+            // content analysis of GeoTIFF
+            numBands = coverage.getNumSampleDimensions();
+            bandsNoDataValue = new double[numBands];
+            for (int i = 0; i < numBands; i++) {
+                // all bands should have the same nodata value https://svn.osgeo.org/gdal/trunk/gdal/frmts/gtiff/frmt_gtiff.html
+                bandsNoDataValue[i] = coverage.getSampleDimension(i).getNoDataValues()[0];
+            }
+            numNoData = new int[numBands];
+            Arrays.fill(numNoData, 0);
+
+            Raster image = coverage.getRenderedImage().getData();
+            double[] imageData = new double[size[0]*size[1]];
+            for (int i = 0; i < numBands; i++) {
+                // get count of missing values for each band
+                image.getSamples(0, 0, size[axisX], size[axisY], i, imageData);
+                for (double tmp : imageData) {
+                    if (Math.abs(tmp-bandsNoDataValue[i]) < Math.ulp(bandsNoDataValue[i])) {
+                        // nodata assumed
+                        numNoData[i] = numNoData[i] + 1;
+                    }
+                }
+            }
+
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }
+    }
+
+    private double[][][] createRandomMatrix(int sizeX, int sizeY, int sizeZ) {
+        // create matrix filled with random numbers
+
+        double[][][] matrix = new double[sizeX][sizeY][sizeZ];
+        Random random = new Random();
+        for (int i = 0; i < sizeX; i++) {
+            for (int j = 0; j < sizeY; j++) {
+                for (int k = 0; k < sizeZ; k++) {
+                    matrix[i][j][k] = random.nextDouble();
+                }
+            }
+        }
+
+        return matrix;
     }
 
     private String findEpsgCode(CoordinateReferenceSystem srcCRS) {
