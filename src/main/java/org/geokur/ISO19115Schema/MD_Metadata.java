@@ -90,7 +90,7 @@ public class MD_Metadata {
 
     @XmlElementWrapper(name = "contentInfo", namespace = "http://standards.iso.org/iso/19115/-3/mdb/2.0")
     @XmlElementRef
-    public List<MD_FeatureCatalogueDescription> contentInfo;
+    public List<MD_ContentInformation> contentInfo;
 
     @XmlElementWrapper(name = "distributionInfo", namespace = "http://standards.iso.org/iso/19115/-3/mdb/2.0")
     @XmlElementRef
@@ -405,7 +405,7 @@ public class MD_Metadata {
         }
     }
 
-    public void addContentInfo(MD_FeatureCatalogueDescription contentInfo) {
+    public void addContentInfo(MD_ContentInformation contentInfo) {
         if (this.contentInfo == null) {
             this.contentInfo = new ArrayList<>();
         }

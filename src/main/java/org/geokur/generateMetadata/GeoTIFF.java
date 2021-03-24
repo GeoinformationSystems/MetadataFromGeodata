@@ -7,26 +7,21 @@
 package org.geokur.generateMetadata;
 
 import org.geokur.ISO19103Schema.Coordinate;
-import org.geotools.coverage.grid.GridCoordinates2D;
 import org.geotools.coverage.grid.GridCoverage2D;
 import org.geotools.coverage.grid.GridGeometry2D;
 import org.geotools.coverage.grid.io.AbstractGridFormat;
 import org.geotools.coverage.grid.io.GridCoverage2DReader;
 import org.geotools.coverage.grid.io.GridFormatFinder;
-import org.geotools.geometry.DirectPosition2D;
+import org.geotools.gce.geotiff.GeoTiffFormatFactorySpi;
 import org.geotools.referencing.CRS;
-import org.opengis.geometry.DirectPosition;
 import org.opengis.geometry.Envelope;
 import org.opengis.referencing.FactoryException;
 import org.opengis.referencing.crs.CoordinateReferenceSystem;
 import org.opengis.referencing.operation.MathTransform;
-import org.opengis.referencing.operation.TransformException;
 
 import java.awt.image.Raster;
 import java.io.File;
 import java.io.IOException;
-import java.time.Duration;
-import java.time.Instant;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -46,8 +41,10 @@ public class GeoTIFF {
     boolean resolutionIsotropy;
     double resolutionIsotropic;
     double[] resolutionAnisotropic;
-    double[] bandsNoDataValue;
+    Double[] bandsNoDataValue;
     int[] numNoData;
+    double[] bandsMinValues;
+    double[] bandsMaxValues;
     int numCells;
 
 
@@ -58,7 +55,9 @@ public class GeoTIFF {
     void open() {
         File file = new File(fileName);
 
-        AbstractGridFormat format = GridFormatFinder.findFormat(file);
+//        AbstractGridFormat format = GridFormatFinder.findFormat(file);
+        GeoTiffFormatFactorySpi geoTiffFormat = new GeoTiffFormatFactorySpi();
+        AbstractGridFormat format = geoTiffFormat.createFormat();
         GridCoverage2DReader reader = format.getReader(file);
 
         try {
@@ -109,25 +108,50 @@ public class GeoTIFF {
 
             // content analysis of GeoTIFF
             numBands = coverage.getNumSampleDimensions();
-            bandsNoDataValue = new double[numBands];
+            bandsNoDataValue = new Double[numBands];
+            boolean nodataTag = true;
             for (int i = 0; i < numBands; i++) {
                 // all bands should have the same nodata value https://svn.osgeo.org/gdal/trunk/gdal/frmts/gtiff/frmt_gtiff.html
-                bandsNoDataValue[i] = coverage.getSampleDimension(i).getNoDataValues()[0];
+                if (coverage.getSampleDimension(i).getNoDataValues() == null) {
+                    // no TIFFTAG_GDAL_NODATA ASCII tag (code 42113) available
+                    // -> also in tif image no nodata cells -> no test necessary
+                    bandsNoDataValue[i] = null;
+                    nodataTag = false;
+                } else {
+                    bandsNoDataValue[i] = coverage.getSampleDimension(i).getNoDataValues()[0];
+                }
             }
+
             numNoData = new int[numBands];
             Arrays.fill(numNoData, 0);
 
+            bandsMinValues = new double[numBands];
+            bandsMaxValues = new double[numBands];
+
             Raster image = coverage.getRenderedImage().getData();
-            double[] imageData = new double[size[0]*size[1]];
+            double[] imageData = new double[size[axisX]]; // read whole rows
+            double[] imageMinValues = new double[size[axisY]];
+            double[] imageMaxValues = new double[size[axisY]];
             for (int i = 0; i < numBands; i++) {
                 // get count of missing values for each band
-                image.getSamples(0, 0, size[axisX], size[axisY], i, imageData);
-                for (double tmp : imageData) {
-                    if (Math.abs(tmp-bandsNoDataValue[i]) < Math.ulp(bandsNoDataValue[i])) {
-                        // nodata assumed
-                        numNoData[i] = numNoData[i] + 1;
+                System.out.println("Read values of all GeoTIFF rows.");
+                System.out.println("Depending on size this may take a while.");
+                for (int j = 0; j < size[axisY]; j++) {
+                    if (j%5000 == 0) {
+                        System.out.println(j);
                     }
+                    image.getSamples(0, j, size[axisX], 1, i, imageData);
+                    for (double tmp : imageData) {
+                        if (nodataTag && Math.abs(tmp - bandsNoDataValue[i]) < Math.ulp(bandsNoDataValue[i])) {
+                            // nodata values only possible, if nodataTag true
+                            numNoData[i] = numNoData[i] + 1;
+                        }
+                    }
+                    imageMinValues[j] = min(imageData);
+                    imageMaxValues[j] = max(imageData);
                 }
+                bandsMinValues[i] = min(imageMinValues);
+                bandsMaxValues[i] = max(imageMaxValues);
             }
 
         } catch (IOException e) {
@@ -282,5 +306,13 @@ public class GeoTIFF {
 
     private int min(int... numbers) {
         return Arrays.stream(numbers).min().orElse(Integer.MAX_VALUE);
+    }
+
+    private double min(double... numbers) {
+        return Arrays.stream(numbers).min().orElse(Double.MIN_VALUE);
+    }
+
+    private double max(double... numbers) {
+        return Arrays.stream(numbers).max().orElse(Double.MAX_VALUE);
     }
 }

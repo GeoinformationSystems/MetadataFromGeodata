@@ -7,6 +7,7 @@
 package org.geokur.generateMetadata;
 
 import org.geokur.ISO19103Schema.Record;
+import org.geokur.ISO19103Schema.RecordType;
 import org.geokur.ISO19115Schema.*;
 import org.geokur.ISO19157Schema.*;
 
@@ -204,6 +205,30 @@ public class GeoTIFFMetadata implements Metadata {
             mdGeorectified.addPointInPixel(new MD_PixelOrientationCode(MD_PixelOrientationCode.MD_PixelOrientationCodes.lowerLeft));
             mdGeorectified.finalizeClass();
 
+            // get thematic extent (min max)
+            MD_AttributeGroup mdAttributeGroup = new MD_AttributeGroup();
+            mdAttributeGroup.addContentType(new MD_CoverageContentTypeCode(MD_CoverageContentTypeCode.MD_CoverageContentTypeCodes.image));
+            for (int i = 0; i < geoTIFF.numBands; i++) {
+                MD_SampleDimension mdSampleDimension = new MD_SampleDimension();
+                mdSampleDimension.addDescription("Band " + i);
+                mdSampleDimension.addMinValue(geoTIFF.bandsMinValues[i]);
+                mdSampleDimension.addMaxValue(geoTIFF.bandsMaxValues[i]);
+                mdSampleDimension.addUnits("same unit as file content in given GeoTIFF");
+                mdSampleDimension.finalizeClass();
+                mdAttributeGroup.addAttribute(mdSampleDimension);
+            }
+            mdAttributeGroup.finalizeClass();
+
+            RecordType recordAttributeDescription = new RecordType();
+            //TODO: correct fieldType?
+            recordAttributeDescription.addField("Minimum/Maximum of file content", "double");
+            recordAttributeDescription.finalizeClass();
+
+            MD_CoverageDescription mdCoverageDescription = new MD_CoverageDescription();
+            mdCoverageDescription.addAttributeDescription(recordAttributeDescription);
+            mdCoverageDescription.addAttributeGroup(mdAttributeGroup);
+            mdCoverageDescription.finalizeClass();
+
 
             // get (4) data quality
             System.out.println("Data Quality:");
@@ -261,6 +286,7 @@ public class GeoTIFFMetadata implements Metadata {
             mdMetadata.addDateInfo(ciDateLastModified);
             mdMetadata.addIdentificationInfo(mdDataIdentification);
             mdMetadata.addSpatialRepresentationInfo(mdGeorectified);
+            mdMetadata.addContentInfo(mdCoverageDescription);
             mdMetadata.addReferenceSystemInfo(mdReferenceSystem);
             mdMetadata.addMetadataStandard(ciCitationMetadataStandard);
 

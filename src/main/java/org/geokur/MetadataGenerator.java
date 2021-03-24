@@ -26,6 +26,11 @@ public class MetadataGenerator {
     public static void main(String[] argv) {
         // main method for testing metadata generation from geofiles
 
+        if (argv.length == 0) {
+            System.out.println("No attribute given. Please name a properties file.");
+            System.exit(8);
+        }
+
         String filenameProperties = argv[0];
         Properties properties = readProperties(filenameProperties);
 
@@ -77,9 +82,32 @@ public class MetadataGenerator {
             Marshaller marshaller = contextObj.createMarshaller();
             marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
             marshaller.marshal(metadata, new FileOutputStream(properties.filenameXml));
-        } catch (JAXBException | FileNotFoundException e) {
-            System.out.println(e.getMessage());
+        } catch (FileNotFoundException | JAXBException e) {
+//            System.out.println(e.getMessage());
+            e.printStackTrace();
         }
+
+        // marshal to json file
+//        try {
+//            jakarta.xml.bind.JAXBContext contextObj = jakarta.xml.bind.JAXBContext.newInstance(DS_DataSet.class);
+//            jakarta.xml.bind.Marshaller marshaller = contextObj.createMarshaller();
+//            marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+//            marshaller.setProperty("eclipselink.media-type", "application/json");
+//            marshaller.setProperty(MarshallerProperties.JSON_INCLUDE_ROOT, true);
+//            marshaller.marshal(metadata, new FileOutputStream("test.json"));
+            // TODO: jaxb.properties must be copied in the target folder with all classes
+            // TODO: manifest?
+            // JAXBContext loaded from other classloader
+
+//            JAXBContext contextObj = JAXBContext.newInstance(DS_DataSet.class);
+//            Marshaller marshaller = contextObj.createMarshaller();
+//            marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+//            marshaller.setProperty(MarshallerProperties.MEDIA_TYPE, "application/json");
+//            marshaller.setProperty(MarshallerProperties.JSON_INCLUDE_ROOT, true);
+//            marshaller.marshal(metadata, new FileOutputStream("test.json"));
+//        } catch (FileNotFoundException | JAXBException e) {
+//            e.printStackTrace();
+//        }
 
         // order xml file to SQLite database
         // read xml file with JDOM2 library in order to get a document
