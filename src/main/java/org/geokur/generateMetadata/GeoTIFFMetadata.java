@@ -221,13 +221,13 @@ public class GeoTIFFMetadata implements Metadata {
 
             RecordType recordAttributeDescription = new RecordType();
             //TODO: correct fieldType?
-            recordAttributeDescription.addField("Minimum/Maximum of file content", "double");
+            recordAttributeDescription.addField("attributeGroup", "MD_AttributeGroup");
             recordAttributeDescription.finalizeClass();
 
-            MD_CoverageDescription mdCoverageDescription = new MD_CoverageDescription();
-            mdCoverageDescription.addAttributeDescription(recordAttributeDescription);
-            mdCoverageDescription.addAttributeGroup(mdAttributeGroup);
-            mdCoverageDescription.finalizeClass();
+            MD_ImageDescription mdImageDescription = new MD_ImageDescription();
+            mdImageDescription.addAttributeDescription(recordAttributeDescription);
+            mdImageDescription.addAttributeGroup(mdAttributeGroup);
+            mdImageDescription.finalizeClass();
 
 
             // get (4) data quality
@@ -286,7 +286,7 @@ public class GeoTIFFMetadata implements Metadata {
             mdMetadata.addDateInfo(ciDateLastModified);
             mdMetadata.addIdentificationInfo(mdDataIdentification);
             mdMetadata.addSpatialRepresentationInfo(mdGeorectified);
-            mdMetadata.addContentInfo(mdCoverageDescription);
+            mdMetadata.addContentInfo(mdImageDescription);
             mdMetadata.addReferenceSystemInfo(mdReferenceSystem);
             mdMetadata.addMetadataStandard(ciCitationMetadataStandard);
 

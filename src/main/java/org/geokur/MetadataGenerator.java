@@ -55,7 +55,6 @@ public class MetadataGenerator {
         // read metadata and instantiate according classes
         DS_Resource metadata;
         String[] fileNameExtension = properties.filename.split("\\.");
-        // todo: add other geodata types
         switch (fileNameExtension[fileNameExtension.length - 1]) {
             case "shp":
                 metadata = new ShapeMetadata(properties.filename, new DS_DataSet()).getMetadata();
@@ -121,7 +120,8 @@ public class MetadataGenerator {
             database.addToDatabase(properties.filename);
             database.writeMetadataToDatabase(properties.filename, metadataDatabase);
         } catch (IOException | JDOMException e) {
-            System.out.println(e.getMessage());
+//            System.out.println(e.getMessage());
+            e.printStackTrace();
         }
     }
 
