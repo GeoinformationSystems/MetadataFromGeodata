@@ -1,0 +1,3817 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<mda:DS_DataSet xmlns:dqc="http://standards.iso.org/iso/19157/-2/dqc/1.0" xmlns:gmw="http://standards.iso.org/iso/19115/-3/gmw/1.0" xmlns:msr="http://standards.iso.org/iso/19115/-3/msr/2.0" xmlns:mex="http://standards.iso.org/iso/19115/-3/mex/1.0" xmlns:mrl="http://standards.iso.org/iso/19115/-3/mrl/2.0" xmlns:gco="http://standards.iso.org/iso/19115/-3/gco/1.0" xmlns:mac="http://standards.iso.org/iso/19115/-3/mac/2.0" xmlns:srv="http://standards.iso.org/iso/19115/-3/srv/2.0" xmlns:gex="http://standards.iso.org/iso/19115/-3/gex/1.0" xmlns:mmi="http://standards.iso.org/iso/19115/-3/mmi/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:mas="http://standards.iso.org/iso/19115/-3/mas/1.0" xmlns:cat="http://standards.iso.org/iso/19115/-3/cat/1.0" xmlns:mcc="http://standards.iso.org/iso/19115/-3/mcc/1.0" xmlns:mdq="http://standards.iso.org/iso/19157/-2/mdq/1.0" xmlns:mri="http://standards.iso.org/iso/19115/-3/mri/1.0" xmlns:mda="http://standards.iso.org/iso/19115/-3/mda/2.0" xmlns:mdt="http://standards.iso.org/iso/19115/-3/mdt/2.0" xmlns:mrd="http://standards.iso.org/iso/19115/-3/mrd/1.0" xmlns:cit="http://standards.iso.org/iso/19115/-3/cit/2.0" xmlns:md1="http://standards.iso.org/iso/19115/-3/md1/2.0" xmlns:dqm="http://standards.iso.org/iso/19157/-2/dqm/1.0" xmlns:mco="http://standards.iso.org/iso/19115/-3/mco/1.0" xmlns:mds="http://standards.iso.org/iso/19115/-3/mds/2.0" xmlns:mrs="http://standards.iso.org/iso/19115/-3/mrs/1.0" xmlns:mpc="http://standards.iso.org/iso/19115/-3/mpc/1.0" xmlns:mdb="http://standards.iso.org/iso/19115/-3/mdb/2.0" xmlns:gml="http://www.opengis.net/gml/3.2" xmlns:lan="http://standards.iso.org/iso/19115/-3/lan/1.0" xmlns:md2="http://standards.iso.org/iso/19115/-3/md2/2.0" xmlns:mrc="http://standards.iso.org/iso/19115/-3/mrc/2.0" xmlns:gcx="http://standards.iso.org/iso/19115/-3/gcx/1.0">
+    <mda:has>
+        <mdb:MD_Metadata>
+            <mdb:metadataIdentifier>
+                <mcc:MD_Identifier>
+                    <mcc:code>pid:7a335389-0bbe-45c0-9ccb-69383535ca22</mcc:code>
+                </mcc:MD_Identifier>
+            </mdb:metadataIdentifier>
+            <mdb:contact>
+                <cit:CI_Responsibility>
+                    <cit:role>
+                        <cit:CI_RoleCode codeList="http://standards.iso.org/iso/19115/-3/cit/2.0/codelists.html#CI_RoleCode" codeListValue="resourceProvider"/>
+                    </cit:role>
+                    <cit:party>
+                        <cit:CI_Individual>
+                            <cit:name>mwagner</cit:name>
+                        </cit:CI_Individual>
+                    </cit:party>
+                </cit:CI_Responsibility>
+            </mdb:contact>
+            <mdb:dateInfo>
+                <cit:CI_Date>
+                    <cit:date>
+                        <gco:DateTime>2020-12-09T14:40:59.968Z</gco:DateTime>
+                    </cit:date>
+                    <cit:dateType>
+                        <cit:CI_DateTypeCode codeList="http://standards.iso.org/iso/19115/-3/cit/2.0/codelists.html#CI_DateTypeCode" codeListValue="lastUpdate"/>
+                    </cit:dateType>
+                </cit:CI_Date>
+            </mdb:dateInfo>
+            <mdb:metadataStandard>
+                <cit:CI_Citation>
+                    <cit:title>ISO 19115-1</cit:title>
+                    <cit:edition>First edition 2014-04-01</cit:edition>
+                </cit:CI_Citation>
+            </mdb:metadataStandard>
+            <mdb:identificationInfo>
+                <mri:MD_DataIdentification>
+                    <mri:citation>
+                        <cit:CI_Citation>
+                            <cit:title></cit:title>
+                            <cit:date>
+<cit:CI_Date>
+    <cit:date>
+        <gco:DateTime>2021-03-29T14:05:08.958260Z</gco:DateTime>
+    </cit:date>
+    <cit:dateType>
+        <cit:CI_DateTypeCode codeList="http://standards.iso.org/iso/19115/-3/cit/2.0/codelists.html#CI_DateTypeCode" codeListValue="creation"/>
+    </cit:dateType>
+</cit:CI_Date>
+                            </cit:date>
+                        </cit:CI_Citation>
+                    </mri:citation>
+                    <mri:spatialRepresentationType>
+                        <mcc:MD_SpatialRepresentationTypeCode codeList="http://standards.iso.org/iso/19115/-3/mcc/1.0/codelists.html#MD_SpatialRepresentationTypeCode" codeListValue="textTable"/>
+                    </mri:spatialRepresentationType>
+                    <mri:temporalResolution>5</mri:temporalResolution>
+                    <mri:temporalResolution>1</mri:temporalResolution>
+                    <mri:temporalResolution>1</mri:temporalResolution>
+                    <mri:temporalResolution>1</mri:temporalResolution>
+                    <mri:temporalResolution>1</mri:temporalResolution>
+                    <mri:extent>
+                        <gex:EX_Extent>
+                            <gex:description>attributeName: planted</gex:description>
+                            <gex:temporalElement>
+<gex:EX_TemporalExtent>
+    <gex:extent>
+        <gml:TM_Period>
+            <gml:begin>
+                <gml:TM_Instant>
+                    <gml:position>1990</gml:position>
+                </gml:TM_Instant>
+            </gml:begin>
+            <gml:end>
+                <gml:TM_Instant>
+                    <gml:position>2015</gml:position>
+                </gml:TM_Instant>
+            </gml:end>
+        </gml:TM_Period>
+    </gex:extent>
+</gex:EX_TemporalExtent>
+                            </gex:temporalElement>
+                        </gex:EX_Extent>
+                        <gex:EX_Extent>
+                            <gex:description>attributeName: harvested</gex:description>
+                            <gex:temporalElement>
+<gex:EX_TemporalExtent>
+    <gex:extent>
+        <gml:TM_Period>
+            <gml:begin>
+                <gml:TM_Instant>
+                    <gml:position>1961</gml:position>
+                </gml:TM_Instant>
+            </gml:begin>
+            <gml:end>
+                <gml:TM_Instant>
+                    <gml:position>2017</gml:position>
+                </gml:TM_Instant>
+            </gml:end>
+        </gml:TM_Period>
+    </gex:extent>
+</gex:EX_TemporalExtent>
+                            </gex:temporalElement>
+                        </gex:EX_Extent>
+                        <gex:EX_Extent>
+                            <gex:description>attributeName: production</gex:description>
+                            <gex:temporalElement>
+<gex:EX_TemporalExtent>
+    <gex:extent>
+        <gml:TM_Period>
+            <gml:begin>
+                <gml:TM_Instant>
+                    <gml:position>1961</gml:position>
+                </gml:TM_Instant>
+            </gml:begin>
+            <gml:end>
+                <gml:TM_Instant>
+                    <gml:position>2017</gml:position>
+                </gml:TM_Instant>
+            </gml:end>
+        </gml:TM_Period>
+    </gex:extent>
+</gex:EX_TemporalExtent>
+                            </gex:temporalElement>
+                        </gex:EX_Extent>
+                        <gex:EX_Extent>
+                            <gex:description>attributeName: yield</gex:description>
+                            <gex:temporalElement>
+<gex:EX_TemporalExtent>
+    <gex:extent>
+        <gml:TM_Period>
+            <gml:begin>
+                <gml:TM_Instant>
+                    <gml:position>1961</gml:position>
+                </gml:TM_Instant>
+            </gml:begin>
+            <gml:end>
+                <gml:TM_Instant>
+                    <gml:position>2017</gml:position>
+                </gml:TM_Instant>
+            </gml:end>
+        </gml:TM_Period>
+    </gex:extent>
+</gex:EX_TemporalExtent>
+                            </gex:temporalElement>
+                        </gex:EX_Extent>
+                        <gex:EX_Extent>
+                            <gex:description>attributeName: headcount</gex:description>
+                            <gex:temporalElement>
+<gex:EX_TemporalExtent>
+    <gex:extent>
+        <gml:TM_Period>
+            <gml:begin>
+                <gml:TM_Instant>
+                    <gml:position>1961</gml:position>
+                </gml:TM_Instant>
+            </gml:begin>
+            <gml:end>
+                <gml:TM_Instant>
+                    <gml:position>2017</gml:position>
+                </gml:TM_Instant>
+            </gml:end>
+        </gml:TM_Period>
+    </gex:extent>
+</gex:EX_TemporalExtent>
+                            </gex:temporalElement>
+                        </gex:EX_Extent>
+                    </mri:extent>
+                    <mri:descriptiveKeywords>
+                        <mri:MD_Keywords>
+                            <mri:keyword>attributeName: planted</mri:keyword>
+                            <mri:keyword>melon</mri:keyword>
+                            <mri:keyword>natural rubber</mri:keyword>
+                            <mri:keyword>nectarine</mri:keyword>
+                            <mri:keyword>spinach</mri:keyword>
+                            <mri:keyword>Stimulants nes</mri:keyword>
+                            <mri:type>
+<mri:MD_KeywordTypeCode codeList="http://standards.iso.org/iso/19115/-3/mri/1.0/codelists.html#MD_KeywordTypeCode" codeListValue="theme"/>
+                            </mri:type>
+                        </mri:MD_Keywords>
+                        <mri:MD_Keywords>
+                            <mri:keyword>attributeName: harvested</mri:keyword>
+                            <mri:keyword>banana</mri:keyword>
+                            <mri:keyword>broad bean</mri:keyword>
+                            <mri:keyword>cattle buffalo</mri:keyword>
+                            <mri:keyword>canary seed</mri:keyword>
+                            <mri:keyword>cantaloupe</mri:keyword>
+                            <mri:keyword>coffee</mri:keyword>
+                            <mri:keyword>currant</mri:keyword>
+                            <mri:keyword>eggplant</mri:keyword>
+                            <mri:keyword>fennel</mri:keyword>
+                            <mri:keyword>hop</mri:keyword>
+                            <mri:keyword>juniper berry</mri:keyword>
+                            <mri:keyword>jute</mri:keyword>
+                            <mri:keyword>karite nut</mri:keyword>
+                            <mri:keyword>mushrooms truffles</mri:keyword>
+                            <mri:keyword>kohlrabi</mri:keyword>
+                            <mri:keyword>leek</mri:keyword>
+                            <mri:keyword>lentil</mri:keyword>
+                            <mri:keyword>malaguetta pepper</mri:keyword>
+                            <mri:keyword>millet</mri:keyword>
+                            <mri:keyword>mustard</mri:keyword>
+                            <mri:keyword>nutmeg</mri:keyword>
+                            <mri:keyword>oil palm</mri:keyword>
+                            <mri:keyword>pigeons and others</mri:keyword>
+                            <mri:keyword>pea</mri:keyword>
+                            <mri:keyword>pepper</mri:keyword>
+                            <mri:keyword>pistachio</mri:keyword>
+                            <mri:keyword>plantain</mri:keyword>
+                            <mri:keyword>potato</mri:keyword>
+                            <mri:keyword>quail</mri:keyword>
+                            <mri:keyword>raspberry</mri:keyword>
+                            <mri:keyword>rye</mri:keyword>
+                            <mri:keyword>safflower</mri:keyword>
+                            <mri:keyword>sisal</mri:keyword>
+                            <mri:keyword>soybean</mri:keyword>
+                            <mri:keyword>string bean</mri:keyword>
+                            <mri:keyword>sunn hemp</mri:keyword>
+                            <mri:keyword>tangerine</mri:keyword>
+                            <mri:keyword>taro</mri:keyword>
+                            <mri:keyword>Citrus Fruit nes</mri:keyword>
+                            <mri:keyword>Fibre Crops nes</mri:keyword>
+                            <mri:keyword>Fruit-bearing vegetables</mri:keyword>
+                            <mri:keyword>Recreation crops</mri:keyword>
+                            <mri:keyword>Vegetables nes</mri:keyword>
+                            <mri:keyword>apple</mri:keyword>
+                            <mri:keyword>badian</mri:keyword>
+                            <mri:keyword>bambara bean</mri:keyword>
+                            <mri:type>
+<mri:MD_KeywordTypeCode codeList="http://standards.iso.org/iso/19115/-3/mri/1.0/codelists.html#MD_KeywordTypeCode" codeListValue="theme"/>
+                            </mri:type>
+                        </mri:MD_Keywords>
+                        <mri:MD_Keywords>
+                            <mri:keyword>attributeName: production</mri:keyword>
+                            <mri:keyword>banana</mri:keyword>
+                            <mri:keyword>broad bean</mri:keyword>
+                            <mri:keyword>cattle buffalo</mri:keyword>
+                            <mri:keyword>canary seed</mri:keyword>
+                            <mri:keyword>cantaloupe</mri:keyword>
+                            <mri:keyword>coffee</mri:keyword>
+                            <mri:keyword>currant</mri:keyword>
+                            <mri:keyword>eggplant</mri:keyword>
+                            <mri:keyword>fennel</mri:keyword>
+                            <mri:keyword>hop</mri:keyword>
+                            <mri:keyword>juniper berry</mri:keyword>
+                            <mri:keyword>jute</mri:keyword>
+                            <mri:keyword>karite nut</mri:keyword>
+                            <mri:keyword>mushrooms truffles</mri:keyword>
+                            <mri:keyword>kohlrabi</mri:keyword>
+                            <mri:keyword>leek</mri:keyword>
+                            <mri:keyword>lentil</mri:keyword>
+                            <mri:keyword>malaguetta pepper</mri:keyword>
+                            <mri:keyword>millet</mri:keyword>
+                            <mri:keyword>mustard</mri:keyword>
+                            <mri:keyword>nutmeg</mri:keyword>
+                            <mri:keyword>oil palm</mri:keyword>
+                            <mri:keyword>pigeons and others</mri:keyword>
+                            <mri:keyword>pea</mri:keyword>
+                            <mri:keyword>pepper</mri:keyword>
+                            <mri:keyword>pistachio</mri:keyword>
+                            <mri:keyword>plantain</mri:keyword>
+                            <mri:keyword>potato</mri:keyword>
+                            <mri:keyword>quail</mri:keyword>
+                            <mri:keyword>raspberry</mri:keyword>
+                            <mri:keyword>rye</mri:keyword>
+                            <mri:keyword>safflower</mri:keyword>
+                            <mri:keyword>sisal</mri:keyword>
+                            <mri:keyword>soybean</mri:keyword>
+                            <mri:keyword>string bean</mri:keyword>
+                            <mri:keyword>sunn hemp</mri:keyword>
+                            <mri:keyword>tangerine</mri:keyword>
+                            <mri:keyword>taro</mri:keyword>
+                            <mri:keyword>Citrus Fruit nes</mri:keyword>
+                            <mri:keyword>Fibre Crops nes</mri:keyword>
+                            <mri:keyword>Fruit-bearing vegetables</mri:keyword>
+                            <mri:keyword>Recreation crops</mri:keyword>
+                            <mri:keyword>Vegetables nes</mri:keyword>
+                            <mri:keyword>apple</mri:keyword>
+                            <mri:keyword>badian</mri:keyword>
+                            <mri:keyword>bambara bean</mri:keyword>
+                            <mri:type>
+<mri:MD_KeywordTypeCode codeList="http://standards.iso.org/iso/19115/-3/mri/1.0/codelists.html#MD_KeywordTypeCode" codeListValue="theme"/>
+                            </mri:type>
+                        </mri:MD_Keywords>
+                        <mri:MD_Keywords>
+                            <mri:keyword>attributeName: yield</mri:keyword>
+                            <mri:keyword>banana</mri:keyword>
+                            <mri:keyword>broad bean</mri:keyword>
+                            <mri:keyword>cattle buffalo</mri:keyword>
+                            <mri:keyword>canary seed</mri:keyword>
+                            <mri:keyword>cantaloupe</mri:keyword>
+                            <mri:keyword>coffee</mri:keyword>
+                            <mri:keyword>currant</mri:keyword>
+                            <mri:keyword>eggplant</mri:keyword>
+                            <mri:keyword>fennel</mri:keyword>
+                            <mri:keyword>hop</mri:keyword>
+                            <mri:keyword>juniper berry</mri:keyword>
+                            <mri:keyword>jute</mri:keyword>
+                            <mri:keyword>karite nut</mri:keyword>
+                            <mri:keyword>mushrooms truffles</mri:keyword>
+                            <mri:keyword>kohlrabi</mri:keyword>
+                            <mri:keyword>leek</mri:keyword>
+                            <mri:keyword>lentil</mri:keyword>
+                            <mri:keyword>malaguetta pepper</mri:keyword>
+                            <mri:keyword>millet</mri:keyword>
+                            <mri:keyword>mustard</mri:keyword>
+                            <mri:keyword>nutmeg</mri:keyword>
+                            <mri:keyword>oil palm</mri:keyword>
+                            <mri:keyword>pigeons and others</mri:keyword>
+                            <mri:keyword>pea</mri:keyword>
+                            <mri:keyword>pepper</mri:keyword>
+                            <mri:keyword>pistachio</mri:keyword>
+                            <mri:keyword>plantain</mri:keyword>
+                            <mri:keyword>potato</mri:keyword>
+                            <mri:keyword>quail</mri:keyword>
+                            <mri:keyword>raspberry</mri:keyword>
+                            <mri:keyword>rye</mri:keyword>
+                            <mri:keyword>safflower</mri:keyword>
+                            <mri:keyword>sisal</mri:keyword>
+                            <mri:keyword>soybean</mri:keyword>
+                            <mri:keyword>string bean</mri:keyword>
+                            <mri:keyword>sunn hemp</mri:keyword>
+                            <mri:keyword>tangerine</mri:keyword>
+                            <mri:keyword>taro</mri:keyword>
+                            <mri:keyword>Citrus Fruit nes</mri:keyword>
+                            <mri:keyword>Fibre Crops nes</mri:keyword>
+                            <mri:keyword>Fruit-bearing vegetables</mri:keyword>
+                            <mri:keyword>Recreation crops</mri:keyword>
+                            <mri:keyword>Vegetables nes</mri:keyword>
+                            <mri:keyword>apple</mri:keyword>
+                            <mri:keyword>badian</mri:keyword>
+                            <mri:keyword>bambara bean</mri:keyword>
+                            <mri:type>
+<mri:MD_KeywordTypeCode codeList="http://standards.iso.org/iso/19115/-3/mri/1.0/codelists.html#MD_KeywordTypeCode" codeListValue="theme"/>
+                            </mri:type>
+                        </mri:MD_Keywords>
+                        <mri:MD_Keywords>
+                            <mri:keyword>attributeName: headcount</mri:keyword>
+                            <mri:keyword>black locust</mri:keyword>
+                            <mri:keyword>blueberry</mri:keyword>
+                            <mri:keyword>cauliflower</mri:keyword>
+                            <mri:keyword>giant reed</mri:keyword>
+                            <mri:keyword>melons cantaloupes</mri:keyword>
+                            <mri:keyword>llama</mri:keyword>
+                            <mri:keyword>natural gums</mri:keyword>
+                            <mri:keyword>pomelo</mri:keyword>
+                            <mri:keyword>sheep goat</mri:keyword>
+                            <mri:keyword>sugarbeet</mri:keyword>
+                            <mri:keyword>Grasses for forage nes</mri:keyword>
+                            <mri:keyword>Oilseed crops nes</mri:keyword>
+                            <mri:keyword>açaí</mri:keyword>
+                            <mri:type>
+<mri:MD_KeywordTypeCode codeList="http://standards.iso.org/iso/19115/-3/mri/1.0/codelists.html#MD_KeywordTypeCode" codeListValue="theme"/>
+                            </mri:type>
+                        </mri:MD_Keywords>
+                    </mri:descriptiveKeywords>
+                    <mri:environmentalDescription>file name: examples/exampleGeoTable.csv; file size: 161043 B; geographical file: examples/exampleGeo.gpkg; layer name: level_1; os: Linux</mri:environmentalDescription>
+                </mri:MD_DataIdentification>
+            </mdb:identificationInfo>
+            <mdb:dataQualityInfo>
+                <mdq:DQ_DataQuality>
+                    <mdq:scope>
+                        <mcc:MD_Scope>
+                            <mcc:level>
+<mcc:MD_ScopeCode codeList="http://standards.iso.org/iso/19115/-3/mcc/1.0/codelists.html#MD_ScopeCode" codeListValue="dataset"/>
+                            </mcc:level>
+                        </mcc:MD_Scope>
+                    </mdq:scope>
+                    <mdq:report>
+                        <mdq:DQ_CompletenessOmission>
+                            <mdq:measure>
+<mdq:DQ_MeasureReference>
+    <mdq:nameOfMeasure>number of missing items</mdq:nameOfMeasure>
+    <mdq:measureDescription>count of all items that should have been in the data set or sample and are missing</mdq:measureDescription>
+</mdq:DQ_MeasureReference>
+                            </mdq:measure>
+                            <mdq:evaluationMethod>
+<mdq:DQ_FullInspection>
+    <mdq:evaluationMethodType codeList="https://standards.iso.org/iso/19157/-2/mdq/1.0/codelists.html" codeListValue="directInternal"/>
+    <mdq:evaluationMethodDescription>count of missing items in the data set</mdq:evaluationMethodDescription>
+</mdq:DQ_FullInspection>
+                            </mdq:evaluationMethod>
+                            <mdq:result>
+<mdq:DQ_QuantitativeResult>
+    <mdq:resultScope>
+        <mcc:MD_Scope>
+            <mcc:level>
+                <mcc:MD_ScopeCode codeList="http://standards.iso.org/iso/19115/-3/mcc/1.0/codelists.html#MD_ScopeCode" codeListValue="attribute"/>
+            </mcc:level>
+            <mcc:levelDescription>
+                <mcc:MD_ScopeDescription>
+                    <mcc:attributes>planted</mcc:attributes>
+                </mcc:MD_ScopeDescription>
+            </mcc:levelDescription>
+        </mcc:MD_Scope>
+    </mdq:resultScope>
+    <mdq:value>
+        <field>2905</field>
+    </mdq:value>
+    <mdq:valueUnit>same unit as in planted column</mdq:valueUnit>
+</mdq:DQ_QuantitativeResult>
+                            </mdq:result>
+                        </mdq:DQ_CompletenessOmission>
+                        <mdq:DQ_CompletenessOmission>
+                            <mdq:measure>
+<mdq:DQ_MeasureReference>
+    <mdq:nameOfMeasure>number of missing items</mdq:nameOfMeasure>
+    <mdq:measureDescription>count of all items that should have been in the data set or sample and are missing</mdq:measureDescription>
+</mdq:DQ_MeasureReference>
+                            </mdq:measure>
+                            <mdq:evaluationMethod>
+<mdq:DQ_FullInspection>
+    <mdq:evaluationMethodType codeList="https://standards.iso.org/iso/19157/-2/mdq/1.0/codelists.html" codeListValue="directInternal"/>
+    <mdq:evaluationMethodDescription>count of missing items in the data set</mdq:evaluationMethodDescription>
+</mdq:DQ_FullInspection>
+                            </mdq:evaluationMethod>
+                            <mdq:result>
+<mdq:DQ_QuantitativeResult>
+    <mdq:resultScope>
+        <mcc:MD_Scope>
+            <mcc:level>
+                <mcc:MD_ScopeCode codeList="http://standards.iso.org/iso/19115/-3/mcc/1.0/codelists.html#MD_ScopeCode" codeListValue="attribute"/>
+            </mcc:level>
+            <mcc:levelDescription>
+                <mcc:MD_ScopeDescription>
+                    <mcc:attributes>harvested</mcc:attributes>
+                </mcc:MD_ScopeDescription>
+            </mcc:levelDescription>
+        </mcc:MD_Scope>
+    </mdq:resultScope>
+    <mdq:value>
+        <field>770</field>
+    </mdq:value>
+    <mdq:valueUnit>same unit as in harvested column</mdq:valueUnit>
+</mdq:DQ_QuantitativeResult>
+                            </mdq:result>
+                        </mdq:DQ_CompletenessOmission>
+                        <mdq:DQ_CompletenessOmission>
+                            <mdq:measure>
+<mdq:DQ_MeasureReference>
+    <mdq:nameOfMeasure>number of missing items</mdq:nameOfMeasure>
+    <mdq:measureDescription>count of all items that should have been in the data set or sample and are missing</mdq:measureDescription>
+</mdq:DQ_MeasureReference>
+                            </mdq:measure>
+                            <mdq:evaluationMethod>
+<mdq:DQ_FullInspection>
+    <mdq:evaluationMethodType codeList="https://standards.iso.org/iso/19157/-2/mdq/1.0/codelists.html" codeListValue="directInternal"/>
+    <mdq:evaluationMethodDescription>count of missing items in the data set</mdq:evaluationMethodDescription>
+</mdq:DQ_FullInspection>
+                            </mdq:evaluationMethod>
+                            <mdq:result>
+<mdq:DQ_QuantitativeResult>
+    <mdq:resultScope>
+        <mcc:MD_Scope>
+            <mcc:level>
+                <mcc:MD_ScopeCode codeList="http://standards.iso.org/iso/19115/-3/mcc/1.0/codelists.html#MD_ScopeCode" codeListValue="attribute"/>
+            </mcc:level>
+            <mcc:levelDescription>
+                <mcc:MD_ScopeDescription>
+                    <mcc:attributes>production</mcc:attributes>
+                </mcc:MD_ScopeDescription>
+            </mcc:levelDescription>
+        </mcc:MD_Scope>
+    </mdq:resultScope>
+    <mdq:value>
+        <field>770</field>
+    </mdq:value>
+    <mdq:valueUnit>same unit as in production column</mdq:valueUnit>
+</mdq:DQ_QuantitativeResult>
+                            </mdq:result>
+                        </mdq:DQ_CompletenessOmission>
+                        <mdq:DQ_CompletenessOmission>
+                            <mdq:measure>
+<mdq:DQ_MeasureReference>
+    <mdq:nameOfMeasure>number of missing items</mdq:nameOfMeasure>
+    <mdq:measureDescription>count of all items that should have been in the data set or sample and are missing</mdq:measureDescription>
+</mdq:DQ_MeasureReference>
+                            </mdq:measure>
+                            <mdq:evaluationMethod>
+<mdq:DQ_FullInspection>
+    <mdq:evaluationMethodType codeList="https://standards.iso.org/iso/19157/-2/mdq/1.0/codelists.html" codeListValue="directInternal"/>
+    <mdq:evaluationMethodDescription>count of missing items in the data set</mdq:evaluationMethodDescription>
+</mdq:DQ_FullInspection>
+                            </mdq:evaluationMethod>
+                            <mdq:result>
+<mdq:DQ_QuantitativeResult>
+    <mdq:resultScope>
+        <mcc:MD_Scope>
+            <mcc:level>
+                <mcc:MD_ScopeCode codeList="http://standards.iso.org/iso/19115/-3/mcc/1.0/codelists.html#MD_ScopeCode" codeListValue="attribute"/>
+            </mcc:level>
+            <mcc:levelDescription>
+                <mcc:MD_ScopeDescription>
+                    <mcc:attributes>yield</mcc:attributes>
+                </mcc:MD_ScopeDescription>
+            </mcc:levelDescription>
+        </mcc:MD_Scope>
+    </mdq:resultScope>
+    <mdq:value>
+        <field>770</field>
+    </mdq:value>
+    <mdq:valueUnit>same unit as in yield column</mdq:valueUnit>
+</mdq:DQ_QuantitativeResult>
+                            </mdq:result>
+                        </mdq:DQ_CompletenessOmission>
+                        <mdq:DQ_CompletenessOmission>
+                            <mdq:measure>
+<mdq:DQ_MeasureReference>
+    <mdq:nameOfMeasure>number of missing items</mdq:nameOfMeasure>
+    <mdq:measureDescription>count of all items that should have been in the data set or sample and are missing</mdq:measureDescription>
+</mdq:DQ_MeasureReference>
+                            </mdq:measure>
+                            <mdq:evaluationMethod>
+<mdq:DQ_FullInspection>
+    <mdq:evaluationMethodType codeList="https://standards.iso.org/iso/19157/-2/mdq/1.0/codelists.html" codeListValue="directInternal"/>
+    <mdq:evaluationMethodDescription>count of missing items in the data set</mdq:evaluationMethodDescription>
+</mdq:DQ_FullInspection>
+                            </mdq:evaluationMethod>
+                            <mdq:result>
+<mdq:DQ_QuantitativeResult>
+    <mdq:resultScope>
+        <mcc:MD_Scope>
+            <mcc:level>
+                <mcc:MD_ScopeCode codeList="http://standards.iso.org/iso/19115/-3/mcc/1.0/codelists.html#MD_ScopeCode" codeListValue="attribute"/>
+            </mcc:level>
+            <mcc:levelDescription>
+                <mcc:MD_ScopeDescription>
+                    <mcc:attributes>headcount</mcc:attributes>
+                </mcc:MD_ScopeDescription>
+            </mcc:levelDescription>
+        </mcc:MD_Scope>
+    </mdq:resultScope>
+    <mdq:value>
+        <field>2193</field>
+    </mdq:value>
+    <mdq:valueUnit>same unit as in headcount column</mdq:valueUnit>
+</mdq:DQ_QuantitativeResult>
+                            </mdq:result>
+                        </mdq:DQ_CompletenessOmission>
+                        <mdq:DQ_CompletenessOmission>
+                            <mdq:measure>
+<mdq:DQ_MeasureReference>
+    <mdq:nameOfMeasure>rate of missing items</mdq:nameOfMeasure>
+    <mdq:measureDescription>rate of all items that should have been in the data set or sample and are missing</mdq:measureDescription>
+</mdq:DQ_MeasureReference>
+                            </mdq:measure>
+                            <mdq:evaluationMethod>
+<mdq:DQ_FullInspection>
+    <mdq:evaluationMethodType codeList="https://standards.iso.org/iso/19157/-2/mdq/1.0/codelists.html" codeListValue="directInternal"/>
+    <mdq:evaluationMethodDescription>rate of missing items in the data set</mdq:evaluationMethodDescription>
+</mdq:DQ_FullInspection>
+                            </mdq:evaluationMethod>
+                            <mdq:result>
+<mdq:DQ_QuantitativeResult>
+    <mdq:resultScope>
+        <mcc:MD_Scope>
+            <mcc:level>
+                <mcc:MD_ScopeCode codeList="http://standards.iso.org/iso/19115/-3/mcc/1.0/codelists.html#MD_ScopeCode" codeListValue="attribute"/>
+            </mcc:level>
+            <mcc:levelDescription>
+                <mcc:MD_ScopeDescription>
+                    <mcc:attributes>planted</mcc:attributes>
+                </mcc:MD_ScopeDescription>
+            </mcc:levelDescription>
+        </mcc:MD_Scope>
+    </mdq:resultScope>
+    <mdq:value>
+        <field>99.01158827539196</field>
+    </mdq:value>
+    <mdq:valueUnit>%</mdq:valueUnit>
+</mdq:DQ_QuantitativeResult>
+                            </mdq:result>
+                        </mdq:DQ_CompletenessOmission>
+                        <mdq:DQ_CompletenessOmission>
+                            <mdq:measure>
+<mdq:DQ_MeasureReference>
+    <mdq:nameOfMeasure>rate of missing items</mdq:nameOfMeasure>
+    <mdq:measureDescription>rate of all items that should have been in the data set or sample and are missing</mdq:measureDescription>
+</mdq:DQ_MeasureReference>
+                            </mdq:measure>
+                            <mdq:evaluationMethod>
+<mdq:DQ_FullInspection>
+    <mdq:evaluationMethodType codeList="https://standards.iso.org/iso/19157/-2/mdq/1.0/codelists.html" codeListValue="directInternal"/>
+    <mdq:evaluationMethodDescription>rate of missing items in the data set</mdq:evaluationMethodDescription>
+</mdq:DQ_FullInspection>
+                            </mdq:evaluationMethod>
+                            <mdq:result>
+<mdq:DQ_QuantitativeResult>
+    <mdq:resultScope>
+        <mcc:MD_Scope>
+            <mcc:level>
+                <mcc:MD_ScopeCode codeList="http://standards.iso.org/iso/19115/-3/mcc/1.0/codelists.html#MD_ScopeCode" codeListValue="attribute"/>
+            </mcc:level>
+            <mcc:levelDescription>
+                <mcc:MD_ScopeDescription>
+                    <mcc:attributes>harvested</mcc:attributes>
+                </mcc:MD_ScopeDescription>
+            </mcc:levelDescription>
+        </mcc:MD_Scope>
+    </mdq:resultScope>
+    <mdq:value>
+        <field>26.244035446489434</field>
+    </mdq:value>
+    <mdq:valueUnit>%</mdq:valueUnit>
+</mdq:DQ_QuantitativeResult>
+                            </mdq:result>
+                        </mdq:DQ_CompletenessOmission>
+                        <mdq:DQ_CompletenessOmission>
+                            <mdq:measure>
+<mdq:DQ_MeasureReference>
+    <mdq:nameOfMeasure>rate of missing items</mdq:nameOfMeasure>
+    <mdq:measureDescription>rate of all items that should have been in the data set or sample and are missing</mdq:measureDescription>
+</mdq:DQ_MeasureReference>
+                            </mdq:measure>
+                            <mdq:evaluationMethod>
+<mdq:DQ_FullInspection>
+    <mdq:evaluationMethodType codeList="https://standards.iso.org/iso/19157/-2/mdq/1.0/codelists.html" codeListValue="directInternal"/>
+    <mdq:evaluationMethodDescription>rate of missing items in the data set</mdq:evaluationMethodDescription>
+</mdq:DQ_FullInspection>
+                            </mdq:evaluationMethod>
+                            <mdq:result>
+<mdq:DQ_QuantitativeResult>
+    <mdq:resultScope>
+        <mcc:MD_Scope>
+            <mcc:level>
+                <mcc:MD_ScopeCode codeList="http://standards.iso.org/iso/19115/-3/mcc/1.0/codelists.html#MD_ScopeCode" codeListValue="attribute"/>
+            </mcc:level>
+            <mcc:levelDescription>
+                <mcc:MD_ScopeDescription>
+                    <mcc:attributes>production</mcc:attributes>
+                </mcc:MD_ScopeDescription>
+            </mcc:levelDescription>
+        </mcc:MD_Scope>
+    </mdq:resultScope>
+    <mdq:value>
+        <field>26.244035446489434</field>
+    </mdq:value>
+    <mdq:valueUnit>%</mdq:valueUnit>
+</mdq:DQ_QuantitativeResult>
+                            </mdq:result>
+                        </mdq:DQ_CompletenessOmission>
+                        <mdq:DQ_CompletenessOmission>
+                            <mdq:measure>
+<mdq:DQ_MeasureReference>
+    <mdq:nameOfMeasure>rate of missing items</mdq:nameOfMeasure>
+    <mdq:measureDescription>rate of all items that should have been in the data set or sample and are missing</mdq:measureDescription>
+</mdq:DQ_MeasureReference>
+                            </mdq:measure>
+                            <mdq:evaluationMethod>
+<mdq:DQ_FullInspection>
+    <mdq:evaluationMethodType codeList="https://standards.iso.org/iso/19157/-2/mdq/1.0/codelists.html" codeListValue="directInternal"/>
+    <mdq:evaluationMethodDescription>rate of missing items in the data set</mdq:evaluationMethodDescription>
+</mdq:DQ_FullInspection>
+                            </mdq:evaluationMethod>
+                            <mdq:result>
+<mdq:DQ_QuantitativeResult>
+    <mdq:resultScope>
+        <mcc:MD_Scope>
+            <mcc:level>
+                <mcc:MD_ScopeCode codeList="http://standards.iso.org/iso/19115/-3/mcc/1.0/codelists.html#MD_ScopeCode" codeListValue="attribute"/>
+            </mcc:level>
+            <mcc:levelDescription>
+                <mcc:MD_ScopeDescription>
+                    <mcc:attributes>yield</mcc:attributes>
+                </mcc:MD_ScopeDescription>
+            </mcc:levelDescription>
+        </mcc:MD_Scope>
+    </mdq:resultScope>
+    <mdq:value>
+        <field>26.244035446489434</field>
+    </mdq:value>
+    <mdq:valueUnit>%</mdq:valueUnit>
+</mdq:DQ_QuantitativeResult>
+                            </mdq:result>
+                        </mdq:DQ_CompletenessOmission>
+                        <mdq:DQ_CompletenessOmission>
+                            <mdq:measure>
+<mdq:DQ_MeasureReference>
+    <mdq:nameOfMeasure>rate of missing items</mdq:nameOfMeasure>
+    <mdq:measureDescription>rate of all items that should have been in the data set or sample and are missing</mdq:measureDescription>
+</mdq:DQ_MeasureReference>
+                            </mdq:measure>
+                            <mdq:evaluationMethod>
+<mdq:DQ_FullInspection>
+    <mdq:evaluationMethodType codeList="https://standards.iso.org/iso/19157/-2/mdq/1.0/codelists.html" codeListValue="directInternal"/>
+    <mdq:evaluationMethodDescription>rate of missing items in the data set</mdq:evaluationMethodDescription>
+</mdq:DQ_FullInspection>
+                            </mdq:evaluationMethod>
+                            <mdq:result>
+<mdq:DQ_QuantitativeResult>
+    <mdq:resultScope>
+        <mcc:MD_Scope>
+            <mcc:level>
+                <mcc:MD_ScopeCode codeList="http://standards.iso.org/iso/19115/-3/mcc/1.0/codelists.html#MD_ScopeCode" codeListValue="attribute"/>
+            </mcc:level>
+            <mcc:levelDescription>
+                <mcc:MD_ScopeDescription>
+                    <mcc:attributes>headcount</mcc:attributes>
+                </mcc:MD_ScopeDescription>
+            </mcc:levelDescription>
+        </mcc:MD_Scope>
+    </mdq:resultScope>
+    <mdq:value>
+        <field>74.74437627811861</field>
+    </mdq:value>
+    <mdq:valueUnit>%</mdq:valueUnit>
+</mdq:DQ_QuantitativeResult>
+                            </mdq:result>
+                        </mdq:DQ_CompletenessOmission>
+                        <mdq:DQ_CompletenessCommission>
+                            <mdq:measure>
+<mdq:DQ_MeasureReference>
+    <mdq:nameOfMeasure>number of excess items</mdq:nameOfMeasure>
+    <mdq:measureDescription>number of items within the data set or sample that should not have been present</mdq:measureDescription>
+</mdq:DQ_MeasureReference>
+                            </mdq:measure>
+                            <mdq:evaluationMethod>
+<mdq:DQ_FullInspection>
+    <mdq:evaluationMethodType codeList="https://standards.iso.org/iso/19157/-2/mdq/1.0/codelists.html" codeListValue="directInternal"/>
+    <mdq:evaluationMethodDescription>count of excess items in the data set</mdq:evaluationMethodDescription>
+</mdq:DQ_FullInspection>
+                            </mdq:evaluationMethod>
+                            <mdq:result>
+<mdq:DQ_QuantitativeResult>
+    <mdq:resultScope>
+        <mcc:MD_Scope>
+            <mcc:level>
+                <mcc:MD_ScopeCode codeList="http://standards.iso.org/iso/19115/-3/mcc/1.0/codelists.html#MD_ScopeCode" codeListValue="attribute"/>
+            </mcc:level>
+            <mcc:levelDescription>
+                <mcc:MD_ScopeDescription>
+                    <mcc:attributes>planted</mcc:attributes>
+                </mcc:MD_ScopeDescription>
+            </mcc:levelDescription>
+        </mcc:MD_Scope>
+    </mdq:resultScope>
+    <mdq:value>
+        <field>7</field>
+    </mdq:value>
+    <mdq:valueUnit>same unit as in planted column</mdq:valueUnit>
+</mdq:DQ_QuantitativeResult>
+                            </mdq:result>
+                        </mdq:DQ_CompletenessCommission>
+                        <mdq:DQ_CompletenessCommission>
+                            <mdq:measure>
+<mdq:DQ_MeasureReference>
+    <mdq:nameOfMeasure>rate of excess items</mdq:nameOfMeasure>
+    <mdq:measureDescription>number of excess items in the data set or sample in relation to the number of items that should have been present</mdq:measureDescription>
+</mdq:DQ_MeasureReference>
+                            </mdq:measure>
+                            <mdq:evaluationMethod>
+<mdq:DQ_FullInspection>
+    <mdq:evaluationMethodType codeList="https://standards.iso.org/iso/19157/-2/mdq/1.0/codelists.html" codeListValue="directInternal"/>
+    <mdq:evaluationMethodDescription>rate of excess items in the data set</mdq:evaluationMethodDescription>
+</mdq:DQ_FullInspection>
+                            </mdq:evaluationMethod>
+                            <mdq:result>
+<mdq:DQ_QuantitativeResult>
+    <mdq:resultScope>
+        <mcc:MD_Scope>
+            <mcc:level>
+                <mcc:MD_ScopeCode codeList="http://standards.iso.org/iso/19115/-3/mcc/1.0/codelists.html#MD_ScopeCode" codeListValue="attribute"/>
+            </mcc:level>
+            <mcc:levelDescription>
+                <mcc:MD_ScopeDescription>
+                    <mcc:attributes>planted</mcc:attributes>
+                </mcc:MD_ScopeDescription>
+            </mcc:levelDescription>
+        </mcc:MD_Scope>
+    </mdq:resultScope>
+    <mdq:value>
+        <field>0.23858214042263123</field>
+    </mdq:value>
+    <mdq:valueUnit>%</mdq:valueUnit>
+</mdq:DQ_QuantitativeResult>
+                            </mdq:result>
+                        </mdq:DQ_CompletenessCommission>
+                        <mdq:DQ_Representativity>
+                            <mdq:measure>
+<mdq:DQ_MeasureReference>
+    <mdq:nameOfMeasure>polygons per area</mdq:nameOfMeasure>
+    <mdq:measureDescription>Number of polygons per 1000 square kilometer. Area size summarized by all polygons, regardless of overlapping.</mdq:measureDescription>
+</mdq:DQ_MeasureReference>
+                            </mdq:measure>
+                            <mdq:evaluationMethod>
+<mdq:DQ_FullInspection>
+    <mdq:evaluationMethodType codeList="https://standards.iso.org/iso/19157/-2/mdq/1.0/codelists.html" codeListValue="directInternal"/>
+    <mdq:dateTime>2021-03-29T14:05:08.958260Z</mdq:dateTime>
+</mdq:DQ_FullInspection>
+                            </mdq:evaluationMethod>
+                            <mdq:result>
+<mdq:DQ_QuantitativeResult>
+    <mdq:dateTime>2021-03-29T14:05:08.958260Z</mdq:dateTime>
+    <mdq:value>
+        <field>0.002453</field>
+    </mdq:value>
+    <mdq:valueUnit>polygons per 1000 square km</mdq:valueUnit>
+</mdq:DQ_QuantitativeResult>
+                            </mdq:result>
+                        </mdq:DQ_Representativity>
+                        <mdq:DQ_Representativity>
+                            <mdq:measure>
+<mdq:DQ_MeasureReference>
+    <mdq:nameOfMeasure>number of different spatial elements</mdq:nameOfMeasure>
+    <mdq:measureDescription>Number of different geometries at given attribute.</mdq:measureDescription>
+</mdq:DQ_MeasureReference>
+                            </mdq:measure>
+                            <mdq:evaluationMethod>
+<mdq:DQ_FullInspection>
+    <mdq:evaluationMethodType codeList="https://standards.iso.org/iso/19157/-2/mdq/1.0/codelists.html" codeListValue="directInternal"/>
+    <mdq:evaluationMethodDescription>number of different geometries at given attribute</mdq:evaluationMethodDescription>
+    <mdq:dateTime>2021-03-29T14:05:08.958260Z</mdq:dateTime>
+</mdq:DQ_FullInspection>
+                            </mdq:evaluationMethod>
+                            <mdq:result>
+<mdq:DQ_QuantitativeResult>
+    <mdq:resultScope>
+        <mcc:MD_Scope>
+            <mcc:level>
+                <mcc:MD_ScopeCode codeList="http://standards.iso.org/iso/19115/-3/mcc/1.0/codelists.html#MD_ScopeCode" codeListValue="attribute"/>
+            </mcc:level>
+            <mcc:levelDescription>
+                <mcc:MD_ScopeDescription>
+                    <mcc:attributes>planted</mcc:attributes>
+                </mcc:MD_ScopeDescription>
+            </mcc:levelDescription>
+        </mcc:MD_Scope>
+    </mdq:resultScope>
+    <mdq:dateTime>2021-03-29T14:05:08.958260Z</mdq:dateTime>
+    <mdq:value>
+        <field>1</field>
+    </mdq:value>
+    <mdq:valueUnit>number of geometries</mdq:valueUnit>
+</mdq:DQ_QuantitativeResult>
+                            </mdq:result>
+                        </mdq:DQ_Representativity>
+                        <mdq:DQ_Representativity>
+                            <mdq:measure>
+<mdq:DQ_MeasureReference>
+    <mdq:nameOfMeasure>number of different spatial elements</mdq:nameOfMeasure>
+    <mdq:measureDescription>Number of different geometries at given attribute.</mdq:measureDescription>
+</mdq:DQ_MeasureReference>
+                            </mdq:measure>
+                            <mdq:evaluationMethod>
+<mdq:DQ_FullInspection>
+    <mdq:evaluationMethodType codeList="https://standards.iso.org/iso/19157/-2/mdq/1.0/codelists.html" codeListValue="directInternal"/>
+    <mdq:evaluationMethodDescription>number of different geometries at given attribute</mdq:evaluationMethodDescription>
+    <mdq:dateTime>2021-03-29T14:05:08.958260Z</mdq:dateTime>
+</mdq:DQ_FullInspection>
+                            </mdq:evaluationMethod>
+                            <mdq:result>
+<mdq:DQ_QuantitativeResult>
+    <mdq:resultScope>
+        <mcc:MD_Scope>
+            <mcc:level>
+                <mcc:MD_ScopeCode codeList="http://standards.iso.org/iso/19115/-3/mcc/1.0/codelists.html#MD_ScopeCode" codeListValue="attribute"/>
+            </mcc:level>
+            <mcc:levelDescription>
+                <mcc:MD_ScopeDescription>
+                    <mcc:attributes>harvested</mcc:attributes>
+                </mcc:MD_ScopeDescription>
+            </mcc:levelDescription>
+        </mcc:MD_Scope>
+    </mdq:resultScope>
+    <mdq:dateTime>2021-03-29T14:05:08.958260Z</mdq:dateTime>
+    <mdq:value>
+        <field>1</field>
+    </mdq:value>
+    <mdq:valueUnit>number of geometries</mdq:valueUnit>
+</mdq:DQ_QuantitativeResult>
+                            </mdq:result>
+                        </mdq:DQ_Representativity>
+                        <mdq:DQ_Representativity>
+                            <mdq:measure>
+<mdq:DQ_MeasureReference>
+    <mdq:nameOfMeasure>number of different spatial elements</mdq:nameOfMeasure>
+    <mdq:measureDescription>Number of different geometries at given attribute.</mdq:measureDescription>
+</mdq:DQ_MeasureReference>
+                            </mdq:measure>
+                            <mdq:evaluationMethod>
+<mdq:DQ_FullInspection>
+    <mdq:evaluationMethodType codeList="https://standards.iso.org/iso/19157/-2/mdq/1.0/codelists.html" codeListValue="directInternal"/>
+    <mdq:evaluationMethodDescription>number of different geometries at given attribute</mdq:evaluationMethodDescription>
+    <mdq:dateTime>2021-03-29T14:05:08.958260Z</mdq:dateTime>
+</mdq:DQ_FullInspection>
+                            </mdq:evaluationMethod>
+                            <mdq:result>
+<mdq:DQ_QuantitativeResult>
+    <mdq:resultScope>
+        <mcc:MD_Scope>
+            <mcc:level>
+                <mcc:MD_ScopeCode codeList="http://standards.iso.org/iso/19115/-3/mcc/1.0/codelists.html#MD_ScopeCode" codeListValue="attribute"/>
+            </mcc:level>
+            <mcc:levelDescription>
+                <mcc:MD_ScopeDescription>
+                    <mcc:attributes>production</mcc:attributes>
+                </mcc:MD_ScopeDescription>
+            </mcc:levelDescription>
+        </mcc:MD_Scope>
+    </mdq:resultScope>
+    <mdq:dateTime>2021-03-29T14:05:08.958260Z</mdq:dateTime>
+    <mdq:value>
+        <field>1</field>
+    </mdq:value>
+    <mdq:valueUnit>number of geometries</mdq:valueUnit>
+</mdq:DQ_QuantitativeResult>
+                            </mdq:result>
+                        </mdq:DQ_Representativity>
+                        <mdq:DQ_Representativity>
+                            <mdq:measure>
+<mdq:DQ_MeasureReference>
+    <mdq:nameOfMeasure>number of different spatial elements</mdq:nameOfMeasure>
+    <mdq:measureDescription>Number of different geometries at given attribute.</mdq:measureDescription>
+</mdq:DQ_MeasureReference>
+                            </mdq:measure>
+                            <mdq:evaluationMethod>
+<mdq:DQ_FullInspection>
+    <mdq:evaluationMethodType codeList="https://standards.iso.org/iso/19157/-2/mdq/1.0/codelists.html" codeListValue="directInternal"/>
+    <mdq:evaluationMethodDescription>number of different geometries at given attribute</mdq:evaluationMethodDescription>
+    <mdq:dateTime>2021-03-29T14:05:08.958260Z</mdq:dateTime>
+</mdq:DQ_FullInspection>
+                            </mdq:evaluationMethod>
+                            <mdq:result>
+<mdq:DQ_QuantitativeResult>
+    <mdq:resultScope>
+        <mcc:MD_Scope>
+            <mcc:level>
+                <mcc:MD_ScopeCode codeList="http://standards.iso.org/iso/19115/-3/mcc/1.0/codelists.html#MD_ScopeCode" codeListValue="attribute"/>
+            </mcc:level>
+            <mcc:levelDescription>
+                <mcc:MD_ScopeDescription>
+                    <mcc:attributes>yield</mcc:attributes>
+                </mcc:MD_ScopeDescription>
+            </mcc:levelDescription>
+        </mcc:MD_Scope>
+    </mdq:resultScope>
+    <mdq:dateTime>2021-03-29T14:05:08.958260Z</mdq:dateTime>
+    <mdq:value>
+        <field>1</field>
+    </mdq:value>
+    <mdq:valueUnit>number of geometries</mdq:valueUnit>
+</mdq:DQ_QuantitativeResult>
+                            </mdq:result>
+                        </mdq:DQ_Representativity>
+                        <mdq:DQ_Representativity>
+                            <mdq:measure>
+<mdq:DQ_MeasureReference>
+    <mdq:nameOfMeasure>number of different spatial elements</mdq:nameOfMeasure>
+    <mdq:measureDescription>Number of different geometries at given attribute.</mdq:measureDescription>
+</mdq:DQ_MeasureReference>
+                            </mdq:measure>
+                            <mdq:evaluationMethod>
+<mdq:DQ_FullInspection>
+    <mdq:evaluationMethodType codeList="https://standards.iso.org/iso/19157/-2/mdq/1.0/codelists.html" codeListValue="directInternal"/>
+    <mdq:evaluationMethodDescription>number of different geometries at given attribute</mdq:evaluationMethodDescription>
+    <mdq:dateTime>2021-03-29T14:05:08.958260Z</mdq:dateTime>
+</mdq:DQ_FullInspection>
+                            </mdq:evaluationMethod>
+                            <mdq:result>
+<mdq:DQ_QuantitativeResult>
+    <mdq:resultScope>
+        <mcc:MD_Scope>
+            <mcc:level>
+                <mcc:MD_ScopeCode codeList="http://standards.iso.org/iso/19115/-3/mcc/1.0/codelists.html#MD_ScopeCode" codeListValue="attribute"/>
+            </mcc:level>
+            <mcc:levelDescription>
+                <mcc:MD_ScopeDescription>
+                    <mcc:attributes>headcount</mcc:attributes>
+                </mcc:MD_ScopeDescription>
+            </mcc:levelDescription>
+        </mcc:MD_Scope>
+    </mdq:resultScope>
+    <mdq:dateTime>2021-03-29T14:05:08.958260Z</mdq:dateTime>
+    <mdq:value>
+        <field>1</field>
+    </mdq:value>
+    <mdq:valueUnit>number of geometries</mdq:valueUnit>
+</mdq:DQ_QuantitativeResult>
+                            </mdq:result>
+                        </mdq:DQ_Representativity>
+                        <mdq:DQ_Representativity>
+                            <mdq:measure>
+<mdq:DQ_MeasureReference>
+    <mdq:nameOfMeasure>number of different temporal elements</mdq:nameOfMeasure>
+    <mdq:measureDescription>Number of different years at given attribute. Different years do not necessarily have be consecutive.</mdq:measureDescription>
+</mdq:DQ_MeasureReference>
+                            </mdq:measure>
+                            <mdq:evaluationMethod>
+<mdq:DQ_FullInspection>
+    <mdq:evaluationMethodType codeList="https://standards.iso.org/iso/19157/-2/mdq/1.0/codelists.html" codeListValue="directInternal"/>
+    <mdq:evaluationMethodDescription>number of different years at given attribute</mdq:evaluationMethodDescription>
+    <mdq:dateTime>2021-03-29T14:05:08.958260Z</mdq:dateTime>
+</mdq:DQ_FullInspection>
+                            </mdq:evaluationMethod>
+                            <mdq:result>
+<mdq:DQ_QuantitativeResult>
+    <mdq:resultScope>
+        <mcc:MD_Scope>
+            <mcc:level>
+                <mcc:MD_ScopeCode codeList="http://standards.iso.org/iso/19115/-3/mcc/1.0/codelists.html#MD_ScopeCode" codeListValue="attribute"/>
+            </mcc:level>
+            <mcc:levelDescription>
+                <mcc:MD_ScopeDescription>
+                    <mcc:attributes>planted</mcc:attributes>
+                </mcc:MD_ScopeDescription>
+            </mcc:levelDescription>
+        </mcc:MD_Scope>
+    </mdq:resultScope>
+    <mdq:dateTime>2021-03-29T14:05:08.958260Z</mdq:dateTime>
+    <mdq:value>
+        <field>6</field>
+    </mdq:value>
+    <mdq:valueUnit>number of years</mdq:valueUnit>
+</mdq:DQ_QuantitativeResult>
+                            </mdq:result>
+                        </mdq:DQ_Representativity>
+                        <mdq:DQ_Representativity>
+                            <mdq:measure>
+<mdq:DQ_MeasureReference>
+    <mdq:nameOfMeasure>number of different temporal elements</mdq:nameOfMeasure>
+    <mdq:measureDescription>Number of different years at given attribute. Different years do not necessarily have be consecutive.</mdq:measureDescription>
+</mdq:DQ_MeasureReference>
+                            </mdq:measure>
+                            <mdq:evaluationMethod>
+<mdq:DQ_FullInspection>
+    <mdq:evaluationMethodType codeList="https://standards.iso.org/iso/19157/-2/mdq/1.0/codelists.html" codeListValue="directInternal"/>
+    <mdq:evaluationMethodDescription>number of different years at given attribute</mdq:evaluationMethodDescription>
+    <mdq:dateTime>2021-03-29T14:05:08.958260Z</mdq:dateTime>
+</mdq:DQ_FullInspection>
+                            </mdq:evaluationMethod>
+                            <mdq:result>
+<mdq:DQ_QuantitativeResult>
+    <mdq:resultScope>
+        <mcc:MD_Scope>
+            <mcc:level>
+                <mcc:MD_ScopeCode codeList="http://standards.iso.org/iso/19115/-3/mcc/1.0/codelists.html#MD_ScopeCode" codeListValue="attribute"/>
+            </mcc:level>
+            <mcc:levelDescription>
+                <mcc:MD_ScopeDescription>
+                    <mcc:attributes>harvested</mcc:attributes>
+                </mcc:MD_ScopeDescription>
+            </mcc:levelDescription>
+        </mcc:MD_Scope>
+    </mdq:resultScope>
+    <mdq:dateTime>2021-03-29T14:05:08.958260Z</mdq:dateTime>
+    <mdq:value>
+        <field>57</field>
+    </mdq:value>
+    <mdq:valueUnit>number of years</mdq:valueUnit>
+</mdq:DQ_QuantitativeResult>
+                            </mdq:result>
+                        </mdq:DQ_Representativity>
+                        <mdq:DQ_Representativity>
+                            <mdq:measure>
+<mdq:DQ_MeasureReference>
+    <mdq:nameOfMeasure>number of different temporal elements</mdq:nameOfMeasure>
+    <mdq:measureDescription>Number of different years at given attribute. Different years do not necessarily have be consecutive.</mdq:measureDescription>
+</mdq:DQ_MeasureReference>
+                            </mdq:measure>
+                            <mdq:evaluationMethod>
+<mdq:DQ_FullInspection>
+    <mdq:evaluationMethodType codeList="https://standards.iso.org/iso/19157/-2/mdq/1.0/codelists.html" codeListValue="directInternal"/>
+    <mdq:evaluationMethodDescription>number of different years at given attribute</mdq:evaluationMethodDescription>
+    <mdq:dateTime>2021-03-29T14:05:08.958260Z</mdq:dateTime>
+</mdq:DQ_FullInspection>
+                            </mdq:evaluationMethod>
+                            <mdq:result>
+<mdq:DQ_QuantitativeResult>
+    <mdq:resultScope>
+        <mcc:MD_Scope>
+            <mcc:level>
+                <mcc:MD_ScopeCode codeList="http://standards.iso.org/iso/19115/-3/mcc/1.0/codelists.html#MD_ScopeCode" codeListValue="attribute"/>
+            </mcc:level>
+            <mcc:levelDescription>
+                <mcc:MD_ScopeDescription>
+                    <mcc:attributes>production</mcc:attributes>
+                </mcc:MD_ScopeDescription>
+            </mcc:levelDescription>
+        </mcc:MD_Scope>
+    </mdq:resultScope>
+    <mdq:dateTime>2021-03-29T14:05:08.958260Z</mdq:dateTime>
+    <mdq:value>
+        <field>57</field>
+    </mdq:value>
+    <mdq:valueUnit>number of years</mdq:valueUnit>
+</mdq:DQ_QuantitativeResult>
+                            </mdq:result>
+                        </mdq:DQ_Representativity>
+                        <mdq:DQ_Representativity>
+                            <mdq:measure>
+<mdq:DQ_MeasureReference>
+    <mdq:nameOfMeasure>number of different temporal elements</mdq:nameOfMeasure>
+    <mdq:measureDescription>Number of different years at given attribute. Different years do not necessarily have be consecutive.</mdq:measureDescription>
+</mdq:DQ_MeasureReference>
+                            </mdq:measure>
+                            <mdq:evaluationMethod>
+<mdq:DQ_FullInspection>
+    <mdq:evaluationMethodType codeList="https://standards.iso.org/iso/19157/-2/mdq/1.0/codelists.html" codeListValue="directInternal"/>
+    <mdq:evaluationMethodDescription>number of different years at given attribute</mdq:evaluationMethodDescription>
+    <mdq:dateTime>2021-03-29T14:05:08.958260Z</mdq:dateTime>
+</mdq:DQ_FullInspection>
+                            </mdq:evaluationMethod>
+                            <mdq:result>
+<mdq:DQ_QuantitativeResult>
+    <mdq:resultScope>
+        <mcc:MD_Scope>
+            <mcc:level>
+                <mcc:MD_ScopeCode codeList="http://standards.iso.org/iso/19115/-3/mcc/1.0/codelists.html#MD_ScopeCode" codeListValue="attribute"/>
+            </mcc:level>
+            <mcc:levelDescription>
+                <mcc:MD_ScopeDescription>
+                    <mcc:attributes>yield</mcc:attributes>
+                </mcc:MD_ScopeDescription>
+            </mcc:levelDescription>
+        </mcc:MD_Scope>
+    </mdq:resultScope>
+    <mdq:dateTime>2021-03-29T14:05:08.958260Z</mdq:dateTime>
+    <mdq:value>
+        <field>57</field>
+    </mdq:value>
+    <mdq:valueUnit>number of years</mdq:valueUnit>
+</mdq:DQ_QuantitativeResult>
+                            </mdq:result>
+                        </mdq:DQ_Representativity>
+                        <mdq:DQ_Representativity>
+                            <mdq:measure>
+<mdq:DQ_MeasureReference>
+    <mdq:nameOfMeasure>number of different temporal elements</mdq:nameOfMeasure>
+    <mdq:measureDescription>Number of different years at given attribute. Different years do not necessarily have be consecutive.</mdq:measureDescription>
+</mdq:DQ_MeasureReference>
+                            </mdq:measure>
+                            <mdq:evaluationMethod>
+<mdq:DQ_FullInspection>
+    <mdq:evaluationMethodType codeList="https://standards.iso.org/iso/19157/-2/mdq/1.0/codelists.html" codeListValue="directInternal"/>
+    <mdq:evaluationMethodDescription>number of different years at given attribute</mdq:evaluationMethodDescription>
+    <mdq:dateTime>2021-03-29T14:05:08.958260Z</mdq:dateTime>
+</mdq:DQ_FullInspection>
+                            </mdq:evaluationMethod>
+                            <mdq:result>
+<mdq:DQ_QuantitativeResult>
+    <mdq:resultScope>
+        <mcc:MD_Scope>
+            <mcc:level>
+                <mcc:MD_ScopeCode codeList="http://standards.iso.org/iso/19115/-3/mcc/1.0/codelists.html#MD_ScopeCode" codeListValue="attribute"/>
+            </mcc:level>
+            <mcc:levelDescription>
+                <mcc:MD_ScopeDescription>
+                    <mcc:attributes>headcount</mcc:attributes>
+                </mcc:MD_ScopeDescription>
+            </mcc:levelDescription>
+        </mcc:MD_Scope>
+    </mdq:resultScope>
+    <mdq:dateTime>2021-03-29T14:05:08.958260Z</mdq:dateTime>
+    <mdq:value>
+        <field>57</field>
+    </mdq:value>
+    <mdq:valueUnit>number of years</mdq:valueUnit>
+</mdq:DQ_QuantitativeResult>
+                            </mdq:result>
+                        </mdq:DQ_Representativity>
+                        <mdq:DQ_Representativity>
+                            <mdq:measure>
+<mdq:DQ_MeasureReference>
+    <mdq:nameOfMeasure>number of different commodity elements</mdq:nameOfMeasure>
+    <mdq:measureDescription>Number of different commodity elements at given attribute. All commodity elements are equally interpreted</mdq:measureDescription>
+</mdq:DQ_MeasureReference>
+                            </mdq:measure>
+                            <mdq:evaluationMethod>
+<mdq:DQ_FullInspection>
+    <mdq:evaluationMethodType codeList="https://standards.iso.org/iso/19157/-2/mdq/1.0/codelists.html" codeListValue="directInternal"/>
+    <mdq:evaluationMethodDescription>number of different commodity elements at given attribute</mdq:evaluationMethodDescription>
+    <mdq:dateTime>2021-03-29T14:05:08.958260Z</mdq:dateTime>
+</mdq:DQ_FullInspection>
+                            </mdq:evaluationMethod>
+                            <mdq:result>
+<mdq:DQ_QuantitativeResult>
+    <mdq:resultScope>
+        <mcc:MD_Scope>
+            <mcc:level>
+                <mcc:MD_ScopeCode codeList="http://standards.iso.org/iso/19115/-3/mcc/1.0/codelists.html#MD_ScopeCode" codeListValue="attribute"/>
+            </mcc:level>
+            <mcc:levelDescription>
+                <mcc:MD_ScopeDescription>
+                    <mcc:attributes>planted</mcc:attributes>
+                </mcc:MD_ScopeDescription>
+            </mcc:levelDescription>
+        </mcc:MD_Scope>
+    </mdq:resultScope>
+    <mdq:dateTime>2021-03-29T14:05:08.958260Z</mdq:dateTime>
+    <mdq:value>
+        <field>5</field>
+    </mdq:value>
+    <mdq:valueUnit>number of commodity elements</mdq:valueUnit>
+</mdq:DQ_QuantitativeResult>
+                            </mdq:result>
+                        </mdq:DQ_Representativity>
+                        <mdq:DQ_Representativity>
+                            <mdq:measure>
+<mdq:DQ_MeasureReference>
+    <mdq:nameOfMeasure>number of different commodity elements</mdq:nameOfMeasure>
+    <mdq:measureDescription>Number of different commodity elements at given attribute. All commodity elements are equally interpreted</mdq:measureDescription>
+</mdq:DQ_MeasureReference>
+                            </mdq:measure>
+                            <mdq:evaluationMethod>
+<mdq:DQ_FullInspection>
+    <mdq:evaluationMethodType codeList="https://standards.iso.org/iso/19157/-2/mdq/1.0/codelists.html" codeListValue="directInternal"/>
+    <mdq:evaluationMethodDescription>number of different commodity elements at given attribute</mdq:evaluationMethodDescription>
+    <mdq:dateTime>2021-03-29T14:05:08.958260Z</mdq:dateTime>
+</mdq:DQ_FullInspection>
+                            </mdq:evaluationMethod>
+                            <mdq:result>
+<mdq:DQ_QuantitativeResult>
+    <mdq:resultScope>
+        <mcc:MD_Scope>
+            <mcc:level>
+                <mcc:MD_ScopeCode codeList="http://standards.iso.org/iso/19115/-3/mcc/1.0/codelists.html#MD_ScopeCode" codeListValue="attribute"/>
+            </mcc:level>
+            <mcc:levelDescription>
+                <mcc:MD_ScopeDescription>
+                    <mcc:attributes>harvested</mcc:attributes>
+                </mcc:MD_ScopeDescription>
+            </mcc:levelDescription>
+        </mcc:MD_Scope>
+    </mdq:resultScope>
+    <mdq:dateTime>2021-03-29T14:05:08.958260Z</mdq:dateTime>
+    <mdq:value>
+        <field>46</field>
+    </mdq:value>
+    <mdq:valueUnit>number of commodity elements</mdq:valueUnit>
+</mdq:DQ_QuantitativeResult>
+                            </mdq:result>
+                        </mdq:DQ_Representativity>
+                        <mdq:DQ_Representativity>
+                            <mdq:measure>
+<mdq:DQ_MeasureReference>
+    <mdq:nameOfMeasure>number of different commodity elements</mdq:nameOfMeasure>
+    <mdq:measureDescription>Number of different commodity elements at given attribute. All commodity elements are equally interpreted</mdq:measureDescription>
+</mdq:DQ_MeasureReference>
+                            </mdq:measure>
+                            <mdq:evaluationMethod>
+<mdq:DQ_FullInspection>
+    <mdq:evaluationMethodType codeList="https://standards.iso.org/iso/19157/-2/mdq/1.0/codelists.html" codeListValue="directInternal"/>
+    <mdq:evaluationMethodDescription>number of different commodity elements at given attribute</mdq:evaluationMethodDescription>
+    <mdq:dateTime>2021-03-29T14:05:08.958260Z</mdq:dateTime>
+</mdq:DQ_FullInspection>
+                            </mdq:evaluationMethod>
+                            <mdq:result>
+<mdq:DQ_QuantitativeResult>
+    <mdq:resultScope>
+        <mcc:MD_Scope>
+            <mcc:level>
+                <mcc:MD_ScopeCode codeList="http://standards.iso.org/iso/19115/-3/mcc/1.0/codelists.html#MD_ScopeCode" codeListValue="attribute"/>
+            </mcc:level>
+            <mcc:levelDescription>
+                <mcc:MD_ScopeDescription>
+                    <mcc:attributes>production</mcc:attributes>
+                </mcc:MD_ScopeDescription>
+            </mcc:levelDescription>
+        </mcc:MD_Scope>
+    </mdq:resultScope>
+    <mdq:dateTime>2021-03-29T14:05:08.958260Z</mdq:dateTime>
+    <mdq:value>
+        <field>46</field>
+    </mdq:value>
+    <mdq:valueUnit>number of commodity elements</mdq:valueUnit>
+</mdq:DQ_QuantitativeResult>
+                            </mdq:result>
+                        </mdq:DQ_Representativity>
+                        <mdq:DQ_Representativity>
+                            <mdq:measure>
+<mdq:DQ_MeasureReference>
+    <mdq:nameOfMeasure>number of different commodity elements</mdq:nameOfMeasure>
+    <mdq:measureDescription>Number of different commodity elements at given attribute. All commodity elements are equally interpreted</mdq:measureDescription>
+</mdq:DQ_MeasureReference>
+                            </mdq:measure>
+                            <mdq:evaluationMethod>
+<mdq:DQ_FullInspection>
+    <mdq:evaluationMethodType codeList="https://standards.iso.org/iso/19157/-2/mdq/1.0/codelists.html" codeListValue="directInternal"/>
+    <mdq:evaluationMethodDescription>number of different commodity elements at given attribute</mdq:evaluationMethodDescription>
+    <mdq:dateTime>2021-03-29T14:05:08.958260Z</mdq:dateTime>
+</mdq:DQ_FullInspection>
+                            </mdq:evaluationMethod>
+                            <mdq:result>
+<mdq:DQ_QuantitativeResult>
+    <mdq:resultScope>
+        <mcc:MD_Scope>
+            <mcc:level>
+                <mcc:MD_ScopeCode codeList="http://standards.iso.org/iso/19115/-3/mcc/1.0/codelists.html#MD_ScopeCode" codeListValue="attribute"/>
+            </mcc:level>
+            <mcc:levelDescription>
+                <mcc:MD_ScopeDescription>
+                    <mcc:attributes>yield</mcc:attributes>
+                </mcc:MD_ScopeDescription>
+            </mcc:levelDescription>
+        </mcc:MD_Scope>
+    </mdq:resultScope>
+    <mdq:dateTime>2021-03-29T14:05:08.958260Z</mdq:dateTime>
+    <mdq:value>
+        <field>46</field>
+    </mdq:value>
+    <mdq:valueUnit>number of commodity elements</mdq:valueUnit>
+</mdq:DQ_QuantitativeResult>
+                            </mdq:result>
+                        </mdq:DQ_Representativity>
+                        <mdq:DQ_Representativity>
+                            <mdq:measure>
+<mdq:DQ_MeasureReference>
+    <mdq:nameOfMeasure>number of different commodity elements</mdq:nameOfMeasure>
+    <mdq:measureDescription>Number of different commodity elements at given attribute. All commodity elements are equally interpreted</mdq:measureDescription>
+</mdq:DQ_MeasureReference>
+                            </mdq:measure>
+                            <mdq:evaluationMethod>
+<mdq:DQ_FullInspection>
+    <mdq:evaluationMethodType codeList="https://standards.iso.org/iso/19157/-2/mdq/1.0/codelists.html" codeListValue="directInternal"/>
+    <mdq:evaluationMethodDescription>number of different commodity elements at given attribute</mdq:evaluationMethodDescription>
+    <mdq:dateTime>2021-03-29T14:05:08.958260Z</mdq:dateTime>
+</mdq:DQ_FullInspection>
+                            </mdq:evaluationMethod>
+                            <mdq:result>
+<mdq:DQ_QuantitativeResult>
+    <mdq:resultScope>
+        <mcc:MD_Scope>
+            <mcc:level>
+                <mcc:MD_ScopeCode codeList="http://standards.iso.org/iso/19115/-3/mcc/1.0/codelists.html#MD_ScopeCode" codeListValue="attribute"/>
+            </mcc:level>
+            <mcc:levelDescription>
+                <mcc:MD_ScopeDescription>
+                    <mcc:attributes>headcount</mcc:attributes>
+                </mcc:MD_ScopeDescription>
+            </mcc:levelDescription>
+        </mcc:MD_Scope>
+    </mdq:resultScope>
+    <mdq:dateTime>2021-03-29T14:05:08.958260Z</mdq:dateTime>
+    <mdq:value>
+        <field>13</field>
+    </mdq:value>
+    <mdq:valueUnit>number of commodity elements</mdq:valueUnit>
+</mdq:DQ_QuantitativeResult>
+                            </mdq:result>
+                        </mdq:DQ_Representativity>
+                        <mdq:DQ_Representativity>
+                            <mdq:measure>
+<mdq:DQ_MeasureReference>
+    <mdq:nameOfMeasure>distribution parameters of different temporal elements per geographical unit</mdq:nameOfMeasure>
+    <mdq:measureDescription>Parameters for distribution of number of different temporal elements per geographic unit at given attribute.</mdq:measureDescription>
+</mdq:DQ_MeasureReference>
+                            </mdq:measure>
+                            <mdq:evaluationMethod>
+<mdq:DQ_FullInspection>
+    <mdq:evaluationMethodType codeList="https://standards.iso.org/iso/19157/-2/mdq/1.0/codelists.html" codeListValue="directInternal"/>
+    <mdq:evaluationMethodDescription>distribution parameters of different temporal elements per geographical unit at given attribute</mdq:evaluationMethodDescription>
+    <mdq:dateTime>2021-03-29T14:05:08.958260Z</mdq:dateTime>
+</mdq:DQ_FullInspection>
+                            </mdq:evaluationMethod>
+                            <mdq:result>
+<mdq:DQ_QuantitativeResult>
+    <mdq:resultScope>
+        <mcc:MD_Scope>
+            <mcc:level>
+                <mcc:MD_ScopeCode codeList="http://standards.iso.org/iso/19115/-3/mcc/1.0/codelists.html#MD_ScopeCode" codeListValue="attribute"/>
+            </mcc:level>
+            <mcc:levelDescription>
+                <mcc:MD_ScopeDescription>
+                    <mcc:attributes>planted</mcc:attributes>
+                </mcc:MD_ScopeDescription>
+            </mcc:levelDescription>
+        </mcc:MD_Scope>
+    </mdq:resultScope>
+    <mdq:dateTime>2021-03-29T14:05:08.958260Z</mdq:dateTime>
+    <mdq:value>
+        <field name="mean">6.0</field>
+        <field name="min">6.0</field>
+        <field name="5 % quantile">6.0</field>
+        <field name="25 % quantile">6.0</field>
+        <field name="50 % quantile">6.0</field>
+        <field name="75 % quantile">6.0</field>
+        <field name="95 % quantile">6.0</field>
+        <field name="max">6.0</field>
+    </mdq:value>
+    <mdq:valueUnit>number of temporal elements per geographical unit</mdq:valueUnit>
+</mdq:DQ_QuantitativeResult>
+                            </mdq:result>
+                        </mdq:DQ_Representativity>
+                        <mdq:DQ_Representativity>
+                            <mdq:measure>
+<mdq:DQ_MeasureReference>
+    <mdq:nameOfMeasure>distribution parameters of different temporal elements per geographical unit</mdq:nameOfMeasure>
+    <mdq:measureDescription>Parameters for distribution of number of different temporal elements per geographic unit at given attribute.</mdq:measureDescription>
+</mdq:DQ_MeasureReference>
+                            </mdq:measure>
+                            <mdq:evaluationMethod>
+<mdq:DQ_FullInspection>
+    <mdq:evaluationMethodType codeList="https://standards.iso.org/iso/19157/-2/mdq/1.0/codelists.html" codeListValue="directInternal"/>
+    <mdq:evaluationMethodDescription>distribution parameters of different temporal elements per geographical unit at given attribute</mdq:evaluationMethodDescription>
+    <mdq:dateTime>2021-03-29T14:05:08.958260Z</mdq:dateTime>
+</mdq:DQ_FullInspection>
+                            </mdq:evaluationMethod>
+                            <mdq:result>
+<mdq:DQ_QuantitativeResult>
+    <mdq:resultScope>
+        <mcc:MD_Scope>
+            <mcc:level>
+                <mcc:MD_ScopeCode codeList="http://standards.iso.org/iso/19115/-3/mcc/1.0/codelists.html#MD_ScopeCode" codeListValue="attribute"/>
+            </mcc:level>
+            <mcc:levelDescription>
+                <mcc:MD_ScopeDescription>
+                    <mcc:attributes>harvested</mcc:attributes>
+                </mcc:MD_ScopeDescription>
+            </mcc:levelDescription>
+        </mcc:MD_Scope>
+    </mdq:resultScope>
+    <mdq:dateTime>2021-03-29T14:05:08.958260Z</mdq:dateTime>
+    <mdq:value>
+        <field name="mean">57.0</field>
+        <field name="min">57.0</field>
+        <field name="5 % quantile">57.0</field>
+        <field name="25 % quantile">57.0</field>
+        <field name="50 % quantile">57.0</field>
+        <field name="75 % quantile">57.0</field>
+        <field name="95 % quantile">57.0</field>
+        <field name="max">57.0</field>
+    </mdq:value>
+    <mdq:valueUnit>number of temporal elements per geographical unit</mdq:valueUnit>
+</mdq:DQ_QuantitativeResult>
+                            </mdq:result>
+                        </mdq:DQ_Representativity>
+                        <mdq:DQ_Representativity>
+                            <mdq:measure>
+<mdq:DQ_MeasureReference>
+    <mdq:nameOfMeasure>distribution parameters of different temporal elements per geographical unit</mdq:nameOfMeasure>
+    <mdq:measureDescription>Parameters for distribution of number of different temporal elements per geographic unit at given attribute.</mdq:measureDescription>
+</mdq:DQ_MeasureReference>
+                            </mdq:measure>
+                            <mdq:evaluationMethod>
+<mdq:DQ_FullInspection>
+    <mdq:evaluationMethodType codeList="https://standards.iso.org/iso/19157/-2/mdq/1.0/codelists.html" codeListValue="directInternal"/>
+    <mdq:evaluationMethodDescription>distribution parameters of different temporal elements per geographical unit at given attribute</mdq:evaluationMethodDescription>
+    <mdq:dateTime>2021-03-29T14:05:08.958260Z</mdq:dateTime>
+</mdq:DQ_FullInspection>
+                            </mdq:evaluationMethod>
+                            <mdq:result>
+<mdq:DQ_QuantitativeResult>
+    <mdq:resultScope>
+        <mcc:MD_Scope>
+            <mcc:level>
+                <mcc:MD_ScopeCode codeList="http://standards.iso.org/iso/19115/-3/mcc/1.0/codelists.html#MD_ScopeCode" codeListValue="attribute"/>
+            </mcc:level>
+            <mcc:levelDescription>
+                <mcc:MD_ScopeDescription>
+                    <mcc:attributes>production</mcc:attributes>
+                </mcc:MD_ScopeDescription>
+            </mcc:levelDescription>
+        </mcc:MD_Scope>
+    </mdq:resultScope>
+    <mdq:dateTime>2021-03-29T14:05:08.958260Z</mdq:dateTime>
+    <mdq:value>
+        <field name="mean">57.0</field>
+        <field name="min">57.0</field>
+        <field name="5 % quantile">57.0</field>
+        <field name="25 % quantile">57.0</field>
+        <field name="50 % quantile">57.0</field>
+        <field name="75 % quantile">57.0</field>
+        <field name="95 % quantile">57.0</field>
+        <field name="max">57.0</field>
+    </mdq:value>
+    <mdq:valueUnit>number of temporal elements per geographical unit</mdq:valueUnit>
+</mdq:DQ_QuantitativeResult>
+                            </mdq:result>
+                        </mdq:DQ_Representativity>
+                        <mdq:DQ_Representativity>
+                            <mdq:measure>
+<mdq:DQ_MeasureReference>
+    <mdq:nameOfMeasure>distribution parameters of different temporal elements per geographical unit</mdq:nameOfMeasure>
+    <mdq:measureDescription>Parameters for distribution of number of different temporal elements per geographic unit at given attribute.</mdq:measureDescription>
+</mdq:DQ_MeasureReference>
+                            </mdq:measure>
+                            <mdq:evaluationMethod>
+<mdq:DQ_FullInspection>
+    <mdq:evaluationMethodType codeList="https://standards.iso.org/iso/19157/-2/mdq/1.0/codelists.html" codeListValue="directInternal"/>
+    <mdq:evaluationMethodDescription>distribution parameters of different temporal elements per geographical unit at given attribute</mdq:evaluationMethodDescription>
+    <mdq:dateTime>2021-03-29T14:05:08.958260Z</mdq:dateTime>
+</mdq:DQ_FullInspection>
+                            </mdq:evaluationMethod>
+                            <mdq:result>
+<mdq:DQ_QuantitativeResult>
+    <mdq:resultScope>
+        <mcc:MD_Scope>
+            <mcc:level>
+                <mcc:MD_ScopeCode codeList="http://standards.iso.org/iso/19115/-3/mcc/1.0/codelists.html#MD_ScopeCode" codeListValue="attribute"/>
+            </mcc:level>
+            <mcc:levelDescription>
+                <mcc:MD_ScopeDescription>
+                    <mcc:attributes>yield</mcc:attributes>
+                </mcc:MD_ScopeDescription>
+            </mcc:levelDescription>
+        </mcc:MD_Scope>
+    </mdq:resultScope>
+    <mdq:dateTime>2021-03-29T14:05:08.958260Z</mdq:dateTime>
+    <mdq:value>
+        <field name="mean">57.0</field>
+        <field name="min">57.0</field>
+        <field name="5 % quantile">57.0</field>
+        <field name="25 % quantile">57.0</field>
+        <field name="50 % quantile">57.0</field>
+        <field name="75 % quantile">57.0</field>
+        <field name="95 % quantile">57.0</field>
+        <field name="max">57.0</field>
+    </mdq:value>
+    <mdq:valueUnit>number of temporal elements per geographical unit</mdq:valueUnit>
+</mdq:DQ_QuantitativeResult>
+                            </mdq:result>
+                        </mdq:DQ_Representativity>
+                        <mdq:DQ_Representativity>
+                            <mdq:measure>
+<mdq:DQ_MeasureReference>
+    <mdq:nameOfMeasure>distribution parameters of different temporal elements per geographical unit</mdq:nameOfMeasure>
+    <mdq:measureDescription>Parameters for distribution of number of different temporal elements per geographic unit at given attribute.</mdq:measureDescription>
+</mdq:DQ_MeasureReference>
+                            </mdq:measure>
+                            <mdq:evaluationMethod>
+<mdq:DQ_FullInspection>
+    <mdq:evaluationMethodType codeList="https://standards.iso.org/iso/19157/-2/mdq/1.0/codelists.html" codeListValue="directInternal"/>
+    <mdq:evaluationMethodDescription>distribution parameters of different temporal elements per geographical unit at given attribute</mdq:evaluationMethodDescription>
+    <mdq:dateTime>2021-03-29T14:05:08.958260Z</mdq:dateTime>
+</mdq:DQ_FullInspection>
+                            </mdq:evaluationMethod>
+                            <mdq:result>
+<mdq:DQ_QuantitativeResult>
+    <mdq:resultScope>
+        <mcc:MD_Scope>
+            <mcc:level>
+                <mcc:MD_ScopeCode codeList="http://standards.iso.org/iso/19115/-3/mcc/1.0/codelists.html#MD_ScopeCode" codeListValue="attribute"/>
+            </mcc:level>
+            <mcc:levelDescription>
+                <mcc:MD_ScopeDescription>
+                    <mcc:attributes>headcount</mcc:attributes>
+                </mcc:MD_ScopeDescription>
+            </mcc:levelDescription>
+        </mcc:MD_Scope>
+    </mdq:resultScope>
+    <mdq:dateTime>2021-03-29T14:05:08.958260Z</mdq:dateTime>
+    <mdq:value>
+        <field name="mean">57.0</field>
+        <field name="min">57.0</field>
+        <field name="5 % quantile">57.0</field>
+        <field name="25 % quantile">57.0</field>
+        <field name="50 % quantile">57.0</field>
+        <field name="75 % quantile">57.0</field>
+        <field name="95 % quantile">57.0</field>
+        <field name="max">57.0</field>
+    </mdq:value>
+    <mdq:valueUnit>number of temporal elements per geographical unit</mdq:valueUnit>
+</mdq:DQ_QuantitativeResult>
+                            </mdq:result>
+                        </mdq:DQ_Representativity>
+                        <mdq:DQ_Representativity>
+                            <mdq:measure>
+<mdq:DQ_MeasureReference>
+    <mdq:nameOfMeasure>distribution parameters of different thematic elements per geographical unit</mdq:nameOfMeasure>
+    <mdq:measureDescription>Parameters for distribution of number of different thematic elements per geographic unit at given attribute.</mdq:measureDescription>
+</mdq:DQ_MeasureReference>
+                            </mdq:measure>
+                            <mdq:evaluationMethod>
+<mdq:DQ_FullInspection>
+    <mdq:evaluationMethodType codeList="https://standards.iso.org/iso/19157/-2/mdq/1.0/codelists.html" codeListValue="directInternal"/>
+    <mdq:evaluationMethodDescription>distribution parameters of different thematic elements per geographical unit at given attribute</mdq:evaluationMethodDescription>
+    <mdq:dateTime>2021-03-29T14:05:08.958260Z</mdq:dateTime>
+</mdq:DQ_FullInspection>
+                            </mdq:evaluationMethod>
+                            <mdq:result>
+<mdq:DQ_QuantitativeResult>
+    <mdq:resultScope>
+        <mcc:MD_Scope>
+            <mcc:level>
+                <mcc:MD_ScopeCode codeList="http://standards.iso.org/iso/19115/-3/mcc/1.0/codelists.html#MD_ScopeCode" codeListValue="attribute"/>
+            </mcc:level>
+            <mcc:levelDescription>
+                <mcc:MD_ScopeDescription>
+                    <mcc:attributes>planted</mcc:attributes>
+                </mcc:MD_ScopeDescription>
+            </mcc:levelDescription>
+        </mcc:MD_Scope>
+    </mdq:resultScope>
+    <mdq:dateTime>2021-03-29T14:05:08.958260Z</mdq:dateTime>
+    <mdq:value>
+        <field name="mean">5.0</field>
+        <field name="min">5.0</field>
+        <field name="5 % quantile">5.0</field>
+        <field name="25 % quantile">5.0</field>
+        <field name="50 % quantile">5.0</field>
+        <field name="75 % quantile">5.0</field>
+        <field name="95 % quantile">5.0</field>
+        <field name="max">5.0</field>
+    </mdq:value>
+    <mdq:valueUnit>number of thematic elements per geographical unit</mdq:valueUnit>
+</mdq:DQ_QuantitativeResult>
+                            </mdq:result>
+                        </mdq:DQ_Representativity>
+                        <mdq:DQ_Representativity>
+                            <mdq:measure>
+<mdq:DQ_MeasureReference>
+    <mdq:nameOfMeasure>distribution parameters of different thematic elements per geographical unit</mdq:nameOfMeasure>
+    <mdq:measureDescription>Parameters for distribution of number of different thematic elements per geographic unit at given attribute.</mdq:measureDescription>
+</mdq:DQ_MeasureReference>
+                            </mdq:measure>
+                            <mdq:evaluationMethod>
+<mdq:DQ_FullInspection>
+    <mdq:evaluationMethodType codeList="https://standards.iso.org/iso/19157/-2/mdq/1.0/codelists.html" codeListValue="directInternal"/>
+    <mdq:evaluationMethodDescription>distribution parameters of different thematic elements per geographical unit at given attribute</mdq:evaluationMethodDescription>
+    <mdq:dateTime>2021-03-29T14:05:08.958260Z</mdq:dateTime>
+</mdq:DQ_FullInspection>
+                            </mdq:evaluationMethod>
+                            <mdq:result>
+<mdq:DQ_QuantitativeResult>
+    <mdq:resultScope>
+        <mcc:MD_Scope>
+            <mcc:level>
+                <mcc:MD_ScopeCode codeList="http://standards.iso.org/iso/19115/-3/mcc/1.0/codelists.html#MD_ScopeCode" codeListValue="attribute"/>
+            </mcc:level>
+            <mcc:levelDescription>
+                <mcc:MD_ScopeDescription>
+                    <mcc:attributes>harvested</mcc:attributes>
+                </mcc:MD_ScopeDescription>
+            </mcc:levelDescription>
+        </mcc:MD_Scope>
+    </mdq:resultScope>
+    <mdq:dateTime>2021-03-29T14:05:08.958260Z</mdq:dateTime>
+    <mdq:value>
+        <field name="mean">46.0</field>
+        <field name="min">46.0</field>
+        <field name="5 % quantile">46.0</field>
+        <field name="25 % quantile">46.0</field>
+        <field name="50 % quantile">46.0</field>
+        <field name="75 % quantile">46.0</field>
+        <field name="95 % quantile">46.0</field>
+        <field name="max">46.0</field>
+    </mdq:value>
+    <mdq:valueUnit>number of thematic elements per geographical unit</mdq:valueUnit>
+</mdq:DQ_QuantitativeResult>
+                            </mdq:result>
+                        </mdq:DQ_Representativity>
+                        <mdq:DQ_Representativity>
+                            <mdq:measure>
+<mdq:DQ_MeasureReference>
+    <mdq:nameOfMeasure>distribution parameters of different thematic elements per geographical unit</mdq:nameOfMeasure>
+    <mdq:measureDescription>Parameters for distribution of number of different thematic elements per geographic unit at given attribute.</mdq:measureDescription>
+</mdq:DQ_MeasureReference>
+                            </mdq:measure>
+                            <mdq:evaluationMethod>
+<mdq:DQ_FullInspection>
+    <mdq:evaluationMethodType codeList="https://standards.iso.org/iso/19157/-2/mdq/1.0/codelists.html" codeListValue="directInternal"/>
+    <mdq:evaluationMethodDescription>distribution parameters of different thematic elements per geographical unit at given attribute</mdq:evaluationMethodDescription>
+    <mdq:dateTime>2021-03-29T14:05:08.958260Z</mdq:dateTime>
+</mdq:DQ_FullInspection>
+                            </mdq:evaluationMethod>
+                            <mdq:result>
+<mdq:DQ_QuantitativeResult>
+    <mdq:resultScope>
+        <mcc:MD_Scope>
+            <mcc:level>
+                <mcc:MD_ScopeCode codeList="http://standards.iso.org/iso/19115/-3/mcc/1.0/codelists.html#MD_ScopeCode" codeListValue="attribute"/>
+            </mcc:level>
+            <mcc:levelDescription>
+                <mcc:MD_ScopeDescription>
+                    <mcc:attributes>production</mcc:attributes>
+                </mcc:MD_ScopeDescription>
+            </mcc:levelDescription>
+        </mcc:MD_Scope>
+    </mdq:resultScope>
+    <mdq:dateTime>2021-03-29T14:05:08.958260Z</mdq:dateTime>
+    <mdq:value>
+        <field name="mean">46.0</field>
+        <field name="min">46.0</field>
+        <field name="5 % quantile">46.0</field>
+        <field name="25 % quantile">46.0</field>
+        <field name="50 % quantile">46.0</field>
+        <field name="75 % quantile">46.0</field>
+        <field name="95 % quantile">46.0</field>
+        <field name="max">46.0</field>
+    </mdq:value>
+    <mdq:valueUnit>number of thematic elements per geographical unit</mdq:valueUnit>
+</mdq:DQ_QuantitativeResult>
+                            </mdq:result>
+                        </mdq:DQ_Representativity>
+                        <mdq:DQ_Representativity>
+                            <mdq:measure>
+<mdq:DQ_MeasureReference>
+    <mdq:nameOfMeasure>distribution parameters of different thematic elements per geographical unit</mdq:nameOfMeasure>
+    <mdq:measureDescription>Parameters for distribution of number of different thematic elements per geographic unit at given attribute.</mdq:measureDescription>
+</mdq:DQ_MeasureReference>
+                            </mdq:measure>
+                            <mdq:evaluationMethod>
+<mdq:DQ_FullInspection>
+    <mdq:evaluationMethodType codeList="https://standards.iso.org/iso/19157/-2/mdq/1.0/codelists.html" codeListValue="directInternal"/>
+    <mdq:evaluationMethodDescription>distribution parameters of different thematic elements per geographical unit at given attribute</mdq:evaluationMethodDescription>
+    <mdq:dateTime>2021-03-29T14:05:08.958260Z</mdq:dateTime>
+</mdq:DQ_FullInspection>
+                            </mdq:evaluationMethod>
+                            <mdq:result>
+<mdq:DQ_QuantitativeResult>
+    <mdq:resultScope>
+        <mcc:MD_Scope>
+            <mcc:level>
+                <mcc:MD_ScopeCode codeList="http://standards.iso.org/iso/19115/-3/mcc/1.0/codelists.html#MD_ScopeCode" codeListValue="attribute"/>
+            </mcc:level>
+            <mcc:levelDescription>
+                <mcc:MD_ScopeDescription>
+                    <mcc:attributes>yield</mcc:attributes>
+                </mcc:MD_ScopeDescription>
+            </mcc:levelDescription>
+        </mcc:MD_Scope>
+    </mdq:resultScope>
+    <mdq:dateTime>2021-03-29T14:05:08.958260Z</mdq:dateTime>
+    <mdq:value>
+        <field name="mean">46.0</field>
+        <field name="min">46.0</field>
+        <field name="5 % quantile">46.0</field>
+        <field name="25 % quantile">46.0</field>
+        <field name="50 % quantile">46.0</field>
+        <field name="75 % quantile">46.0</field>
+        <field name="95 % quantile">46.0</field>
+        <field name="max">46.0</field>
+    </mdq:value>
+    <mdq:valueUnit>number of thematic elements per geographical unit</mdq:valueUnit>
+</mdq:DQ_QuantitativeResult>
+                            </mdq:result>
+                        </mdq:DQ_Representativity>
+                        <mdq:DQ_Representativity>
+                            <mdq:measure>
+<mdq:DQ_MeasureReference>
+    <mdq:nameOfMeasure>distribution parameters of different thematic elements per geographical unit</mdq:nameOfMeasure>
+    <mdq:measureDescription>Parameters for distribution of number of different thematic elements per geographic unit at given attribute.</mdq:measureDescription>
+</mdq:DQ_MeasureReference>
+                            </mdq:measure>
+                            <mdq:evaluationMethod>
+<mdq:DQ_FullInspection>
+    <mdq:evaluationMethodType codeList="https://standards.iso.org/iso/19157/-2/mdq/1.0/codelists.html" codeListValue="directInternal"/>
+    <mdq:evaluationMethodDescription>distribution parameters of different thematic elements per geographical unit at given attribute</mdq:evaluationMethodDescription>
+    <mdq:dateTime>2021-03-29T14:05:08.958260Z</mdq:dateTime>
+</mdq:DQ_FullInspection>
+                            </mdq:evaluationMethod>
+                            <mdq:result>
+<mdq:DQ_QuantitativeResult>
+    <mdq:resultScope>
+        <mcc:MD_Scope>
+            <mcc:level>
+                <mcc:MD_ScopeCode codeList="http://standards.iso.org/iso/19115/-3/mcc/1.0/codelists.html#MD_ScopeCode" codeListValue="attribute"/>
+            </mcc:level>
+            <mcc:levelDescription>
+                <mcc:MD_ScopeDescription>
+                    <mcc:attributes>headcount</mcc:attributes>
+                </mcc:MD_ScopeDescription>
+            </mcc:levelDescription>
+        </mcc:MD_Scope>
+    </mdq:resultScope>
+    <mdq:dateTime>2021-03-29T14:05:08.958260Z</mdq:dateTime>
+    <mdq:value>
+        <field name="mean">13.0</field>
+        <field name="min">13.0</field>
+        <field name="5 % quantile">13.0</field>
+        <field name="25 % quantile">13.0</field>
+        <field name="50 % quantile">13.0</field>
+        <field name="75 % quantile">13.0</field>
+        <field name="95 % quantile">13.0</field>
+        <field name="max">13.0</field>
+    </mdq:value>
+    <mdq:valueUnit>number of thematic elements per geographical unit</mdq:valueUnit>
+</mdq:DQ_QuantitativeResult>
+                            </mdq:result>
+                        </mdq:DQ_Representativity>
+                        <mdq:DQ_Representativity>
+                            <mdq:measure>
+<mdq:DQ_MeasureReference>
+    <mdq:nameOfMeasure>distribution parameters of different thematic elements per temporal unit</mdq:nameOfMeasure>
+    <mdq:measureDescription>Parameters for distribution of number of different thematic elements per temporal unit at given attribute.</mdq:measureDescription>
+</mdq:DQ_MeasureReference>
+                            </mdq:measure>
+                            <mdq:evaluationMethod>
+<mdq:DQ_FullInspection>
+    <mdq:evaluationMethodType codeList="https://standards.iso.org/iso/19157/-2/mdq/1.0/codelists.html" codeListValue="directInternal"/>
+    <mdq:evaluationMethodDescription>distribution parameters of different thematic elements per temporal unit at given attribute</mdq:evaluationMethodDescription>
+    <mdq:dateTime>2021-03-29T14:05:08.958260Z</mdq:dateTime>
+</mdq:DQ_FullInspection>
+                            </mdq:evaluationMethod>
+                            <mdq:result>
+<mdq:DQ_QuantitativeResult>
+    <mdq:resultScope>
+        <mcc:MD_Scope>
+            <mcc:level>
+                <mcc:MD_ScopeCode codeList="http://standards.iso.org/iso/19115/-3/mcc/1.0/codelists.html#MD_ScopeCode" codeListValue="attribute"/>
+            </mcc:level>
+            <mcc:levelDescription>
+                <mcc:MD_ScopeDescription>
+                    <mcc:attributes>planted</mcc:attributes>
+                </mcc:MD_ScopeDescription>
+            </mcc:levelDescription>
+        </mcc:MD_Scope>
+    </mdq:resultScope>
+    <mdq:dateTime>2021-03-29T14:05:08.958260Z</mdq:dateTime>
+    <mdq:value>
+        <field name="mean">0.38596491228070173</field>
+        <field name="min">0.0</field>
+        <field name="5 % quantile">0.0</field>
+        <field name="25 % quantile">0.0</field>
+        <field name="50 % quantile">0.0</field>
+        <field name="75 % quantile">0.0</field>
+        <field name="95 % quantile">4.0</field>
+        <field name="max">4.0</field>
+    </mdq:value>
+    <mdq:valueUnit>number of thematic elements per temporal unit</mdq:valueUnit>
+</mdq:DQ_QuantitativeResult>
+                            </mdq:result>
+                        </mdq:DQ_Representativity>
+                        <mdq:DQ_Representativity>
+                            <mdq:measure>
+<mdq:DQ_MeasureReference>
+    <mdq:nameOfMeasure>distribution parameters of different thematic elements per temporal unit</mdq:nameOfMeasure>
+    <mdq:measureDescription>Parameters for distribution of number of different thematic elements per temporal unit at given attribute.</mdq:measureDescription>
+</mdq:DQ_MeasureReference>
+                            </mdq:measure>
+                            <mdq:evaluationMethod>
+<mdq:DQ_FullInspection>
+    <mdq:evaluationMethodType codeList="https://standards.iso.org/iso/19157/-2/mdq/1.0/codelists.html" codeListValue="directInternal"/>
+    <mdq:evaluationMethodDescription>distribution parameters of different thematic elements per temporal unit at given attribute</mdq:evaluationMethodDescription>
+    <mdq:dateTime>2021-03-29T14:05:08.958260Z</mdq:dateTime>
+</mdq:DQ_FullInspection>
+                            </mdq:evaluationMethod>
+                            <mdq:result>
+<mdq:DQ_QuantitativeResult>
+    <mdq:resultScope>
+        <mcc:MD_Scope>
+            <mcc:level>
+                <mcc:MD_ScopeCode codeList="http://standards.iso.org/iso/19115/-3/mcc/1.0/codelists.html#MD_ScopeCode" codeListValue="attribute"/>
+            </mcc:level>
+            <mcc:levelDescription>
+                <mcc:MD_ScopeDescription>
+                    <mcc:attributes>harvested</mcc:attributes>
+                </mcc:MD_ScopeDescription>
+            </mcc:levelDescription>
+        </mcc:MD_Scope>
+    </mdq:resultScope>
+    <mdq:dateTime>2021-03-29T14:05:08.958260Z</mdq:dateTime>
+    <mdq:value>
+        <field name="mean">37.96491228070175</field>
+        <field name="min">27.0</field>
+        <field name="5 % quantile">27.0</field>
+        <field name="25 % quantile">28.75</field>
+        <field name="50 % quantile">44.0</field>
+        <field name="75 % quantile">46.0</field>
+        <field name="95 % quantile">46.0</field>
+        <field name="max">46.0</field>
+    </mdq:value>
+    <mdq:valueUnit>number of thematic elements per temporal unit</mdq:valueUnit>
+</mdq:DQ_QuantitativeResult>
+                            </mdq:result>
+                        </mdq:DQ_Representativity>
+                        <mdq:DQ_Representativity>
+                            <mdq:measure>
+<mdq:DQ_MeasureReference>
+    <mdq:nameOfMeasure>distribution parameters of different thematic elements per temporal unit</mdq:nameOfMeasure>
+    <mdq:measureDescription>Parameters for distribution of number of different thematic elements per temporal unit at given attribute.</mdq:measureDescription>
+</mdq:DQ_MeasureReference>
+                            </mdq:measure>
+                            <mdq:evaluationMethod>
+<mdq:DQ_FullInspection>
+    <mdq:evaluationMethodType codeList="https://standards.iso.org/iso/19157/-2/mdq/1.0/codelists.html" codeListValue="directInternal"/>
+    <mdq:evaluationMethodDescription>distribution parameters of different thematic elements per temporal unit at given attribute</mdq:evaluationMethodDescription>
+    <mdq:dateTime>2021-03-29T14:05:08.958260Z</mdq:dateTime>
+</mdq:DQ_FullInspection>
+                            </mdq:evaluationMethod>
+                            <mdq:result>
+<mdq:DQ_QuantitativeResult>
+    <mdq:resultScope>
+        <mcc:MD_Scope>
+            <mcc:level>
+                <mcc:MD_ScopeCode codeList="http://standards.iso.org/iso/19115/-3/mcc/1.0/codelists.html#MD_ScopeCode" codeListValue="attribute"/>
+            </mcc:level>
+            <mcc:levelDescription>
+                <mcc:MD_ScopeDescription>
+                    <mcc:attributes>production</mcc:attributes>
+                </mcc:MD_ScopeDescription>
+            </mcc:levelDescription>
+        </mcc:MD_Scope>
+    </mdq:resultScope>
+    <mdq:dateTime>2021-03-29T14:05:08.958260Z</mdq:dateTime>
+    <mdq:value>
+        <field name="mean">37.96491228070175</field>
+        <field name="min">27.0</field>
+        <field name="5 % quantile">27.0</field>
+        <field name="25 % quantile">28.75</field>
+        <field name="50 % quantile">44.0</field>
+        <field name="75 % quantile">46.0</field>
+        <field name="95 % quantile">46.0</field>
+        <field name="max">46.0</field>
+    </mdq:value>
+    <mdq:valueUnit>number of thematic elements per temporal unit</mdq:valueUnit>
+</mdq:DQ_QuantitativeResult>
+                            </mdq:result>
+                        </mdq:DQ_Representativity>
+                        <mdq:DQ_Representativity>
+                            <mdq:measure>
+<mdq:DQ_MeasureReference>
+    <mdq:nameOfMeasure>distribution parameters of different thematic elements per temporal unit</mdq:nameOfMeasure>
+    <mdq:measureDescription>Parameters for distribution of number of different thematic elements per temporal unit at given attribute.</mdq:measureDescription>
+</mdq:DQ_MeasureReference>
+                            </mdq:measure>
+                            <mdq:evaluationMethod>
+<mdq:DQ_FullInspection>
+    <mdq:evaluationMethodType codeList="https://standards.iso.org/iso/19157/-2/mdq/1.0/codelists.html" codeListValue="directInternal"/>
+    <mdq:evaluationMethodDescription>distribution parameters of different thematic elements per temporal unit at given attribute</mdq:evaluationMethodDescription>
+    <mdq:dateTime>2021-03-29T14:05:08.958260Z</mdq:dateTime>
+</mdq:DQ_FullInspection>
+                            </mdq:evaluationMethod>
+                            <mdq:result>
+<mdq:DQ_QuantitativeResult>
+    <mdq:resultScope>
+        <mcc:MD_Scope>
+            <mcc:level>
+                <mcc:MD_ScopeCode codeList="http://standards.iso.org/iso/19115/-3/mcc/1.0/codelists.html#MD_ScopeCode" codeListValue="attribute"/>
+            </mcc:level>
+            <mcc:levelDescription>
+                <mcc:MD_ScopeDescription>
+                    <mcc:attributes>yield</mcc:attributes>
+                </mcc:MD_ScopeDescription>
+            </mcc:levelDescription>
+        </mcc:MD_Scope>
+    </mdq:resultScope>
+    <mdq:dateTime>2021-03-29T14:05:08.958260Z</mdq:dateTime>
+    <mdq:value>
+        <field name="mean">37.96491228070175</field>
+        <field name="min">27.0</field>
+        <field name="5 % quantile">27.0</field>
+        <field name="25 % quantile">28.75</field>
+        <field name="50 % quantile">44.0</field>
+        <field name="75 % quantile">46.0</field>
+        <field name="95 % quantile">46.0</field>
+        <field name="max">46.0</field>
+    </mdq:value>
+    <mdq:valueUnit>number of thematic elements per temporal unit</mdq:valueUnit>
+</mdq:DQ_QuantitativeResult>
+                            </mdq:result>
+                        </mdq:DQ_Representativity>
+                        <mdq:DQ_Representativity>
+                            <mdq:measure>
+<mdq:DQ_MeasureReference>
+    <mdq:nameOfMeasure>distribution parameters of different thematic elements per temporal unit</mdq:nameOfMeasure>
+    <mdq:measureDescription>Parameters for distribution of number of different thematic elements per temporal unit at given attribute.</mdq:measureDescription>
+</mdq:DQ_MeasureReference>
+                            </mdq:measure>
+                            <mdq:evaluationMethod>
+<mdq:DQ_FullInspection>
+    <mdq:evaluationMethodType codeList="https://standards.iso.org/iso/19157/-2/mdq/1.0/codelists.html" codeListValue="directInternal"/>
+    <mdq:evaluationMethodDescription>distribution parameters of different thematic elements per temporal unit at given attribute</mdq:evaluationMethodDescription>
+    <mdq:dateTime>2021-03-29T14:05:08.958260Z</mdq:dateTime>
+</mdq:DQ_FullInspection>
+                            </mdq:evaluationMethod>
+                            <mdq:result>
+<mdq:DQ_QuantitativeResult>
+    <mdq:resultScope>
+        <mcc:MD_Scope>
+            <mcc:level>
+                <mcc:MD_ScopeCode codeList="http://standards.iso.org/iso/19115/-3/mcc/1.0/codelists.html#MD_ScopeCode" codeListValue="attribute"/>
+            </mcc:level>
+            <mcc:levelDescription>
+                <mcc:MD_ScopeDescription>
+                    <mcc:attributes>headcount</mcc:attributes>
+                </mcc:MD_ScopeDescription>
+            </mcc:levelDescription>
+        </mcc:MD_Scope>
+    </mdq:resultScope>
+    <mdq:dateTime>2021-03-29T14:05:08.958260Z</mdq:dateTime>
+    <mdq:value>
+        <field name="mean">13.0</field>
+        <field name="min">13.0</field>
+        <field name="5 % quantile">13.0</field>
+        <field name="25 % quantile">13.0</field>
+        <field name="50 % quantile">13.0</field>
+        <field name="75 % quantile">13.0</field>
+        <field name="95 % quantile">13.0</field>
+        <field name="max">13.0</field>
+    </mdq:value>
+    <mdq:valueUnit>number of thematic elements per temporal unit</mdq:valueUnit>
+</mdq:DQ_QuantitativeResult>
+                            </mdq:result>
+                        </mdq:DQ_Representativity>
+                    </mdq:report>
+                    <mdq:standaloneQualityReport>
+                        <mdq:DQ_StandaloneQualityReportInformation>
+                            <mdq:reportReference>
+<cit:CI_Citation>
+    <cit:title>Reporting as standalone quality report</cit:title>
+    <cit:date>
+        <cit:CI_Date>
+            <cit:date>
+                <gco:DateTime>2021-03-29T14:05:08.958260Z</gco:DateTime>
+            </cit:date>
+            <cit:dateType>
+                <cit:CI_DateTypeCode codeList="http://standards.iso.org/iso/19115/-3/cit/2.0/codelists.html#CI_DateTypeCode" codeListValue="creation"/>
+            </cit:dateType>
+        </cit:CI_Date>
+    </cit:date>
+</cit:CI_Citation>
+                            </mdq:reportReference>
+                            <mdq:abstract>The standalone quality report attached to this quality evaluation is providing more details on the derivation and aggregation method.</mdq:abstract>
+                        </mdq:DQ_StandaloneQualityReportInformation>
+                    </mdq:standaloneQualityReport>
+                </mdq:DQ_DataQuality>
+            </mdb:dataQualityInfo>
+        </mdb:MD_Metadata>
+        <mdb:MD_Metadata>
+            <mdb:metadataIdentifier>
+                <mcc:MD_Identifier>
+                    <mcc:code>pid:923eeb46-3664-410e-af30-e8e031499d2b</mcc:code>
+                </mcc:MD_Identifier>
+            </mdb:metadataIdentifier>
+            <mdb:contact>
+                <cit:CI_Responsibility>
+                    <cit:role>
+                        <cit:CI_RoleCode codeList="http://standards.iso.org/iso/19115/-3/cit/2.0/codelists.html#CI_RoleCode" codeListValue="resourceProvider"/>
+                    </cit:role>
+                    <cit:party>
+                        <cit:CI_Individual>
+                            <cit:name>mwagner</cit:name>
+                        </cit:CI_Individual>
+                    </cit:party>
+                </cit:CI_Responsibility>
+            </mdb:contact>
+            <mdb:dateInfo>
+                <cit:CI_Date>
+                    <cit:date>
+                        <gco:DateTime>2020-12-09T14:40:59.968Z</gco:DateTime>
+                    </cit:date>
+                    <cit:dateType>
+                        <cit:CI_DateTypeCode codeList="http://standards.iso.org/iso/19115/-3/cit/2.0/codelists.html#CI_DateTypeCode" codeListValue="lastUpdate"/>
+                    </cit:dateType>
+                </cit:CI_Date>
+            </mdb:dateInfo>
+            <mdb:metadataStandard>
+                <cit:CI_Citation>
+                    <cit:title>ISO 19115-1</cit:title>
+                    <cit:edition>First edition 2014-04-01</cit:edition>
+                </cit:CI_Citation>
+            </mdb:metadataStandard>
+            <mdb:identificationInfo>
+                <mri:MD_DataIdentification>
+                    <mri:citation>
+                        <cit:CI_Citation>
+                            <cit:title></cit:title>
+                            <cit:date>
+<cit:CI_Date>
+    <cit:date>
+        <gco:DateTime>2021-03-29T14:05:09.255991Z</gco:DateTime>
+    </cit:date>
+    <cit:dateType>
+        <cit:CI_DateTypeCode codeList="http://standards.iso.org/iso/19115/-3/cit/2.0/codelists.html#CI_DateTypeCode" codeListValue="creation"/>
+    </cit:dateType>
+</cit:CI_Date>
+                            </cit:date>
+                        </cit:CI_Citation>
+                    </mri:citation>
+                    <mri:spatialRepresentationType>
+                        <mcc:MD_SpatialRepresentationTypeCode codeList="http://standards.iso.org/iso/19115/-3/mcc/1.0/codelists.html#MD_SpatialRepresentationTypeCode" codeListValue="textTable"/>
+                    </mri:spatialRepresentationType>
+                    <mri:temporalResolution>-999</mri:temporalResolution>
+                    <mri:temporalResolution>1</mri:temporalResolution>
+                    <mri:temporalResolution>1</mri:temporalResolution>
+                    <mri:temporalResolution>1</mri:temporalResolution>
+                    <mri:temporalResolution>1</mri:temporalResolution>
+                    <mri:extent>
+                        <gex:EX_Extent>
+                            <gex:description>attributeName: planted</gex:description>
+                        </gex:EX_Extent>
+                        <gex:EX_Extent>
+                            <gex:description>attributeName: harvested</gex:description>
+                            <gex:temporalElement>
+<gex:EX_TemporalExtent>
+    <gex:extent>
+        <gml:TM_Period>
+            <gml:begin>
+                <gml:TM_Instant>
+                    <gml:position>2008</gml:position>
+                </gml:TM_Instant>
+            </gml:begin>
+            <gml:end>
+                <gml:TM_Instant>
+                    <gml:position>2012</gml:position>
+                </gml:TM_Instant>
+            </gml:end>
+        </gml:TM_Period>
+    </gex:extent>
+</gex:EX_TemporalExtent>
+                            </gex:temporalElement>
+                        </gex:EX_Extent>
+                        <gex:EX_Extent>
+                            <gex:description>attributeName: production</gex:description>
+                            <gex:temporalElement>
+<gex:EX_TemporalExtent>
+    <gex:extent>
+        <gml:TM_Period>
+            <gml:begin>
+                <gml:TM_Instant>
+                    <gml:position>2008</gml:position>
+                </gml:TM_Instant>
+            </gml:begin>
+            <gml:end>
+                <gml:TM_Instant>
+                    <gml:position>2012</gml:position>
+                </gml:TM_Instant>
+            </gml:end>
+        </gml:TM_Period>
+    </gex:extent>
+</gex:EX_TemporalExtent>
+                            </gex:temporalElement>
+                        </gex:EX_Extent>
+                        <gex:EX_Extent>
+                            <gex:description>attributeName: yield</gex:description>
+                            <gex:temporalElement>
+<gex:EX_TemporalExtent>
+    <gex:extent>
+        <gml:TM_Period>
+            <gml:begin>
+                <gml:TM_Instant>
+                    <gml:position>2008</gml:position>
+                </gml:TM_Instant>
+            </gml:begin>
+            <gml:end>
+                <gml:TM_Instant>
+                    <gml:position>2012</gml:position>
+                </gml:TM_Instant>
+            </gml:end>
+        </gml:TM_Period>
+    </gex:extent>
+</gex:EX_TemporalExtent>
+                            </gex:temporalElement>
+                        </gex:EX_Extent>
+                        <gex:EX_Extent>
+                            <gex:description>attributeName: headcount</gex:description>
+                            <gex:temporalElement>
+<gex:EX_TemporalExtent>
+    <gex:extent>
+        <gml:TM_Period>
+            <gml:begin>
+                <gml:TM_Instant>
+                    <gml:position>2009</gml:position>
+                </gml:TM_Instant>
+            </gml:begin>
+            <gml:end>
+                <gml:TM_Instant>
+                    <gml:position>2012</gml:position>
+                </gml:TM_Instant>
+            </gml:end>
+        </gml:TM_Period>
+    </gex:extent>
+</gex:EX_TemporalExtent>
+                            </gex:temporalElement>
+                        </gex:EX_Extent>
+                    </mri:extent>
+                    <mri:descriptiveKeywords>
+                        <mri:MD_Keywords>
+                            <mri:keyword>attributeName: planted</mri:keyword>
+                            <mri:type>
+<mri:MD_KeywordTypeCode codeList="http://standards.iso.org/iso/19115/-3/mri/1.0/codelists.html#MD_KeywordTypeCode" codeListValue="theme"/>
+                            </mri:type>
+                        </mri:MD_Keywords>
+                        <mri:MD_Keywords>
+                            <mri:keyword>attributeName: harvested</mri:keyword>
+                            <mri:keyword>currant</mri:keyword>
+                            <mri:keyword>lemon</mri:keyword>
+                            <mri:keyword>pepper</mri:keyword>
+                            <mri:keyword>plantain</mri:keyword>
+                            <mri:keyword>quail</mri:keyword>
+                            <mri:keyword>reed canary grass</mri:keyword>
+                            <mri:keyword>rye</mri:keyword>
+                            <mri:keyword>safflower</mri:keyword>
+                            <mri:keyword>sour cherry</mri:keyword>
+                            <mri:keyword>taro</mri:keyword>
+                            <mri:keyword>Fibre Crops nes</mri:keyword>
+                            <mri:keyword>Fruit-bearing vegetables</mri:keyword>
+                            <mri:keyword>Vegetables nes</mri:keyword>
+                            <mri:type>
+<mri:MD_KeywordTypeCode codeList="http://standards.iso.org/iso/19115/-3/mri/1.0/codelists.html#MD_KeywordTypeCode" codeListValue="theme"/>
+                            </mri:type>
+                        </mri:MD_Keywords>
+                        <mri:MD_Keywords>
+                            <mri:keyword>attributeName: production</mri:keyword>
+                            <mri:keyword>currant</mri:keyword>
+                            <mri:keyword>lemon</mri:keyword>
+                            <mri:keyword>pepper</mri:keyword>
+                            <mri:keyword>plantain</mri:keyword>
+                            <mri:keyword>quail</mri:keyword>
+                            <mri:keyword>reed canary grass</mri:keyword>
+                            <mri:keyword>rye</mri:keyword>
+                            <mri:keyword>safflower</mri:keyword>
+                            <mri:keyword>sour cherry</mri:keyword>
+                            <mri:keyword>taro</mri:keyword>
+                            <mri:keyword>Fibre Crops nes</mri:keyword>
+                            <mri:keyword>Fruit-bearing vegetables</mri:keyword>
+                            <mri:keyword>Vegetables nes</mri:keyword>
+                            <mri:type>
+<mri:MD_KeywordTypeCode codeList="http://standards.iso.org/iso/19115/-3/mri/1.0/codelists.html#MD_KeywordTypeCode" codeListValue="theme"/>
+                            </mri:type>
+                        </mri:MD_Keywords>
+                        <mri:MD_Keywords>
+                            <mri:keyword>attributeName: yield</mri:keyword>
+                            <mri:keyword>currant</mri:keyword>
+                            <mri:keyword>lemon</mri:keyword>
+                            <mri:keyword>pepper</mri:keyword>
+                            <mri:keyword>plantain</mri:keyword>
+                            <mri:keyword>quail</mri:keyword>
+                            <mri:keyword>reed canary grass</mri:keyword>
+                            <mri:keyword>rye</mri:keyword>
+                            <mri:keyword>safflower</mri:keyword>
+                            <mri:keyword>sour cherry</mri:keyword>
+                            <mri:keyword>taro</mri:keyword>
+                            <mri:keyword>Fibre Crops nes</mri:keyword>
+                            <mri:keyword>Fruit-bearing vegetables</mri:keyword>
+                            <mri:keyword>Vegetables nes</mri:keyword>
+                            <mri:type>
+<mri:MD_KeywordTypeCode codeList="http://standards.iso.org/iso/19115/-3/mri/1.0/codelists.html#MD_KeywordTypeCode" codeListValue="theme"/>
+                            </mri:type>
+                        </mri:MD_Keywords>
+                        <mri:MD_Keywords>
+                            <mri:keyword>attributeName: headcount</mri:keyword>
+                            <mri:keyword>Grasses for forage nes</mri:keyword>
+                            <mri:type>
+<mri:MD_KeywordTypeCode codeList="http://standards.iso.org/iso/19115/-3/mri/1.0/codelists.html#MD_KeywordTypeCode" codeListValue="theme"/>
+                            </mri:type>
+                        </mri:MD_Keywords>
+                    </mri:descriptiveKeywords>
+                    <mri:environmentalDescription>file name: examples/exampleGeoTable.csv; file size: 161043 B; geographical file: examples/exampleGeo.gpkg; layer name: level_2; os: Linux</mri:environmentalDescription>
+                </mri:MD_DataIdentification>
+            </mdb:identificationInfo>
+            <mdb:dataQualityInfo>
+                <mdq:DQ_DataQuality>
+                    <mdq:scope>
+                        <mcc:MD_Scope>
+                            <mcc:level>
+<mcc:MD_ScopeCode codeList="http://standards.iso.org/iso/19115/-3/mcc/1.0/codelists.html#MD_ScopeCode" codeListValue="dataset"/>
+                            </mcc:level>
+                        </mcc:MD_Scope>
+                    </mdq:scope>
+                    <mdq:report>
+                        <mdq:DQ_CompletenessOmission>
+                            <mdq:measure>
+<mdq:DQ_MeasureReference>
+    <mdq:nameOfMeasure>number of missing items</mdq:nameOfMeasure>
+    <mdq:measureDescription>count of all items that should have been in the data set or sample and are missing</mdq:measureDescription>
+</mdq:DQ_MeasureReference>
+                            </mdq:measure>
+                            <mdq:evaluationMethod>
+<mdq:DQ_FullInspection>
+    <mdq:evaluationMethodType codeList="https://standards.iso.org/iso/19157/-2/mdq/1.0/codelists.html" codeListValue="directInternal"/>
+    <mdq:evaluationMethodDescription>count of missing items in the data set</mdq:evaluationMethodDescription>
+</mdq:DQ_FullInspection>
+                            </mdq:evaluationMethod>
+                            <mdq:result>
+<mdq:DQ_QuantitativeResult>
+    <mdq:resultScope>
+        <mcc:MD_Scope>
+            <mcc:level>
+                <mcc:MD_ScopeCode codeList="http://standards.iso.org/iso/19115/-3/mcc/1.0/codelists.html#MD_ScopeCode" codeListValue="attribute"/>
+            </mcc:level>
+            <mcc:levelDescription>
+                <mcc:MD_ScopeDescription>
+                    <mcc:attributes>planted</mcc:attributes>
+                </mcc:MD_ScopeDescription>
+            </mcc:levelDescription>
+        </mcc:MD_Scope>
+    </mdq:resultScope>
+    <mdq:value>
+        <field>816</field>
+    </mdq:value>
+    <mdq:valueUnit>same unit as in planted column</mdq:valueUnit>
+</mdq:DQ_QuantitativeResult>
+                            </mdq:result>
+                        </mdq:DQ_CompletenessOmission>
+                        <mdq:DQ_CompletenessOmission>
+                            <mdq:measure>
+<mdq:DQ_MeasureReference>
+    <mdq:nameOfMeasure>number of missing items</mdq:nameOfMeasure>
+    <mdq:measureDescription>count of all items that should have been in the data set or sample and are missing</mdq:measureDescription>
+</mdq:DQ_MeasureReference>
+                            </mdq:measure>
+                            <mdq:evaluationMethod>
+<mdq:DQ_FullInspection>
+    <mdq:evaluationMethodType codeList="https://standards.iso.org/iso/19157/-2/mdq/1.0/codelists.html" codeListValue="directInternal"/>
+    <mdq:evaluationMethodDescription>count of missing items in the data set</mdq:evaluationMethodDescription>
+</mdq:DQ_FullInspection>
+                            </mdq:evaluationMethod>
+                            <mdq:result>
+<mdq:DQ_QuantitativeResult>
+    <mdq:resultScope>
+        <mcc:MD_Scope>
+            <mcc:level>
+                <mcc:MD_ScopeCode codeList="http://standards.iso.org/iso/19115/-3/mcc/1.0/codelists.html#MD_ScopeCode" codeListValue="attribute"/>
+            </mcc:level>
+            <mcc:levelDescription>
+                <mcc:MD_ScopeDescription>
+                    <mcc:attributes>harvested</mcc:attributes>
+                </mcc:MD_ScopeDescription>
+            </mcc:levelDescription>
+        </mcc:MD_Scope>
+    </mdq:resultScope>
+    <mdq:value>
+        <field>68</field>
+    </mdq:value>
+    <mdq:valueUnit>same unit as in harvested column</mdq:valueUnit>
+</mdq:DQ_QuantitativeResult>
+                            </mdq:result>
+                        </mdq:DQ_CompletenessOmission>
+                        <mdq:DQ_CompletenessOmission>
+                            <mdq:measure>
+<mdq:DQ_MeasureReference>
+    <mdq:nameOfMeasure>number of missing items</mdq:nameOfMeasure>
+    <mdq:measureDescription>count of all items that should have been in the data set or sample and are missing</mdq:measureDescription>
+</mdq:DQ_MeasureReference>
+                            </mdq:measure>
+                            <mdq:evaluationMethod>
+<mdq:DQ_FullInspection>
+    <mdq:evaluationMethodType codeList="https://standards.iso.org/iso/19157/-2/mdq/1.0/codelists.html" codeListValue="directInternal"/>
+    <mdq:evaluationMethodDescription>count of missing items in the data set</mdq:evaluationMethodDescription>
+</mdq:DQ_FullInspection>
+                            </mdq:evaluationMethod>
+                            <mdq:result>
+<mdq:DQ_QuantitativeResult>
+    <mdq:resultScope>
+        <mcc:MD_Scope>
+            <mcc:level>
+                <mcc:MD_ScopeCode codeList="http://standards.iso.org/iso/19115/-3/mcc/1.0/codelists.html#MD_ScopeCode" codeListValue="attribute"/>
+            </mcc:level>
+            <mcc:levelDescription>
+                <mcc:MD_ScopeDescription>
+                    <mcc:attributes>production</mcc:attributes>
+                </mcc:MD_ScopeDescription>
+            </mcc:levelDescription>
+        </mcc:MD_Scope>
+    </mdq:resultScope>
+    <mdq:value>
+        <field>68</field>
+    </mdq:value>
+    <mdq:valueUnit>same unit as in production column</mdq:valueUnit>
+</mdq:DQ_QuantitativeResult>
+                            </mdq:result>
+                        </mdq:DQ_CompletenessOmission>
+                        <mdq:DQ_CompletenessOmission>
+                            <mdq:measure>
+<mdq:DQ_MeasureReference>
+    <mdq:nameOfMeasure>number of missing items</mdq:nameOfMeasure>
+    <mdq:measureDescription>count of all items that should have been in the data set or sample and are missing</mdq:measureDescription>
+</mdq:DQ_MeasureReference>
+                            </mdq:measure>
+                            <mdq:evaluationMethod>
+<mdq:DQ_FullInspection>
+    <mdq:evaluationMethodType codeList="https://standards.iso.org/iso/19157/-2/mdq/1.0/codelists.html" codeListValue="directInternal"/>
+    <mdq:evaluationMethodDescription>count of missing items in the data set</mdq:evaluationMethodDescription>
+</mdq:DQ_FullInspection>
+                            </mdq:evaluationMethod>
+                            <mdq:result>
+<mdq:DQ_QuantitativeResult>
+    <mdq:resultScope>
+        <mcc:MD_Scope>
+            <mcc:level>
+                <mcc:MD_ScopeCode codeList="http://standards.iso.org/iso/19115/-3/mcc/1.0/codelists.html#MD_ScopeCode" codeListValue="attribute"/>
+            </mcc:level>
+            <mcc:levelDescription>
+                <mcc:MD_ScopeDescription>
+                    <mcc:attributes>yield</mcc:attributes>
+                </mcc:MD_ScopeDescription>
+            </mcc:levelDescription>
+        </mcc:MD_Scope>
+    </mdq:resultScope>
+    <mdq:value>
+        <field>68</field>
+    </mdq:value>
+    <mdq:valueUnit>same unit as in yield column</mdq:valueUnit>
+</mdq:DQ_QuantitativeResult>
+                            </mdq:result>
+                        </mdq:DQ_CompletenessOmission>
+                        <mdq:DQ_CompletenessOmission>
+                            <mdq:measure>
+<mdq:DQ_MeasureReference>
+    <mdq:nameOfMeasure>number of missing items</mdq:nameOfMeasure>
+    <mdq:measureDescription>count of all items that should have been in the data set or sample and are missing</mdq:measureDescription>
+</mdq:DQ_MeasureReference>
+                            </mdq:measure>
+                            <mdq:evaluationMethod>
+<mdq:DQ_FullInspection>
+    <mdq:evaluationMethodType codeList="https://standards.iso.org/iso/19157/-2/mdq/1.0/codelists.html" codeListValue="directInternal"/>
+    <mdq:evaluationMethodDescription>count of missing items in the data set</mdq:evaluationMethodDescription>
+</mdq:DQ_FullInspection>
+                            </mdq:evaluationMethod>
+                            <mdq:result>
+<mdq:DQ_QuantitativeResult>
+    <mdq:resultScope>
+        <mcc:MD_Scope>
+            <mcc:level>
+                <mcc:MD_ScopeCode codeList="http://standards.iso.org/iso/19115/-3/mcc/1.0/codelists.html#MD_ScopeCode" codeListValue="attribute"/>
+            </mcc:level>
+            <mcc:levelDescription>
+                <mcc:MD_ScopeDescription>
+                    <mcc:attributes>headcount</mcc:attributes>
+                </mcc:MD_ScopeDescription>
+            </mcc:levelDescription>
+        </mcc:MD_Scope>
+    </mdq:resultScope>
+    <mdq:value>
+        <field>748</field>
+    </mdq:value>
+    <mdq:valueUnit>same unit as in headcount column</mdq:valueUnit>
+</mdq:DQ_QuantitativeResult>
+                            </mdq:result>
+                        </mdq:DQ_CompletenessOmission>
+                        <mdq:DQ_CompletenessOmission>
+                            <mdq:measure>
+<mdq:DQ_MeasureReference>
+    <mdq:nameOfMeasure>rate of missing items</mdq:nameOfMeasure>
+    <mdq:measureDescription>rate of all items that should have been in the data set or sample and are missing</mdq:measureDescription>
+</mdq:DQ_MeasureReference>
+                            </mdq:measure>
+                            <mdq:evaluationMethod>
+<mdq:DQ_FullInspection>
+    <mdq:evaluationMethodType codeList="https://standards.iso.org/iso/19157/-2/mdq/1.0/codelists.html" codeListValue="directInternal"/>
+    <mdq:evaluationMethodDescription>rate of missing items in the data set</mdq:evaluationMethodDescription>
+</mdq:DQ_FullInspection>
+                            </mdq:evaluationMethod>
+                            <mdq:result>
+<mdq:DQ_QuantitativeResult>
+    <mdq:resultScope>
+        <mcc:MD_Scope>
+            <mcc:level>
+                <mcc:MD_ScopeCode codeList="http://standards.iso.org/iso/19115/-3/mcc/1.0/codelists.html#MD_ScopeCode" codeListValue="attribute"/>
+            </mcc:level>
+            <mcc:levelDescription>
+                <mcc:MD_ScopeDescription>
+                    <mcc:attributes>planted</mcc:attributes>
+                </mcc:MD_ScopeDescription>
+            </mcc:levelDescription>
+        </mcc:MD_Scope>
+    </mdq:resultScope>
+    <mdq:value>
+        <field>100.0</field>
+    </mdq:value>
+    <mdq:valueUnit>%</mdq:valueUnit>
+</mdq:DQ_QuantitativeResult>
+                            </mdq:result>
+                        </mdq:DQ_CompletenessOmission>
+                        <mdq:DQ_CompletenessOmission>
+                            <mdq:measure>
+<mdq:DQ_MeasureReference>
+    <mdq:nameOfMeasure>rate of missing items</mdq:nameOfMeasure>
+    <mdq:measureDescription>rate of all items that should have been in the data set or sample and are missing</mdq:measureDescription>
+</mdq:DQ_MeasureReference>
+                            </mdq:measure>
+                            <mdq:evaluationMethod>
+<mdq:DQ_FullInspection>
+    <mdq:evaluationMethodType codeList="https://standards.iso.org/iso/19157/-2/mdq/1.0/codelists.html" codeListValue="directInternal"/>
+    <mdq:evaluationMethodDescription>rate of missing items in the data set</mdq:evaluationMethodDescription>
+</mdq:DQ_FullInspection>
+                            </mdq:evaluationMethod>
+                            <mdq:result>
+<mdq:DQ_QuantitativeResult>
+    <mdq:resultScope>
+        <mcc:MD_Scope>
+            <mcc:level>
+                <mcc:MD_ScopeCode codeList="http://standards.iso.org/iso/19115/-3/mcc/1.0/codelists.html#MD_ScopeCode" codeListValue="attribute"/>
+            </mcc:level>
+            <mcc:levelDescription>
+                <mcc:MD_ScopeDescription>
+                    <mcc:attributes>harvested</mcc:attributes>
+                </mcc:MD_ScopeDescription>
+            </mcc:levelDescription>
+        </mcc:MD_Scope>
+    </mdq:resultScope>
+    <mdq:value>
+        <field>8.333333333333343</field>
+    </mdq:value>
+    <mdq:valueUnit>%</mdq:valueUnit>
+</mdq:DQ_QuantitativeResult>
+                            </mdq:result>
+                        </mdq:DQ_CompletenessOmission>
+                        <mdq:DQ_CompletenessOmission>
+                            <mdq:measure>
+<mdq:DQ_MeasureReference>
+    <mdq:nameOfMeasure>rate of missing items</mdq:nameOfMeasure>
+    <mdq:measureDescription>rate of all items that should have been in the data set or sample and are missing</mdq:measureDescription>
+</mdq:DQ_MeasureReference>
+                            </mdq:measure>
+                            <mdq:evaluationMethod>
+<mdq:DQ_FullInspection>
+    <mdq:evaluationMethodType codeList="https://standards.iso.org/iso/19157/-2/mdq/1.0/codelists.html" codeListValue="directInternal"/>
+    <mdq:evaluationMethodDescription>rate of missing items in the data set</mdq:evaluationMethodDescription>
+</mdq:DQ_FullInspection>
+                            </mdq:evaluationMethod>
+                            <mdq:result>
+<mdq:DQ_QuantitativeResult>
+    <mdq:resultScope>
+        <mcc:MD_Scope>
+            <mcc:level>
+                <mcc:MD_ScopeCode codeList="http://standards.iso.org/iso/19115/-3/mcc/1.0/codelists.html#MD_ScopeCode" codeListValue="attribute"/>
+            </mcc:level>
+            <mcc:levelDescription>
+                <mcc:MD_ScopeDescription>
+                    <mcc:attributes>production</mcc:attributes>
+                </mcc:MD_ScopeDescription>
+            </mcc:levelDescription>
+        </mcc:MD_Scope>
+    </mdq:resultScope>
+    <mdq:value>
+        <field>8.333333333333343</field>
+    </mdq:value>
+    <mdq:valueUnit>%</mdq:valueUnit>
+</mdq:DQ_QuantitativeResult>
+                            </mdq:result>
+                        </mdq:DQ_CompletenessOmission>
+                        <mdq:DQ_CompletenessOmission>
+                            <mdq:measure>
+<mdq:DQ_MeasureReference>
+    <mdq:nameOfMeasure>rate of missing items</mdq:nameOfMeasure>
+    <mdq:measureDescription>rate of all items that should have been in the data set or sample and are missing</mdq:measureDescription>
+</mdq:DQ_MeasureReference>
+                            </mdq:measure>
+                            <mdq:evaluationMethod>
+<mdq:DQ_FullInspection>
+    <mdq:evaluationMethodType codeList="https://standards.iso.org/iso/19157/-2/mdq/1.0/codelists.html" codeListValue="directInternal"/>
+    <mdq:evaluationMethodDescription>rate of missing items in the data set</mdq:evaluationMethodDescription>
+</mdq:DQ_FullInspection>
+                            </mdq:evaluationMethod>
+                            <mdq:result>
+<mdq:DQ_QuantitativeResult>
+    <mdq:resultScope>
+        <mcc:MD_Scope>
+            <mcc:level>
+                <mcc:MD_ScopeCode codeList="http://standards.iso.org/iso/19115/-3/mcc/1.0/codelists.html#MD_ScopeCode" codeListValue="attribute"/>
+            </mcc:level>
+            <mcc:levelDescription>
+                <mcc:MD_ScopeDescription>
+                    <mcc:attributes>yield</mcc:attributes>
+                </mcc:MD_ScopeDescription>
+            </mcc:levelDescription>
+        </mcc:MD_Scope>
+    </mdq:resultScope>
+    <mdq:value>
+        <field>8.333333333333343</field>
+    </mdq:value>
+    <mdq:valueUnit>%</mdq:valueUnit>
+</mdq:DQ_QuantitativeResult>
+                            </mdq:result>
+                        </mdq:DQ_CompletenessOmission>
+                        <mdq:DQ_CompletenessOmission>
+                            <mdq:measure>
+<mdq:DQ_MeasureReference>
+    <mdq:nameOfMeasure>rate of missing items</mdq:nameOfMeasure>
+    <mdq:measureDescription>rate of all items that should have been in the data set or sample and are missing</mdq:measureDescription>
+</mdq:DQ_MeasureReference>
+                            </mdq:measure>
+                            <mdq:evaluationMethod>
+<mdq:DQ_FullInspection>
+    <mdq:evaluationMethodType codeList="https://standards.iso.org/iso/19157/-2/mdq/1.0/codelists.html" codeListValue="directInternal"/>
+    <mdq:evaluationMethodDescription>rate of missing items in the data set</mdq:evaluationMethodDescription>
+</mdq:DQ_FullInspection>
+                            </mdq:evaluationMethod>
+                            <mdq:result>
+<mdq:DQ_QuantitativeResult>
+    <mdq:resultScope>
+        <mcc:MD_Scope>
+            <mcc:level>
+                <mcc:MD_ScopeCode codeList="http://standards.iso.org/iso/19115/-3/mcc/1.0/codelists.html#MD_ScopeCode" codeListValue="attribute"/>
+            </mcc:level>
+            <mcc:levelDescription>
+                <mcc:MD_ScopeDescription>
+                    <mcc:attributes>headcount</mcc:attributes>
+                </mcc:MD_ScopeDescription>
+            </mcc:levelDescription>
+        </mcc:MD_Scope>
+    </mdq:resultScope>
+    <mdq:value>
+        <field>91.66666666666667</field>
+    </mdq:value>
+    <mdq:valueUnit>%</mdq:valueUnit>
+</mdq:DQ_QuantitativeResult>
+                            </mdq:result>
+                        </mdq:DQ_CompletenessOmission>
+                        <mdq:DQ_Representativity>
+                            <mdq:measure>
+<mdq:DQ_MeasureReference>
+    <mdq:nameOfMeasure>polygons per area</mdq:nameOfMeasure>
+    <mdq:measureDescription>Number of polygons per 1000 square kilometer. Area size summarized by all polygons, regardless of overlapping.</mdq:measureDescription>
+</mdq:DQ_MeasureReference>
+                            </mdq:measure>
+                            <mdq:evaluationMethod>
+<mdq:DQ_FullInspection>
+    <mdq:evaluationMethodType codeList="https://standards.iso.org/iso/19157/-2/mdq/1.0/codelists.html" codeListValue="directInternal"/>
+    <mdq:dateTime>2021-03-29T14:05:09.255991Z</mdq:dateTime>
+</mdq:DQ_FullInspection>
+                            </mdq:evaluationMethod>
+                            <mdq:result>
+<mdq:DQ_QuantitativeResult>
+    <mdq:dateTime>2021-03-29T14:05:09.255991Z</mdq:dateTime>
+    <mdq:value>
+        <field>0.016113</field>
+    </mdq:value>
+    <mdq:valueUnit>polygons per 1000 square km</mdq:valueUnit>
+</mdq:DQ_QuantitativeResult>
+                            </mdq:result>
+                        </mdq:DQ_Representativity>
+                        <mdq:DQ_Representativity>
+                            <mdq:measure>
+<mdq:DQ_MeasureReference>
+    <mdq:nameOfMeasure>number of different spatial elements</mdq:nameOfMeasure>
+    <mdq:measureDescription>Number of different geometries at given attribute.</mdq:measureDescription>
+</mdq:DQ_MeasureReference>
+                            </mdq:measure>
+                            <mdq:evaluationMethod>
+<mdq:DQ_FullInspection>
+    <mdq:evaluationMethodType codeList="https://standards.iso.org/iso/19157/-2/mdq/1.0/codelists.html" codeListValue="directInternal"/>
+    <mdq:evaluationMethodDescription>number of different geometries at given attribute</mdq:evaluationMethodDescription>
+    <mdq:dateTime>2021-03-29T14:05:09.255991Z</mdq:dateTime>
+</mdq:DQ_FullInspection>
+                            </mdq:evaluationMethod>
+                            <mdq:result>
+<mdq:DQ_QuantitativeResult>
+    <mdq:resultScope>
+        <mcc:MD_Scope>
+            <mcc:level>
+                <mcc:MD_ScopeCode codeList="http://standards.iso.org/iso/19115/-3/mcc/1.0/codelists.html#MD_ScopeCode" codeListValue="attribute"/>
+            </mcc:level>
+            <mcc:levelDescription>
+                <mcc:MD_ScopeDescription>
+                    <mcc:attributes>planted</mcc:attributes>
+                </mcc:MD_ScopeDescription>
+            </mcc:levelDescription>
+        </mcc:MD_Scope>
+    </mdq:resultScope>
+    <mdq:dateTime>2021-03-29T14:05:09.255991Z</mdq:dateTime>
+    <mdq:value>
+        <field>0</field>
+    </mdq:value>
+    <mdq:valueUnit>number of geometries</mdq:valueUnit>
+</mdq:DQ_QuantitativeResult>
+                            </mdq:result>
+                        </mdq:DQ_Representativity>
+                        <mdq:DQ_Representativity>
+                            <mdq:measure>
+<mdq:DQ_MeasureReference>
+    <mdq:nameOfMeasure>number of different spatial elements</mdq:nameOfMeasure>
+    <mdq:measureDescription>Number of different geometries at given attribute.</mdq:measureDescription>
+</mdq:DQ_MeasureReference>
+                            </mdq:measure>
+                            <mdq:evaluationMethod>
+<mdq:DQ_FullInspection>
+    <mdq:evaluationMethodType codeList="https://standards.iso.org/iso/19157/-2/mdq/1.0/codelists.html" codeListValue="directInternal"/>
+    <mdq:evaluationMethodDescription>number of different geometries at given attribute</mdq:evaluationMethodDescription>
+    <mdq:dateTime>2021-03-29T14:05:09.255991Z</mdq:dateTime>
+</mdq:DQ_FullInspection>
+                            </mdq:evaluationMethod>
+                            <mdq:result>
+<mdq:DQ_QuantitativeResult>
+    <mdq:resultScope>
+        <mcc:MD_Scope>
+            <mcc:level>
+                <mcc:MD_ScopeCode codeList="http://standards.iso.org/iso/19115/-3/mcc/1.0/codelists.html#MD_ScopeCode" codeListValue="attribute"/>
+            </mcc:level>
+            <mcc:levelDescription>
+                <mcc:MD_ScopeDescription>
+                    <mcc:attributes>harvested</mcc:attributes>
+                </mcc:MD_ScopeDescription>
+            </mcc:levelDescription>
+        </mcc:MD_Scope>
+    </mdq:resultScope>
+    <mdq:dateTime>2021-03-29T14:05:09.255991Z</mdq:dateTime>
+    <mdq:value>
+        <field>13</field>
+    </mdq:value>
+    <mdq:valueUnit>number of geometries</mdq:valueUnit>
+</mdq:DQ_QuantitativeResult>
+                            </mdq:result>
+                        </mdq:DQ_Representativity>
+                        <mdq:DQ_Representativity>
+                            <mdq:measure>
+<mdq:DQ_MeasureReference>
+    <mdq:nameOfMeasure>number of different spatial elements</mdq:nameOfMeasure>
+    <mdq:measureDescription>Number of different geometries at given attribute.</mdq:measureDescription>
+</mdq:DQ_MeasureReference>
+                            </mdq:measure>
+                            <mdq:evaluationMethod>
+<mdq:DQ_FullInspection>
+    <mdq:evaluationMethodType codeList="https://standards.iso.org/iso/19157/-2/mdq/1.0/codelists.html" codeListValue="directInternal"/>
+    <mdq:evaluationMethodDescription>number of different geometries at given attribute</mdq:evaluationMethodDescription>
+    <mdq:dateTime>2021-03-29T14:05:09.255991Z</mdq:dateTime>
+</mdq:DQ_FullInspection>
+                            </mdq:evaluationMethod>
+                            <mdq:result>
+<mdq:DQ_QuantitativeResult>
+    <mdq:resultScope>
+        <mcc:MD_Scope>
+            <mcc:level>
+                <mcc:MD_ScopeCode codeList="http://standards.iso.org/iso/19115/-3/mcc/1.0/codelists.html#MD_ScopeCode" codeListValue="attribute"/>
+            </mcc:level>
+            <mcc:levelDescription>
+                <mcc:MD_ScopeDescription>
+                    <mcc:attributes>production</mcc:attributes>
+                </mcc:MD_ScopeDescription>
+            </mcc:levelDescription>
+        </mcc:MD_Scope>
+    </mdq:resultScope>
+    <mdq:dateTime>2021-03-29T14:05:09.255991Z</mdq:dateTime>
+    <mdq:value>
+        <field>13</field>
+    </mdq:value>
+    <mdq:valueUnit>number of geometries</mdq:valueUnit>
+</mdq:DQ_QuantitativeResult>
+                            </mdq:result>
+                        </mdq:DQ_Representativity>
+                        <mdq:DQ_Representativity>
+                            <mdq:measure>
+<mdq:DQ_MeasureReference>
+    <mdq:nameOfMeasure>number of different spatial elements</mdq:nameOfMeasure>
+    <mdq:measureDescription>Number of different geometries at given attribute.</mdq:measureDescription>
+</mdq:DQ_MeasureReference>
+                            </mdq:measure>
+                            <mdq:evaluationMethod>
+<mdq:DQ_FullInspection>
+    <mdq:evaluationMethodType codeList="https://standards.iso.org/iso/19157/-2/mdq/1.0/codelists.html" codeListValue="directInternal"/>
+    <mdq:evaluationMethodDescription>number of different geometries at given attribute</mdq:evaluationMethodDescription>
+    <mdq:dateTime>2021-03-29T14:05:09.255991Z</mdq:dateTime>
+</mdq:DQ_FullInspection>
+                            </mdq:evaluationMethod>
+                            <mdq:result>
+<mdq:DQ_QuantitativeResult>
+    <mdq:resultScope>
+        <mcc:MD_Scope>
+            <mcc:level>
+                <mcc:MD_ScopeCode codeList="http://standards.iso.org/iso/19115/-3/mcc/1.0/codelists.html#MD_ScopeCode" codeListValue="attribute"/>
+            </mcc:level>
+            <mcc:levelDescription>
+                <mcc:MD_ScopeDescription>
+                    <mcc:attributes>yield</mcc:attributes>
+                </mcc:MD_ScopeDescription>
+            </mcc:levelDescription>
+        </mcc:MD_Scope>
+    </mdq:resultScope>
+    <mdq:dateTime>2021-03-29T14:05:09.255991Z</mdq:dateTime>
+    <mdq:value>
+        <field>13</field>
+    </mdq:value>
+    <mdq:valueUnit>number of geometries</mdq:valueUnit>
+</mdq:DQ_QuantitativeResult>
+                            </mdq:result>
+                        </mdq:DQ_Representativity>
+                        <mdq:DQ_Representativity>
+                            <mdq:measure>
+<mdq:DQ_MeasureReference>
+    <mdq:nameOfMeasure>number of different spatial elements</mdq:nameOfMeasure>
+    <mdq:measureDescription>Number of different geometries at given attribute.</mdq:measureDescription>
+</mdq:DQ_MeasureReference>
+                            </mdq:measure>
+                            <mdq:evaluationMethod>
+<mdq:DQ_FullInspection>
+    <mdq:evaluationMethodType codeList="https://standards.iso.org/iso/19157/-2/mdq/1.0/codelists.html" codeListValue="directInternal"/>
+    <mdq:evaluationMethodDescription>number of different geometries at given attribute</mdq:evaluationMethodDescription>
+    <mdq:dateTime>2021-03-29T14:05:09.255991Z</mdq:dateTime>
+</mdq:DQ_FullInspection>
+                            </mdq:evaluationMethod>
+                            <mdq:result>
+<mdq:DQ_QuantitativeResult>
+    <mdq:resultScope>
+        <mcc:MD_Scope>
+            <mcc:level>
+                <mcc:MD_ScopeCode codeList="http://standards.iso.org/iso/19115/-3/mcc/1.0/codelists.html#MD_ScopeCode" codeListValue="attribute"/>
+            </mcc:level>
+            <mcc:levelDescription>
+                <mcc:MD_ScopeDescription>
+                    <mcc:attributes>headcount</mcc:attributes>
+                </mcc:MD_ScopeDescription>
+            </mcc:levelDescription>
+        </mcc:MD_Scope>
+    </mdq:resultScope>
+    <mdq:dateTime>2021-03-29T14:05:09.255991Z</mdq:dateTime>
+    <mdq:value>
+        <field>17</field>
+    </mdq:value>
+    <mdq:valueUnit>number of geometries</mdq:valueUnit>
+</mdq:DQ_QuantitativeResult>
+                            </mdq:result>
+                        </mdq:DQ_Representativity>
+                        <mdq:DQ_Representativity>
+                            <mdq:measure>
+<mdq:DQ_MeasureReference>
+    <mdq:nameOfMeasure>number of different temporal elements</mdq:nameOfMeasure>
+    <mdq:measureDescription>Number of different years at given attribute. Different years do not necessarily have be consecutive.</mdq:measureDescription>
+</mdq:DQ_MeasureReference>
+                            </mdq:measure>
+                            <mdq:evaluationMethod>
+<mdq:DQ_FullInspection>
+    <mdq:evaluationMethodType codeList="https://standards.iso.org/iso/19157/-2/mdq/1.0/codelists.html" codeListValue="directInternal"/>
+    <mdq:evaluationMethodDescription>number of different years at given attribute</mdq:evaluationMethodDescription>
+    <mdq:dateTime>2021-03-29T14:05:09.255991Z</mdq:dateTime>
+</mdq:DQ_FullInspection>
+                            </mdq:evaluationMethod>
+                            <mdq:result>
+<mdq:DQ_QuantitativeResult>
+    <mdq:resultScope>
+        <mcc:MD_Scope>
+            <mcc:level>
+                <mcc:MD_ScopeCode codeList="http://standards.iso.org/iso/19115/-3/mcc/1.0/codelists.html#MD_ScopeCode" codeListValue="attribute"/>
+            </mcc:level>
+            <mcc:levelDescription>
+                <mcc:MD_ScopeDescription>
+                    <mcc:attributes>planted</mcc:attributes>
+                </mcc:MD_ScopeDescription>
+            </mcc:levelDescription>
+        </mcc:MD_Scope>
+    </mdq:resultScope>
+    <mdq:dateTime>2021-03-29T14:05:09.255991Z</mdq:dateTime>
+    <mdq:value>
+        <field>0</field>
+    </mdq:value>
+    <mdq:valueUnit>number of years</mdq:valueUnit>
+</mdq:DQ_QuantitativeResult>
+                            </mdq:result>
+                        </mdq:DQ_Representativity>
+                        <mdq:DQ_Representativity>
+                            <mdq:measure>
+<mdq:DQ_MeasureReference>
+    <mdq:nameOfMeasure>number of different temporal elements</mdq:nameOfMeasure>
+    <mdq:measureDescription>Number of different years at given attribute. Different years do not necessarily have be consecutive.</mdq:measureDescription>
+</mdq:DQ_MeasureReference>
+                            </mdq:measure>
+                            <mdq:evaluationMethod>
+<mdq:DQ_FullInspection>
+    <mdq:evaluationMethodType codeList="https://standards.iso.org/iso/19157/-2/mdq/1.0/codelists.html" codeListValue="directInternal"/>
+    <mdq:evaluationMethodDescription>number of different years at given attribute</mdq:evaluationMethodDescription>
+    <mdq:dateTime>2021-03-29T14:05:09.255991Z</mdq:dateTime>
+</mdq:DQ_FullInspection>
+                            </mdq:evaluationMethod>
+                            <mdq:result>
+<mdq:DQ_QuantitativeResult>
+    <mdq:resultScope>
+        <mcc:MD_Scope>
+            <mcc:level>
+                <mcc:MD_ScopeCode codeList="http://standards.iso.org/iso/19115/-3/mcc/1.0/codelists.html#MD_ScopeCode" codeListValue="attribute"/>
+            </mcc:level>
+            <mcc:levelDescription>
+                <mcc:MD_ScopeDescription>
+                    <mcc:attributes>harvested</mcc:attributes>
+                </mcc:MD_ScopeDescription>
+            </mcc:levelDescription>
+        </mcc:MD_Scope>
+    </mdq:resultScope>
+    <mdq:dateTime>2021-03-29T14:05:09.255991Z</mdq:dateTime>
+    <mdq:value>
+        <field>5</field>
+    </mdq:value>
+    <mdq:valueUnit>number of years</mdq:valueUnit>
+</mdq:DQ_QuantitativeResult>
+                            </mdq:result>
+                        </mdq:DQ_Representativity>
+                        <mdq:DQ_Representativity>
+                            <mdq:measure>
+<mdq:DQ_MeasureReference>
+    <mdq:nameOfMeasure>number of different temporal elements</mdq:nameOfMeasure>
+    <mdq:measureDescription>Number of different years at given attribute. Different years do not necessarily have be consecutive.</mdq:measureDescription>
+</mdq:DQ_MeasureReference>
+                            </mdq:measure>
+                            <mdq:evaluationMethod>
+<mdq:DQ_FullInspection>
+    <mdq:evaluationMethodType codeList="https://standards.iso.org/iso/19157/-2/mdq/1.0/codelists.html" codeListValue="directInternal"/>
+    <mdq:evaluationMethodDescription>number of different years at given attribute</mdq:evaluationMethodDescription>
+    <mdq:dateTime>2021-03-29T14:05:09.255991Z</mdq:dateTime>
+</mdq:DQ_FullInspection>
+                            </mdq:evaluationMethod>
+                            <mdq:result>
+<mdq:DQ_QuantitativeResult>
+    <mdq:resultScope>
+        <mcc:MD_Scope>
+            <mcc:level>
+                <mcc:MD_ScopeCode codeList="http://standards.iso.org/iso/19115/-3/mcc/1.0/codelists.html#MD_ScopeCode" codeListValue="attribute"/>
+            </mcc:level>
+            <mcc:levelDescription>
+                <mcc:MD_ScopeDescription>
+                    <mcc:attributes>production</mcc:attributes>
+                </mcc:MD_ScopeDescription>
+            </mcc:levelDescription>
+        </mcc:MD_Scope>
+    </mdq:resultScope>
+    <mdq:dateTime>2021-03-29T14:05:09.255991Z</mdq:dateTime>
+    <mdq:value>
+        <field>5</field>
+    </mdq:value>
+    <mdq:valueUnit>number of years</mdq:valueUnit>
+</mdq:DQ_QuantitativeResult>
+                            </mdq:result>
+                        </mdq:DQ_Representativity>
+                        <mdq:DQ_Representativity>
+                            <mdq:measure>
+<mdq:DQ_MeasureReference>
+    <mdq:nameOfMeasure>number of different temporal elements</mdq:nameOfMeasure>
+    <mdq:measureDescription>Number of different years at given attribute. Different years do not necessarily have be consecutive.</mdq:measureDescription>
+</mdq:DQ_MeasureReference>
+                            </mdq:measure>
+                            <mdq:evaluationMethod>
+<mdq:DQ_FullInspection>
+    <mdq:evaluationMethodType codeList="https://standards.iso.org/iso/19157/-2/mdq/1.0/codelists.html" codeListValue="directInternal"/>
+    <mdq:evaluationMethodDescription>number of different years at given attribute</mdq:evaluationMethodDescription>
+    <mdq:dateTime>2021-03-29T14:05:09.255991Z</mdq:dateTime>
+</mdq:DQ_FullInspection>
+                            </mdq:evaluationMethod>
+                            <mdq:result>
+<mdq:DQ_QuantitativeResult>
+    <mdq:resultScope>
+        <mcc:MD_Scope>
+            <mcc:level>
+                <mcc:MD_ScopeCode codeList="http://standards.iso.org/iso/19115/-3/mcc/1.0/codelists.html#MD_ScopeCode" codeListValue="attribute"/>
+            </mcc:level>
+            <mcc:levelDescription>
+                <mcc:MD_ScopeDescription>
+                    <mcc:attributes>yield</mcc:attributes>
+                </mcc:MD_ScopeDescription>
+            </mcc:levelDescription>
+        </mcc:MD_Scope>
+    </mdq:resultScope>
+    <mdq:dateTime>2021-03-29T14:05:09.255991Z</mdq:dateTime>
+    <mdq:value>
+        <field>5</field>
+    </mdq:value>
+    <mdq:valueUnit>number of years</mdq:valueUnit>
+</mdq:DQ_QuantitativeResult>
+                            </mdq:result>
+                        </mdq:DQ_Representativity>
+                        <mdq:DQ_Representativity>
+                            <mdq:measure>
+<mdq:DQ_MeasureReference>
+    <mdq:nameOfMeasure>number of different temporal elements</mdq:nameOfMeasure>
+    <mdq:measureDescription>Number of different years at given attribute. Different years do not necessarily have be consecutive.</mdq:measureDescription>
+</mdq:DQ_MeasureReference>
+                            </mdq:measure>
+                            <mdq:evaluationMethod>
+<mdq:DQ_FullInspection>
+    <mdq:evaluationMethodType codeList="https://standards.iso.org/iso/19157/-2/mdq/1.0/codelists.html" codeListValue="directInternal"/>
+    <mdq:evaluationMethodDescription>number of different years at given attribute</mdq:evaluationMethodDescription>
+    <mdq:dateTime>2021-03-29T14:05:09.255991Z</mdq:dateTime>
+</mdq:DQ_FullInspection>
+                            </mdq:evaluationMethod>
+                            <mdq:result>
+<mdq:DQ_QuantitativeResult>
+    <mdq:resultScope>
+        <mcc:MD_Scope>
+            <mcc:level>
+                <mcc:MD_ScopeCode codeList="http://standards.iso.org/iso/19115/-3/mcc/1.0/codelists.html#MD_ScopeCode" codeListValue="attribute"/>
+            </mcc:level>
+            <mcc:levelDescription>
+                <mcc:MD_ScopeDescription>
+                    <mcc:attributes>headcount</mcc:attributes>
+                </mcc:MD_ScopeDescription>
+            </mcc:levelDescription>
+        </mcc:MD_Scope>
+    </mdq:resultScope>
+    <mdq:dateTime>2021-03-29T14:05:09.255991Z</mdq:dateTime>
+    <mdq:value>
+        <field>4</field>
+    </mdq:value>
+    <mdq:valueUnit>number of years</mdq:valueUnit>
+</mdq:DQ_QuantitativeResult>
+                            </mdq:result>
+                        </mdq:DQ_Representativity>
+                        <mdq:DQ_Representativity>
+                            <mdq:measure>
+<mdq:DQ_MeasureReference>
+    <mdq:nameOfMeasure>number of different commodity elements</mdq:nameOfMeasure>
+    <mdq:measureDescription>Number of different commodity elements at given attribute. All commodity elements are equally interpreted</mdq:measureDescription>
+</mdq:DQ_MeasureReference>
+                            </mdq:measure>
+                            <mdq:evaluationMethod>
+<mdq:DQ_FullInspection>
+    <mdq:evaluationMethodType codeList="https://standards.iso.org/iso/19157/-2/mdq/1.0/codelists.html" codeListValue="directInternal"/>
+    <mdq:evaluationMethodDescription>number of different commodity elements at given attribute</mdq:evaluationMethodDescription>
+    <mdq:dateTime>2021-03-29T14:05:09.255991Z</mdq:dateTime>
+</mdq:DQ_FullInspection>
+                            </mdq:evaluationMethod>
+                            <mdq:result>
+<mdq:DQ_QuantitativeResult>
+    <mdq:resultScope>
+        <mcc:MD_Scope>
+            <mcc:level>
+                <mcc:MD_ScopeCode codeList="http://standards.iso.org/iso/19115/-3/mcc/1.0/codelists.html#MD_ScopeCode" codeListValue="attribute"/>
+            </mcc:level>
+            <mcc:levelDescription>
+                <mcc:MD_ScopeDescription>
+                    <mcc:attributes>planted</mcc:attributes>
+                </mcc:MD_ScopeDescription>
+            </mcc:levelDescription>
+        </mcc:MD_Scope>
+    </mdq:resultScope>
+    <mdq:dateTime>2021-03-29T14:05:09.255991Z</mdq:dateTime>
+    <mdq:value>
+        <field>0</field>
+    </mdq:value>
+    <mdq:valueUnit>number of commodity elements</mdq:valueUnit>
+</mdq:DQ_QuantitativeResult>
+                            </mdq:result>
+                        </mdq:DQ_Representativity>
+                        <mdq:DQ_Representativity>
+                            <mdq:measure>
+<mdq:DQ_MeasureReference>
+    <mdq:nameOfMeasure>number of different commodity elements</mdq:nameOfMeasure>
+    <mdq:measureDescription>Number of different commodity elements at given attribute. All commodity elements are equally interpreted</mdq:measureDescription>
+</mdq:DQ_MeasureReference>
+                            </mdq:measure>
+                            <mdq:evaluationMethod>
+<mdq:DQ_FullInspection>
+    <mdq:evaluationMethodType codeList="https://standards.iso.org/iso/19157/-2/mdq/1.0/codelists.html" codeListValue="directInternal"/>
+    <mdq:evaluationMethodDescription>number of different commodity elements at given attribute</mdq:evaluationMethodDescription>
+    <mdq:dateTime>2021-03-29T14:05:09.255991Z</mdq:dateTime>
+</mdq:DQ_FullInspection>
+                            </mdq:evaluationMethod>
+                            <mdq:result>
+<mdq:DQ_QuantitativeResult>
+    <mdq:resultScope>
+        <mcc:MD_Scope>
+            <mcc:level>
+                <mcc:MD_ScopeCode codeList="http://standards.iso.org/iso/19115/-3/mcc/1.0/codelists.html#MD_ScopeCode" codeListValue="attribute"/>
+            </mcc:level>
+            <mcc:levelDescription>
+                <mcc:MD_ScopeDescription>
+                    <mcc:attributes>harvested</mcc:attributes>
+                </mcc:MD_ScopeDescription>
+            </mcc:levelDescription>
+        </mcc:MD_Scope>
+    </mdq:resultScope>
+    <mdq:dateTime>2021-03-29T14:05:09.255991Z</mdq:dateTime>
+    <mdq:value>
+        <field>13</field>
+    </mdq:value>
+    <mdq:valueUnit>number of commodity elements</mdq:valueUnit>
+</mdq:DQ_QuantitativeResult>
+                            </mdq:result>
+                        </mdq:DQ_Representativity>
+                        <mdq:DQ_Representativity>
+                            <mdq:measure>
+<mdq:DQ_MeasureReference>
+    <mdq:nameOfMeasure>number of different commodity elements</mdq:nameOfMeasure>
+    <mdq:measureDescription>Number of different commodity elements at given attribute. All commodity elements are equally interpreted</mdq:measureDescription>
+</mdq:DQ_MeasureReference>
+                            </mdq:measure>
+                            <mdq:evaluationMethod>
+<mdq:DQ_FullInspection>
+    <mdq:evaluationMethodType codeList="https://standards.iso.org/iso/19157/-2/mdq/1.0/codelists.html" codeListValue="directInternal"/>
+    <mdq:evaluationMethodDescription>number of different commodity elements at given attribute</mdq:evaluationMethodDescription>
+    <mdq:dateTime>2021-03-29T14:05:09.255991Z</mdq:dateTime>
+</mdq:DQ_FullInspection>
+                            </mdq:evaluationMethod>
+                            <mdq:result>
+<mdq:DQ_QuantitativeResult>
+    <mdq:resultScope>
+        <mcc:MD_Scope>
+            <mcc:level>
+                <mcc:MD_ScopeCode codeList="http://standards.iso.org/iso/19115/-3/mcc/1.0/codelists.html#MD_ScopeCode" codeListValue="attribute"/>
+            </mcc:level>
+            <mcc:levelDescription>
+                <mcc:MD_ScopeDescription>
+                    <mcc:attributes>production</mcc:attributes>
+                </mcc:MD_ScopeDescription>
+            </mcc:levelDescription>
+        </mcc:MD_Scope>
+    </mdq:resultScope>
+    <mdq:dateTime>2021-03-29T14:05:09.255991Z</mdq:dateTime>
+    <mdq:value>
+        <field>13</field>
+    </mdq:value>
+    <mdq:valueUnit>number of commodity elements</mdq:valueUnit>
+</mdq:DQ_QuantitativeResult>
+                            </mdq:result>
+                        </mdq:DQ_Representativity>
+                        <mdq:DQ_Representativity>
+                            <mdq:measure>
+<mdq:DQ_MeasureReference>
+    <mdq:nameOfMeasure>number of different commodity elements</mdq:nameOfMeasure>
+    <mdq:measureDescription>Number of different commodity elements at given attribute. All commodity elements are equally interpreted</mdq:measureDescription>
+</mdq:DQ_MeasureReference>
+                            </mdq:measure>
+                            <mdq:evaluationMethod>
+<mdq:DQ_FullInspection>
+    <mdq:evaluationMethodType codeList="https://standards.iso.org/iso/19157/-2/mdq/1.0/codelists.html" codeListValue="directInternal"/>
+    <mdq:evaluationMethodDescription>number of different commodity elements at given attribute</mdq:evaluationMethodDescription>
+    <mdq:dateTime>2021-03-29T14:05:09.255991Z</mdq:dateTime>
+</mdq:DQ_FullInspection>
+                            </mdq:evaluationMethod>
+                            <mdq:result>
+<mdq:DQ_QuantitativeResult>
+    <mdq:resultScope>
+        <mcc:MD_Scope>
+            <mcc:level>
+                <mcc:MD_ScopeCode codeList="http://standards.iso.org/iso/19115/-3/mcc/1.0/codelists.html#MD_ScopeCode" codeListValue="attribute"/>
+            </mcc:level>
+            <mcc:levelDescription>
+                <mcc:MD_ScopeDescription>
+                    <mcc:attributes>yield</mcc:attributes>
+                </mcc:MD_ScopeDescription>
+            </mcc:levelDescription>
+        </mcc:MD_Scope>
+    </mdq:resultScope>
+    <mdq:dateTime>2021-03-29T14:05:09.255991Z</mdq:dateTime>
+    <mdq:value>
+        <field>13</field>
+    </mdq:value>
+    <mdq:valueUnit>number of commodity elements</mdq:valueUnit>
+</mdq:DQ_QuantitativeResult>
+                            </mdq:result>
+                        </mdq:DQ_Representativity>
+                        <mdq:DQ_Representativity>
+                            <mdq:measure>
+<mdq:DQ_MeasureReference>
+    <mdq:nameOfMeasure>number of different commodity elements</mdq:nameOfMeasure>
+    <mdq:measureDescription>Number of different commodity elements at given attribute. All commodity elements are equally interpreted</mdq:measureDescription>
+</mdq:DQ_MeasureReference>
+                            </mdq:measure>
+                            <mdq:evaluationMethod>
+<mdq:DQ_FullInspection>
+    <mdq:evaluationMethodType codeList="https://standards.iso.org/iso/19157/-2/mdq/1.0/codelists.html" codeListValue="directInternal"/>
+    <mdq:evaluationMethodDescription>number of different commodity elements at given attribute</mdq:evaluationMethodDescription>
+    <mdq:dateTime>2021-03-29T14:05:09.255991Z</mdq:dateTime>
+</mdq:DQ_FullInspection>
+                            </mdq:evaluationMethod>
+                            <mdq:result>
+<mdq:DQ_QuantitativeResult>
+    <mdq:resultScope>
+        <mcc:MD_Scope>
+            <mcc:level>
+                <mcc:MD_ScopeCode codeList="http://standards.iso.org/iso/19115/-3/mcc/1.0/codelists.html#MD_ScopeCode" codeListValue="attribute"/>
+            </mcc:level>
+            <mcc:levelDescription>
+                <mcc:MD_ScopeDescription>
+                    <mcc:attributes>headcount</mcc:attributes>
+                </mcc:MD_ScopeDescription>
+            </mcc:levelDescription>
+        </mcc:MD_Scope>
+    </mdq:resultScope>
+    <mdq:dateTime>2021-03-29T14:05:09.255991Z</mdq:dateTime>
+    <mdq:value>
+        <field>1</field>
+    </mdq:value>
+    <mdq:valueUnit>number of commodity elements</mdq:valueUnit>
+</mdq:DQ_QuantitativeResult>
+                            </mdq:result>
+                        </mdq:DQ_Representativity>
+                        <mdq:DQ_Representativity>
+                            <mdq:measure>
+<mdq:DQ_MeasureReference>
+    <mdq:nameOfMeasure>distribution parameters of different temporal elements per geographical unit</mdq:nameOfMeasure>
+    <mdq:measureDescription>Parameters for distribution of number of different temporal elements per geographic unit at given attribute.</mdq:measureDescription>
+</mdq:DQ_MeasureReference>
+                            </mdq:measure>
+                            <mdq:evaluationMethod>
+<mdq:DQ_FullInspection>
+    <mdq:evaluationMethodType codeList="https://standards.iso.org/iso/19157/-2/mdq/1.0/codelists.html" codeListValue="directInternal"/>
+    <mdq:evaluationMethodDescription>distribution parameters of different temporal elements per geographical unit at given attribute</mdq:evaluationMethodDescription>
+    <mdq:dateTime>2021-03-29T14:05:09.255991Z</mdq:dateTime>
+</mdq:DQ_FullInspection>
+                            </mdq:evaluationMethod>
+                            <mdq:result>
+<mdq:DQ_QuantitativeResult>
+    <mdq:resultScope>
+        <mcc:MD_Scope>
+            <mcc:level>
+                <mcc:MD_ScopeCode codeList="http://standards.iso.org/iso/19115/-3/mcc/1.0/codelists.html#MD_ScopeCode" codeListValue="attribute"/>
+            </mcc:level>
+            <mcc:levelDescription>
+                <mcc:MD_ScopeDescription>
+                    <mcc:attributes>planted</mcc:attributes>
+                </mcc:MD_ScopeDescription>
+            </mcc:levelDescription>
+        </mcc:MD_Scope>
+    </mdq:resultScope>
+    <mdq:dateTime>2021-03-29T14:05:09.255991Z</mdq:dateTime>
+    <mdq:value>
+        <field name="mean">0.0</field>
+        <field name="min">0.0</field>
+        <field name="5 % quantile">0.0</field>
+        <field name="25 % quantile">0.0</field>
+        <field name="50 % quantile">0.0</field>
+        <field name="75 % quantile">0.0</field>
+        <field name="95 % quantile">0.0</field>
+        <field name="max">0.0</field>
+    </mdq:value>
+    <mdq:valueUnit>number of temporal elements per geographical unit</mdq:valueUnit>
+</mdq:DQ_QuantitativeResult>
+                            </mdq:result>
+                        </mdq:DQ_Representativity>
+                        <mdq:DQ_Representativity>
+                            <mdq:measure>
+<mdq:DQ_MeasureReference>
+    <mdq:nameOfMeasure>distribution parameters of different temporal elements per geographical unit</mdq:nameOfMeasure>
+    <mdq:measureDescription>Parameters for distribution of number of different temporal elements per geographic unit at given attribute.</mdq:measureDescription>
+</mdq:DQ_MeasureReference>
+                            </mdq:measure>
+                            <mdq:evaluationMethod>
+<mdq:DQ_FullInspection>
+    <mdq:evaluationMethodType codeList="https://standards.iso.org/iso/19157/-2/mdq/1.0/codelists.html" codeListValue="directInternal"/>
+    <mdq:evaluationMethodDescription>distribution parameters of different temporal elements per geographical unit at given attribute</mdq:evaluationMethodDescription>
+    <mdq:dateTime>2021-03-29T14:05:09.255991Z</mdq:dateTime>
+</mdq:DQ_FullInspection>
+                            </mdq:evaluationMethod>
+                            <mdq:result>
+<mdq:DQ_QuantitativeResult>
+    <mdq:resultScope>
+        <mcc:MD_Scope>
+            <mcc:level>
+                <mcc:MD_ScopeCode codeList="http://standards.iso.org/iso/19115/-3/mcc/1.0/codelists.html#MD_ScopeCode" codeListValue="attribute"/>
+            </mcc:level>
+            <mcc:levelDescription>
+                <mcc:MD_ScopeDescription>
+                    <mcc:attributes>harvested</mcc:attributes>
+                </mcc:MD_ScopeDescription>
+            </mcc:levelDescription>
+        </mcc:MD_Scope>
+    </mdq:resultScope>
+    <mdq:dateTime>2021-03-29T14:05:09.255991Z</mdq:dateTime>
+    <mdq:value>
+        <field name="mean">2.1666666666666665</field>
+        <field name="min">0.0</field>
+        <field name="5 % quantile">0.0</field>
+        <field name="25 % quantile">0.0</field>
+        <field name="50 % quantile">0.0</field>
+        <field name="75 % quantile">5.0</field>
+        <field name="95 % quantile">5.0</field>
+        <field name="max">5.0</field>
+    </mdq:value>
+    <mdq:valueUnit>number of temporal elements per geographical unit</mdq:valueUnit>
+</mdq:DQ_QuantitativeResult>
+                            </mdq:result>
+                        </mdq:DQ_Representativity>
+                        <mdq:DQ_Representativity>
+                            <mdq:measure>
+<mdq:DQ_MeasureReference>
+    <mdq:nameOfMeasure>distribution parameters of different temporal elements per geographical unit</mdq:nameOfMeasure>
+    <mdq:measureDescription>Parameters for distribution of number of different temporal elements per geographic unit at given attribute.</mdq:measureDescription>
+</mdq:DQ_MeasureReference>
+                            </mdq:measure>
+                            <mdq:evaluationMethod>
+<mdq:DQ_FullInspection>
+    <mdq:evaluationMethodType codeList="https://standards.iso.org/iso/19157/-2/mdq/1.0/codelists.html" codeListValue="directInternal"/>
+    <mdq:evaluationMethodDescription>distribution parameters of different temporal elements per geographical unit at given attribute</mdq:evaluationMethodDescription>
+    <mdq:dateTime>2021-03-29T14:05:09.255991Z</mdq:dateTime>
+</mdq:DQ_FullInspection>
+                            </mdq:evaluationMethod>
+                            <mdq:result>
+<mdq:DQ_QuantitativeResult>
+    <mdq:resultScope>
+        <mcc:MD_Scope>
+            <mcc:level>
+                <mcc:MD_ScopeCode codeList="http://standards.iso.org/iso/19115/-3/mcc/1.0/codelists.html#MD_ScopeCode" codeListValue="attribute"/>
+            </mcc:level>
+            <mcc:levelDescription>
+                <mcc:MD_ScopeDescription>
+                    <mcc:attributes>production</mcc:attributes>
+                </mcc:MD_ScopeDescription>
+            </mcc:levelDescription>
+        </mcc:MD_Scope>
+    </mdq:resultScope>
+    <mdq:dateTime>2021-03-29T14:05:09.255991Z</mdq:dateTime>
+    <mdq:value>
+        <field name="mean">2.1666666666666665</field>
+        <field name="min">0.0</field>
+        <field name="5 % quantile">0.0</field>
+        <field name="25 % quantile">0.0</field>
+        <field name="50 % quantile">0.0</field>
+        <field name="75 % quantile">5.0</field>
+        <field name="95 % quantile">5.0</field>
+        <field name="max">5.0</field>
+    </mdq:value>
+    <mdq:valueUnit>number of temporal elements per geographical unit</mdq:valueUnit>
+</mdq:DQ_QuantitativeResult>
+                            </mdq:result>
+                        </mdq:DQ_Representativity>
+                        <mdq:DQ_Representativity>
+                            <mdq:measure>
+<mdq:DQ_MeasureReference>
+    <mdq:nameOfMeasure>distribution parameters of different temporal elements per geographical unit</mdq:nameOfMeasure>
+    <mdq:measureDescription>Parameters for distribution of number of different temporal elements per geographic unit at given attribute.</mdq:measureDescription>
+</mdq:DQ_MeasureReference>
+                            </mdq:measure>
+                            <mdq:evaluationMethod>
+<mdq:DQ_FullInspection>
+    <mdq:evaluationMethodType codeList="https://standards.iso.org/iso/19157/-2/mdq/1.0/codelists.html" codeListValue="directInternal"/>
+    <mdq:evaluationMethodDescription>distribution parameters of different temporal elements per geographical unit at given attribute</mdq:evaluationMethodDescription>
+    <mdq:dateTime>2021-03-29T14:05:09.255991Z</mdq:dateTime>
+</mdq:DQ_FullInspection>
+                            </mdq:evaluationMethod>
+                            <mdq:result>
+<mdq:DQ_QuantitativeResult>
+    <mdq:resultScope>
+        <mcc:MD_Scope>
+            <mcc:level>
+                <mcc:MD_ScopeCode codeList="http://standards.iso.org/iso/19115/-3/mcc/1.0/codelists.html#MD_ScopeCode" codeListValue="attribute"/>
+            </mcc:level>
+            <mcc:levelDescription>
+                <mcc:MD_ScopeDescription>
+                    <mcc:attributes>yield</mcc:attributes>
+                </mcc:MD_ScopeDescription>
+            </mcc:levelDescription>
+        </mcc:MD_Scope>
+    </mdq:resultScope>
+    <mdq:dateTime>2021-03-29T14:05:09.255991Z</mdq:dateTime>
+    <mdq:value>
+        <field name="mean">2.1666666666666665</field>
+        <field name="min">0.0</field>
+        <field name="5 % quantile">0.0</field>
+        <field name="25 % quantile">0.0</field>
+        <field name="50 % quantile">0.0</field>
+        <field name="75 % quantile">5.0</field>
+        <field name="95 % quantile">5.0</field>
+        <field name="max">5.0</field>
+    </mdq:value>
+    <mdq:valueUnit>number of temporal elements per geographical unit</mdq:valueUnit>
+</mdq:DQ_QuantitativeResult>
+                            </mdq:result>
+                        </mdq:DQ_Representativity>
+                        <mdq:DQ_Representativity>
+                            <mdq:measure>
+<mdq:DQ_MeasureReference>
+    <mdq:nameOfMeasure>distribution parameters of different temporal elements per geographical unit</mdq:nameOfMeasure>
+    <mdq:measureDescription>Parameters for distribution of number of different temporal elements per geographic unit at given attribute.</mdq:measureDescription>
+</mdq:DQ_MeasureReference>
+                            </mdq:measure>
+                            <mdq:evaluationMethod>
+<mdq:DQ_FullInspection>
+    <mdq:evaluationMethodType codeList="https://standards.iso.org/iso/19157/-2/mdq/1.0/codelists.html" codeListValue="directInternal"/>
+    <mdq:evaluationMethodDescription>distribution parameters of different temporal elements per geographical unit at given attribute</mdq:evaluationMethodDescription>
+    <mdq:dateTime>2021-03-29T14:05:09.255991Z</mdq:dateTime>
+</mdq:DQ_FullInspection>
+                            </mdq:evaluationMethod>
+                            <mdq:result>
+<mdq:DQ_QuantitativeResult>
+    <mdq:resultScope>
+        <mcc:MD_Scope>
+            <mcc:level>
+                <mcc:MD_ScopeCode codeList="http://standards.iso.org/iso/19115/-3/mcc/1.0/codelists.html#MD_ScopeCode" codeListValue="attribute"/>
+            </mcc:level>
+            <mcc:levelDescription>
+                <mcc:MD_ScopeDescription>
+                    <mcc:attributes>headcount</mcc:attributes>
+                </mcc:MD_ScopeDescription>
+            </mcc:levelDescription>
+        </mcc:MD_Scope>
+    </mdq:resultScope>
+    <mdq:dateTime>2021-03-29T14:05:09.255991Z</mdq:dateTime>
+    <mdq:value>
+        <field name="mean">2.2666666666666666</field>
+        <field name="min">0.0</field>
+        <field name="5 % quantile">0.0</field>
+        <field name="25 % quantile">0.0</field>
+        <field name="50 % quantile">4.0</field>
+        <field name="75 % quantile">4.0</field>
+        <field name="95 % quantile">4.0</field>
+        <field name="max">4.0</field>
+    </mdq:value>
+    <mdq:valueUnit>number of temporal elements per geographical unit</mdq:valueUnit>
+</mdq:DQ_QuantitativeResult>
+                            </mdq:result>
+                        </mdq:DQ_Representativity>
+                        <mdq:DQ_Representativity>
+                            <mdq:measure>
+<mdq:DQ_MeasureReference>
+    <mdq:nameOfMeasure>distribution parameters of different thematic elements per geographical unit</mdq:nameOfMeasure>
+    <mdq:measureDescription>Parameters for distribution of number of different thematic elements per geographic unit at given attribute.</mdq:measureDescription>
+</mdq:DQ_MeasureReference>
+                            </mdq:measure>
+                            <mdq:evaluationMethod>
+<mdq:DQ_FullInspection>
+    <mdq:evaluationMethodType codeList="https://standards.iso.org/iso/19157/-2/mdq/1.0/codelists.html" codeListValue="directInternal"/>
+    <mdq:evaluationMethodDescription>distribution parameters of different thematic elements per geographical unit at given attribute</mdq:evaluationMethodDescription>
+    <mdq:dateTime>2021-03-29T14:05:09.255991Z</mdq:dateTime>
+</mdq:DQ_FullInspection>
+                            </mdq:evaluationMethod>
+                            <mdq:result>
+<mdq:DQ_QuantitativeResult>
+    <mdq:resultScope>
+        <mcc:MD_Scope>
+            <mcc:level>
+                <mcc:MD_ScopeCode codeList="http://standards.iso.org/iso/19115/-3/mcc/1.0/codelists.html#MD_ScopeCode" codeListValue="attribute"/>
+            </mcc:level>
+            <mcc:levelDescription>
+                <mcc:MD_ScopeDescription>
+                    <mcc:attributes>planted</mcc:attributes>
+                </mcc:MD_ScopeDescription>
+            </mcc:levelDescription>
+        </mcc:MD_Scope>
+    </mdq:resultScope>
+    <mdq:dateTime>2021-03-29T14:05:09.255991Z</mdq:dateTime>
+    <mdq:value>
+        <field name="mean">0.0</field>
+        <field name="min">0.0</field>
+        <field name="5 % quantile">0.0</field>
+        <field name="25 % quantile">0.0</field>
+        <field name="50 % quantile">0.0</field>
+        <field name="75 % quantile">0.0</field>
+        <field name="95 % quantile">0.0</field>
+        <field name="max">0.0</field>
+    </mdq:value>
+    <mdq:valueUnit>number of thematic elements per geographical unit</mdq:valueUnit>
+</mdq:DQ_QuantitativeResult>
+                            </mdq:result>
+                        </mdq:DQ_Representativity>
+                        <mdq:DQ_Representativity>
+                            <mdq:measure>
+<mdq:DQ_MeasureReference>
+    <mdq:nameOfMeasure>distribution parameters of different thematic elements per geographical unit</mdq:nameOfMeasure>
+    <mdq:measureDescription>Parameters for distribution of number of different thematic elements per geographic unit at given attribute.</mdq:measureDescription>
+</mdq:DQ_MeasureReference>
+                            </mdq:measure>
+                            <mdq:evaluationMethod>
+<mdq:DQ_FullInspection>
+    <mdq:evaluationMethodType codeList="https://standards.iso.org/iso/19157/-2/mdq/1.0/codelists.html" codeListValue="directInternal"/>
+    <mdq:evaluationMethodDescription>distribution parameters of different thematic elements per geographical unit at given attribute</mdq:evaluationMethodDescription>
+    <mdq:dateTime>2021-03-29T14:05:09.255991Z</mdq:dateTime>
+</mdq:DQ_FullInspection>
+                            </mdq:evaluationMethod>
+                            <mdq:result>
+<mdq:DQ_QuantitativeResult>
+    <mdq:resultScope>
+        <mcc:MD_Scope>
+            <mcc:level>
+                <mcc:MD_ScopeCode codeList="http://standards.iso.org/iso/19115/-3/mcc/1.0/codelists.html#MD_ScopeCode" codeListValue="attribute"/>
+            </mcc:level>
+            <mcc:levelDescription>
+                <mcc:MD_ScopeDescription>
+                    <mcc:attributes>harvested</mcc:attributes>
+                </mcc:MD_ScopeDescription>
+            </mcc:levelDescription>
+        </mcc:MD_Scope>
+    </mdq:resultScope>
+    <mdq:dateTime>2021-03-29T14:05:09.255991Z</mdq:dateTime>
+    <mdq:value>
+        <field name="mean">5.5</field>
+        <field name="min">0.0</field>
+        <field name="5 % quantile">0.0</field>
+        <field name="25 % quantile">0.0</field>
+        <field name="50 % quantile">0.0</field>
+        <field name="75 % quantile">13.0</field>
+        <field name="95 % quantile">13.0</field>
+        <field name="max">13.0</field>
+    </mdq:value>
+    <mdq:valueUnit>number of thematic elements per geographical unit</mdq:valueUnit>
+</mdq:DQ_QuantitativeResult>
+                            </mdq:result>
+                        </mdq:DQ_Representativity>
+                        <mdq:DQ_Representativity>
+                            <mdq:measure>
+<mdq:DQ_MeasureReference>
+    <mdq:nameOfMeasure>distribution parameters of different thematic elements per geographical unit</mdq:nameOfMeasure>
+    <mdq:measureDescription>Parameters for distribution of number of different thematic elements per geographic unit at given attribute.</mdq:measureDescription>
+</mdq:DQ_MeasureReference>
+                            </mdq:measure>
+                            <mdq:evaluationMethod>
+<mdq:DQ_FullInspection>
+    <mdq:evaluationMethodType codeList="https://standards.iso.org/iso/19157/-2/mdq/1.0/codelists.html" codeListValue="directInternal"/>
+    <mdq:evaluationMethodDescription>distribution parameters of different thematic elements per geographical unit at given attribute</mdq:evaluationMethodDescription>
+    <mdq:dateTime>2021-03-29T14:05:09.255991Z</mdq:dateTime>
+</mdq:DQ_FullInspection>
+                            </mdq:evaluationMethod>
+                            <mdq:result>
+<mdq:DQ_QuantitativeResult>
+    <mdq:resultScope>
+        <mcc:MD_Scope>
+            <mcc:level>
+                <mcc:MD_ScopeCode codeList="http://standards.iso.org/iso/19115/-3/mcc/1.0/codelists.html#MD_ScopeCode" codeListValue="attribute"/>
+            </mcc:level>
+            <mcc:levelDescription>
+                <mcc:MD_ScopeDescription>
+                    <mcc:attributes>production</mcc:attributes>
+                </mcc:MD_ScopeDescription>
+            </mcc:levelDescription>
+        </mcc:MD_Scope>
+    </mdq:resultScope>
+    <mdq:dateTime>2021-03-29T14:05:09.255991Z</mdq:dateTime>
+    <mdq:value>
+        <field name="mean">5.5</field>
+        <field name="min">0.0</field>
+        <field name="5 % quantile">0.0</field>
+        <field name="25 % quantile">0.0</field>
+        <field name="50 % quantile">0.0</field>
+        <field name="75 % quantile">13.0</field>
+        <field name="95 % quantile">13.0</field>
+        <field name="max">13.0</field>
+    </mdq:value>
+    <mdq:valueUnit>number of thematic elements per geographical unit</mdq:valueUnit>
+</mdq:DQ_QuantitativeResult>
+                            </mdq:result>
+                        </mdq:DQ_Representativity>
+                        <mdq:DQ_Representativity>
+                            <mdq:measure>
+<mdq:DQ_MeasureReference>
+    <mdq:nameOfMeasure>distribution parameters of different thematic elements per geographical unit</mdq:nameOfMeasure>
+    <mdq:measureDescription>Parameters for distribution of number of different thematic elements per geographic unit at given attribute.</mdq:measureDescription>
+</mdq:DQ_MeasureReference>
+                            </mdq:measure>
+                            <mdq:evaluationMethod>
+<mdq:DQ_FullInspection>
+    <mdq:evaluationMethodType codeList="https://standards.iso.org/iso/19157/-2/mdq/1.0/codelists.html" codeListValue="directInternal"/>
+    <mdq:evaluationMethodDescription>distribution parameters of different thematic elements per geographical unit at given attribute</mdq:evaluationMethodDescription>
+    <mdq:dateTime>2021-03-29T14:05:09.255991Z</mdq:dateTime>
+</mdq:DQ_FullInspection>
+                            </mdq:evaluationMethod>
+                            <mdq:result>
+<mdq:DQ_QuantitativeResult>
+    <mdq:resultScope>
+        <mcc:MD_Scope>
+            <mcc:level>
+                <mcc:MD_ScopeCode codeList="http://standards.iso.org/iso/19115/-3/mcc/1.0/codelists.html#MD_ScopeCode" codeListValue="attribute"/>
+            </mcc:level>
+            <mcc:levelDescription>
+                <mcc:MD_ScopeDescription>
+                    <mcc:attributes>yield</mcc:attributes>
+                </mcc:MD_ScopeDescription>
+            </mcc:levelDescription>
+        </mcc:MD_Scope>
+    </mdq:resultScope>
+    <mdq:dateTime>2021-03-29T14:05:09.255991Z</mdq:dateTime>
+    <mdq:value>
+        <field name="mean">5.5</field>
+        <field name="min">0.0</field>
+        <field name="5 % quantile">0.0</field>
+        <field name="25 % quantile">0.0</field>
+        <field name="50 % quantile">0.0</field>
+        <field name="75 % quantile">13.0</field>
+        <field name="95 % quantile">13.0</field>
+        <field name="max">13.0</field>
+    </mdq:value>
+    <mdq:valueUnit>number of thematic elements per geographical unit</mdq:valueUnit>
+</mdq:DQ_QuantitativeResult>
+                            </mdq:result>
+                        </mdq:DQ_Representativity>
+                        <mdq:DQ_Representativity>
+                            <mdq:measure>
+<mdq:DQ_MeasureReference>
+    <mdq:nameOfMeasure>distribution parameters of different thematic elements per geographical unit</mdq:nameOfMeasure>
+    <mdq:measureDescription>Parameters for distribution of number of different thematic elements per geographic unit at given attribute.</mdq:measureDescription>
+</mdq:DQ_MeasureReference>
+                            </mdq:measure>
+                            <mdq:evaluationMethod>
+<mdq:DQ_FullInspection>
+    <mdq:evaluationMethodType codeList="https://standards.iso.org/iso/19157/-2/mdq/1.0/codelists.html" codeListValue="directInternal"/>
+    <mdq:evaluationMethodDescription>distribution parameters of different thematic elements per geographical unit at given attribute</mdq:evaluationMethodDescription>
+    <mdq:dateTime>2021-03-29T14:05:09.255991Z</mdq:dateTime>
+</mdq:DQ_FullInspection>
+                            </mdq:evaluationMethod>
+                            <mdq:result>
+<mdq:DQ_QuantitativeResult>
+    <mdq:resultScope>
+        <mcc:MD_Scope>
+            <mcc:level>
+                <mcc:MD_ScopeCode codeList="http://standards.iso.org/iso/19115/-3/mcc/1.0/codelists.html#MD_ScopeCode" codeListValue="attribute"/>
+            </mcc:level>
+            <mcc:levelDescription>
+                <mcc:MD_ScopeDescription>
+                    <mcc:attributes>headcount</mcc:attributes>
+                </mcc:MD_ScopeDescription>
+            </mcc:levelDescription>
+        </mcc:MD_Scope>
+    </mdq:resultScope>
+    <mdq:dateTime>2021-03-29T14:05:09.255991Z</mdq:dateTime>
+    <mdq:value>
+        <field name="mean">0.5666666666666667</field>
+        <field name="min">0.0</field>
+        <field name="5 % quantile">0.0</field>
+        <field name="25 % quantile">0.0</field>
+        <field name="50 % quantile">1.0</field>
+        <field name="75 % quantile">1.0</field>
+        <field name="95 % quantile">1.0</field>
+        <field name="max">1.0</field>
+    </mdq:value>
+    <mdq:valueUnit>number of thematic elements per geographical unit</mdq:valueUnit>
+</mdq:DQ_QuantitativeResult>
+                            </mdq:result>
+                        </mdq:DQ_Representativity>
+                        <mdq:DQ_Representativity>
+                            <mdq:measure>
+<mdq:DQ_MeasureReference>
+    <mdq:nameOfMeasure>distribution parameters of different thematic elements per temporal unit</mdq:nameOfMeasure>
+    <mdq:measureDescription>Parameters for distribution of number of different thematic elements per temporal unit at given attribute.</mdq:measureDescription>
+</mdq:DQ_MeasureReference>
+                            </mdq:measure>
+                            <mdq:evaluationMethod>
+<mdq:DQ_FullInspection>
+    <mdq:evaluationMethodType codeList="https://standards.iso.org/iso/19157/-2/mdq/1.0/codelists.html" codeListValue="directInternal"/>
+    <mdq:evaluationMethodDescription>distribution parameters of different thematic elements per temporal unit at given attribute</mdq:evaluationMethodDescription>
+    <mdq:dateTime>2021-03-29T14:05:09.255991Z</mdq:dateTime>
+</mdq:DQ_FullInspection>
+                            </mdq:evaluationMethod>
+                            <mdq:result>
+<mdq:DQ_QuantitativeResult>
+    <mdq:resultScope>
+        <mcc:MD_Scope>
+            <mcc:level>
+                <mcc:MD_ScopeCode codeList="http://standards.iso.org/iso/19115/-3/mcc/1.0/codelists.html#MD_ScopeCode" codeListValue="attribute"/>
+            </mcc:level>
+            <mcc:levelDescription>
+                <mcc:MD_ScopeDescription>
+                    <mcc:attributes>planted</mcc:attributes>
+                </mcc:MD_ScopeDescription>
+            </mcc:levelDescription>
+        </mcc:MD_Scope>
+    </mdq:resultScope>
+    <mdq:dateTime>2021-03-29T14:05:09.255991Z</mdq:dateTime>
+    <mdq:value>
+        <field name="mean">0.0</field>
+        <field name="min">0.0</field>
+        <field name="5 % quantile">0.0</field>
+        <field name="25 % quantile">0.0</field>
+        <field name="50 % quantile">0.0</field>
+        <field name="75 % quantile">0.0</field>
+        <field name="95 % quantile">0.0</field>
+        <field name="max">0.0</field>
+    </mdq:value>
+    <mdq:valueUnit>number of thematic elements per temporal unit</mdq:valueUnit>
+</mdq:DQ_QuantitativeResult>
+                            </mdq:result>
+                        </mdq:DQ_Representativity>
+                        <mdq:DQ_Representativity>
+                            <mdq:measure>
+<mdq:DQ_MeasureReference>
+    <mdq:nameOfMeasure>distribution parameters of different thematic elements per temporal unit</mdq:nameOfMeasure>
+    <mdq:measureDescription>Parameters for distribution of number of different thematic elements per temporal unit at given attribute.</mdq:measureDescription>
+</mdq:DQ_MeasureReference>
+                            </mdq:measure>
+                            <mdq:evaluationMethod>
+<mdq:DQ_FullInspection>
+    <mdq:evaluationMethodType codeList="https://standards.iso.org/iso/19157/-2/mdq/1.0/codelists.html" codeListValue="directInternal"/>
+    <mdq:evaluationMethodDescription>distribution parameters of different thematic elements per temporal unit at given attribute</mdq:evaluationMethodDescription>
+    <mdq:dateTime>2021-03-29T14:05:09.255991Z</mdq:dateTime>
+</mdq:DQ_FullInspection>
+                            </mdq:evaluationMethod>
+                            <mdq:result>
+<mdq:DQ_QuantitativeResult>
+    <mdq:resultScope>
+        <mcc:MD_Scope>
+            <mcc:level>
+                <mcc:MD_ScopeCode codeList="http://standards.iso.org/iso/19115/-3/mcc/1.0/codelists.html#MD_ScopeCode" codeListValue="attribute"/>
+            </mcc:level>
+            <mcc:levelDescription>
+                <mcc:MD_ScopeDescription>
+                    <mcc:attributes>harvested</mcc:attributes>
+                </mcc:MD_ScopeDescription>
+            </mcc:levelDescription>
+        </mcc:MD_Scope>
+    </mdq:resultScope>
+    <mdq:dateTime>2021-03-29T14:05:09.255991Z</mdq:dateTime>
+    <mdq:value>
+        <field name="mean">12.8</field>
+        <field name="min">12.0</field>
+        <field name="5 % quantile">12.0</field>
+        <field name="25 % quantile">12.75</field>
+        <field name="50 % quantile">13.0</field>
+        <field name="75 % quantile">13.0</field>
+        <field name="95 % quantile">13.0</field>
+        <field name="max">13.0</field>
+    </mdq:value>
+    <mdq:valueUnit>number of thematic elements per temporal unit</mdq:valueUnit>
+</mdq:DQ_QuantitativeResult>
+                            </mdq:result>
+                        </mdq:DQ_Representativity>
+                        <mdq:DQ_Representativity>
+                            <mdq:measure>
+<mdq:DQ_MeasureReference>
+    <mdq:nameOfMeasure>distribution parameters of different thematic elements per temporal unit</mdq:nameOfMeasure>
+    <mdq:measureDescription>Parameters for distribution of number of different thematic elements per temporal unit at given attribute.</mdq:measureDescription>
+</mdq:DQ_MeasureReference>
+                            </mdq:measure>
+                            <mdq:evaluationMethod>
+<mdq:DQ_FullInspection>
+    <mdq:evaluationMethodType codeList="https://standards.iso.org/iso/19157/-2/mdq/1.0/codelists.html" codeListValue="directInternal"/>
+    <mdq:evaluationMethodDescription>distribution parameters of different thematic elements per temporal unit at given attribute</mdq:evaluationMethodDescription>
+    <mdq:dateTime>2021-03-29T14:05:09.255991Z</mdq:dateTime>
+</mdq:DQ_FullInspection>
+                            </mdq:evaluationMethod>
+                            <mdq:result>
+<mdq:DQ_QuantitativeResult>
+    <mdq:resultScope>
+        <mcc:MD_Scope>
+            <mcc:level>
+                <mcc:MD_ScopeCode codeList="http://standards.iso.org/iso/19115/-3/mcc/1.0/codelists.html#MD_ScopeCode" codeListValue="attribute"/>
+            </mcc:level>
+            <mcc:levelDescription>
+                <mcc:MD_ScopeDescription>
+                    <mcc:attributes>production</mcc:attributes>
+                </mcc:MD_ScopeDescription>
+            </mcc:levelDescription>
+        </mcc:MD_Scope>
+    </mdq:resultScope>
+    <mdq:dateTime>2021-03-29T14:05:09.255991Z</mdq:dateTime>
+    <mdq:value>
+        <field name="mean">12.8</field>
+        <field name="min">12.0</field>
+        <field name="5 % quantile">12.0</field>
+        <field name="25 % quantile">12.75</field>
+        <field name="50 % quantile">13.0</field>
+        <field name="75 % quantile">13.0</field>
+        <field name="95 % quantile">13.0</field>
+        <field name="max">13.0</field>
+    </mdq:value>
+    <mdq:valueUnit>number of thematic elements per temporal unit</mdq:valueUnit>
+</mdq:DQ_QuantitativeResult>
+                            </mdq:result>
+                        </mdq:DQ_Representativity>
+                        <mdq:DQ_Representativity>
+                            <mdq:measure>
+<mdq:DQ_MeasureReference>
+    <mdq:nameOfMeasure>distribution parameters of different thematic elements per temporal unit</mdq:nameOfMeasure>
+    <mdq:measureDescription>Parameters for distribution of number of different thematic elements per temporal unit at given attribute.</mdq:measureDescription>
+</mdq:DQ_MeasureReference>
+                            </mdq:measure>
+                            <mdq:evaluationMethod>
+<mdq:DQ_FullInspection>
+    <mdq:evaluationMethodType codeList="https://standards.iso.org/iso/19157/-2/mdq/1.0/codelists.html" codeListValue="directInternal"/>
+    <mdq:evaluationMethodDescription>distribution parameters of different thematic elements per temporal unit at given attribute</mdq:evaluationMethodDescription>
+    <mdq:dateTime>2021-03-29T14:05:09.255991Z</mdq:dateTime>
+</mdq:DQ_FullInspection>
+                            </mdq:evaluationMethod>
+                            <mdq:result>
+<mdq:DQ_QuantitativeResult>
+    <mdq:resultScope>
+        <mcc:MD_Scope>
+            <mcc:level>
+                <mcc:MD_ScopeCode codeList="http://standards.iso.org/iso/19115/-3/mcc/1.0/codelists.html#MD_ScopeCode" codeListValue="attribute"/>
+            </mcc:level>
+            <mcc:levelDescription>
+                <mcc:MD_ScopeDescription>
+                    <mcc:attributes>yield</mcc:attributes>
+                </mcc:MD_ScopeDescription>
+            </mcc:levelDescription>
+        </mcc:MD_Scope>
+    </mdq:resultScope>
+    <mdq:dateTime>2021-03-29T14:05:09.255991Z</mdq:dateTime>
+    <mdq:value>
+        <field name="mean">12.8</field>
+        <field name="min">12.0</field>
+        <field name="5 % quantile">12.0</field>
+        <field name="25 % quantile">12.75</field>
+        <field name="50 % quantile">13.0</field>
+        <field name="75 % quantile">13.0</field>
+        <field name="95 % quantile">13.0</field>
+        <field name="max">13.0</field>
+    </mdq:value>
+    <mdq:valueUnit>number of thematic elements per temporal unit</mdq:valueUnit>
+</mdq:DQ_QuantitativeResult>
+                            </mdq:result>
+                        </mdq:DQ_Representativity>
+                        <mdq:DQ_Representativity>
+                            <mdq:measure>
+<mdq:DQ_MeasureReference>
+    <mdq:nameOfMeasure>distribution parameters of different thematic elements per temporal unit</mdq:nameOfMeasure>
+    <mdq:measureDescription>Parameters for distribution of number of different thematic elements per temporal unit at given attribute.</mdq:measureDescription>
+</mdq:DQ_MeasureReference>
+                            </mdq:measure>
+                            <mdq:evaluationMethod>
+<mdq:DQ_FullInspection>
+    <mdq:evaluationMethodType codeList="https://standards.iso.org/iso/19157/-2/mdq/1.0/codelists.html" codeListValue="directInternal"/>
+    <mdq:evaluationMethodDescription>distribution parameters of different thematic elements per temporal unit at given attribute</mdq:evaluationMethodDescription>
+    <mdq:dateTime>2021-03-29T14:05:09.255991Z</mdq:dateTime>
+</mdq:DQ_FullInspection>
+                            </mdq:evaluationMethod>
+                            <mdq:result>
+<mdq:DQ_QuantitativeResult>
+    <mdq:resultScope>
+        <mcc:MD_Scope>
+            <mcc:level>
+                <mcc:MD_ScopeCode codeList="http://standards.iso.org/iso/19115/-3/mcc/1.0/codelists.html#MD_ScopeCode" codeListValue="attribute"/>
+            </mcc:level>
+            <mcc:levelDescription>
+                <mcc:MD_ScopeDescription>
+                    <mcc:attributes>headcount</mcc:attributes>
+                </mcc:MD_ScopeDescription>
+            </mcc:levelDescription>
+        </mcc:MD_Scope>
+    </mdq:resultScope>
+    <mdq:dateTime>2021-03-29T14:05:09.255991Z</mdq:dateTime>
+    <mdq:value>
+        <field name="mean">0.8</field>
+        <field name="min">0.0</field>
+        <field name="5 % quantile">0.0</field>
+        <field name="25 % quantile">0.75</field>
+        <field name="50 % quantile">1.0</field>
+        <field name="75 % quantile">1.0</field>
+        <field name="95 % quantile">1.0</field>
+        <field name="max">1.0</field>
+    </mdq:value>
+    <mdq:valueUnit>number of thematic elements per temporal unit</mdq:valueUnit>
+</mdq:DQ_QuantitativeResult>
+                            </mdq:result>
+                        </mdq:DQ_Representativity>
+                    </mdq:report>
+                    <mdq:standaloneQualityReport>
+                        <mdq:DQ_StandaloneQualityReportInformation>
+                            <mdq:reportReference>
+<cit:CI_Citation>
+    <cit:title>Reporting as standalone quality report</cit:title>
+    <cit:date>
+        <cit:CI_Date>
+            <cit:date>
+                <gco:DateTime>2021-03-29T14:05:09.255991Z</gco:DateTime>
+            </cit:date>
+            <cit:dateType>
+                <cit:CI_DateTypeCode codeList="http://standards.iso.org/iso/19115/-3/cit/2.0/codelists.html#CI_DateTypeCode" codeListValue="creation"/>
+            </cit:dateType>
+        </cit:CI_Date>
+    </cit:date>
+</cit:CI_Citation>
+                            </mdq:reportReference>
+                            <mdq:abstract>The standalone quality report attached to this quality evaluation is providing more details on the derivation and aggregation method.</mdq:abstract>
+                        </mdq:DQ_StandaloneQualityReportInformation>
+                    </mdq:standaloneQualityReport>
+                </mdq:DQ_DataQuality>
+            </mdb:dataQualityInfo>
+        </mdb:MD_Metadata>
+    </mda:has>
+</mda:DS_DataSet>

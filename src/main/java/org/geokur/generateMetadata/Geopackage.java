@@ -19,6 +19,7 @@ import org.locationtech.jts.geom.*;
 import org.opengis.feature.simple.SimpleFeature;
 import org.opengis.feature.type.AttributeDescriptor;
 import org.opengis.referencing.FactoryException;
+import org.opengis.referencing.ReferenceIdentifier;
 import org.opengis.referencing.crs.CoordinateReferenceSystem;
 import org.opengis.referencing.operation.MathTransform;
 import org.opengis.referencing.operation.TransformException;
@@ -106,20 +107,48 @@ public class Geopackage {
                 collection = dataStore.getFeatureSource(contentName).getFeatures();
             }
             srcCRS = collection.getSchema().getCoordinateReferenceSystem();
+            Set<ReferenceIdentifier> referenceIdentifierSet = srcCRS.getIdentifiers();
+            ReferenceIdentifier[] referenceIdentifiers;
+            String crsAuthority;
+            if (referenceIdentifierSet.size() > 0) {
+                referenceIdentifiers = referenceIdentifierSet.toArray(new ReferenceIdentifier[0]);
+                crsAuthority = referenceIdentifiers[0].getCodeSpace();
+            } else {
+                referenceIdentifiers = new ReferenceIdentifier[0];
+                crsAuthority = "noEntry";
+            }
 
             MathTransform mathTransform = CRS.findMathTransform(srcCRS, DefaultGeographicCRS.WGS84, true);
             // transform to WGS84 for standard extent lon/lat
-            if (!mathTransform.isIdentity()) {
-                // transformation necessary
+            if (crsAuthority.equalsIgnoreCase("epsg")) {
+                if (mathTransform.isIdentity()) {
+                    // WGS84 -> no transformation necessary
+                    markerTransform = false;
+                    collectionTransform = collection;
+                    srcCRSepsg = "4326";
+                } else {
+                    // transformation necessary
+                    markerTransform = true;
+                    collectionTransform = project(collection, "epsg:4326");
+                    srcCRSepsg = referenceIdentifiers[0].getCode();
+                }
+            } else {
+                // not in EPSG authority -> find out correct EPSG code
                 markerTransform = true;
                 collectionTransform = project(collection, "epsg:4326");
                 findEpsgCode(srcCRS);
-            } else {
-                // special case for WGS84 - no test of CRS and no transformation necessary
-                markerTransform = false;
-                collectionTransform = collection;
-                srcCRSepsg = "4326";
             }
+//            if (!mathTransform.isIdentity()) {
+//                // transformation necessary
+//                markerTransform = true;
+//                collectionTransform = project(collection, "epsg:4326");
+//                findEpsgCode(srcCRS);
+//            } else {
+//                // special case for WGS84 - no test of CRS and no transformation necessary
+//                markerTransform = false;
+//                collectionTransform = collection;
+//                srcCRSepsg = "4326";
+//            }
 
             // get type of geometry
             SimpleFeatureIterator collectionIterator = collection.features();
@@ -153,42 +182,60 @@ public class Geopackage {
 
         List<String> matchingEPSGCode = new ArrayList<>();
         List<Integer> matchingLevenshteinDistance = new ArrayList<>();
+        matchingLevenshteinDistance.add(Integer.MAX_VALUE); // initialize
 
         System.out.println("Comparison of CRS to find the correct EPSG identifier");
-        System.out.print("[          ]");
-        int ct = 0;
-        int ct2 = 0;
+//        System.out.print("[          ]");
+//        int ct = 0;
+//        int ct2 = 0;
         for (String supportedCode : supportedCodes) {
-            ct++;
+//            ct++;
             if (!supportedCode.matches("[0-9]+")) {
                 // only interpret numerical epsg codes (the first supported code might be WGS84 as text)
                 continue;
             }
-            if ((ct % (supportedCodes.size() / 10)) == 0) {
-                // construct wait bar on console output
-                ct2++;
-                System.out.print("\b\b\b\b\b\b\b\b\b\b\b");
-                for (int i = 1; i <= ct2; i++) {
-                    System.out.print("#");
-                }
-                for (int i = ct2 + 1; i <= 10; i++) {
-                    System.out.print(" ");
-                }
-                System.out.print("]");
-            }
+//            if ((ct % (supportedCodes.size() / 10)) == 0) {
+//                // construct wait bar on console output
+//                ct2++;
+//                System.out.print("\b\b\b\b\b\b\b\b\b\b\b");
+//                for (int i = 1; i <= ct2; i++) {
+//                    System.out.print("#");
+//                }
+//                for (int i = ct2 + 1; i <= 10; i++) {
+//                    System.out.print(" ");
+//                }
+//                System.out.print("]");
+//            }
             try {
                 CoordinateReferenceSystem actCRS = CRS.decode(authority + ":" + supportedCode);
-                MathTransform mathTransformFind = CRS.findMathTransform(srcCRS, actCRS, true);
-                if (mathTransformFind.isIdentity()) {
+                // usage of MathTransform unsafe -> if possible do not use
+//                MathTransform mathTransformFind = CRS.findMathTransform(srcCRS, actCRS, true);
+//                if (mathTransformFind.isIdentity()) {
+//                    matchingEPSGCode.add(supportedCode);
+//                    String actCRSName = actCRS.getName().toString();
+//                    matchingLevenshteinDistance.add(levenshteinDistance(srcCRSName, actCRSName));
+//                }
+                int levDist = levenshteinDistance(srcCRS.getName().getCode().toLowerCase().replaceAll("[ _/]", ""),
+                        actCRS.getName().getCode().toLowerCase().replaceAll("[ _/]", ""));
+                if (levDist < matchingLevenshteinDistance.get(0)) {
+                    // new minimum
+                    matchingLevenshteinDistance.clear();
+                    matchingLevenshteinDistance.add(levDist);
+                    matchingEPSGCode.clear();
                     matchingEPSGCode.add(supportedCode);
-                    String actCRSName = actCRS.getName().toString();
-                    matchingLevenshteinDistance.add(levenshteinDistance(srcCRSName, actCRSName));
+                } else if (levDist == matchingLevenshteinDistance.get(0)) {
+                    // add to minimum list
+                    matchingLevenshteinDistance.add(levDist);
+                    matchingEPSGCode.add(supportedCode);
                 }
             } catch (FactoryException ignored) {
             }
         }
-        int idxMatching = matchingLevenshteinDistance.indexOf(Collections.min(matchingLevenshteinDistance));
-        srcCRSepsg = matchingEPSGCode.get(idxMatching);
+//        int idxMatching = matchingLevenshteinDistance.indexOf(Collections.min(matchingLevenshteinDistance));
+        if (matchingLevenshteinDistance.size() > 1) {
+            System.out.println("More than one appropriate EPSG number were found. The first one is taken");
+        }
+        srcCRSepsg = matchingEPSGCode.get(0);
     }
 
     private int findUTMZone(Geometry geometry) {
@@ -220,7 +267,10 @@ public class Geopackage {
                     geometriesWGS84.add(geometriesOrig.get(ct));
                 } else {
                     if (geometryType.equals("polygon")) {
-                        geometriesWGS84.add(JTS.transform(geometriesOrig.get(ct).getBoundary(), mathTransformWGS84));
+                        Coordinate[] coordinatesWGS84 = JTS.transform(geometriesOrig.get(ct).getBoundary(), mathTransformWGS84).getCoordinates();
+                        GeometryFactory geometryFactory = new GeometryFactory();
+                        geometriesWGS84.add(geometryFactory.createPolygon(coordinatesWGS84));
+//                        geometriesWGS84.add(JTS.transform(geometriesOrig.get(ct).getBoundary(), mathTransformWGS84));
                     } else {
                         geometriesWGS84.add(JTS.transform(geometriesOrig.get(ct), mathTransformWGS84));
                     }
@@ -245,7 +295,10 @@ public class Geopackage {
                 CoordinateReferenceSystem UTMCRS = CRS.decode("EPSG:" + "327" + String.format("%02d", zonesUTM.get(i)));
                 MathTransform mathTransformUTM = CRS.findMathTransform(DefaultGeographicCRS.WGS84, UTMCRS, true);
                 if (geometryType.equals("polygon")) {
-                    geometriesUTM.add(JTS.transform(geometriesWGS84.get(i).getBoundary(), mathTransformUTM));
+                    Coordinate[] coordinatesUTM = JTS.transform(geometriesWGS84.get(i).getBoundary(), mathTransformUTM).getCoordinates();
+                    GeometryFactory geometryFactory = new GeometryFactory();
+                    geometriesUTM.add(geometryFactory.createPolygon(coordinatesUTM));
+//                    geometriesUTM.add(JTS.transform(geometriesWGS84.get(i).getBoundary(), mathTransformUTM));
                 } else {
                     geometriesUTM.add(JTS.transform(geometriesWGS84.get(i), mathTransformUTM));
                 }
@@ -253,7 +306,10 @@ public class Geopackage {
                 CoordinateReferenceSystem UTMCRSStandard = CRS.decode("EPSG:" + "327" + String.format("%02d", zoneUTMStandard));
                 MathTransform mathTransformUTMStandard = CRS.findMathTransform(DefaultGeographicCRS.WGS84, UTMCRSStandard, true);
                 if (geometryType.equals("polygon")) {
-                    geometriesUTMStandard.add(JTS.transform(geometriesWGS84.get(i).getBoundary(), mathTransformUTMStandard));
+                    Coordinate[] coordinatesUTM = JTS.transform(geometriesWGS84.get(i).getBoundary(), mathTransformUTMStandard).getCoordinates();
+                    GeometryFactory geometryFactory = new GeometryFactory();
+                    geometriesUTMStandard.add(geometryFactory.createPolygon(coordinatesUTM));
+//                    geometriesUTMStandard.add(JTS.transform(geometriesWGS84.get(i).getBoundary(), mathTransformUTMStandard));
                 } else {
                     geometriesUTMStandard.add(JTS.transform(geometriesWGS84.get(i), mathTransformUTMStandard));
                 }
@@ -261,6 +317,7 @@ public class Geopackage {
         } catch (FactoryException | TransformException e) {
             System.out.println(e.getMessage());
         }
+        System.out.println();
     }
 
     List<FeatureDescriptor> getCenterArea() {

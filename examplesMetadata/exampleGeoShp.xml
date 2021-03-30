@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<mda:DS_DataSet xmlns:dqc="http://standards.iso.org/iso/19157/-2/dqc/1.0" xmlns:gmw="http://standards.iso.org/iso/19115/-3/gmw/1.0" xmlns:msr="http://standards.iso.org/iso/19115/-3/msr/2.0" xmlns:mex="http://standards.iso.org/iso/19115/-3/mex/1.0" xmlns:mrl="http://standards.iso.org/iso/19115/-3/mrl/2.0" xmlns:gco="http://standards.iso.org/iso/19115/-3/gco/1.0" xmlns:mac="http://standards.iso.org/iso/19115/-3/mac/2.0" xmlns:srv="http://standards.iso.org/iso/19115/-3/srv/2.0" xmlns:gex="http://standards.iso.org/iso/19115/-3/gex/1.0" xmlns:mmi="http://standards.iso.org/iso/19115/-3/mmi/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:mas="http://standards.iso.org/iso/19115/-3/mas/1.0" xmlns:cat="http://standards.iso.org/iso/19115/-3/cat/1.0" xmlns:mcc="http://standards.iso.org/iso/19115/-3/mcc/1.0" xmlns:mdq="http://standards.iso.org/iso/19157/-2/mdq/1.0" xmlns:mri="http://standards.iso.org/iso/19115/-3/mri/1.0" xmlns:mda="http://standards.iso.org/iso/19115/-3/mda/2.0" xmlns:mdt="http://standards.iso.org/iso/19115/-3/mdt/2.0" xmlns:mrd="http://standards.iso.org/iso/19115/-3/mrd/1.0" xmlns:cit="http://standards.iso.org/iso/19115/-3/cit/2.0" xmlns:md1="http://standards.iso.org/iso/19115/-3/md1/2.0" xmlns:dqm="http://standards.iso.org/iso/19157/-2/dqm/1.0" xmlns:mco="http://standards.iso.org/iso/19115/-3/mco/1.0" xmlns:mds="http://standards.iso.org/iso/19115/-3/mds/2.0" xmlns:mrs="http://standards.iso.org/iso/19115/-3/mrs/1.0" xmlns:mpc="http://standards.iso.org/iso/19115/-3/mpc/1.0" xmlns:mdb="http://standards.iso.org/iso/19115/-3/mdb/2.0" xmlns:gml="http://www.opengis.net/gml/3.2" xmlns:lan="http://standards.iso.org/iso/19115/-3/lan/1.0" xmlns:md2="http://standards.iso.org/iso/19115/-3/md2/2.0" xmlns:mrc="http://standards.iso.org/iso/19115/-3/mrc/2.0" xmlns:gcx="http://standards.iso.org/iso/19115/-3/gcx/1.0">
+    <mda:has>
+        <mdb:MD_Metadata>
+            <mdb:metadataIdentifier>
+                <mcc:MD_Identifier>
+                    <mcc:code>pid:f05bf3ed-51e0-42be-91a6-bd2750b6ab8c</mcc:code>
+                </mcc:MD_Identifier>
+            </mdb:metadataIdentifier>
+            <mdb:contact>
+                <cit:CI_Responsibility>
+                    <cit:role>
+                        <cit:CI_RoleCode codeList="http://standards.iso.org/iso/19115/-3/cit/2.0/codelists.html#CI_RoleCode" codeListValue="resourceProvider"/>
+                    </cit:role>
+                    <cit:party>
+                        <cit:CI_Individual>
+                            <cit:name>mwagner</cit:name>
+                        </cit:CI_Individual>
+                    </cit:party>
+                </cit:CI_Responsibility>
+            </mdb:contact>
+            <mdb:dateInfo>
+                <cit:CI_Date>
+                    <cit:date>
+                        <gco:DateTime>2020-12-09T14:48:00.064176Z</gco:DateTime>
+                    </cit:date>
+                    <cit:dateType>
+                        <cit:CI_DateTypeCode codeList="http://standards.iso.org/iso/19115/-3/cit/2.0/codelists.html#CI_DateTypeCode" codeListValue="creation"/>
+                    </cit:dateType>
+                </cit:CI_Date>
+                <cit:CI_Date>
+                    <cit:date>
+                        <gco:DateTime>2020-12-09T14:48:00.064Z</gco:DateTime>
+                    </cit:date>
+                    <cit:dateType>
+                        <cit:CI_DateTypeCode codeList="http://standards.iso.org/iso/19115/-3/cit/2.0/codelists.html#CI_DateTypeCode" codeListValue="lastUpdate"/>
+                    </cit:dateType>
+                </cit:CI_Date>
+            </mdb:dateInfo>
+            <mdb:metadataStandard>
+                <cit:CI_Citation>
+                    <cit:title>ISO 19115-1</cit:title>
+                    <cit:edition>First edition 2014-04-01</cit:edition>
+                </cit:CI_Citation>
+            </mdb:metadataStandard>
+            <mdb:referenceSystemInfo>
+                <mrs:MD_ReferenceSystem>
+                    <mrs:referenceSystemIdentifier>
+                        <mcc:MD_Identifier>
+                            <mcc:code>EPSG::4326</mcc:code>
+                            <mcc:codeSpace>EPSG</mcc:codeSpace>
+                            <mcc:description>GCS_WGS_1984</mcc:description>
+                        </mcc:MD_Identifier>
+                    </mrs:referenceSystemIdentifier>
+                </mrs:MD_ReferenceSystem>
+            </mdb:referenceSystemInfo>
+            <mdb:identificationInfo>
+                <mri:MD_DataIdentification>
+                    <mri:citation>
+                        <cit:CI_Citation>
+                            <cit:title></cit:title>
+                            <cit:date>
+<cit:CI_Date>
+    <cit:date>
+        <gco:DateTime>2021-03-29T14:05:58.672738Z</gco:DateTime>
+    </cit:date>
+    <cit:dateType>
+        <cit:CI_DateTypeCode codeList="http://standards.iso.org/iso/19115/-3/cit/2.0/codelists.html#CI_DateTypeCode" codeListValue="creation"/>
+    </cit:dateType>
+</cit:CI_Date>
+                            </cit:date>
+                        </cit:CI_Citation>
+                    </mri:citation>
+                    <mri:spatialRepresentationType>
+                        <mcc:MD_SpatialRepresentationTypeCode codeList="http://standards.iso.org/iso/19115/-3/mcc/1.0/codelists.html#MD_SpatialRepresentationTypeCode" codeListValue="vector"/>
+                    </mri:spatialRepresentationType>
+                    <mri:spatialResolution>
+                        <mri:MD_Resolution>
+                            <mri:distance>56.07260300609241</mri:distance>
+                        </mri:MD_Resolution>
+                    </mri:spatialResolution>
+                    <mri:extent>
+                        <gex:EX_Extent>
+                            <gex:description>geographical extent in WGS84, EPSG:4326</gex:description>
+                            <gex:geographicElement>
+<gex:EX_GeographicBoundingBox>
+    <gex:westBoundLongitude>-62.637858054332426</gex:westBoundLongitude>
+    <gex:eastBoundLongitude>-54.35030343543645</gex:eastBoundLongitude>
+    <gex:southBoundLatitude>-27.526303749880984</gex:southBoundLatitude>
+    <gex:northBoundLatitude>-19.279248178733035</gex:northBoundLatitude>
+</gex:EX_GeographicBoundingBox>
+                            </gex:geographicElement>
+                        </gex:EX_Extent>
+                        <gex:EX_Extent>
+                            <gex:description>geographical extent in data CRS, EPSG:4326</gex:description>
+                            <gex:geographicElement>
+<gex:EX_GeographicBoundingBox>
+    <gex:westBoundLongitude>-62.637858054332426</gex:westBoundLongitude>
+    <gex:eastBoundLongitude>-54.35030343543645</gex:eastBoundLongitude>
+    <gex:southBoundLatitude>-27.526303749880984</gex:southBoundLatitude>
+    <gex:northBoundLatitude>-19.279248178733035</gex:northBoundLatitude>
+</gex:EX_GeographicBoundingBox>
+                            </gex:geographicElement>
+                        </gex:EX_Extent>
+                    </mri:extent>
+                    <mri:environmentalDescription>file name: examples/exampleGeoShp.shp; all shape format files: exampleGeoShp.shx, exampleGeoShp.prj, exampleGeoShp.shp, exampleGeoShp.dbf, exampleGeoShp.cpg; file size: 0 B; os: Linux</mri:environmentalDescription>
+                </mri:MD_DataIdentification>
+            </mdb:identificationInfo>
+        </mdb:MD_Metadata>
+    </mda:has>
+</mda:DS_DataSet>
