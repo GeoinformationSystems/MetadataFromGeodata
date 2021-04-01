@@ -7,10 +7,7 @@
 package org.geokur.generateMetadata;
 
 import org.geokur.ISO19115Schema.*;
-import org.geokur.ISO19157Schema.DQ_ConformanceResult;
-import org.geokur.ISO19157Schema.DQ_DataQuality;
-import org.geokur.ISO19157Schema.DQ_FormatConsistency;
-import org.geokur.ISO19157Schema.DQ_StandaloneQualityReportInformation;
+import org.geokur.ISO19157Schema.*;
 import org.geotools.data.FileDataStore;
 import org.geotools.data.FileDataStoreFinder;
 import org.geotools.data.simple.SimpleFeatureCollection;
@@ -340,7 +337,7 @@ public class ShapeMetadata implements Metadata {
             DQ_DataQuality dqDataQuality = new DQ_DataQuality();
             dqDataQuality.addScope(mdScope);
             dqDataQuality.addStandaloneQualityReport(dqStandaloneQualityReportInformation);
-            dqDataQuality.addReport(makeDQFormatConsistency(properties.allowedFileFormat));
+            dqDataQuality.addReport(makeDQFormatConsistency(properties.allowedFileFormat, now));
             dqDataQuality.finalizeClass();
 
 
@@ -707,28 +704,30 @@ public class ShapeMetadata implements Metadata {
         return edgeCoordinates;
     }
 
-    DQ_FormatConsistency makeDQFormatConsistency(List<String> allowedFileFormat) {
+    DQ_FormatConsistency makeDQFormatConsistency(List<String> allowedFileFormat, String now) {
         // adherence to data format given, if shp available in properties.allowedFileFormat
 
-        StringBuilder citationTitle = new StringBuilder();
-        citationTitle.append("Allowed file formats: ");
+        StringBuilder evaluationTitle = new StringBuilder();
+        evaluationTitle.append("Allowed file formats: ");
         for (int i = 0; i < allowedFileFormat.size(); i++) {
-            citationTitle.append(allowedFileFormat.get(i));
+            evaluationTitle.append(allowedFileFormat.get(i));
             if (i != allowedFileFormat.size() - 1) {
-                citationTitle.append(", ");
+                evaluationTitle.append(", ");
             }
         }
 
-        CI_Citation ciCitation = new CI_Citation();
-        ciCitation.addTitle(citationTitle.toString());
-        ciCitation.finalizeClass();
+        DQ_EvaluationMethod dqEvaluationMethod = new DQ_FullInspection();
+        dqEvaluationMethod.addEvaluationMethodType(new DQ_EvaluationMethodTypeCode(DQ_EvaluationMethodTypeCode.DQ_EvaluationMethodTypeCodes.directInternal));
+        dqEvaluationMethod.addDateTime(now);
+        dqEvaluationMethod.addEvaluationMethodDescription(evaluationTitle.toString());
+        dqEvaluationMethod.finalizeClass();
 
         DQ_ConformanceResult dqConformanceResult = new DQ_ConformanceResult();
-        dqConformanceResult.addSpecification(ciCitation);
         dqConformanceResult.addPass(allowedFileFormat.stream().anyMatch("shp"::equalsIgnoreCase));
         dqConformanceResult.finalizeClass();
 
         DQ_FormatConsistency dqFormatConsistency = new DQ_FormatConsistency();
+        dqFormatConsistency.addEvaluationMethod(dqEvaluationMethod);
         dqFormatConsistency.addResult(dqConformanceResult);
         dqFormatConsistency.finalizeClass();
 

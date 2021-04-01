@@ -875,11 +875,13 @@ public class AsciiMetadata implements Metadata {
 
             // TODO: spatial resolution and spatial extent (via flagging in Geopackage class)
 
+            List<TemporalRegularity> temporalRegularities = new ArrayList<>();
             for (int i = 0; i < csvNumAssessment; i++) {
                 // temporal dimension
                 EX_Extent exExtent = new EX_Extent();
                 exExtent.addDescription("attributeName: " + colNamesAssessment.get(i));
                 TemporalRegularity tr = getRegularity(yearsAssessmentCols.get(i));
+                temporalRegularities.add(tr);
                 // resolution will be -999
                 if (tr.regularity) {
                     // if temporal resolution is evenly incremented give begin and end and temporal resolution
@@ -1036,6 +1038,12 @@ public class AsciiMetadata implements Metadata {
                 dqRepresentativitiesThematicPerTemp.add(makeDQRepresentativityParamThematicPerTemp(colNamesAssessment.get(i), thematicPerTemp.get(i), now));
             }
 
+            // temporal consistency - correct order and regularly distributed time steps
+            List<DQ_TemporalConsistency> dqTemporalConsistencies = new ArrayList<>();
+            for (int i = 0; i < csvNumAssessment; i++) {
+                dqTemporalConsistencies.add(makeDQTemporalConsistency(colNamesAssessment.get(i), temporalRegularities.get(i).regularity, now));
+            }
+
             // frame around data quality fields
             MD_Scope mdScope = new MD_Scope();
             mdScope.addLevel(new MD_ScopeCode(MD_ScopeCode.MD_ScopeCodes.dataset));
@@ -1093,7 +1101,10 @@ public class AsciiMetadata implements Metadata {
             for (DQ_Representativity dqRepresentativityThematicPerTemp : dqRepresentativitiesThematicPerTemp) {
                 dqDataQuality.addReport(dqRepresentativityThematicPerTemp);
             }
-            dqDataQuality.addReport(makeDQFormatConsistency(properties.allowedFileFormat));
+            for (DQ_TemporalConsistency dqTemporalConsistency : dqTemporalConsistencies) {
+                dqDataQuality.addReport(dqTemporalConsistency);
+            }
+            dqDataQuality.addReport(makeDQFormatConsistency(properties.allowedFileFormat, now));
 
             dqDataQuality.finalizeClass();
 
@@ -1597,32 +1608,65 @@ public class AsciiMetadata implements Metadata {
         return dqRepresentativity;
     }
 
-    DQ_FormatConsistency makeDQFormatConsistency(List<String> allowedFileFormat) {
+    DQ_FormatConsistency makeDQFormatConsistency(List<String> allowedFileFormat, String now) {
         // adherence to data format given, if tif available in properties.allowedFileFormat
 
-        StringBuilder citationTitle = new StringBuilder();
-        citationTitle.append("Allowed file formats: ");
+        StringBuilder evaluationTitle = new StringBuilder();
+        evaluationTitle.append("Allowed file formats: ");
         for (int i = 0; i < allowedFileFormat.size(); i++) {
-            citationTitle.append(allowedFileFormat.get(i));
+            evaluationTitle.append(allowedFileFormat.get(i));
             if (i != allowedFileFormat.size() - 1) {
-                citationTitle.append(", ");
+                evaluationTitle.append(", ");
             }
         }
 
-        CI_Citation ciCitation = new CI_Citation();
-        ciCitation.addTitle(citationTitle.toString());
-        ciCitation.finalizeClass();
+        DQ_EvaluationMethod dqEvaluationMethod = new DQ_FullInspection();
+        dqEvaluationMethod.addEvaluationMethodType(new DQ_EvaluationMethodTypeCode(DQ_EvaluationMethodTypeCode.DQ_EvaluationMethodTypeCodes.directInternal));
+        dqEvaluationMethod.addDateTime(now);
+        dqEvaluationMethod.addEvaluationMethodDescription(evaluationTitle.toString());
+        dqEvaluationMethod.finalizeClass();
 
         DQ_ConformanceResult dqConformanceResult = new DQ_ConformanceResult();
-        dqConformanceResult.addSpecification(ciCitation);
         dqConformanceResult.addPass(allowedFileFormat.stream().anyMatch("csv"::equalsIgnoreCase));
         dqConformanceResult.finalizeClass();
 
         DQ_FormatConsistency dqFormatConsistency = new DQ_FormatConsistency();
+        dqFormatConsistency.addEvaluationMethod(dqEvaluationMethod);
         dqFormatConsistency.addResult(dqConformanceResult);
         dqFormatConsistency.finalizeClass();
 
         return dqFormatConsistency;
+    }
+
+    DQ_TemporalConsistency makeDQTemporalConsistency(String nameAttribute, Boolean regularity, String now) {
+        // correctness of ordered events or sequences
+
+        DQ_EvaluationMethod dqEvaluationMethod = new DQ_FullInspection();
+        dqEvaluationMethod.addEvaluationMethodType(new DQ_EvaluationMethodTypeCode(DQ_EvaluationMethodTypeCode.DQ_EvaluationMethodTypeCodes.directInternal));
+        dqEvaluationMethod.addDateTime(now);
+        dqEvaluationMethod.addEvaluationMethodDescription("Correct order of events; time steps regularly distributed");
+        dqEvaluationMethod.finalizeClass();
+
+        MD_ScopeDescription mdScopeDescription = new MD_ScopeDescription();
+        mdScopeDescription.addAttributes(nameAttribute);
+        mdScopeDescription.finalizeClass();
+
+        MD_Scope mdScopeAttribute = new MD_Scope();
+        mdScopeAttribute.addLevel(new MD_ScopeCode(MD_ScopeCode.MD_ScopeCodes.attribute));
+        mdScopeAttribute.addLevelDescription(mdScopeDescription);
+        mdScopeAttribute.finalizeClass();
+
+        DQ_ConformanceResult dqConformanceResult = new DQ_ConformanceResult();
+        dqConformanceResult.addResultScope(mdScopeAttribute);
+        dqConformanceResult.addPass(regularity);
+        dqConformanceResult.finalizeClass();
+
+        DQ_TemporalConsistency dqTemporalConsistency = new DQ_TemporalConsistency();
+        dqTemporalConsistency.addEvaluationMethod(dqEvaluationMethod);
+        dqTemporalConsistency.addResult(dqConformanceResult);
+        dqTemporalConsistency.finalizeClass();
+
+        return dqTemporalConsistency;
     }
 
     static List<String> getListFromLogicalIndex(List<String> vals, boolean[] idx) {

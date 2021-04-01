@@ -267,7 +267,7 @@ public class GeoTIFFMetadata implements Metadata {
                 // data omission (rate) for all bands
                 dqDataQuality.addReport(makeDQCompletenessOmission("band " + (i + 1), geoTIFF.numCells, geoTIFF.numNoData[i], "rate"));
             }
-            dqDataQuality.addReport(makeDQFormatConsistency(properties.allowedFileFormat));
+            dqDataQuality.addReport(makeDQFormatConsistency(properties.allowedFileFormat, now));
             dqDataQuality.finalizeClass();
 
 
@@ -371,29 +371,31 @@ public class GeoTIFFMetadata implements Metadata {
         return dqCompletenessOmission;
     }
 
-    DQ_FormatConsistency makeDQFormatConsistency(List<String> allowedFileFormat) {
+    DQ_FormatConsistency makeDQFormatConsistency(List<String> allowedFileFormat, String now) {
         // adherence to data format given, if tif available in properties.allowedFileFormat
 
-        StringBuilder citationTitle = new StringBuilder();
-        citationTitle.append("Allowed file formats: ");
+        StringBuilder evaluationTitle = new StringBuilder();
+        evaluationTitle.append("Allowed file formats: ");
         for (int i = 0; i < allowedFileFormat.size(); i++) {
-            citationTitle.append(allowedFileFormat.get(i));
+            evaluationTitle.append(allowedFileFormat.get(i));
             if (i != allowedFileFormat.size() - 1) {
-                citationTitle.append(", ");
+                evaluationTitle.append(", ");
             }
         }
 
-        CI_Citation ciCitation = new CI_Citation();
-        ciCitation.addTitle(citationTitle.toString());
-        ciCitation.finalizeClass();
+        DQ_EvaluationMethod dqEvaluationMethod = new DQ_FullInspection();
+        dqEvaluationMethod.addEvaluationMethodType(new DQ_EvaluationMethodTypeCode(DQ_EvaluationMethodTypeCode.DQ_EvaluationMethodTypeCodes.directInternal));
+        dqEvaluationMethod.addDateTime(now);
+        dqEvaluationMethod.addEvaluationMethodDescription(evaluationTitle.toString());
+        dqEvaluationMethod.finalizeClass();
 
         DQ_ConformanceResult dqConformanceResult = new DQ_ConformanceResult();
-        dqConformanceResult.addSpecification(ciCitation);
         dqConformanceResult.addPass(allowedFileFormat.stream().anyMatch("tif"::equalsIgnoreCase) ||
                 allowedFileFormat.stream().allMatch("tiff"::equalsIgnoreCase));
         dqConformanceResult.finalizeClass();
 
         DQ_FormatConsistency dqFormatConsistency = new DQ_FormatConsistency();
+        dqFormatConsistency.addEvaluationMethod(dqEvaluationMethod);
         dqFormatConsistency.addResult(dqConformanceResult);
         dqFormatConsistency.finalizeClass();
 
