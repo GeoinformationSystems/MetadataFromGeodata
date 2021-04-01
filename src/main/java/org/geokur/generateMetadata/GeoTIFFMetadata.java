@@ -20,14 +20,18 @@ import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.UUID;
 
 public class GeoTIFFMetadata implements Metadata {
+
+    Properties properties;
     String fileName;
     DS_DataSet dsDataSet;
 
-    public GeoTIFFMetadata(String fileName, DS_DataSet dsDataSet) {
-        this.fileName = fileName;
+    public GeoTIFFMetadata(Properties properties, DS_DataSet dsDataSet) {
+        this.properties = properties;
+        this.fileName = properties.geodata;
         this.dsDataSet = dsDataSet;
     }
 
@@ -263,6 +267,7 @@ public class GeoTIFFMetadata implements Metadata {
                 // data omission (rate) for all bands
                 dqDataQuality.addReport(makeDQCompletenessOmission("band " + (i + 1), geoTIFF.numCells, geoTIFF.numNoData[i], "rate"));
             }
+            dqDataQuality.addReport(makeDQFormatConsistency(properties.allowedFileFormat));
             dqDataQuality.finalizeClass();
 
 
@@ -364,5 +369,34 @@ public class GeoTIFFMetadata implements Metadata {
         dqCompletenessOmission.finalizeClass();
 
         return dqCompletenessOmission;
+    }
+
+    DQ_FormatConsistency makeDQFormatConsistency(List<String> allowedFileFormat) {
+        // adherence to data format given, if tif available in properties.allowedFileFormat
+
+        StringBuilder citationTitle = new StringBuilder();
+        citationTitle.append("Allowed file formats: ");
+        for (int i = 0; i < allowedFileFormat.size(); i++) {
+            citationTitle.append(allowedFileFormat.get(i));
+            if (i != allowedFileFormat.size() - 1) {
+                citationTitle.append(", ");
+            }
+        }
+
+        CI_Citation ciCitation = new CI_Citation();
+        ciCitation.addTitle(citationTitle.toString());
+        ciCitation.finalizeClass();
+
+        DQ_ConformanceResult dqConformanceResult = new DQ_ConformanceResult();
+        dqConformanceResult.addSpecification(ciCitation);
+        dqConformanceResult.addPass(allowedFileFormat.stream().anyMatch("tif"::equalsIgnoreCase) ||
+                allowedFileFormat.stream().allMatch("tiff"::equalsIgnoreCase));
+        dqConformanceResult.finalizeClass();
+
+        DQ_FormatConsistency dqFormatConsistency = new DQ_FormatConsistency();
+        dqFormatConsistency.addResult(dqConformanceResult);
+        dqFormatConsistency.finalizeClass();
+
+        return dqFormatConsistency;
     }
 }

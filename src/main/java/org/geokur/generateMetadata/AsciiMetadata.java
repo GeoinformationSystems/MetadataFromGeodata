@@ -9,7 +9,6 @@ package org.geokur.generateMetadata;
 import org.geokur.ISO19103Schema.Record;
 import org.geokur.ISO19108Schema.TM_Instant;
 import org.geokur.ISO19108Schema.TM_Period;
-import org.geokur.ISO19108Schema.TM_Primitive;
 import org.geokur.ISO19115Schema.*;
 import org.geokur.ISO19157Schema.*;
 
@@ -25,6 +24,8 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class AsciiMetadata implements Metadata {
+
+    Properties properties;
     String fileName;
     DS_DataSet dsDataSet;
     String fileNameGeodata;
@@ -54,7 +55,8 @@ public class AsciiMetadata implements Metadata {
     Map<String, String> thematicMappingDictionary;
 
     public AsciiMetadata(Properties properties, DS_DataSet dsDataSet) {
-        this.fileName = properties.filename;
+        this.properties = properties;
+        this.fileName = properties.geodata;
         this.dsDataSet = dsDataSet;
         this.fileNameGeodata = properties.geodataReference;
         this.geoTableName = properties.geoTableNames;
@@ -1091,6 +1093,7 @@ public class AsciiMetadata implements Metadata {
             for (DQ_Representativity dqRepresentativityThematicPerTemp : dqRepresentativitiesThematicPerTemp) {
                 dqDataQuality.addReport(dqRepresentativityThematicPerTemp);
             }
+            dqDataQuality.addReport(makeDQFormatConsistency(properties.allowedFileFormat));
 
             dqDataQuality.finalizeClass();
 
@@ -1592,6 +1595,34 @@ public class AsciiMetadata implements Metadata {
         dqRepresentativity.finalizeClass();
 
         return dqRepresentativity;
+    }
+
+    DQ_FormatConsistency makeDQFormatConsistency(List<String> allowedFileFormat) {
+        // adherence to data format given, if tif available in properties.allowedFileFormat
+
+        StringBuilder citationTitle = new StringBuilder();
+        citationTitle.append("Allowed file formats: ");
+        for (int i = 0; i < allowedFileFormat.size(); i++) {
+            citationTitle.append(allowedFileFormat.get(i));
+            if (i != allowedFileFormat.size() - 1) {
+                citationTitle.append(", ");
+            }
+        }
+
+        CI_Citation ciCitation = new CI_Citation();
+        ciCitation.addTitle(citationTitle.toString());
+        ciCitation.finalizeClass();
+
+        DQ_ConformanceResult dqConformanceResult = new DQ_ConformanceResult();
+        dqConformanceResult.addSpecification(ciCitation);
+        dqConformanceResult.addPass(allowedFileFormat.stream().anyMatch("csv"::equalsIgnoreCase));
+        dqConformanceResult.finalizeClass();
+
+        DQ_FormatConsistency dqFormatConsistency = new DQ_FormatConsistency();
+        dqFormatConsistency.addResult(dqConformanceResult);
+        dqFormatConsistency.finalizeClass();
+
+        return dqFormatConsistency;
     }
 
     static List<String> getListFromLogicalIndex(List<String> vals, boolean[] idx) {

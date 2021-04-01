@@ -40,7 +40,7 @@ public class DQ_ConformanceResult extends DQ_Result {
     public List<String> explanation;
 
     @XmlElement(name = "pass", namespace = "http://standards.iso.org/iso/19157/-2/mdq/1.0")
-    public List<String> pass;
+    public List<Boolean> pass;
 
     // methods
     public DQ_ConformanceResult(){
@@ -104,7 +104,7 @@ public class DQ_ConformanceResult extends DQ_Result {
         }
     }
 
-    public void addPass(String pass) {
+    public void addPass(Boolean pass) {
         if (this.pass == null) {
             this.pass = new ArrayList<>();
         }

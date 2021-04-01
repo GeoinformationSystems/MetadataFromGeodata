@@ -10,9 +10,10 @@ import java.util.List;
 
 public class Properties {
     public String profileFilename;
-    public String filename;
-    public String filenameXml;
-    public String filenameDB;
+    public String geodata;
+    public String outXML;
+    public String outDB;
+    public List<String> allowedFileFormat;
     public String geodataReference;
     public List<String> geoTableNames;
     public List<String> geoColNamesJoin;
@@ -40,16 +41,20 @@ public class Properties {
         this.profileFilename = profileFilename;
     }
 
-    public void setFilename(String filename) {
-        this.filename = filename;
+    public void setGeodata(String geodata) {
+        this.geodata = geodata;
     }
 
-    public void setFilenameXml(String filenameXml) {
-        this.filenameXml = filenameXml;
+    public void setOutXML(String outXML) {
+        this.outXML = outXML;
     }
 
-    public void setFilenameDB(String filenameDB) {
-        this.filenameDB = filenameDB;
+    public void setOutDB(String outDB) {
+        this.outDB = outDB;
+    }
+
+    public void setAllowedFileFormat(List<String> allowedFileFormat) {
+        this.allowedFileFormat = allowedFileFormat;
     }
 
     public void setGeodataReference(String geodataReference) {

@@ -34,7 +34,7 @@ public class MetadataGenerator {
         String filenameProperties = argv[0];
         Properties properties = readProperties(filenameProperties);
 
-        String displayFile = "File: " + properties.filename;
+        String displayFile = "File: " + properties.geodata;
         String displayLine = "-".repeat(displayFile.length());
         System.out.println(displayLine);
         System.out.println(displayFile);
@@ -42,8 +42,8 @@ public class MetadataGenerator {
 
         // remove out files if existing (test cases)
         try {
-            Files.deleteIfExists(new File(properties.filenameXml).toPath());
-            Files.deleteIfExists(new File(properties.filenameDB).toPath());
+            Files.deleteIfExists(new File(properties.outXML).toPath());
+            Files.deleteIfExists(new File(properties.outDB).toPath());
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }
@@ -54,20 +54,23 @@ public class MetadataGenerator {
 
         // read metadata and instantiate according classes
         DS_Resource metadata;
-        String[] fileNameExtension = properties.filename.split("\\.");
+        String[] fileNameExtension = properties.geodata.split("\\.");
         switch (fileNameExtension[fileNameExtension.length - 1]) {
             case "shp":
-                metadata = new ShapeMetadata(properties.filename, new DS_DataSet()).getMetadata();
+//                metadata = new ShapeMetadata(properties.geodata, new DS_DataSet()).getMetadata();
+                metadata = new ShapeMetadata(properties, new DS_DataSet()).getMetadata();
                 break;
             case "gpkg":
-                metadata = new GeopackageMetadata(properties.filename, new DS_DataSet()).getMetadata();
+//                metadata = new GeopackageMetadata(properties.geodata, new DS_DataSet()).getMetadata();
+                metadata = new GeopackageMetadata(properties, new DS_DataSet()).getMetadata();
                 break;
             case "csv":
                 metadata = new AsciiMetadata(properties, new DS_DataSet()).getMetadata();
                 break;
             case "tif":
             case "tiff":
-                metadata = new GeoTIFFMetadata(properties.filename, new DS_DataSet()).getMetadata();
+//                metadata = new GeoTIFFMetadata(properties.geodata, new DS_DataSet()).getMetadata();
+                metadata = new GeoTIFFMetadata(properties, new DS_DataSet()).getMetadata();
                 break;
             default:
                 // file format not supported -> return empty document
@@ -80,7 +83,7 @@ public class MetadataGenerator {
             JAXBContext contextObj = JAXBContext.newInstance(DS_DataSet.class);
             Marshaller marshaller = contextObj.createMarshaller();
             marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-            marshaller.marshal(metadata, new FileOutputStream(properties.filenameXml));
+            marshaller.marshal(metadata, new FileOutputStream(properties.outXML));
         } catch (FileNotFoundException | JAXBException e) {
 //            System.out.println(e.getMessage());
             e.printStackTrace();
@@ -111,14 +114,14 @@ public class MetadataGenerator {
         // order xml file to SQLite database
         // read xml file with JDOM2 library in order to get a document
         try {
-            Document doc = new SAXBuilder().build(properties.filenameXml);
+            Document doc = new SAXBuilder().build(properties.outXML);
             Element docRoot = doc.getRootElement();
             MetadataDatabase metadataDatabase = new MetadataDatabase();
             metadataDatabase.generateFlatFromElement(docRoot);
-            Database database = new Database(properties.filenameDB);
+            Database database = new Database(properties.outDB);
             database.createNewDatabase();
-            database.addToDatabase(properties.filename);
-            database.writeMetadataToDatabase(properties.filename, metadataDatabase);
+            database.addToDatabase(properties.geodata);
+            database.writeMetadataToDatabase(properties.geodata, metadataDatabase);
         } catch (IOException | JDOMException e) {
 //            System.out.println(e.getMessage());
             e.printStackTrace();
@@ -148,6 +151,8 @@ public class MetadataGenerator {
             br.close();
 
             int idx;
+            List<Integer> idx2;
+
             idx = propertyName.indexOf("profile");
             if (idx == -1) {
                 throw new ListContentException("profile", filenameProperties);
@@ -157,22 +162,29 @@ public class MetadataGenerator {
             if (idx == -1) {
                 throw new ListContentException("geodata", filenameProperties);
             }
-            properties.setFilename(propertyContent.get(idx));
+            properties.setGeodata(propertyContent.get(idx));
             idx = propertyName.indexOf("outxml");
             if (idx == -1) {
                 throw new ListContentException("outXML", filenameProperties);
             }
-            properties.setFilenameXml(propertyContent.get(idx));
+            properties.setOutXML(propertyContent.get(idx));
             idx = propertyName.indexOf("outdb");
             if (idx == -1) {
                 throw new ListContentException("outDB", filenameProperties);
             }
-            properties.setFilenameDB(propertyContent.get(idx));
+            properties.setOutDB(propertyContent.get(idx));
 
-            String filename = properties.filename;
+            // asciiColNameIgnore can be empty - no ListContentException
+            idx2 = getIndices(propertyName, "allowedfileformat");
+            List<String> allowedFileFormats = new ArrayList<>();
+            for (int i : idx2) {
+                allowedFileFormats.add(propertyContent.get(i));
+            }
+            properties.setAllowedFileFormat(allowedFileFormats);
+
+            String filename = properties.geodata;
             if (filename.startsWith("csv", filename.length() - 3)) {
                 // in case of a csv file additional data shall/might be given
-                List<Integer> idx2;
 
                 idx = propertyName.indexOf("geodatareference");
                 if (idx == -1) {

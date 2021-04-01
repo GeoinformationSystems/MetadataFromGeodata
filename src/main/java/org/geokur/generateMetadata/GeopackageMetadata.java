@@ -20,15 +20,18 @@ import java.util.*;
 
 public class GeopackageMetadata implements Metadata {
 
+    Properties properties;
     String fileName;
     DS_DataSet dsDataSet;
 
-    public GeopackageMetadata(String fileName) {
-        this.fileName = fileName;
+    public GeopackageMetadata(Properties properties) {
+        this.properties = properties;
+        this.fileName = properties.geodata;
     }
 
-    public GeopackageMetadata(String fileName, DS_DataSet dsDataSet) {
-        this(fileName);
+    public GeopackageMetadata(Properties properties, DS_DataSet dsDataSet) {
+        this(properties);
+        this.fileName = properties.geodata;
         this.dsDataSet = dsDataSet;
     }
 
@@ -57,12 +60,12 @@ public class GeopackageMetadata implements Metadata {
         // read geopackage file and put its metadata into DS_Resource
 
         DS_DataSet metadataDataSet = new DS_DataSet();
-        int numDataSet = new GeopackageMetadata(fileName).getNumGeodata();
+        int numDataSet = new GeopackageMetadata(properties).getNumGeodata();
         for (int i = 0; i < numDataSet; i++) {
             System.out.println("--------------------");
             System.out.println("Geopackage content " + i);
             System.out.println("--------------------");
-            metadataDataSet = new GeopackageMetadata(fileName, metadataDataSet).getSingleMetadata(i);
+            metadataDataSet = new GeopackageMetadata(properties, metadataDataSet).getSingleMetadata(i);
         }
         return metadataDataSet;
     }
@@ -295,8 +298,9 @@ public class GeopackageMetadata implements Metadata {
 
             dqDataQuality.addScope(mdScope);
             dqDataQuality.addReport(dqRepresentativity);
-            dqDataQuality.finalizeClass();
         }
+        dqDataQuality.addReport(makeDQFormatConsistency(properties.allowedFileFormat));
+        dqDataQuality.finalizeClass();
 
 
         // get (5) metadata contact
@@ -331,6 +335,34 @@ public class GeopackageMetadata implements Metadata {
         gpkg.dispose();
 
         return dsDataSet;
+    }
+
+    DQ_FormatConsistency makeDQFormatConsistency(List<String> allowedFileFormat) {
+        // adherence to data format given, if tif available in properties.allowedFileFormat
+
+        StringBuilder citationTitle = new StringBuilder();
+        citationTitle.append("Allowed file formats: ");
+        for (int i = 0; i < allowedFileFormat.size(); i++) {
+            citationTitle.append(allowedFileFormat.get(i));
+            if (i != allowedFileFormat.size() - 1) {
+                citationTitle.append(", ");
+            }
+        }
+
+        CI_Citation ciCitation = new CI_Citation();
+        ciCitation.addTitle(citationTitle.toString());
+        ciCitation.finalizeClass();
+
+        DQ_ConformanceResult dqConformanceResult = new DQ_ConformanceResult();
+        dqConformanceResult.addSpecification(ciCitation);
+        dqConformanceResult.addPass(allowedFileFormat.stream().anyMatch("gpkg"::equalsIgnoreCase));
+        dqConformanceResult.finalizeClass();
+
+        DQ_FormatConsistency dqFormatConsistency = new DQ_FormatConsistency();
+        dqFormatConsistency.addResult(dqConformanceResult);
+        dqFormatConsistency.finalizeClass();
+
+        return dqFormatConsistency;
     }
 
 
