@@ -198,6 +198,7 @@ public class AsciiMetadata implements Metadata {
             int[] excessDataAll = null;
             List<List<String>> yearsAssessmentCols = new ArrayList<>();
             List<List<String>> commoditiesAssessmentCols = new ArrayList<>();
+            List<List<String>> commoditiesAssessmentColsAll = new ArrayList<>();
             List<Integer> numGeoAssessmentCols = new ArrayList<>();
             List<Integer> numYearsAssessmentCols = new ArrayList<>();
             List<Integer> numCommoditiesAssessmentCols = new ArrayList<>();
@@ -473,6 +474,20 @@ public class AsciiMetadata implements Metadata {
                         Collections.sort(commoditiesAssessmentColsAct);
                         commoditiesAssessmentCols.add(commoditiesAssessmentColsAct);
                         numCommoditiesAssessmentCols.add(commoditiesAssessmentColsAct.size());
+
+                        //thematic dimension - get all commodity entries for the current attribute
+                        if (thematicMapping) {
+                            List<String> commoditiesAssessmentColsAllAct = new ArrayList<>();
+                            command = new StringBuilder();
+                            command.append("SELECT ").append(asciiColNameDefine.get(idxThematic)).append(" FROM ")
+                                    .append(tableNameMasked).append(" WHERE ").append(colNamesAssessment.get(i))
+                                    .append(" IS NOT NULL");
+                            tmpRS = statementAscii.executeQuery(command.toString());
+                            while (tmpRS.next()) {
+                                commoditiesAssessmentColsAllAct.add(tmpRS.getString(1));
+                            }
+                            commoditiesAssessmentColsAll.add(commoditiesAssessmentColsAllAct);
+                        }
                     }
 
                     // get combinations
@@ -973,6 +988,23 @@ public class AsciiMetadata implements Metadata {
                 }
             }
 
+            // thematicAccuracy -> count incorrect attribute values (commodities not available in mapping dictionary)
+            List<DQ_NonQuantitativeAttributeCorrectness> dqNonQuantitativeAttributeCorrectnessCount = new ArrayList<>();
+            List<Integer[]> mappability = new ArrayList<>();
+            if (thematicMapping) {
+                for (int i = 0; i < csvNumAssessment; i++) {
+                    mappability.add(evaluateCommoditiesMappingPossibility(commoditiesAssessmentColsAll.get(i)));
+                    dqNonQuantitativeAttributeCorrectnessCount.add(makeDQNonQuantitativeAttributeCorrectnessCount(colNamesAssessment.get(i), mappability.get(i), now));
+                }
+            }
+
+            List<DQ_NonQuantitativeAttributeCorrectness> dqNonQuantitativeAttributeCorrectnessRate = new ArrayList<>();
+            if (thematicMapping) {
+                for (int i = 0; i < csvNumAssessment; i++) {
+                    dqNonQuantitativeAttributeCorrectnessRate.add(makeDQNonQuantitativeAttributeCorrectnessRate(colNamesAssessment.get(i), mappability.get(i), now));
+                }
+            }
+
             // metaquality - number of polygons per area
             DQ_Representativity dqRepresentativitySpatial = new DQ_Representativity();
             if (gpkg.geometryType.equals("polygon")) {
@@ -1078,6 +1110,14 @@ public class AsciiMetadata implements Metadata {
             }
             for (DQ_CompletenessCommission dqCompletenessCommission : dqCompletenessCommissionsRate) {
                 dqDataQuality.addReport(dqCompletenessCommission);
+            }
+            if (thematicMapping) {
+                for (DQ_NonQuantitativeAttributeCorrectness dqNonQuantitativeAttributeCorrectness : dqNonQuantitativeAttributeCorrectnessCount) {
+                    dqDataQuality.addReport(dqNonQuantitativeAttributeCorrectness);
+                }
+                for (DQ_NonQuantitativeAttributeCorrectness dqNonQuantitativeAttributeCorrectness : dqNonQuantitativeAttributeCorrectnessRate) {
+                    dqDataQuality.addReport(dqNonQuantitativeAttributeCorrectness);
+                }
             }
 
             if (gpkg.geometryType.equals("polygon")) {
@@ -1667,6 +1707,107 @@ public class AsciiMetadata implements Metadata {
         dqTemporalConsistency.finalizeClass();
 
         return dqTemporalConsistency;
+    }
+
+    DQ_NonQuantitativeAttributeCorrectness makeDQNonQuantitativeAttributeCorrectnessCount(String nameAttribute, Integer[] mappability, String now) {
+        // number of incorrect commodities
+        // mappability contains (0) overall number and (1) count of mappable entries
+
+        DQ_MeasureReference dqMeasureReference = new DQ_MeasureReference();
+        dqMeasureReference.addNameOfMeasure("number of incorrect attribute values");
+        dqMeasureReference.addMeasureDescription("count of all attribute values where the value is incorrect (wrong name)");
+        dqMeasureReference.finalizeClass();
+
+        DQ_EvaluationMethod dqEvaluationMethod = new DQ_FullInspection();
+        dqEvaluationMethod.addEvaluationMethodType(new DQ_EvaluationMethodTypeCode(DQ_EvaluationMethodTypeCode.DQ_EvaluationMethodTypeCodes.directInternal));
+        dqEvaluationMethod.addDateTime(now);
+        dqEvaluationMethod.addEvaluationMethodDescription("count of all attribute values where the value is incorrect (wrong name)");
+        dqEvaluationMethod.finalizeClass();
+
+        MD_ScopeDescription mdScopeDescription = new MD_ScopeDescription();
+        mdScopeDescription.addAttributes(nameAttribute);
+        mdScopeDescription.finalizeClass();
+
+        MD_Scope mdScopeAttribute = new MD_Scope();
+        mdScopeAttribute.addLevel(new MD_ScopeCode(MD_ScopeCode.MD_ScopeCodes.attribute));
+        mdScopeAttribute.addLevelDescription(mdScopeDescription);
+        mdScopeAttribute.finalizeClass();
+
+        Record record = new Record();
+        record.addField("" + (mappability[0] - mappability[1]));
+        record.finalizeClass();
+
+        DQ_QuantitativeResult dqQuantitativeResult = new DQ_QuantitativeResult();
+        dqQuantitativeResult.addValue(record);
+        dqQuantitativeResult.addValueUnit("count of incorrect attribute values");
+        dqQuantitativeResult.finalizeClass();
+
+        DQ_NonQuantitativeAttributeCorrectness dqNonQuantitativeAttributeCorrectness = new DQ_NonQuantitativeAttributeCorrectness();
+        dqNonQuantitativeAttributeCorrectness.addMeasure(dqMeasureReference);
+        dqNonQuantitativeAttributeCorrectness.addEvaluationMethod(dqEvaluationMethod);
+        dqNonQuantitativeAttributeCorrectness.addResult(dqQuantitativeResult);
+        dqNonQuantitativeAttributeCorrectness.finalizeClass();
+
+        return dqNonQuantitativeAttributeCorrectness;
+    }
+
+    DQ_NonQuantitativeAttributeCorrectness makeDQNonQuantitativeAttributeCorrectnessRate(String nameAttribute, Integer[] mappability, String now) {
+        // rate of incorrect commodities
+        // mappability contains (0) overall number and (1) count of mappable entries
+
+        DQ_MeasureReference dqMeasureReference = new DQ_MeasureReference();
+        dqMeasureReference.addNameOfMeasure("rate of incorrect attribute values");
+        dqMeasureReference.addMeasureDescription("rate of all attribute values where the value is incorrect (wrong name)");
+        dqMeasureReference.finalizeClass();
+
+        DQ_EvaluationMethod dqEvaluationMethod = new DQ_FullInspection();
+        dqEvaluationMethod.addEvaluationMethodType(new DQ_EvaluationMethodTypeCode(DQ_EvaluationMethodTypeCode.DQ_EvaluationMethodTypeCodes.directInternal));
+        dqEvaluationMethod.addDateTime(now);
+        dqEvaluationMethod.addEvaluationMethodDescription("rate of all attribute values where the value is incorrect (wrong name)");
+        dqEvaluationMethod.finalizeClass();
+
+        MD_ScopeDescription mdScopeDescription = new MD_ScopeDescription();
+        mdScopeDescription.addAttributes(nameAttribute);
+        mdScopeDescription.finalizeClass();
+
+        MD_Scope mdScopeAttribute = new MD_Scope();
+        mdScopeAttribute.addLevel(new MD_ScopeCode(MD_ScopeCode.MD_ScopeCodes.attribute));
+        mdScopeAttribute.addLevelDescription(mdScopeDescription);
+        mdScopeAttribute.finalizeClass();
+
+        Record record = new Record();
+        record.addField("" + ((double) (mappability[0] - mappability[1]) / (double) mappability[0]) * 100);
+        record.finalizeClass();
+
+        DQ_QuantitativeResult dqQuantitativeResult = new DQ_QuantitativeResult();
+        dqQuantitativeResult.addValue(record);
+        dqQuantitativeResult.addValueUnit("%");
+        dqQuantitativeResult.finalizeClass();
+
+        DQ_NonQuantitativeAttributeCorrectness dqNonQuantitativeAttributeCorrectness = new DQ_NonQuantitativeAttributeCorrectness();
+        dqNonQuantitativeAttributeCorrectness.addMeasure(dqMeasureReference);
+        dqNonQuantitativeAttributeCorrectness.addEvaluationMethod(dqEvaluationMethod);
+        dqNonQuantitativeAttributeCorrectness.addResult(dqQuantitativeResult);
+        dqNonQuantitativeAttributeCorrectness.finalizeClass();
+
+        return dqNonQuantitativeAttributeCorrectness;
+    }
+
+    Integer[] evaluateCommoditiesMappingPossibility(List<String> commoditiesAssessmentCols) {
+        // evaluate the possibility of mapping
+        // output: (0) overall count of values in commoditiesAssessmentCols
+        //         (1) number of mappable entries
+
+        Integer[] mappability = new Integer[2];
+        mappability[0] = commoditiesAssessmentCols.size();
+        mappability[1] = 0;
+        for (String tmp : commoditiesAssessmentCols) {
+            if (thematicMappingDictionary.get(tmp) != null) {
+                mappability[1] = mappability[1] + 1;
+            }
+        }
+
+        return mappability;
     }
 
     static List<String> getListFromLogicalIndex(List<String> vals, boolean[] idx) {
