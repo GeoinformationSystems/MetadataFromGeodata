@@ -57,11 +57,9 @@ public class MetadataGenerator {
         String[] fileNameExtension = properties.geodata.split("\\.");
         switch (fileNameExtension[fileNameExtension.length - 1]) {
             case "shp":
-//                metadata = new ShapeMetadata(properties.geodata, new DS_DataSet()).getMetadata();
                 metadata = new ShapeMetadata(properties, new DS_DataSet()).getMetadata();
                 break;
             case "gpkg":
-//                metadata = new GeopackageMetadata(properties.geodata, new DS_DataSet()).getMetadata();
                 metadata = new GeopackageMetadata(properties, new DS_DataSet()).getMetadata();
                 break;
             case "csv":
@@ -69,7 +67,6 @@ public class MetadataGenerator {
                 break;
             case "tif":
             case "tiff":
-//                metadata = new GeoTIFFMetadata(properties.geodata, new DS_DataSet()).getMetadata();
                 metadata = new GeoTIFFMetadata(properties, new DS_DataSet()).getMetadata();
                 break;
             default:
