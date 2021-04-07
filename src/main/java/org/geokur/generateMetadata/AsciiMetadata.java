@@ -781,6 +781,9 @@ public class AsciiMetadata implements Metadata {
                     Collections.sort(commoditiesAssessmentColsAct);
                     commoditiesAssessmentCols.add(commoditiesAssessmentColsAct);
                     numCommoditiesAssessmentCols.add(commoditiesAssessmentCols.get(i).size());
+                    if (thematicMapping) {
+                        commoditiesAssessmentColsAll.add(commoditiesMaskedAssessment.get(i));
+                    }
                 }
 
                 // prepare for various distribution parameters
@@ -990,20 +993,16 @@ public class AsciiMetadata implements Metadata {
 
             // thematicAccuracy -> count incorrect attribute values (commodities not available in mapping dictionary)
             List<DQ_NonQuantitativeAttributeCorrectness> dqNonQuantitativeAttributeCorrectnessCount = new ArrayList<>();
+            List<DQ_NonQuantitativeAttributeCorrectness> dqNonQuantitativeAttributeCorrectnessRate = new ArrayList<>();
             List<Integer[]> mappability = new ArrayList<>();
             if (thematicMapping) {
                 for (int i = 0; i < csvNumAssessment; i++) {
                     mappability.add(evaluateCommoditiesMappingPossibility(commoditiesAssessmentColsAll.get(i)));
                     dqNonQuantitativeAttributeCorrectnessCount.add(makeDQNonQuantitativeAttributeCorrectnessCount(colNamesAssessment.get(i), mappability.get(i), now));
-                }
-            }
-
-            List<DQ_NonQuantitativeAttributeCorrectness> dqNonQuantitativeAttributeCorrectnessRate = new ArrayList<>();
-            if (thematicMapping) {
-                for (int i = 0; i < csvNumAssessment; i++) {
                     dqNonQuantitativeAttributeCorrectnessRate.add(makeDQNonQuantitativeAttributeCorrectnessRate(colNamesAssessment.get(i), mappability.get(i), now));
                 }
             }
+
 
             // metaquality - number of polygons per area
             DQ_Representativity dqRepresentativitySpatial = new DQ_Representativity();
@@ -1738,6 +1737,7 @@ public class AsciiMetadata implements Metadata {
         record.finalizeClass();
 
         DQ_QuantitativeResult dqQuantitativeResult = new DQ_QuantitativeResult();
+        dqQuantitativeResult.addResultScope(mdScopeAttribute);
         dqQuantitativeResult.addValue(record);
         dqQuantitativeResult.addValueUnit("count of incorrect attribute values");
         dqQuantitativeResult.finalizeClass();
@@ -1780,6 +1780,7 @@ public class AsciiMetadata implements Metadata {
         record.finalizeClass();
 
         DQ_QuantitativeResult dqQuantitativeResult = new DQ_QuantitativeResult();
+        dqQuantitativeResult.addResultScope(mdScopeAttribute);
         dqQuantitativeResult.addValue(record);
         dqQuantitativeResult.addValueUnit("%");
         dqQuantitativeResult.finalizeClass();

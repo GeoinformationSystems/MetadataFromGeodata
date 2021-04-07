@@ -100,7 +100,7 @@ The following measures can be extracted. The specific quantities depend on the i
   extent in source SRS, geographical extent in standard SRS (WGS84, EPSG:4326), median resolution
 - *Data Quality*: counts and rates of missing items per attribute, counts and rates of excess items, polygons per area,
   count of temporal units, count of thematic units, empirical distribution parameters of various combinations of spatial-
-  temporal-thematic units
+  temporal-thematic units, format consistency, temporal consistency, non-quantitative attribute correctness
 - *Metadata Contact*: link to ISO standard
 
 
