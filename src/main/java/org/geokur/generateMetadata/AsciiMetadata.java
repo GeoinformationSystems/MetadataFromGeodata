@@ -338,9 +338,12 @@ public class AsciiMetadata implements Metadata {
                         command = new StringBuilder();
                         command.append("CREATE TEMP TABLE ").append(tableNameMasked).append(" AS SELECT * FROM ").append(tableName).append(" WHERE ");
                         for (int i = 0; i < joinCritGeo.size() - 1; i++) {
-                            command.append("joincritascii='").append(joinCritGeo.get(i)).append("' OR ");
+                            // use $$xxx$$$ instead of 'xxx' as string definition
+                            // strings containing originally $$ are less likely than '
+//                            command.append("joincritascii='").append(joinCritGeo.get(i)).append("' OR ");
+                            command.append("joincritascii=$$").append(joinCritGeo.get(i)).append("$$ OR ");
                         }
-                        command.append("joincritascii='").append(joinCritGeo.get(joinCritGeo.size() - 1)).append("'");
+                        command.append("joincritascii=$$").append(joinCritGeo.get(joinCritGeo.size() - 1)).append("$$");
                     }
                     statementAscii.executeUpdate(command.toString());
 
@@ -1854,10 +1857,10 @@ public class AsciiMetadata implements Metadata {
         if (values.length == 1) {
             // if values consists of one entry only -> always return this value
             quantile = values[0];
-        } else if (p < pVals[0]) {
+        } else if (p <= pVals[0]) {
             // below minimal p return minimum of value array
             quantile = values[0];
-        } else if (p > pVals[n - 1]) {
+        } else if (p >= pVals[n - 1]) {
             // above maximal p return maximum of value array
             quantile = values[n - 1];
         } else {

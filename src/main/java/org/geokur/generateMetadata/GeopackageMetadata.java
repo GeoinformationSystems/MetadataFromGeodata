@@ -100,7 +100,7 @@ public class GeopackageMetadata implements Metadata {
 
         Geopackage gpkg = new Geopackage(fileName, contentAct);
         gpkg.open();
-        if (gpkg.geometryType.equals("polygon")) {
+        if (gpkg.geometryType.contains("polygon")) {
             List<FeatureDescriptor> featureDescriptors = gpkg.getCenterArea();
             List<Double> areaKm2UTM = new ArrayList<>();
             for (FeatureDescriptor featureDescriptor : featureDescriptors) {
@@ -196,13 +196,11 @@ public class GeopackageMetadata implements Metadata {
                 mdDataIdentification.addSpatialRepresentationType(new MD_SpatialRepresentationTypeCode(MD_SpatialRepresentationTypeCode.MD_SpatialRepresentationTypeCodes.vector));
 
                 // get spatial extent
-                extentOrigCRS = gpkg.getExtent(gpkg.collection);
-                if (gpkg.markerTransform && gpkg.geometryType.equals("polygon")) {
-                    extent = gpkg.getExtentReproject(gpkg.collection);
-                } else if (gpkg.markerTransform) {
-                    extent = gpkg.getExtent(gpkg.collectionTransform);
+                extentOrigCRS = gpkg.getExtent(gpkg.geometriesOrig);
+                if (gpkg.markerTransform) {
+                    extent = gpkg.getExtent(gpkg.geometriesWGS84);
                 } else {
-                    extent = gpkg.getExtent(gpkg.collection);
+                    extent = gpkg.getExtent(gpkg.geometriesOrig);
                 }
 
                 // get spatial resolution
@@ -213,8 +211,9 @@ public class GeopackageMetadata implements Metadata {
 
                 break;
             case "2d-gridded-coverage":
+                // TODO: implement correct handling of raster data
                 extentOrigCRS = gpkg.getExtent(gpkg.statement, contentAct);
-                extent = extentOrigCRS; // TODO: insert correct transforming of CRS in case of raster data
+                extent = extentOrigCRS;
 
                 break;
             default:
@@ -264,7 +263,7 @@ public class GeopackageMetadata implements Metadata {
         System.out.println("Data Quality:");
 
         DQ_DataQuality dqDataQuality = new DQ_DataQuality();
-        if (gpkg.geometryType.equals("polygon")) {
+        if (gpkg.geometryType.contains("polygon")) {
             DQ_MeasureReference dqMeasureReference = new DQ_MeasureReference();
             dqMeasureReference.addNameOfMeasure("polygons per area");
             dqMeasureReference.addMeasureDescription("Number of polygons per 1000 square kilometer. " +
@@ -324,7 +323,7 @@ public class GeopackageMetadata implements Metadata {
         mdMetadata.addIdentificationInfo(mdDataIdentification);
         mdMetadata.addReferenceSystemInfo(mdReferenceSystem);
         mdMetadata.addMetadataStandard(ciCitationMetadataStandard);
-        if (gpkg.geometryType.equals("polygon")) {
+        if (gpkg.geometryType.contains("polygon")) {
             mdMetadata.addDataQualityInfo(dqDataQuality);
         }
         mdMetadata.finalizeClass();
