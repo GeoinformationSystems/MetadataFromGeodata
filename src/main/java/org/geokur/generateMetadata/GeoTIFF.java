@@ -138,7 +138,7 @@ public class GeoTIFF {
                 System.out.println("Depending on size this may take a while.");
                 for (int j = 0; j < size[axisY]; j++) {
                     if (j%5000 == 0) {
-                        System.out.println(j);
+                        System.out.println(size[axisY] + ": " + j);
                     }
                     image.getSamples(0, j, size[axisX], 1, i, imageData);
                     for (double tmp : imageData) {

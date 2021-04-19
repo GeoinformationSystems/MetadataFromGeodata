@@ -23,6 +23,13 @@ outXML = exampleOut.xml
 outDB = exampleOut.db
 
 
+## allowed file formats (only interpreted if given)
+allowedFileFormat = gpkg
+allowedFileFormat = shp
+allowedFileFormat = tif
+allowedFileFormat = csv
+
+
 ## in the case of csv ascii table additional input necessary - ignored otherwise
 # the order of the following items is important
 # geoColNameJoin and asciiColNameJoin
