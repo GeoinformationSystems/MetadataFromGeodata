@@ -1,0 +1,62 @@
+## properties for running MetadataGenerator from metadataFromGeodata
+# lines with starting # are comments
+# blank lines are ignored
+
+## filename of metadata profile
+profile = config/profile_GeoKur.json
+
+## filename of geodata
+geodata = examplesAGILE2021/EurostatPreprocessed.csv
+#geodata = examplesAGILE2021/gadm36_level0_extended.gpkg
+
+## filename of outputs (xml and sqlite database)
+outXML = examplesAGILE2021/EurostatMetadata.xml
+outDB = examplesAGILE2021/EurostatMetadata.db
+#outXML = examplesAGILE2021/GADM36Metadata.xml
+#outDB = examplesAGILE2021/GADM36Metadata.db
+
+## allowed file formats (only interpreted if given)
+allowedFileFormat = gpkg
+allowedFileFormat = shp
+allowedFileFormat = tif
+allowedFileFormat = csv
+
+## in the case of csv ascii table additional input necessary - ignored otherwise
+# the order of the following items is important
+# geoColNameJoin and asciiColNameJoin
+# asciiColNameDefine and descriptionAsciiColNameDefine
+
+geodataReference = examplesAGILE2021/GADM36Preprocessed.gpkg
+
+geoTableName = level0
+
+geoColNameJoin = NAME_0
+
+asciiColNameJoin = GEO
+
+asciiColNameDefine = CROPS
+asciiColNameDefine = TIME
+
+descriptionAsciiColNameDefine = thematic
+descriptionAsciiColNameDefine = temporal
+
+asciiColNameIgnore = STRUCPRO
+asciiColNameIgnore = Flag_and_Footnotes
+
+# postgres database properties (only used if postgresUse = true)
+postgresUse = true
+postgresHostname = 127.0.0.1
+postgresDatabase = metadataDB
+postgresUser = mwagner
+postgresPasswd =
+postgresTable = tmpdata
+
+colJoinNumerical = false
+colJoinSequential = false
+colJoinSequential = false
+
+# mapping of thematic classes
+thematicMapping = false
+thematicMappingFile = 
+thematicMappingColFrom = 
+thematicMappingColTo = 
