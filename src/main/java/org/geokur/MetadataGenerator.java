@@ -6,6 +6,14 @@
 
 package org.geokur;
 
+import org.apache.jena.datatypes.xsd.XSDDatatype;
+import org.apache.jena.rdf.model.*;
+import org.apache.jena.riot.Lang;
+import org.apache.jena.riot.RDFDataMgr;
+import org.apache.jena.vocabulary.RDF;
+import org.apache.jena.vocabulary.VCARD4;
+import org.geokur.GeoDCAT.*;
+import org.geokur.ISO19108Schema.TM_Period;
 import org.geokur.ISO19115Schema.*;
 import org.geokur.ISO191xxProfile.ProfileReader;
 import org.geokur.generateMetadata.*;
@@ -23,6 +31,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MetadataGenerator {
+    static Model model = ModelFactory.createDefaultModel();
+    static String fileType = null;
+
     public static void main(String[] argv) {
         // main method for testing metadata generation from geofiles
 
@@ -33,6 +44,10 @@ public class MetadataGenerator {
 
         String filenameProperties = argv[0];
         Properties properties = readProperties(filenameProperties);
+        if (properties == null) {
+            // error in properties file
+            System.exit(8);
+        }
 
         String displayFile = "File: " + properties.geodata;
         String displayLine = "-".repeat(displayFile.length());
@@ -57,16 +72,20 @@ public class MetadataGenerator {
         String[] fileNameExtension = properties.geodata.split("\\.");
         switch (fileNameExtension[fileNameExtension.length - 1]) {
             case "shp":
+                fileType = "SHP";
                 metadata = new ShapeMetadata(properties, new DS_DataSet()).getMetadata();
                 break;
             case "gpkg":
+                fileType = "GPKG";
                 metadata = new GeopackageMetadata(properties, new DS_DataSet()).getMetadata();
                 break;
             case "csv":
+                fileType = "CSV";
                 metadata = new AsciiMetadata(properties, new DS_DataSet()).getMetadata();
                 break;
             case "tif":
             case "tiff":
+                fileType = "TIFF";
                 metadata = new GeoTIFFMetadata(properties, new DS_DataSet()).getMetadata();
                 break;
             default:
@@ -86,43 +105,482 @@ public class MetadataGenerator {
             e.printStackTrace();
         }
 
-        // marshal to json file
-//        try {
-//            jakarta.xml.bind.JAXBContext contextObj = jakarta.xml.bind.JAXBContext.newInstance(DS_DataSet.class);
-//            jakarta.xml.bind.Marshaller marshaller = contextObj.createMarshaller();
-//            marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-//            marshaller.setProperty("eclipselink.media-type", "application/json");
-//            marshaller.setProperty(MarshallerProperties.JSON_INCLUDE_ROOT, true);
-//            marshaller.marshal(metadata, new FileOutputStream("test.json"));
-            // TODO: jaxb.properties must be copied in the target folder with all classes
-            // TODO: manifest?
-            // JAXBContext loaded from other classloader
-
-//            JAXBContext contextObj = JAXBContext.newInstance(DS_DataSet.class);
-//            Marshaller marshaller = contextObj.createMarshaller();
-//            marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-//            marshaller.setProperty(MarshallerProperties.MEDIA_TYPE, "application/json");
-//            marshaller.setProperty(MarshallerProperties.JSON_INCLUDE_ROOT, true);
-//            marshaller.marshal(metadata, new FileOutputStream("test.json"));
-//        } catch (FileNotFoundException | JAXBException e) {
-//            e.printStackTrace();
-//        }
 
         // order xml file to SQLite database
         // read xml file with JDOM2 library in order to get a document
-        try {
-            Document doc = new SAXBuilder().build(properties.outXML);
-            Element docRoot = doc.getRootElement();
-            MetadataDatabase metadataDatabase = new MetadataDatabase();
-            metadataDatabase.generateFlatFromElement(docRoot);
-            Database database = new Database(properties.outDB);
-            database.createNewDatabase();
-            database.addToDatabase(properties.geodata);
-            database.writeMetadataToDatabase(properties.geodata, metadataDatabase);
-        } catch (IOException | JDOMException e) {
+//        try {
+//            Document doc = new SAXBuilder().build(properties.outXML);
+//            Element docRoot = doc.getRootElement();
+//            MetadataDatabase metadataDatabase = new MetadataDatabase();
+//            metadataDatabase.generateFlatFromElement(docRoot);
+//            Database database = new Database(properties.outDB);
+//            database.createNewDatabase();
+//            database.addToDatabase(properties.geodata);
+//            database.writeMetadataToDatabase(properties.geodata, metadataDatabase);
+//        } catch (IOException | JDOMException e) {
 //            System.out.println(e.getMessage());
+//        }
+
+
+        // map to linked data object
+        model.setNsPrefixes(NS.getNS());
+
+        assert metadata != null;
+        for (MD_Metadata metadataAct : metadata.has) {
+            // loop over all datasets in metadata
+            Resource tmpResource;
+            List<Resource> tmpResourceList;
+            String tmpString;
+            List<String> tmpList;
+            Literal tmpLiteral;
+
+            String linkBase = "https://link/to/";
+            String datasetID = metadataAct.metadataIdentifier.get(0).code.get(0);
+            Resource dataset = model.createResource(linkBase + datasetID); //TODO: implement correct link base
+            dataset.addProperty(RDF.type, Dataset.resourceInstance);
+
+            tmpString = mapDatasetTitle(metadataAct);
+            if (tmpString != null) {
+                dataset.addProperty(Dataset.title, tmpString);
+            }
+
+            tmpString = mapDatasetDescription(metadataAct);
+            if (tmpString != null) {
+                dataset.addProperty(Dataset.description, tmpString);
+            }
+
+            tmpResource = mapDatasetContactPoint(metadataAct);
+            if (tmpResource != null) {
+                dataset.addProperty(Dataset.contactPoint, tmpResource);
+            }
+
+            dataset.addProperty(Dataset.datasetDistribution, mapDatasetDistribution(metadataAct));
+
+            tmpList = mapDatasetKeywordTag(metadataAct);
+            if (tmpList != null) {
+                for (String keywordAct : tmpList) {
+                    dataset.addProperty(Dataset.keywordTag, keywordAct);
+                }
+            }
+
+            tmpResource = mapDatasetSpatialGeographicCoverage(metadataAct);
+            if (tmpResource != null) {
+                dataset.addProperty(Dataset.spatialGeographicCoverage, tmpResource);
+            }
+
+            tmpResource = mapDatasetTemporalCoverage(metadataAct);
+            if (tmpResource != null) {
+                dataset.addProperty(Dataset.temporalCoverage, tmpResource);
+            }
+
+            tmpResource = mapDatasetThemeCategory(metadataAct);
+            if (tmpResource != null) {
+                dataset.addProperty(Dataset.themeCategory, tmpResource);
+            }
+
+            tmpLiteral = mapDatasetCreationDate(metadataAct);
+            if (tmpLiteral != null) {
+                dataset.addProperty(Dataset.creationDate, tmpLiteral);
+            }
+
+            tmpResourceList = mapDatasetDocumentation(metadataAct);
+            if (tmpResourceList.size() > 0) {
+                for (Resource resource : tmpResourceList) {
+                    dataset.addProperty(Dataset.documentation, resource);
+                }
+            }
+
+            tmpString = mapDatasetIdentifier(metadataAct);
+            if (tmpString != null) {
+                dataset.addProperty(Dataset.identifier, tmpString);
+            }
+
+            tmpResource = mapDatasetIsVersionOf(metadataAct);
+            if (tmpResource != null) {
+                dataset.addProperty(Dataset.isVersionOf, tmpResource);
+            }
+
+            tmpResourceList = mapDatasetLandingPage(metadataAct);
+            if (tmpResourceList.size() > 0) {
+                for (Resource resource : tmpResourceList) {
+                    dataset.addProperty(Dataset.landingPage, resource);
+                }
+            }
+
+            tmpResourceList = mapDatasetOtherIdentifier(metadataAct);
+            if (tmpResourceList.size() > 0) {
+                for (Resource resource : tmpResourceList) {
+                    dataset.addProperty(Dataset.otherIdentifier, resource);
+                }
+            }
+
+            tmpResourceList = mapDatasetRelatedResource(metadata.partOf, linkBase);
+            if (tmpResourceList.size() > 0) {
+                for (Resource resource : tmpResourceList) {
+                    dataset.addProperty(Dataset.relatedResource, resource);
+                }
+            }
+
+//            tmpResource = mapDatasetReferenceSystem(metadataAct);
+//            if (tmpResource != null) {
+//                dataset.addProperty(Dataset.referenceSystem, tmpResource);
+//            }
+//            tmpResource = mapDatasetSpatialResolutionAsAngularDistance(metadataAct);
+//            if (tmpResource != null) {
+//                dataset.addProperty(Dataset.spatialResolution, tmpResource);
+//            }
+//            tmpResource = mapDatasetSpatialResolutionAsDistance(metadataAct);
+//            if (tmpResource != null) {
+//                dataset.addProperty(Dataset.spatialResolution, tmpResource);
+//            }
+//            tmpResource = mapDatasetSpatialResolutionAsEquivalentScale(metadataAct);
+//            if (tmpResource != null) {
+//                dataset.addProperty(Dataset.spatialResolution, tmpResource);
+//            }
+//            tmpLiteral = mapDatasetTemporalResolution(metadataAct);
+//            if (tmpLiteral != null) {
+//                dataset.addProperty(Dataset.temporalResolution, tmpLiteral);
+//            }
+//            tmpResource = mapDatasetWasGeneratedBy(metadataAct);
+//            if (tmpResource != null) {
+//                dataset.addProperty(Dataset.wasGeneratedBy, tmpResource);
+//            }
+//            tmpResource = mapDatasetWasUsedBy(metadataAct);
+//            if (tmpResource != null) {
+//                dataset.addProperty(Dataset.wasUsedBy, tmpResource);
+//            }
+        }
+
+        try {
+            OutputStream outputStream = new FileOutputStream("test.ttl");
+            RDFDataMgr.write(outputStream, model, Lang.TURTLE);
+            outputStream.close();
+        } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private static String mapDatasetTitle(MD_Metadata mdMetadata) {
+        // 1 dct:title
+        String datasetTitle;
+        try {
+            datasetTitle = mdMetadata.identificationInfo.get(0).citation.get(0).title.get(0);
+        } catch (NullPointerException e) {
+            datasetTitle = null;
+        }
+        return datasetTitle;
+    }
+
+    private static String mapDatasetDescription(MD_Metadata mdMetadata) {
+        // 2 dct:description
+        String datasetDescription;
+        try {
+            datasetDescription = mdMetadata.identificationInfo.get(0).abstractElement.get(0);
+        } catch (NullPointerException e) {
+            datasetDescription = null;
+        }
+        return datasetDescription;
+    }
+
+    private static Resource mapDatasetContactPoint(MD_Metadata mdMetadata) {
+        // 3 dcat:contactPoint
+        Resource datasetContactPoint;
+        try {
+            if (mdMetadata.identificationInfo.get(0).pointOfContact.get(0).party.get(0) instanceof CI_Individual) {
+                datasetContactPoint = model.createResource()
+                        .addProperty(RDF.type, VCARD4.Individual)
+                        .addProperty(VCARD4.fn, mdMetadata.identificationInfo.get(0).pointOfContact.get(0).party.get(0).name.get(0))
+                        .addProperty(VCARD4.url, mdMetadata.identificationInfo.get(0).pointOfContact.get(0).party.get(0).contactInfo.get(0).onlineResource.get(0).linkage.get(0));
+            } else {
+                datasetContactPoint = model.createResource()
+                        .addProperty(RDF.type, VCARD4.Organization)
+                        .addProperty(VCARD4.fn, mdMetadata.identificationInfo.get(0).pointOfContact.get(0).party.get(0).name.get(0))
+                        .addProperty(VCARD4.url, mdMetadata.identificationInfo.get(0).pointOfContact.get(0).party.get(0).contactInfo.get(0).onlineResource.get(0).linkage.get(0));
+            }
+        } catch (NullPointerException e) {
+            datasetContactPoint = null;
+        }
+        return datasetContactPoint;
+    }
+
+    private static Resource mapDatasetDistribution(MD_Metadata mdMetadata) {
+        // 4 dcat:distribution
+        Resource datasetDistribution;
+        datasetDistribution = model.createResource();
+        datasetDistribution.addProperty(RDF.type, Dataset.resourceInstance);
+        datasetDistribution.addProperty(Distribution.format, model.createResource("http://publications.europa.eu/resource/authority/file-type/" + fileType));
+        String licence;
+        try {
+            for (MD_Constraints access : mdMetadata.identificationInfo.get(0).resourceConstraints) {
+                // look for right resourceConstraints member
+                if (access instanceof MD_LegalConstraints && ((MD_LegalConstraints) access).accessConstraints.get(0).codeListValue.toString().equalsIgnoreCase("licence")) {
+                    licence = access.reference.get(0).onlineResource.get(0).linkage.get(0);
+                    datasetDistribution.addProperty(Distribution.licence, model.createResource(licence));
+                }
+            }
+        } catch (NullPointerException ignore) {}
+        return datasetDistribution;
+    }
+
+    private static List<String> mapDatasetKeywordTag(MD_Metadata mdMetadata) {
+        // 5 dcat:keyword
+        List<String> datasetKeywordTag = new ArrayList<>();
+        try {
+            for (MD_Keywords keywords : mdMetadata.identificationInfo.get(0).descriptiveKeywords) {
+                // all keyword types included (also theme, which is again used in 8 dcat:theme)
+                if (keywords.keyword == null) {
+                    continue;
+                }
+                datasetKeywordTag.addAll(keywords.keyword);
+            }
+        } catch (NullPointerException e) {
+            datasetKeywordTag = null;
+        }
+        return datasetKeywordTag;
+    }
+
+    private static Resource mapDatasetSpatialGeographicCoverage(MD_Metadata mdMetadata) {
+        // 6 dct:spatial
+        Resource datasetSpatialGeographicCoverage = null;
+        try {
+            if (mdMetadata.identificationInfo.get(0).extent.get(0).geographicElement.get(0) instanceof EX_GeographicBoundingBox) {
+                double west = ((EX_GeographicBoundingBox) mdMetadata.identificationInfo.get(0).extent.get(0).geographicElement.get(0)).westBoundLongitude.get(0);
+                double east = ((EX_GeographicBoundingBox) mdMetadata.identificationInfo.get(0).extent.get(0).geographicElement.get(0)).eastBoundLongitude.get(0);
+                double south = ((EX_GeographicBoundingBox) mdMetadata.identificationInfo.get(0).extent.get(0).geographicElement.get(0)).southBoundLatitude.get(0);
+                double north = ((EX_GeographicBoundingBox) mdMetadata.identificationInfo.get(0).extent.get(0).geographicElement.get(0)).northBoundLatitude.get(0);
+                String bboxWkt = "POLYGON ((" + west + " " + south + ", " + east + " " + south + ", " + east + " " + north + ", " + west + " " + north + ", " + west + " " + south + "))";
+
+                datasetSpatialGeographicCoverage = model.createResource()
+                        .addProperty(RDF.type, Location.resourceInstance)
+                        .addProperty(Location.boundingBox, model.createTypedLiteral(bboxWkt, NS.GSP + "wktLiteral"));
+            }
+        } catch (NullPointerException e) {
+            datasetSpatialGeographicCoverage = null;
+        }
+        return datasetSpatialGeographicCoverage;
+    }
+
+    private static Resource mapDatasetTemporalCoverage(MD_Metadata mdMetadata) {
+        // 7 dct:temporal
+        Resource datasetTemporalCoverage;
+        try {
+            TM_Period tmPeriod = (TM_Period) mdMetadata.identificationInfo.get(0).extent.get(0).temporalElement.get(0).extent.get(0);
+            String begin = tmPeriod.begin.get(0).position.get(0);
+            String end = tmPeriod.end.get(0).position.get(0);
+            datasetTemporalCoverage = model.createResource()
+                    .addProperty(RDF.type, PeriodOfTime.resourceInstance)
+                    .addProperty(PeriodOfTime.startDate, model.createTypedLiteral(begin, XSDDatatype.XSDdateTime))
+                    .addProperty(PeriodOfTime.endDate, model.createTypedLiteral(end, XSDDatatype.XSDdateTime));
+        } catch (NullPointerException e) {
+            datasetTemporalCoverage = null;
+        }
+        return datasetTemporalCoverage;
+    }
+
+    private static Resource mapDatasetThemeCategory(MD_Metadata mdMetadata) {
+        // 8 dcat:theme
+        Resource datasetThemeCategory = null;
+        try {
+            for (MD_Keywords keywords : mdMetadata.identificationInfo.get(0).descriptiveKeywords) {
+                // here only keywords with type theme are interpreted
+                if (keywords.type.get(0).codeListValue.toString().equalsIgnoreCase("theme")) {
+                    String uri = keywords.keywordClass.get(0).conceptIdentifier.get(0);
+                    String ontologyUrl = keywords.keywordClass.get(0).ontology.get(0).onlineResource.get(0).linkage.get(0);
+                    datasetThemeCategory = model.createResource(ontologyUrl + uri);
+                }
+            }
+        } catch (NullPointerException e) {
+            datasetThemeCategory = null;
+        }
+        return datasetThemeCategory;
+    }
+
+    private static Literal mapDatasetCreationDate(MD_Metadata mdMetadata) {
+        // 9 dct:created
+        Literal datasetCreationDate;
+        try {
+            String creationDate = null;
+            for (CI_Date date : mdMetadata.dateInfo) {
+                // look for creation date
+                if (date.dateType.get(0).codeListValue == CI_DateTypeCode.CI_DateTypeCodes.creation) {
+                    creationDate = date.date.get(0);
+                }
+            }
+
+            datasetCreationDate = model.createTypedLiteral(creationDate, XSDDatatype.XSDdateTime);
+        } catch (NullPointerException e) {
+            datasetCreationDate = null;
+        }
+        return datasetCreationDate;
+    }
+
+    private static List<Resource> mapDatasetDocumentation(MD_Metadata mdMetadata) {
+        // 10 foaf:page
+        List<Resource> datasetDocumentations = new ArrayList<>();
+        try {
+            for (CI_Citation citation : mdMetadata.identificationInfo.get(0).additionalDocumentation) {
+                String citationAct = citation.onlineResource.get(0).linkage.get(0);
+                datasetDocumentations.add(model.createResource(citationAct));
+            }
+        } catch (NullPointerException ignore) {}
+        return datasetDocumentations;
+    }
+
+    private static String mapDatasetIdentifier(MD_Metadata mdMetadata) {
+        // 11 dct:identifier
+        String datasetIdentifier;
+        try {
+            datasetIdentifier = mdMetadata.metadataIdentifier.get(0).code.get(0);
+        } catch (NullPointerException e) {
+            datasetIdentifier = null;
+        }
+        return datasetIdentifier;
+    }
+
+    private static Resource mapDatasetIsVersionOf(MD_Metadata mdMetadata) {
+        // 12 dct:isVersionOf
+        Resource datasetIsVersionOf = null;
+        try {
+            for (MD_AssociatedResource associatedResource : mdMetadata.identificationInfo.get(0).associatedResource) {
+                if (associatedResource.associationType.get(0).codeListValue == DS_AssociationTypeCode.DS_AssociationTypeCodes.revisionOf) {
+                    String linkage = associatedResource.name.get(0).onlineResource.get(0).linkage.get(0);
+                    datasetIsVersionOf = model.createResource(linkage);
+                }
+            }
+        } catch (NullPointerException e) {
+            datasetIsVersionOf = null;
+        }
+        return datasetIsVersionOf;
+    }
+
+    private static List<Resource> mapDatasetLandingPage(MD_Metadata mdMetadata) {
+        // 13 dcat:landingPage
+        List<Resource> datasetLandingPage = new ArrayList<>();
+        try {
+            for (CI_Citation citation : mdMetadata.identificationInfo.get(0).additionalDocumentation) {
+                String citationAct = citation.onlineResource.get(0).linkage.get(0);
+                datasetLandingPage.add(model.createResource(citationAct));
+            }
+        } catch (NullPointerException ignore) {}
+        return datasetLandingPage;
+    }
+
+    private static List<Resource> mapDatasetOtherIdentifier(MD_Metadata mdMetadata) {
+        // 14 adms:identifier
+        List<Resource> datasetOtherIdentifier = new ArrayList<>();
+        try {
+            for (CI_Citation citation : mdMetadata.identificationInfo.get(0).additionalDocumentation) {
+                String citationAct = citation.onlineResource.get(0).linkage.get(0);
+                datasetOtherIdentifier.add(model.createResource(citationAct));
+            }
+        } catch (NullPointerException ignore) {}
+        return datasetOtherIdentifier;
+    }
+
+    private static List<Resource> mapDatasetRelatedResource(List<DS_Aggregate> dsAggregates, String linkBase) {
+        // 15 dct:relation
+        List<Resource> datasetRelatedResources = new ArrayList<>();
+        try {
+            List<String> linkIDparts = new ArrayList<>();
+            for (DS_Aggregate dsAggregate : dsAggregates) {
+                for (MD_Metadata metadata : dsAggregate.has) {
+                    linkIDparts.add(linkBase + metadata.metadataIdentifier.get(0).code.get(0));
+                }
+            }
+            for (String linkIDpart : linkIDparts) {
+                datasetRelatedResources.add(model.createResource(linkIDpart));
+            }
+        } catch (NullPointerException ignore) {}
+        return datasetRelatedResources;
+    }
+
+    private static Resource mapDatasetReferenceSystem(MD_Metadata mdMetadata) {
+        // 16 - dct:conformsTo
+        Resource datasetReferenceSystem;
+        try {
+            datasetReferenceSystem = model.createResource("http://www.opengis.net/def/crs/EPSG/0/"); //TODO: add EPSG number
+        } catch (NullPointerException e) {
+            datasetReferenceSystem = null;
+        }
+        return datasetReferenceSystem;
+    }
+
+    private static Resource mapDatasetSpatialResolutionAsAngularDistance(MD_Metadata mdMetadata) {
+        // 17 - dqv:hasQualityMeasurement -> geodcat:spatialResolutionAsAngularDistance -> dqv:value
+        Resource datasetSpatialResolutionAsAngularDistance;
+        try {
+            datasetSpatialResolutionAsAngularDistance = model.createResource()
+                    .addProperty(RDF.type, QualityMeasurement.resourceInstance)
+                    .addProperty(QualityMeasurement.isMeasurementOf, SpatialResolutionAsAngularDistance.resourceInstance)
+                    .addProperty(QualityMeasurement.unitOfMeasure, "degree")
+                    .addProperty(QualityMeasurement.value, "NA");
+        } catch (NullPointerException e) {
+            datasetSpatialResolutionAsAngularDistance = null;
+        }
+        return datasetSpatialResolutionAsAngularDistance;
+    }
+
+    private static Resource mapDatasetSpatialResolutionAsDistance(MD_Metadata mdMetadata) {
+        // 18 - dqv:hasQualityMeasurement -> geodcat:spatialResolutionAsDistance -> dqv:value
+        Resource datasetSpatialResolutionAsDistance;
+        try {
+            datasetSpatialResolutionAsDistance = model.createResource()
+                    .addProperty(RDF.type, QualityMeasurement.resourceInstance)
+                    .addProperty(QualityMeasurement.isMeasurementOf, SpatialResolutionAsDistance.resourceInstance)
+                    .addProperty(QualityMeasurement.unitOfMeasure, "degree")
+                    .addProperty(QualityMeasurement.value, "NA");
+        } catch (NullPointerException e) {
+            datasetSpatialResolutionAsDistance = null;
+        }
+        return datasetSpatialResolutionAsDistance;
+    }
+
+    private static Resource mapDatasetSpatialResolutionAsEquivalentScale(MD_Metadata mdMetadata) {
+        // 19 - dqv:hasQualityMeasurement -> geodcat:spatialResolutionAsScale -> dqv:value
+        Resource datasetSpatialResolutionAsEquivalentScale;
+        try {
+            datasetSpatialResolutionAsEquivalentScale = model.createResource()
+                    .addProperty(RDF.type, QualityMeasurement.resourceInstance)
+                    .addProperty(QualityMeasurement.isMeasurementOf, SpatialResolutionAsEquivalentScale.resourceInstance)
+                    .addProperty(QualityMeasurement.unitOfMeasure, "degree")
+                    .addProperty(QualityMeasurement.value, "NA");
+        } catch (NullPointerException e) {
+            datasetSpatialResolutionAsEquivalentScale = null;
+        }
+        return datasetSpatialResolutionAsEquivalentScale;
+    }
+
+    private static Literal mapDatasetTemporalResolution(MD_Metadata mdMetadata) {
+        // 20 dcat:temporalResolution
+        Literal datasetTemporalResolution;
+        try {
+            datasetTemporalResolution = model.createTypedLiteral("NA", XSDDatatype.XSDduration);
+        } catch (NullPointerException e) {
+            datasetTemporalResolution = null;
+        }
+        return datasetTemporalResolution;
+    }
+
+    private static Resource mapDatasetWasGeneratedBy(MD_Metadata mdMetadata) {
+        // 21 prov:wasGeneratedBy
+        Resource datasetWasGeneratedBy;
+        try {
+            datasetWasGeneratedBy = model.createResource("NA");
+        } catch (NullPointerException e) {
+            datasetWasGeneratedBy = null;
+        }
+        return datasetWasGeneratedBy;
+    }
+
+    private static Resource mapDatasetWasUsedBy(MD_Metadata mdMetadata) {
+        // 22 prov:wasGeneratedBy
+        Resource datasetWasUsedBy;
+        try {
+            datasetWasUsedBy = model.createResource("NA");
+        } catch (NullPointerException e) {
+            datasetWasUsedBy = null;
+        }
+        return datasetWasUsedBy;
     }
 
     private static Properties readProperties(String filenameProperties) {
@@ -150,21 +608,27 @@ public class MetadataGenerator {
             int idx;
             List<Integer> idx2;
 
+            // profile can be empty -> standard profile with all elements available
             idx = propertyName.indexOf("profile");
             if (idx == -1) {
-                throw new ListContentException("profile", filenameProperties);
+                System.out.println("No profile given - standard taken");
+                properties.setProfileFilename("config/profileISOall.json");
+            } else {
+                properties.setProfileFilename(propertyContent.get(idx));
             }
-            properties.setProfileFilename(propertyContent.get(idx));
+
             idx = propertyName.indexOf("geodata");
             if (idx == -1) {
                 throw new ListContentException("geodata", filenameProperties);
             }
             properties.setGeodata(propertyContent.get(idx));
+
             idx = propertyName.indexOf("outxml");
             if (idx == -1) {
                 throw new ListContentException("outXML", filenameProperties);
             }
             properties.setOutXML(propertyContent.get(idx));
+
             idx = propertyName.indexOf("outdb");
             if (idx == -1) {
                 throw new ListContentException("outDB", filenameProperties);
@@ -238,6 +702,11 @@ public class MetadataGenerator {
                     throw new ListContentException("descriptionAsciiColNameDefine", filenameProperties);
                 }
                 properties.setDescriptionAsciiColNamesDefine(descriptionAsciiColNamesDefine);
+
+                if (properties.asciiColNamesDefine.size() != properties.descriptionAsciiColNamesDefine.size()) {
+                    // each ascii column definition must have a description
+                    throw new Exception("Number of asciiColNameDefine and descriptionAsciiColNameDefine must be the same");
+                }
 
                 // asciiColNameIgnore can be empty - no ListContentException
                 idx2 = getIndices(propertyName, "asciicolnameignore");
@@ -335,8 +804,8 @@ public class MetadataGenerator {
                 }
             }
 
-        } catch (IOException | ListContentException e) {
-            properties.setProfileFilename(null);
+        } catch (Exception e) {
+            properties = null;
             System.out.println(e.getMessage());
         }
 
@@ -355,84 +824,3 @@ public class MetadataGenerator {
         return indices;
     }
 }
-
-//class Properties {
-//    String profileFilename;
-//    String filename;
-//    String filenameXml;
-//    String filenameDB;
-//    String geodataReference;
-//    List<String> geoTableNames;
-//    List<String> geoColNamesJoin;
-//    List<String> asciiColNamesJoin;
-//    List<String> asciiColNamesDefine;
-//    List<String> descriptionAsciiColNamesDefine;
-//    List<String> asciiColNamesIgnore;
-//    String postgresHostname;
-//    String postgresDatabase;
-//    String postgresUser;
-//    String postgresPasswd;
-//
-//
-//    Properties(){}
-//
-//    public void setProfileFilename(String profileFilename) {
-//        this.profileFilename = profileFilename;
-//    }
-//
-//    public void setFilename(String filename) {
-//        this.filename = filename;
-//    }
-//
-//    public void setFilenameXml(String filenameXml) {
-//        this.filenameXml = filenameXml;
-//    }
-//
-//    public void setFilenameDB(String filenameDB) {
-//        this.filenameDB = filenameDB;
-//    }
-//
-//    public void setGeodataReference(String geodataReference) {
-//        this.geodataReference = geodataReference;
-//    }
-//
-//    public void setGeoTableNames(List<String> geoTableNames) {
-//        this.geoTableNames = geoTableNames;
-//    }
-//
-//    public void setGeoColNamesJoin(List<String> geoColNamesJoin) {
-//        this.geoColNamesJoin = geoColNamesJoin;
-//    }
-//
-//    public void setAsciiColNamesJoin(List<String> asciiColNamesJoin) {
-//        this.asciiColNamesJoin = asciiColNamesJoin;
-//    }
-//
-//    public void setAsciiColNamesDefine(List<String> asciiColNamesDefine) {
-//        this.asciiColNamesDefine = asciiColNamesDefine;
-//    }
-//
-//    public void setDescriptionAsciiColNamesDefine(List<String> descriptionAsciiColNamesDefine) {
-//        this.descriptionAsciiColNamesDefine = descriptionAsciiColNamesDefine;
-//    }
-//
-//    public void setAsciiColNamesIgnore(List<String> asciiColNamesIgnore) {
-//        this.asciiColNamesIgnore = asciiColNamesIgnore;
-//    }
-//
-//    public void setPostgresHostname(String postgresHostname) {
-//        this.postgresHostname = postgresHostname;
-//    }
-//
-//    public void setPostgresDatabase(String postgresDatabase) {
-//        this.postgresDatabase = postgresDatabase;
-//    }
-//
-//    public void setPostgresUser(String postgresUser) {
-//        this.postgresUser = postgresUser;
-//    }
-//
-//    public void setPostgresPasswd(String postgresPasswd) {
-//        this.postgresPasswd = postgresPasswd;
-//    }
-//}

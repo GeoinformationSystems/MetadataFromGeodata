@@ -148,7 +148,12 @@
             <artifactId>org.eclipse.persistence.moxy</artifactId>
             <version>3.0.0</version>
         </dependency-->
-
+        <dependency>
+            <groupId>org.apache.jena</groupId>
+            <artifactId>apache-jena</artifactId>
+            <version>4.0.0</version>
+            <type>pom</type>
+        </dependency>
 
     </dependencies>
 

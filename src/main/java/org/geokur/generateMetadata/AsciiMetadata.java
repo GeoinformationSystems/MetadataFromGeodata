@@ -13,6 +13,8 @@ import org.geokur.ISO19115Schema.*;
 import org.geokur.ISO19157Schema.*;
 
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.attribute.BasicFileAttributes;
 import java.sql.*;
 import java.time.Instant;
 import java.time.ZoneId;
@@ -20,6 +22,8 @@ import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -95,7 +99,7 @@ public class AsciiMetadata implements Metadata {
         statementAscii = null;
 
         String url = "jdbc:postgresql://" + postgresHostname + "/" + postgresDatabase;
-        String delimiter = ",";
+        String delimiter = null;
 
         try {
             // connect to database
@@ -104,7 +108,24 @@ public class AsciiMetadata implements Metadata {
 
             // open stream to csv file
             BufferedReader reader = new BufferedReader(new FileReader(fileName));
-            String[] header = reader.readLine().split(delimiter);
+            String headerline = reader.readLine();
+            Pattern pattern = Pattern.compile(properties.asciiColNamesJoin.get(0));
+            Matcher matcher = pattern.matcher(headerline);
+            int idxStart;
+            int idxEnd;
+            if (matcher.find()) {
+                idxStart = matcher.start();
+                idxEnd = matcher.end();
+            } else {
+                throw new Exception("Delimiter not found");
+            }
+            if (idxStart > 0) {
+                // first asciiVColNamesJoin entry not the first entry in headerline
+                delimiter = String.valueOf(headerline.charAt(idxStart - 1));
+            } else {
+                delimiter = String.valueOf(headerline.charAt(idxEnd));
+            }
+            String[] header = headerline.split(delimiter);
 
             // create table in database with necessary columns to mirror csv, datatype currently bigint
             statementAscii.executeUpdate("DROP TABLE IF EXISTS " + tableName);
@@ -146,6 +167,8 @@ public class AsciiMetadata implements Metadata {
 
         } catch (SQLException | IOException | InterruptedException e) {
             System.out.println(e.getMessage());
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -178,217 +201,537 @@ public class AsciiMetadata implements Metadata {
 
         //TODO: allow shape file as geodata source
 
-        // open geopackage
-        Geopackage gpkg = new Geopackage(fileNameGeodata);
-        Connection connection = gpkg.getConnection();
-        Statement statement = gpkg.getStatement(connection);
+        try {
+            // open geopackage
+            Geopackage gpkg = new Geopackage(fileNameGeodata);
+            Connection connection = gpkg.getConnection();
+            Statement statement = gpkg.getStatement(connection);
 
-        for (String geoTableNameAct : geoTableName) {
-            String displayTableName = "geoTableName: " + geoTableNameAct;
-            String displayLine = "-".repeat(displayTableName.length());
-            System.out.println(displayLine);
-            System.out.println(displayTableName);
-            System.out.println(displayLine);
+            for (String geoTableNameAct : geoTableName) {
+                String displayTableName = "geoTableName: " + geoTableNameAct;
+                String displayLine = "-".repeat(displayTableName.length());
+                System.out.println(displayLine);
+                System.out.println(displayTableName);
+                System.out.println(displayLine);
 
-            List<String> colNamesAssessment = new ArrayList<>();
-            int[] numDataAssessment = null;
-            int csvNumAssessment = -1;
-            int numDataAll = -1;
-            double polygonPerArea = -1;
-            int[] excessDataAll = null;
-            List<List<String>> yearsAssessmentCols = new ArrayList<>();
-            List<List<String>> commoditiesAssessmentCols = new ArrayList<>();
-            List<List<String>> commoditiesAssessmentColsAll = new ArrayList<>();
-            List<Integer> numGeoAssessmentCols = new ArrayList<>();
-            List<Integer> numYearsAssessmentCols = new ArrayList<>();
-            List<Integer> numCommoditiesAssessmentCols = new ArrayList<>();
-            List<List<EmpiricalDistributionProperty>> temporalPerGeo = null;
-            List<List<EmpiricalDistributionProperty>> thematicPerGeo = null;
-            List<List<EmpiricalDistributionProperty>> thematicPerTemp = null;
+                List<String> colNamesAssessment = new ArrayList<>();
+                int[] numDataAssessment = null;
+                int csvNumAssessment = -1;
+                int numDataAll = -1;
+                double polygonPerArea = -1;
+                int[] excessDataAll = null;
+                List<List<String>> yearsAssessmentCols = new ArrayList<>();
+                List<List<String>> commoditiesAssessmentCols = new ArrayList<>();
+                List<List<String>> commoditiesAssessmentColsAll = new ArrayList<>();
+                List<Integer> numGeoAssessmentCols = new ArrayList<>();
+                List<Integer> numYearsAssessmentCols = new ArrayList<>();
+                List<Integer> numCommoditiesAssessmentCols = new ArrayList<>();
+                List<List<EmpiricalDistributionProperty>> temporalPerGeo = null;
+                List<List<EmpiricalDistributionProperty>> thematicPerGeo = null;
+                List<List<EmpiricalDistributionProperty>> thematicPerTemp = null;
 
 
-            // read geopackage content
-            List<List<String>> geoColContent = new ArrayList<>();
-            for (String geoColNameJoinAct : geoColNameJoin) {
-                geoColContent.add(gpkg.getTableColContent(statement, geoTableNameAct, geoColNameJoinAct));
-            }
-
-            // get current list of combined join criteria (concatenate all columns given in geoColNameJoin)
-            // double entries are removed
-            List<String> joinCritGeo = new ArrayList<>();
-            for (int geoCt1 = 0; geoCt1 < geoColContent.get(0).size(); geoCt1++) {
-                // loop over lines in geodata
-                StringBuilder joinCritGeoAct = new StringBuilder();
-                for (List<String> strings : geoColContent) {
-                    // loop over join criteria in geodata and concatenate to
-                    joinCritGeoAct.append(strings.get(geoCt1));
+                // read geopackage content
+                List<List<String>> geoColContent = new ArrayList<>();
+                for (String geoColNameJoinAct : geoColNameJoin) {
+                    geoColContent.add(gpkg.getTableColContent(statement, geoTableNameAct, geoColNameJoinAct));
                 }
-                joinCritGeo.add(joinCritGeoAct.toString());
-            }
-            joinCritGeo = getStringListUniqueMembers(joinCritGeo);
 
-            // get index of temporal and thematic columns
-            int idxTemporal = descriptionAsciiColNameDefine.indexOf("temporal");
-            int idxThematic = descriptionAsciiColNameDefine.indexOf("thematic");
-
-            // read all relevant ascii content (concatenate all column names for the sake of performance)
-            if (postgresUse) {
-                // if requested use postgres database -> recommended for larger csv files
-                try {
-                    ResultSet resultSet = statementAscii.executeQuery("SELECT * FROM tmpdata LIMIT 1");
-                    ResultSetMetaData resultSetMetaData = resultSet.getMetaData();
-                    int numColumns = resultSetMetaData.getColumnCount();
-                    String[] colNames = new String[numColumns];
-                    for (int i = 1; i <= numColumns; i++) {
-                        colNames[i - 1] = resultSetMetaData.getColumnName(i);
+                // get current list of combined join criteria (concatenate all columns given in geoColNameJoin)
+                // double entries are removed
+                List<String> joinCritGeo = new ArrayList<>();
+                for (int geoCt1 = 0; geoCt1 < geoColContent.get(0).size(); geoCt1++) {
+                    // loop over lines in geodata
+                    StringBuilder joinCritGeoAct = new StringBuilder();
+                    for (List<String> strings : geoColContent) {
+                        // loop over join criteria in geodata and concatenate to
+                        joinCritGeoAct.append(strings.get(geoCt1));
                     }
+                    joinCritGeo.add(joinCritGeoAct.toString());
+                }
+                joinCritGeo = getStringListUniqueMembers(joinCritGeo);
 
-                    for (String colNameAct : colNames) {
-                        if (!containsIgnoreCase(asciiColNameJoin, colNameAct) &&
-                                !containsIgnoreCase(asciiColNameDefine, colNameAct) &&
-                                !containsIgnoreCase(asciiColNameIgnore, colNameAct) &&
-                                !containsIgnoreCase(colNameJoinNumerical, colNameAct) &&
-                                !colNameAct.equals("joincritascii")) {
-                            colNamesAssessment.add(colNameAct);
+                // get index of temporal and thematic columns
+                int idxTemporal = descriptionAsciiColNameDefine.indexOf("temporal");
+                int idxThematic = descriptionAsciiColNameDefine.indexOf("thematic");
+                List<Integer> idxAdditional = indexOfAll(descriptionAsciiColNameDefine, "additional");
+
+                // read all relevant ascii content (concatenate all column names for the sake of performance)
+                if (postgresUse) {
+                    // if requested use postgres database -> recommended for larger csv files
+                    try {
+                        ResultSet resultSet = statementAscii.executeQuery("SELECT * FROM tmpdata LIMIT 1");
+                        ResultSetMetaData resultSetMetaData = resultSet.getMetaData();
+                        int numColumns = resultSetMetaData.getColumnCount();
+                        String[] colNames = new String[numColumns];
+                        for (int i = 1; i <= numColumns; i++) {
+                            colNames[i - 1] = resultSetMetaData.getColumnName(i);
                         }
-                    }
-                    csvNumAssessment = colNamesAssessment.size();
 
-                    // add new table with masked data from tmpdata and add incremental index column
-                    StringBuilder command;
-                    statementAscii.executeUpdate("DROP TABLE IF EXISTS " + tableNameMasked);
-
-                    boolean tryNumerical = false;
-                    if (colJoinNumerical && anyTrue(colJoinSequential)) {
-                        // if joining criteria is numerical and at least some criteria an be sequentially interpreted
-                        // -> try faster version of masking table
-                        tryNumerical = true;
-                    }
-
-                    command = new StringBuilder();
-                    command.append("SELECT EXISTS(SELECT 1 FROM information_schema.columns WHERE table_name='")
-                            .append(tableName).append("' AND column_name='").append(asciiColNameJoin.get(0).toLowerCase())
-                            .append("_numerical')");
-                    ResultSet tmpRS = statementAscii.executeQuery(command.toString());
-                    tmpRS.next();
-                    if (tryNumerical && !tmpRS.getBoolean(1)) {
-                        // change of tmpdata table for faster version - only proceed the first time
-                        for (String tmp : asciiColNameJoin) {
-                            String colTmp = tmp + "_numerical";
-                            colNameJoinNumerical.add(colTmp);
-                            command = new StringBuilder();
-                            command.append("ALTER TABLE ").append(tableName).append(" ADD COLUMN ").append(colTmp).append(" decimal");
-                            statementAscii.executeUpdate(command.toString());
-                            command = new StringBuilder();
-                            command.append("UPDATE ").append(tableName).append(" SET ").append(colTmp).append("=").append(tmp).append("::decimal");
-                            statementAscii.executeUpdate(command.toString());
-                        }
-                    }
-
-                    if (tryNumerical) {
-                        List<List<Long>> valMinMax = new ArrayList<>();
-                        List<List<Long>> valDistinct = new ArrayList<>();
-                        for (int i = 0; i < geoColContent.size(); i++) {
-                            if (colJoinSequential.get(i)) {
-                                Long[] tmp = new Long[geoColContent.get(i).size()];
-                                for (int j = 0; j < geoColContent.get(i).size(); j++) {
-                                    tmp[j] = Long.parseLong(geoColContent.get(i).get(j));
-                                }
-                                List<Long> arrayMinMax = new ArrayList<>();
-                                arrayMinMax.add(Collections.min(Arrays.asList(tmp)));
-                                arrayMinMax.add(Collections.max(Arrays.asList(tmp)));
-                                valMinMax.add(arrayMinMax);
-                                List<Long> arrayDistinct = new ArrayList<>();
-                                valDistinct.add(arrayDistinct);
-                            } else {
-                                List<Long> arrayMinMax = new ArrayList<>();
-                                valMinMax.add(arrayMinMax);
-                                List<String> arrayDistinctString = getStringListUniqueMembers(geoColContent.get(i));
-                                List<Long> arrayDistinct = new ArrayList<>();
-                                for (String tmp : arrayDistinctString) {
-                                    arrayDistinct.add(Long.parseLong(tmp));
-                                }
-                                valDistinct.add(arrayDistinct);
+                        for (String colNameAct : colNames) {
+                            if (!containsIgnoreCase(asciiColNameJoin, colNameAct) &&
+                                    !containsIgnoreCase(asciiColNameDefine, colNameAct) &&
+                                    !containsIgnoreCase(asciiColNameIgnore, colNameAct) &&
+                                    !containsIgnoreCase(colNameJoinNumerical, colNameAct) &&
+                                    !colNameAct.equals("joincritascii")) {
+                                colNamesAssessment.add(colNameAct);
                             }
                         }
+                        csvNumAssessment = colNamesAssessment.size();
+
+                        // add new table with masked data from tmpdata and add incremental index column
+                        StringBuilder command;
+                        statementAscii.executeUpdate("DROP TABLE IF EXISTS " + tableNameMasked);
+
+                        boolean tryNumerical = false;
+                        if (colJoinNumerical && anyTrue(colJoinSequential)) {
+                            // if joining criteria is numerical and at least some criteria an be sequentially interpreted
+                            // -> try faster version of masking table
+                            tryNumerical = true;
+                        }
+
                         command = new StringBuilder();
-                        command.append("CREATE TEMP TABLE ").append(tableNameMasked).append(" AS SELECT * FROM ").append(tableName).append(" WHERE ");
-                        for (int i = 0; i < geoColContent.size(); i++) {
-                            String colTmp = asciiColNameJoin.get(i) + "_numerical";
-                            if (colJoinSequential.get(i)) {
-                                // get values from min to max
-                                command.append("(").append(colTmp).append(">=").append(valMinMax.get(i).get(0)).append(" AND ")
-                                        .append(colTmp).append("<=").append(valMinMax.get(i).get(1)).append(")");
-                            } else {
-                                // get distinct values
-                                command.append("(");
-                                for (int j = 0; j < valDistinct.get(i).size(); j++) {
-                                    command.append(colTmp).append("=").append(valDistinct.get(i).get(j));
-                                    if (j < valDistinct.get(i).size() - 1) {
-                                        command.append(" OR ");
+                        command.append("SELECT EXISTS(SELECT 1 FROM information_schema.columns WHERE table_name='")
+                                .append(tableName).append("' AND column_name='").append(asciiColNameJoin.get(0).toLowerCase())
+                                .append("_numerical')");
+                        ResultSet tmpRS = statementAscii.executeQuery(command.toString());
+                        tmpRS.next();
+                        if (tryNumerical && !tmpRS.getBoolean(1)) {
+                            // change of tmpdata table for faster version - only proceed the first time
+                            for (String tmp : asciiColNameJoin) {
+                                String colTmp = tmp + "_numerical";
+                                colNameJoinNumerical.add(colTmp);
+                                command = new StringBuilder();
+                                command.append("ALTER TABLE ").append(tableName).append(" ADD COLUMN ").append(colTmp).append(" decimal");
+                                statementAscii.executeUpdate(command.toString());
+                                command = new StringBuilder();
+                                command.append("UPDATE ").append(tableName).append(" SET ").append(colTmp).append("=").append(tmp).append("::decimal");
+                                statementAscii.executeUpdate(command.toString());
+                            }
+                        }
+
+                        if (tryNumerical) {
+                            List<List<Long>> valMinMax = new ArrayList<>();
+                            List<List<Long>> valDistinct = new ArrayList<>();
+                            for (int i = 0; i < geoColContent.size(); i++) {
+                                if (colJoinSequential.get(i)) {
+                                    Long[] tmp = new Long[geoColContent.get(i).size()];
+                                    for (int j = 0; j < geoColContent.get(i).size(); j++) {
+                                        tmp[j] = Long.parseLong(geoColContent.get(i).get(j));
                                     }
+                                    List<Long> arrayMinMax = new ArrayList<>();
+                                    arrayMinMax.add(Collections.min(Arrays.asList(tmp)));
+                                    arrayMinMax.add(Collections.max(Arrays.asList(tmp)));
+                                    valMinMax.add(arrayMinMax);
+                                    List<Long> arrayDistinct = new ArrayList<>();
+                                    valDistinct.add(arrayDistinct);
+                                } else {
+                                    List<Long> arrayMinMax = new ArrayList<>();
+                                    valMinMax.add(arrayMinMax);
+                                    List<String> arrayDistinctString = getStringListUniqueMembers(geoColContent.get(i));
+                                    List<Long> arrayDistinct = new ArrayList<>();
+                                    for (String tmp : arrayDistinctString) {
+                                        arrayDistinct.add(Long.parseLong(tmp));
+                                    }
+                                    valDistinct.add(arrayDistinct);
                                 }
-                                command.append(")");
                             }
-                            if (i < geoColContent.size() - 1) {
-                                command.append(" AND ");
+                            command = new StringBuilder();
+                            command.append("CREATE TEMP TABLE ").append(tableNameMasked).append(" AS SELECT * FROM ").append(tableName).append(" WHERE ");
+                            for (int i = 0; i < geoColContent.size(); i++) {
+                                String colTmp = asciiColNameJoin.get(i) + "_numerical";
+                                if (colJoinSequential.get(i)) {
+                                    // get values from min to max
+                                    command.append("(").append(colTmp).append(">=").append(valMinMax.get(i).get(0)).append(" AND ")
+                                            .append(colTmp).append("<=").append(valMinMax.get(i).get(1)).append(")");
+                                } else {
+                                    // get distinct values
+                                    command.append("(");
+                                    for (int j = 0; j < valDistinct.get(i).size(); j++) {
+                                        command.append(colTmp).append("=").append(valDistinct.get(i).get(j));
+                                        if (j < valDistinct.get(i).size() - 1) {
+                                            command.append(" OR ");
+                                        }
+                                    }
+                                    command.append(")");
+                                }
+                                if (i < geoColContent.size() - 1) {
+                                    command.append(" AND ");
+                                }
                             }
-                        }
-                    } else {
-                        command = new StringBuilder();
-                        command.append("CREATE TEMP TABLE ").append(tableNameMasked).append(" AS SELECT * FROM ").append(tableName).append(" WHERE ");
-                        for (int i = 0; i < joinCritGeo.size() - 1; i++) {
-                            // use $$xxx$$$ instead of 'xxx' as string definition
-                            // strings containing originally $$ are less likely than '
+                        } else {
+                            command = new StringBuilder();
+                            command.append("CREATE TEMP TABLE ").append(tableNameMasked).append(" AS SELECT * FROM ").append(tableName).append(" WHERE ");
+                            for (int i = 0; i < joinCritGeo.size() - 1; i++) {
+                                // use $$xxx$$$ instead of 'xxx' as string definition
+                                // strings containing originally $$ are less likely than '
 //                            command.append("joincritascii='").append(joinCritGeo.get(i)).append("' OR ");
-                            command.append("joincritascii=$$").append(joinCritGeo.get(i)).append("$$ OR ");
+                                command.append("joincritascii=$$").append(joinCritGeo.get(i)).append("$$ OR ");
+                            }
+                            command.append("joincritascii=$$").append(joinCritGeo.get(joinCritGeo.size() - 1)).append("$$");
                         }
-                        command.append("joincritascii=$$").append(joinCritGeo.get(joinCritGeo.size() - 1)).append("$$");
-                    }
-                    statementAscii.executeUpdate(command.toString());
+                        statementAscii.executeUpdate(command.toString());
 
 
-                    command = new StringBuilder();
-                    command.append("ALTER TABLE ").append(tableNameMasked).append(" ADD COLUMN idxadded SERIAL");
-                    statementAscii.executeUpdate(command.toString());
-
-                    statementAscii.executeUpdate("ANALYZE " + tableNameMasked);
-                    //TODO: CREATE INDEX ON table_name (column_name)
-
-                    // get number of values for each assessment column
-                    numDataAssessment = new int[csvNumAssessment];
-                    for (int i = 0; i < csvNumAssessment; i++) {
                         command = new StringBuilder();
-                        command.append("SELECT COUNT(").append(colNamesAssessment.get(i)).append(") FROM ").append(tableName).append("_masked");
-                        ResultSet tmp = statementAscii.executeQuery(command.toString());
-                        tmp.next();
-                        numDataAssessment[i] = tmp.getInt(1);
+                        command.append("ALTER TABLE ").append(tableNameMasked).append(" ADD COLUMN idxadded SERIAL");
+                        statementAscii.executeUpdate(command.toString());
+
+                        statementAscii.executeUpdate("ANALYZE " + tableNameMasked);
+                        //TODO: CREATE INDEX ON table_name (column_name)
+
+                        // get number of values for each assessment column
+                        numDataAssessment = new int[csvNumAssessment];
+                        for (int i = 0; i < csvNumAssessment; i++) {
+                            command = new StringBuilder();
+                            command.append("SELECT COUNT(").append(colNamesAssessment.get(i)).append(") FROM ").append(tableName).append("_masked");
+                            ResultSet tmp = statementAscii.executeQuery(command.toString());
+                            tmp.next();
+                            numDataAssessment[i] = tmp.getInt(1);
+                        }
+
+                        // get number of all values (with masking)
+                        command = new StringBuilder();
+                        command.append("SELECT COUNT(idxadded) FROM ").append(tableNameMasked);
+                        tmpRS = statementAscii.executeQuery(command.toString());
+                        tmpRS.next();
+                        numDataAll = tmpRS.getInt(1);
+                        if (numDataAll == 0) {
+                            // no data fo current geography table in csv available
+                            System.out.println("No data for " + geoTableNameAct + " available");
+                            continue;
+                        }
+
+                        // get polygons per area (per 1000 square kilometer)
+                        // only polygons with data representations in ascii file are taken into account
+                        List<String> joinCritGeoExist = new ArrayList<>(); // elements in joinCritGeo used in csv file, too
+                        command = new StringBuilder();
+                        command.append("SELECT DISTINCT(joincritascii) FROM ").append(tableNameMasked);
+                        tmpRS = statementAscii.executeQuery(command.toString());
+                        while (tmpRS.next()) {
+                            joinCritGeoExist.add(tmpRS.getString(1));
+                        }
+
+                        gpkg.open(geoTableNameAct);
+                        if (gpkg.geometryType.contains("polygon")) {
+                            List<FeatureDescriptor> featureDescriptors = gpkg.getCenterArea();
+                            List<Integer> featureDescriptorsUsed = new ArrayList<>();
+                            double areaKm2UTM = 0.0;
+                            int ct = -1;
+                            for (FeatureDescriptor featureDescriptor : featureDescriptors) {
+                                ct++;
+                                String attributeValueMerged = featureDescriptor.getAttributeValuesIntendedMerged(geoColNameJoin);
+                                if (joinCritGeoExist.contains(attributeValueMerged)) {
+                                    featureDescriptorsUsed.add(ct);
+                                    areaKm2UTM = areaKm2UTM + featureDescriptor.getAreaKm2UTM();
+                                }
+                            }
+                            polygonPerArea = featureDescriptorsUsed.size() / areaKm2UTM * 1000;
+                        } else {
+                            polygonPerArea = -999;
+                        }
+                        gpkg.dispose();
+
+                        // get number/rate of excess items in each assessed column of ascii data -> concatenate all join and definition rows# and find duplicates
+                        statementAscii.executeUpdate("ALTER TABLE " + tableNameMasked + " ADD COLUMN joindefinecritascii TEXT");
+                        command = new StringBuilder();
+                        command.append("UPDATE ").append(tableNameMasked).append(" SET joindefinecritascii=CONCAT_WS('##', '', ");
+                        for (String tmp : asciiColNameJoin) {
+                            command.append(tmp).append(", ");
+                        }
+                        for (int i = 0; i < asciiColNameDefine.size() - 1; i++) {
+                            command.append(asciiColNameDefine.get(i)).append(", ");
+                        }
+                        command.append(asciiColNameDefine.get(asciiColNameDefine.size() - 1)).append(")");
+                        statementAscii.executeUpdate(command.toString());
+                        excessDataAll = new int[csvNumAssessment]; // excess data (0 means no duplicate, 1 means one duplicate)
+                        int ct = -1;
+                        for (String tmp : colNamesAssessment) {
+                            ct++;
+                            command = new StringBuilder();
+                            command.append("SELECT COUNT(joindefinecritascii) FROM ").append(tableNameMasked)
+                                    .append(" WHERE ").append(tmp).append(" IS NOT NULL");
+                            tmpRS = statementAscii.executeQuery(command.toString());
+                            tmpRS.next();
+                            int numAll = tmpRS.getInt(1);
+
+                            command = new StringBuilder();
+                            command.append("SELECT COUNT(DISTINCT(joindefinecritascii)) FROM ").append(tableNameMasked)
+                                    .append(" WHERE ").append(tmp).append(" IS NOT NULL");
+                            tmpRS = statementAscii.executeQuery(command.toString());
+                            tmpRS.next();
+                            int numDistinct = tmpRS.getInt(1);
+                            excessDataAll[ct] = numAll - numDistinct;
+                        }
+
+                        // get number of geo/years/commodities for all columns of masked assessment data
+                        for (int i = 0; i < csvNumAssessment; i++) {
+                            // spatial dimension
+                            command = new StringBuilder();
+                            command.append("SELECT COUNT(DISTINCT(joincritascii)) FROM ")
+                                    .append(tableNameMasked).append(" WHERE ").append(colNamesAssessment.get(i))
+                                    .append(" IS NOT NULL");
+                            tmpRS = statementAscii.executeQuery(command.toString());
+                            tmpRS.next();
+                            numGeoAssessmentCols.add(tmpRS.getInt(1));
+
+                            // temporal dimension
+                            List<String> yearsAssessmentColsAct = new ArrayList<>();
+                            command = new StringBuilder();
+                            command.append("SELECT DISTINCT(").append(asciiColNameDefine.get(idxTemporal)).append(") FROM ")
+                                    .append(tableNameMasked).append(" WHERE ").append(colNamesAssessment.get(i))
+                                    .append(" IS NOT NULL");
+                            tmpRS = statementAscii.executeQuery(command.toString());
+                            while (tmpRS.next()) {
+                                yearsAssessmentColsAct.add(tmpRS.getString(1));
+                            }
+                            Collections.sort(yearsAssessmentColsAct);
+                            yearsAssessmentCols.add(yearsAssessmentColsAct);
+                            numYearsAssessmentCols.add(yearsAssessmentColsAct.size());
+
+                            // thematic dimension - get all distinct thematic classes and number
+                            List<String> commoditiesAssessmentColsAct = new ArrayList<>();
+                            command = new StringBuilder();
+                            command.append("SELECT DISTINCT(").append(asciiColNameDefine.get(idxThematic)).append(") FROM ")
+                                    .append(tableNameMasked).append(" WHERE ").append(colNamesAssessment.get(i))
+                                    .append(" IS NOT NULL");
+                            tmpRS = statementAscii.executeQuery(command.toString());
+                            while (tmpRS.next()) {
+                                commoditiesAssessmentColsAct.add(tmpRS.getString(1));
+                            }
+                            Collections.sort(commoditiesAssessmentColsAct);
+                            commoditiesAssessmentCols.add(commoditiesAssessmentColsAct);
+                            numCommoditiesAssessmentCols.add(commoditiesAssessmentColsAct.size());
+
+                            // additional dimension - get all distinct additional classes and number
+                            List<String> additionalAssessmentColAct = new ArrayList<>();
+                            command = new StringBuilder();
+//                        command.append("SELECT DISTINCT(").append(asciiColNameDefine.get(idxAdditional))
+
+                            //thematic dimension - get all commodity entries for the current attribute
+                            if (thematicMapping) {
+                                List<String> commoditiesAssessmentColsAllAct = new ArrayList<>();
+                                command = new StringBuilder();
+                                command.append("SELECT ").append(asciiColNameDefine.get(idxThematic)).append(" FROM ")
+                                        .append(tableNameMasked).append(" WHERE ").append(colNamesAssessment.get(i))
+                                        .append(" IS NOT NULL");
+                                tmpRS = statementAscii.executeQuery(command.toString());
+                                while (tmpRS.next()) {
+                                    commoditiesAssessmentColsAllAct.add(tmpRS.getString(1));
+                                }
+                                commoditiesAssessmentColsAll.add(commoditiesAssessmentColsAllAct);
+                            }
+                        }
+
+                        // get combinations
+                        // get count properties of temporal units per geographical unit
+                        temporalPerGeo = new ArrayList<>();
+                        thematicPerGeo = new ArrayList<>();
+                        thematicPerTemp = new ArrayList<>();
+                        for (int i = 0; i < csvNumAssessment; i++) {
+                            // temporal units per geographical unit
+                            command = new StringBuilder();
+                            command.append("SELECT COUNT(DISTINCT(joincritascii)) FROM ").append(tableNameMasked);
+                            tmpRS = statementAscii.executeQuery(command.toString());
+                            tmpRS.next();
+                            int numGeoDistinct = tmpRS.getInt(1); // number of distinct geographic units
+
+                            List<EmpiricalDistributionProperty> tmp = new ArrayList<>();
+                            int[] temporalPerGeoSingular = new int[numGeoDistinct];
+                            Arrays.fill(temporalPerGeoSingular, 0); // prefill with zeros
+                            command = new StringBuilder();
+                            command.append("SELECT joincritascii, COUNT(DISTINCT(").append(asciiColNameDefine.get(idxTemporal))
+                                    .append(")) FROM ").append(tableNameMasked).append(" WHERE ").append(colNamesAssessment.get(i))
+                                    .append(" IS NOT NULL GROUP BY joincritascii");
+                            tmpRS = statementAscii.executeQuery(command.toString());
+                            int ctAct = -1;
+                            while (tmpRS.next()) {
+                                // only categories with a count!=0 are included here
+                                ctAct++;
+                                temporalPerGeoSingular[ctAct] = tmpRS.getInt("count");
+                            }
+
+                            tmp.add(new EmpiricalDistributionProperty("mean", getMean(temporalPerGeoSingular)));
+                            tmp.add(new EmpiricalDistributionProperty("min", getQuantile(temporalPerGeoSingular, 0)));
+                            tmp.add(new EmpiricalDistributionProperty("5 % quantile", getQuantile(temporalPerGeoSingular, .05)));
+                            tmp.add(new EmpiricalDistributionProperty("25 % quantile", getQuantile(temporalPerGeoSingular, .25)));
+                            tmp.add(new EmpiricalDistributionProperty("50 % quantile", getQuantile(temporalPerGeoSingular, .5)));
+                            tmp.add(new EmpiricalDistributionProperty("75 % quantile", getQuantile(temporalPerGeoSingular, .75)));
+                            tmp.add(new EmpiricalDistributionProperty("95 % quantile", getQuantile(temporalPerGeoSingular, .95)));
+                            tmp.add(new EmpiricalDistributionProperty("max", getQuantile(temporalPerGeoSingular, 1)));
+
+                            temporalPerGeo.add(tmp);
+
+                            // thematic units per geographical unit
+                            tmp = new ArrayList<>();
+                            int[] thematicPerGeoSingular = new int[numGeoDistinct];
+                            Arrays.fill(temporalPerGeoSingular, 0); // prefill with zeros
+                            command = new StringBuilder();
+                            command.append("SELECT joincritascii, COUNT(DISTINCT(").append(asciiColNameDefine.get(idxThematic))
+                                    .append(")) FROM ").append(tableNameMasked).append(" WHERE ").append(colNamesAssessment.get(i))
+                                    .append(" IS NOT NULL GROUP BY joincritascii");
+                            tmpRS = statementAscii.executeQuery(command.toString());
+                            ctAct = -1;
+                            while (tmpRS.next()) {
+                                // only categories with a count!=0 are included here
+                                ctAct++;
+                                thematicPerGeoSingular[ctAct] = tmpRS.getInt("count");
+                            }
+
+                            tmp.add(new EmpiricalDistributionProperty("mean", getMean(thematicPerGeoSingular)));
+                            tmp.add(new EmpiricalDistributionProperty("min", getQuantile(thematicPerGeoSingular, 0)));
+                            tmp.add(new EmpiricalDistributionProperty("5 % quantile", getQuantile(thematicPerGeoSingular, .05)));
+                            tmp.add(new EmpiricalDistributionProperty("25 % quantile", getQuantile(thematicPerGeoSingular, .25)));
+                            tmp.add(new EmpiricalDistributionProperty("50 % quantile", getQuantile(thematicPerGeoSingular, .5)));
+                            tmp.add(new EmpiricalDistributionProperty("75 % quantile", getQuantile(thematicPerGeoSingular, .75)));
+                            tmp.add(new EmpiricalDistributionProperty("95 % quantile", getQuantile(thematicPerGeoSingular, .95)));
+                            tmp.add(new EmpiricalDistributionProperty("max", getQuantile(thematicPerGeoSingular, 1)));
+
+                            thematicPerGeo.add(tmp);
+
+                            // thematic units per temporal unit
+                            command = new StringBuilder();
+                            command.append("SELECT COUNT(DISTINCT(").append(asciiColNameDefine.get(idxTemporal)).append(")) FROM ").append(tableNameMasked);
+                            tmpRS = statementAscii.executeQuery(command.toString());
+                            tmpRS.next();
+                            int numTempDistinct = tmpRS.getInt(1); // number of distinct geographic units
+
+                            tmp = new ArrayList<>();
+                            int[] thematicPerTempSingular = new int[numTempDistinct];
+                            Arrays.fill(thematicPerTempSingular, 0); // prefill with zeros
+                            command = new StringBuilder();
+                            command.append("SELECT ").append(asciiColNameDefine.get(idxTemporal)).append(", COUNT(DISTINCT(").append(asciiColNameDefine.get(idxThematic))
+                                    .append(")) FROM ").append(tableNameMasked).append(" WHERE ").append(colNamesAssessment.get(i))
+                                    .append(" IS NOT NULL GROUP BY ").append(asciiColNameDefine.get(idxTemporal));
+                            tmpRS = statementAscii.executeQuery(command.toString());
+                            ctAct = -1;
+                            while (tmpRS.next()) {
+                                // only categories with a count!=0 are included here
+                                ctAct++;
+                                thematicPerTempSingular[ctAct] = tmpRS.getInt("count");
+                            }
+
+                            tmp.add(new EmpiricalDistributionProperty("mean", getMean(thematicPerTempSingular)));
+                            tmp.add(new EmpiricalDistributionProperty("min", getQuantile(thematicPerTempSingular, 0)));
+                            tmp.add(new EmpiricalDistributionProperty("5 % quantile", getQuantile(thematicPerTempSingular, .05)));
+                            tmp.add(new EmpiricalDistributionProperty("25 % quantile", getQuantile(thematicPerTempSingular, .25)));
+                            tmp.add(new EmpiricalDistributionProperty("50 % quantile", getQuantile(thematicPerTempSingular, .5)));
+                            tmp.add(new EmpiricalDistributionProperty("75 % quantile", getQuantile(thematicPerTempSingular, .75)));
+                            tmp.add(new EmpiricalDistributionProperty("95 % quantile", getQuantile(thematicPerTempSingular, .95)));
+                            tmp.add(new EmpiricalDistributionProperty("max", getQuantile(thematicPerTempSingular, 1)));
+
+                            thematicPerTemp.add(tmp);
+                        }
+
+
+                    } catch (SQLException e) {
+                        System.out.println(e.getMessage());
                     }
 
-                    // get number of all values (with masking)
-                    command = new StringBuilder();
-                    command.append("SELECT COUNT(idxadded) FROM ").append(tableNameMasked);
-                    tmpRS = statementAscii.executeQuery(command.toString());
-                    tmpRS.next();
-                    numDataAll = tmpRS.getInt(1);
-                    if (numDataAll==0) {
-                        // no data fo current geography table in csv available
-                        System.out.println("No data for " + geoTableNameAct + " available");
-                        continue;
+
+                } else {
+                    // direct conversion of csv content into Java objects -> suitable for smaller files
+                    // -> no use of postgres database
+                    CSVReader csvContent = new CSVReader(fileName, ",", asciiColNameJoin, asciiColNameDefine, asciiColNameIgnore);
+                    csvContent.getContent();
+                    csvNumAssessment = csvContent.headerAssessment.size();
+                    colNamesAssessment = csvContent.headerAssessment;
+
+                    // get indices of all relevant combinations in asciiColNameJoin
+                    List<Integer> idxRelevant = new ArrayList<>();
+                    List<String> joinCritGeoExist = new ArrayList<>(); // elements in joinCritGeo used in csv file, too
+                    for (int csvCt1 = 0; csvCt1 < csvContent.fileContentJoin.size(); csvCt1++) {
+                        // loop over all entries in csv
+                        StringBuilder joinCritActCsv = new StringBuilder();
+                        for (int csvCt2 = 0; csvCt2 < asciiColNameJoin.size(); csvCt2++) {
+                            // loop over all join criteria in csv
+                            joinCritActCsv.append(csvContent.fileContentJoin.get(csvCt1)[csvCt2]);
+                        }
+                        if (joinCritGeo.contains(joinCritActCsv.toString())) {
+                            // this combination of criteria is valid for current geodata
+                            idxRelevant.add(csvCt1);
+
+                            if (!joinCritGeoExist.contains(joinCritActCsv.toString())) {
+                                joinCritGeoExist.add(joinCritActCsv.toString());
+                            }
+                        }
+                    }
+
+                    // get a list of relevant csv data in current geodata
+                    List<String[]> csvContentMaskedJoin = new ArrayList<>(); // for excess items also join parameters necessary
+                    List<String[]> csvContentMaskedDefine = new ArrayList<>();
+                    List<String[]> csvContentMaskedAssessment = new ArrayList<>();
+                    for (Integer idxRelevantAct : idxRelevant) {
+                        csvContentMaskedJoin.add(csvContent.fileContentJoin.get(idxRelevantAct));
+                        csvContentMaskedDefine.add(csvContent.fileContentDefine.get(idxRelevantAct));
+                        csvContentMaskedAssessment.add(csvContent.fileContentAssessment.get(idxRelevantAct));
+                    }
+
+                    // get number/rate of missing values in each assessed column of ascii data
+                    numDataAll = csvContentMaskedAssessment.size();
+                    numDataAssessment = new int[csvNumAssessment];
+                    Arrays.fill(numDataAssessment, 0); // preallocate with zero
+                    for (String[] tmp : csvContentMaskedAssessment) {
+                        int i = -1;
+                        for (String tmp2 : tmp) {
+                            i++;
+                            if (!tmp2.equals("")) {
+                                numDataAssessment[i]++;
+                            }
+                        }
+                    }
+                    // TODO: get missing values within secondary criteria (date with increment)
+
+                    // get number/rate of excess items in each assessed column of ascii data -> concatenate all definition rows
+                    String joinDelimiter = "##";
+                    List<String> joinCritAsciiDefined = new ArrayList<>();
+                    for (int i = 0; i < csvContentMaskedDefine.size(); i++) {
+                        StringBuilder joinCritAsciiAct = new StringBuilder();
+                        for (String tmp : csvContentMaskedJoin.get(i)) {
+                            joinCritAsciiAct.append(joinDelimiter);
+                            joinCritAsciiAct.append(tmp);
+                        }
+                        for (String tmp : csvContentMaskedDefine.get(i)) {
+                            joinCritAsciiAct.append(joinDelimiter); // delimiter between fields for minimizing cluttered entries
+                            joinCritAsciiAct.append(tmp);
+                        }
+                        joinCritAsciiDefined.add(joinCritAsciiAct.toString());
+                    }
+                    List<List<Integer>> joinCritAsciiDefinedIndices = getStringOccurrenceIndices(joinCritAsciiDefined);
+                    excessDataAll = new int[csvNumAssessment]; // excess data (0 means no duplicate, 1 means one duplicate)
+                    Arrays.fill(excessDataAll, 0);
+                    for (int ctAssessmentColumn = 0; ctAssessmentColumn < csvNumAssessment; ctAssessmentColumn++) {
+                        // loop over assessment columns
+                        for (List<Integer> idxElementAct : joinCritAsciiDefinedIndices) {
+                            // loop over index list
+                            if (idxElementAct.size() == 1) {
+                                // only one index available -> no duplicates
+                                continue;
+                            }
+                            int[] entriesAct = new int[idxElementAct.size()];
+                            Arrays.fill(entriesAct, 0);
+                            for (int ctDuplicates = 0; ctDuplicates < idxElementAct.size(); ctDuplicates++) {
+                                // loop over potentially duplicate entries
+                                if (!csvContentMaskedAssessment.get(idxElementAct.get(ctDuplicates))[ctAssessmentColumn].equals("")) {
+                                    // entry in particular row/column available
+                                    entriesAct[ctDuplicates] = 1;
+                                }
+                            }
+                            int entriesActSum = 0;
+                            for (int entriesTmp : entriesAct) {
+                                entriesActSum = entriesActSum + entriesTmp;
+                            }
+                            if (entriesActSum > 0) {
+                                // only add to excess data if some data in this column is available
+                                excessDataAll[ctAssessmentColumn] = excessDataAll[ctAssessmentColumn] + entriesActSum - 1;
+                            }
+                        }
                     }
 
                     // get polygons per area (per 1000 square kilometer)
                     // only polygons with data representations in ascii file are taken into account
-                    List<String> joinCritGeoExist = new ArrayList<>(); // elements in joinCritGeo used in csv file, too
-                    command = new StringBuilder();
-                    command.append("SELECT DISTINCT(joincritascii) FROM ").append(tableNameMasked);
-                    tmpRS = statementAscii.executeQuery(command.toString());
-                    while (tmpRS.next()) {
-                        joinCritGeoExist.add(tmpRS.getString(1));
-                    }
-
                     gpkg.open(geoTableNameAct);
-                    if (gpkg.geometryType.equals("polygon")) {
+                    if (gpkg.geometryType.contains("polygon")) {
                         List<FeatureDescriptor> featureDescriptors = gpkg.getCenterArea();
                         List<Integer> featureDescriptorsUsed = new ArrayList<>();
                         double areaKm2UTM = 0.0;
@@ -407,784 +750,483 @@ public class AsciiMetadata implements Metadata {
                     }
                     gpkg.dispose();
 
-                    // get number/rate of excess items in each assessed column of ascii data -> concatenate all join and definition rows# and find duplicates
-                    statementAscii.executeUpdate("ALTER TABLE " + tableNameMasked + " ADD COLUMN joindefinecritascii TEXT");
-                    command = new StringBuilder();
-                    command.append("UPDATE ").append(tableNameMasked).append(" SET joindefinecritascii=CONCAT_WS('##', '', ");
-                    for (String tmp : asciiColNameJoin) {
-                        command.append(tmp).append(", ");
-                    }
-                    for (int i = 0; i < asciiColNameDefine.size() - 1; i++) {
-                        command.append(asciiColNameDefine.get(i)).append(", ");
-                    }
-                    command.append(asciiColNameDefine.get(asciiColNameDefine.size() - 1)).append(")");
-                    statementAscii.executeUpdate(command.toString());
-                    excessDataAll = new int[csvNumAssessment]; // excess data (0 means no duplicate, 1 means one duplicate)
-                    int ct = -1;
-                    for (String tmp : colNamesAssessment) {
-                        ct++;
-                        command = new StringBuilder();
-                        command.append("SELECT COUNT(joindefinecritascii) FROM ").append(tableNameMasked)
-                                .append(" WHERE ").append(tmp).append(" IS NOT NULL");
-                        tmpRS = statementAscii.executeQuery(command.toString());
-                        tmpRS.next();
-                        int numAll = tmpRS.getInt(1);
-
-                        command = new StringBuilder();
-                        command.append("SELECT COUNT(DISTINCT(joindefinecritascii)) FROM ").append(tableNameMasked)
-                                .append(" WHERE ").append(tmp).append(" IS NOT NULL");
-                        tmpRS = statementAscii.executeQuery(command.toString());
-                        tmpRS.next();
-                        int numDistinct = tmpRS.getInt(1);
-                        excessDataAll[ct] = numAll - numDistinct;
-                    }
-
-                    // get number of geo/years/commodities for all columns of masked assessment data
-                    for (int i = 0; i < csvNumAssessment; i++) {
-                        // spatial dimension
-                        command = new StringBuilder();
-                        command.append("SELECT COUNT(DISTINCT(joincritascii)) FROM ")
-                                .append(tableNameMasked).append(" WHERE ").append(colNamesAssessment.get(i))
-                                .append(" IS NOT NULL");
-                        tmpRS = statementAscii.executeQuery(command.toString());
-                        tmpRS.next();
-                        numGeoAssessmentCols.add(tmpRS.getInt(1));
-
-                        // temporal dimension
-                        List<String> yearsAssessmentColsAct = new ArrayList<>();
-                        command = new StringBuilder();
-                        command.append("SELECT DISTINCT(").append(asciiColNameDefine.get(idxTemporal)).append(") FROM ")
-                                .append(tableNameMasked).append(" WHERE ").append(colNamesAssessment.get(i))
-                                .append(" IS NOT NULL");
-                        tmpRS = statementAscii.executeQuery(command.toString());
-                        while (tmpRS.next()) {
-                            yearsAssessmentColsAct.add(tmpRS.getString(1));
+                    // get spatial data from csvContentMaskedJoin
+                    List<String> csvContentMaskedSpatial = new ArrayList<>();
+                    for (String[] tmp : csvContentMaskedJoin) {
+                        StringBuilder tmp2 = new StringBuilder();
+                        for (String tmp3 : tmp) {
+                            tmp2.append(tmp3);
                         }
+                        csvContentMaskedSpatial.add(tmp2.toString());
+                    }
+
+                    // get temporal and thematic data from csvContentMaskedDefine
+                    List<String> csvContentMaskedTemporal = new ArrayList<>();
+                    List<String> csvContentMaskedThematic = new ArrayList<>();
+                    for (String[] tmp : csvContentMaskedDefine) {
+                        csvContentMaskedTemporal.add(tmp[idxTemporal]);
+                        csvContentMaskedThematic.add(tmp[idxThematic]);
+                    }
+
+                    // prepare number of geometries, years, commodities per attribute
+                    boolean[][] idxMaskedRelevantAll = new boolean[csvNumAssessment][numDataAll];
+                    for (int i = 0; i < csvNumAssessment; i++) {
+                        // preallocate boolean matrix
+                        Arrays.fill(idxMaskedRelevantAll[i], false);
+                    }
+                    for (int i = 0; i < numDataAll; i++) {
+                        // fill boolean index matrix
+                        String[] tmp = csvContentMaskedAssessment.get(i);
+                        for (int j = 0; j < csvNumAssessment; j++) {
+                            if (!tmp[j].equals("")) {
+                                idxMaskedRelevantAll[j][i] = true;
+                            }
+                        }
+                    }
+
+                    // get number of geometries per attribute
+                    List<List<String>> geoMaskedAssessment = new ArrayList<>();
+                    List<List<String>> geoMaskedAssessmentUnique = new ArrayList<>();
+                    for (int i = 0; i < csvNumAssessment; i++) {
+                        // get available geometries of all columns of masked assessment data
+                        geoMaskedAssessment.add(getListFromLogicalIndex(csvContentMaskedSpatial, idxMaskedRelevantAll[i]));
+                        geoMaskedAssessmentUnique.add(getStringListUniqueMembers(geoMaskedAssessment.get(i)));
+                        numGeoAssessmentCols.add(geoMaskedAssessmentUnique.get(i).size());
+                    }
+
+                    // get number of years per attribute
+                    List<List<String>> yearsMaskedAssessment = new ArrayList<>();
+                    for (int i = 0; i < csvNumAssessment; i++) {
+                        // get available years of all columns of masked assessment data
+                        yearsMaskedAssessment.add(getListFromLogicalIndex(csvContentMaskedTemporal, idxMaskedRelevantAll[i]));
+                        List<String> yearsAssessmentColsAct = getStringListUniqueMembers(yearsMaskedAssessment.get(i));
                         Collections.sort(yearsAssessmentColsAct);
                         yearsAssessmentCols.add(yearsAssessmentColsAct);
-                        numYearsAssessmentCols.add(yearsAssessmentColsAct.size());
+                        numYearsAssessmentCols.add(yearsAssessmentCols.get(i).size());
+                    }
 
-                        // thematic dimension - get all distinct thematic classes and number
-                        List<String> commoditiesAssessmentColsAct = new ArrayList<>();
-                        command = new StringBuilder();
-                        command.append("SELECT DISTINCT(").append(asciiColNameDefine.get(idxThematic)).append(") FROM ")
-                                .append(tableNameMasked).append(" WHERE ").append(colNamesAssessment.get(i))
-                                .append(" IS NOT NULL");
-                        tmpRS = statementAscii.executeQuery(command.toString());
-                        while (tmpRS.next()) {
-                            commoditiesAssessmentColsAct.add(tmpRS.getString(1));
-                        }
+                    // get number of commodities per attribute
+                    List<List<String>> commoditiesMaskedAssessment = new ArrayList<>();
+                    for (int i = 0; i < csvNumAssessment; i++) {
+                        // get available commodities of all columns of masked assessment data
+                        commoditiesMaskedAssessment.add(getListFromLogicalIndex(csvContentMaskedThematic, idxMaskedRelevantAll[i]));
+                        List<String> commoditiesAssessmentColsAct = getStringListUniqueMembers(commoditiesMaskedAssessment.get(i));
                         Collections.sort(commoditiesAssessmentColsAct);
                         commoditiesAssessmentCols.add(commoditiesAssessmentColsAct);
-                        numCommoditiesAssessmentCols.add(commoditiesAssessmentColsAct.size());
-
-                        //thematic dimension - get all commodity entries for the current attribute
+                        numCommoditiesAssessmentCols.add(commoditiesAssessmentCols.get(i).size());
                         if (thematicMapping) {
-                            List<String> commoditiesAssessmentColsAllAct = new ArrayList<>();
-                            command = new StringBuilder();
-                            command.append("SELECT ").append(asciiColNameDefine.get(idxThematic)).append(" FROM ")
-                                    .append(tableNameMasked).append(" WHERE ").append(colNamesAssessment.get(i))
-                                    .append(" IS NOT NULL");
-                            tmpRS = statementAscii.executeQuery(command.toString());
-                            while (tmpRS.next()) {
-                                commoditiesAssessmentColsAllAct.add(tmpRS.getString(1));
-                            }
-                            commoditiesAssessmentColsAll.add(commoditiesAssessmentColsAllAct);
+                            commoditiesAssessmentColsAll.add(commoditiesMaskedAssessment.get(i));
                         }
                     }
 
-                    // get combinations
-                    // get count properties of temporal units per geographical unit
-                    temporalPerGeo = new ArrayList<>();
-                    thematicPerGeo = new ArrayList<>();
-                    thematicPerTemp = new ArrayList<>();
+                    // prepare for various distribution parameters
+                    List<String> csvContentMaskedJoined = new ArrayList<>();
+                    for (String[] csvContentMaskedJoinAct : csvContentMaskedJoin) {
+                        StringBuilder tmp = new StringBuilder();
+                        for (String csvContentMaskedJoinActI : csvContentMaskedJoinAct) {
+                            tmp.append(csvContentMaskedJoinActI);
+                        }
+                        csvContentMaskedJoined.add(tmp.toString());
+                    }
+
+                    CsvMaskedContent csvMaskedContent = new CsvMaskedContent(csvContentMaskedJoined, csvContentMaskedTemporal, csvContentMaskedThematic, csvContentMaskedAssessment, idxMaskedRelevantAll);
+
+                    // get distribution parameters of number of years per attribute over all spatial units
+                    temporalPerGeo = csvMaskedContent.getTemporalPerGeo();
+
+                    // get distribution parameters of number of commodities per attribute over all spatial units
+                    thematicPerGeo = csvMaskedContent.getThematicPerGeo();
+
+                    // get distribution parameters of number of commodities per attribute over all temporal units
+                    thematicPerTemp = csvMaskedContent.getThematicPerTemp();
+                }
+
+
+                ///////////////////////////////////
+                // Instantiate Metadata Elements //
+                ///////////////////////////////////
+                // order of classes according to MD_Metadata:
+                // metadataIdentifier:           1 basicInformation
+                // defaultLocale:                1 basicInformation
+                // parentMetadata:               1 basicInformation
+                // contact:                      1 basicInformation
+                // dateInfo:                     1 basicInformation
+                // metadataStandard:             5 metadataContact
+                // metadataProfile:              5 metadataContact
+                // alternativeMetadataReference: 5 metadataContact
+                // otherLocale:                  1 basicInformation
+                // metadataLinkage:              1 basicInformation
+                // spatialRepresentationInfo:    3 structureOfSpatialData
+                // referenceSystemInfo:          2 referenceSystem
+                // metadataExtensionInfo:        5 metadataContact
+                // identificationInfo:           3 structureOfSpatialData
+                // contentInfo:                  3 structureOfSpatialData
+                // distributionInfo:             1 basicInformation
+                // dataQualityInfo:              4 dataQuality
+                // portrayalCatalogueInfo:       5 metadataContact
+                // metadataConstraints:          1 basicInformation
+                // applicationSchemaInfo:        5 metadataContact
+                // metadataMaintenance:          5 metadataContact
+                // resourceLineage:              6 provenance
+                // metadataScope:                5 metadataContact
+
+                // get (1) basic information
+                System.out.println("Basic Information:");
+
+                String identifierCode = "pid:" + UUID.randomUUID().toString();
+
+                MD_Identifier mdIdentifier = new MD_Identifier();
+                mdIdentifier.addCode(identifierCode);
+                mdIdentifier.finalizeClass();
+
+                CI_Individual ciIndividual = new CI_Individual();
+                ciIndividual.addName(System.getProperty("user.name"));
+                ciIndividual.finalizeClass();
+
+                CI_Responsibility ciResponsibility = new CI_Responsibility();
+                ciResponsibility.addRole(new CI_RoleCode(CI_RoleCode.CI_RoleCodes.resourceProvider));
+                ciResponsibility.addParty(ciIndividual);
+                ciResponsibility.finalizeClass();
+
+                File csvFile = new File(fileName);
+
+                ZonedDateTime creation = ZonedDateTime.parse(Files.readAttributes(csvFile.toPath(), BasicFileAttributes.class).creationTime().toString());
+                creation = creation.withZoneSameInstant(ZoneId.of("UTC")); // convert to UTC timezone
+                String creationString = creation.format(DateTimeFormatter.ISO_OFFSET_DATE_TIME); // datetime in ISO 8601 format
+
+                ZonedDateTime lastModified = ZonedDateTime.ofInstant(Instant.ofEpochMilli(csvFile.lastModified()), ZoneId.systemDefault()); // local timezone
+                lastModified = lastModified.withZoneSameInstant(ZoneId.of("UTC")); // convert to UTC timezone
+                String lastModifiedString = lastModified.format(DateTimeFormatter.ISO_OFFSET_DATE_TIME); // datetime in ISO 8601 format
+
+                CI_Date ciDateCreation = new CI_Date();
+                ciDateCreation.addDateType(new CI_DateTypeCode(CI_DateTypeCode.CI_DateTypeCodes.creation));
+                ciDateCreation.addDate(creationString);
+                ciDateCreation.finalizeClass();
+
+                CI_Date ciDateLastModified = new CI_Date();
+                ciDateLastModified.addDateType(new CI_DateTypeCode(CI_DateTypeCode.CI_DateTypeCodes.lastUpdate));
+                ciDateLastModified.addDate(lastModifiedString);
+                ciDateLastModified.finalizeClass();
+
+
+                // get (2) reference system
+                System.out.println("Reference System:");
+
+
+                // get (3) structure of spatial data
+                System.out.println("Structure of Spatial Data:");
+
+                String now = ZonedDateTime.now(ZoneOffset.UTC).format(DateTimeFormatter.ISO_INSTANT);
+
+                CI_Date ciDate = new CI_Date();
+                ciDate.addDate(now);
+                ciDate.addDateType(new CI_DateTypeCode(CI_DateTypeCode.CI_DateTypeCodes.creation));
+                ciDate.finalizeClass();
+
+                // TODO: informative title available?
+                CI_Citation ciCitation = new CI_Citation();
+                ciCitation.addTitle("");
+                ciCitation.addDate(ciDate);
+                ciCitation.finalizeClass();
+
+                MD_DataIdentification mdDataIdentification = new MD_DataIdentification();
+                mdDataIdentification.addCitation(ciCitation);
+
+                // TODO: spatial resolution and spatial extent (via flagging in Geopackage class)
+
+                List<TemporalRegularity> temporalRegularities = new ArrayList<>();
+                for (int i = 0; i < csvNumAssessment; i++) {
+                    // temporal dimension
+                    EX_Extent exExtent = new EX_Extent();
+                    exExtent.addDescription("attributeName: " + colNamesAssessment.get(i));
+                    TemporalRegularity tr = getRegularity(yearsAssessmentCols.get(i));
+                    temporalRegularities.add(tr);
+                    // resolution will be -999
+                    if (tr.regularity) {
+                        // if temporal resolution is evenly incremented give begin and end and temporal resolution
+                        TM_Instant tmInstantBegin = new TM_Instant();
+                        tmInstantBegin.addPosition(String.valueOf(tr.begin));
+                        TM_Instant tmInstantEnd = new TM_Instant();
+                        tmInstantEnd.addPosition(String.valueOf(tr.end));
+                        TM_Period tmPeriod = new TM_Period();
+                        tmPeriod.addBegin(tmInstantBegin);
+                        tmPeriod.addEnd(tmInstantEnd);
+                        tmPeriod.finalizeClass();
+                        EX_TemporalExtent exTemporalExtent = new EX_TemporalExtent();
+                        exTemporalExtent.addExtent(tmPeriod);
+                        exTemporalExtent.finalizeClass();
+                        exExtent.addTemporalElement(exTemporalExtent);
+                    } else {
+                        // give all single temporal data
+                        for (String tmp : yearsAssessmentCols.get(i)) {
+                            TM_Instant tmInstant = new TM_Instant();
+                            tmInstant.addPosition(tmp);
+                            EX_TemporalExtent exTemporalExtent = new EX_TemporalExtent();
+                            exTemporalExtent.addExtent(tmInstant);
+                            exTemporalExtent.finalizeClass();
+                            exExtent.addTemporalElement(exTemporalExtent);
+                        }
+                    }
+                    exExtent.finalizeClass();
+                    mdDataIdentification.addTemporalResolution(String.valueOf(tr.resolution));
+                    mdDataIdentification.addExtent(exExtent);
+
+                    // thematic dimension
+                    MD_Keywords mdKeywords = new MD_Keywords();
+                    mdKeywords.addType(new MD_KeywordTypeCode(MD_KeywordTypeCode.MD_KeywordTypeCodes.theme));
+                    mdKeywords.addKeyword("attributeName: " + colNamesAssessment.get(i));
+                    for (String tmp : commoditiesAssessmentCols.get(i)) {
+                        if (thematicMapping) {
+                            mdKeywords.addKeyword(thematicMappingDictionary.get(tmp));
+                        } else {
+                            mdKeywords.addKeyword(tmp);
+                        }
+                    }
+                    mdKeywords.finalizeClass();
+                    mdDataIdentification.addDescriptiveKeywords(mdKeywords);
+                }
+
+                String environmentalDescription = "file name: " + fileName + "; "
+                        + "file size: " + (int) csvFile.length() + " B; "
+                        + "geographical file: " + fileNameGeodata + "; "
+                        + "layer name: " + geoTableNameAct + "; "
+                        + "os: " + System.getProperty("os.name");
+
+                mdDataIdentification.addSpatialRepresentationType(new MD_SpatialRepresentationTypeCode(MD_SpatialRepresentationTypeCode.MD_SpatialRepresentationTypeCodes.textTable));
+                mdDataIdentification.addEnvironmentalDescription(environmentalDescription);
+                mdDataIdentification.finalizeClass();
+
+
+                // get (4) data quality
+                System.out.println("Data Quality:");
+
+                // completenessOmission of data in attribute rows - count of missing data
+                List<DQ_CompletenessOmission> dqCompletenessOmissionsCount = new ArrayList<>();
+                for (int i = 0; i < csvNumAssessment; i++) {
+                    if ((numDataAll - numDataAssessment[i]) > 0) {
+                        dqCompletenessOmissionsCount.add(makeDQCompletenessOmission(colNamesAssessment.get(i), numDataAll, numDataAssessment[i], "count"));
+                    }
+                }
+
+                // completenessOmission of data in attribute rows - rate of missing data
+                List<DQ_CompletenessOmission> dqCompletenessOmissionsRate = new ArrayList<>();
+                for (int i = 0; i < csvNumAssessment; i++) {
+                    if ((numDataAll - numDataAssessment[i]) > 0) {
+                        dqCompletenessOmissionsRate.add(makeDQCompletenessOmission(colNamesAssessment.get(i), numDataAll, numDataAssessment[i], "rate"));
+                    }
+                }
+
+                // completenessCommission of data in attribute rows - count of excess items
+                List<DQ_CompletenessCommission> dqCompletenessCommissionsCount = new ArrayList<>();
+                for (int i = 0; i < csvNumAssessment; i++) {
+                    if (excessDataAll[i] > 0) {
+                        dqCompletenessCommissionsCount.add(makeDQCompletenessCommission(colNamesAssessment.get(i), numDataAll, excessDataAll[i], "count"));
+                    }
+                }
+
+                // completenessCommission of data in attribute rows - rate of excess items
+                List<DQ_CompletenessCommission> dqCompletenessCommissionsRate = new ArrayList<>();
+                for (int i = 0; i < csvNumAssessment; i++) {
+                    if (excessDataAll[i] > 0) {
+                        dqCompletenessCommissionsRate.add(makeDQCompletenessCommission(colNamesAssessment.get(i), numDataAll, excessDataAll[i], "rate"));
+                    }
+                }
+
+                // thematicAccuracy -> count incorrect attribute values (commodities not available in mapping dictionary)
+                List<DQ_NonQuantitativeAttributeCorrectness> dqNonQuantitativeAttributeCorrectnessCount = new ArrayList<>();
+                List<DQ_NonQuantitativeAttributeCorrectness> dqNonQuantitativeAttributeCorrectnessRate = new ArrayList<>();
+                List<Integer[]> mappability = new ArrayList<>();
+                if (thematicMapping) {
                     for (int i = 0; i < csvNumAssessment; i++) {
-                        // temporal units per geographical unit
-                        command = new StringBuilder();
-                        command.append("SELECT COUNT(DISTINCT(joincritascii)) FROM ").append(tableNameMasked);
-                        tmpRS = statementAscii.executeQuery(command.toString());
-                        tmpRS.next();
-                        int numGeoDistinct = tmpRS.getInt(1); // number of distinct geographic units
-
-                        List<EmpiricalDistributionProperty> tmp = new ArrayList<>();
-                        int[] temporalPerGeoSingular = new int[numGeoDistinct];
-                        Arrays.fill(temporalPerGeoSingular, 0); // prefill with zeros
-                        command = new StringBuilder();
-                        command.append("SELECT joincritascii, COUNT(DISTINCT(").append(asciiColNameDefine.get(idxTemporal))
-                                .append(")) FROM ").append(tableNameMasked).append(" WHERE ").append(colNamesAssessment.get(i))
-                                .append(" IS NOT NULL GROUP BY joincritascii");
-                        tmpRS = statementAscii.executeQuery(command.toString());
-                        int ctAct = -1;
-                        while (tmpRS.next()) {
-                            // only categories with a count!=0 are included here
-                            ctAct++;
-                            temporalPerGeoSingular[ctAct] = tmpRS.getInt("count");
-                        }
-
-                        tmp.add(new EmpiricalDistributionProperty("mean", getMean(temporalPerGeoSingular)));
-                        tmp.add(new EmpiricalDistributionProperty("min", getQuantile(temporalPerGeoSingular, 0)));
-                        tmp.add(new EmpiricalDistributionProperty("5 % quantile", getQuantile(temporalPerGeoSingular, .05)));
-                        tmp.add(new EmpiricalDistributionProperty("25 % quantile", getQuantile(temporalPerGeoSingular, .25)));
-                        tmp.add(new EmpiricalDistributionProperty("50 % quantile", getQuantile(temporalPerGeoSingular, .5)));
-                        tmp.add(new EmpiricalDistributionProperty("75 % quantile", getQuantile(temporalPerGeoSingular, .75)));
-                        tmp.add(new EmpiricalDistributionProperty("95 % quantile", getQuantile(temporalPerGeoSingular, .95)));
-                        tmp.add(new EmpiricalDistributionProperty("max", getQuantile(temporalPerGeoSingular, 1)));
-
-                        temporalPerGeo.add(tmp);
-
-                        // thematic units per geographical unit
-                        tmp = new ArrayList<>();
-                        int[] thematicPerGeoSingular = new int[numGeoDistinct];
-                        Arrays.fill(temporalPerGeoSingular, 0); // prefill with zeros
-                        command = new StringBuilder();
-                        command.append("SELECT joincritascii, COUNT(DISTINCT(").append(asciiColNameDefine.get(idxThematic))
-                                .append(")) FROM ").append(tableNameMasked).append(" WHERE ").append(colNamesAssessment.get(i))
-                                .append(" IS NOT NULL GROUP BY joincritascii");
-                        tmpRS = statementAscii.executeQuery(command.toString());
-                        ctAct = -1;
-                        while (tmpRS.next()) {
-                            // only categories with a count!=0 are included here
-                            ctAct++;
-                            thematicPerGeoSingular[ctAct] = tmpRS.getInt("count");
-                        }
-
-                        tmp.add(new EmpiricalDistributionProperty("mean", getMean(thematicPerGeoSingular)));
-                        tmp.add(new EmpiricalDistributionProperty("min", getQuantile(thematicPerGeoSingular, 0)));
-                        tmp.add(new EmpiricalDistributionProperty("5 % quantile", getQuantile(thematicPerGeoSingular, .05)));
-                        tmp.add(new EmpiricalDistributionProperty("25 % quantile", getQuantile(thematicPerGeoSingular, .25)));
-                        tmp.add(new EmpiricalDistributionProperty("50 % quantile", getQuantile(thematicPerGeoSingular, .5)));
-                        tmp.add(new EmpiricalDistributionProperty("75 % quantile", getQuantile(thematicPerGeoSingular, .75)));
-                        tmp.add(new EmpiricalDistributionProperty("95 % quantile", getQuantile(thematicPerGeoSingular, .95)));
-                        tmp.add(new EmpiricalDistributionProperty("max", getQuantile(thematicPerGeoSingular, 1)));
-
-                        thematicPerGeo.add(tmp);
-
-                        // thematic units per temporal unit
-                        command = new StringBuilder();
-                        command.append("SELECT COUNT(DISTINCT(").append(asciiColNameDefine.get(idxTemporal)).append(")) FROM ").append(tableNameMasked);
-                        tmpRS = statementAscii.executeQuery(command.toString());
-                        tmpRS.next();
-                        int numTempDistinct = tmpRS.getInt(1); // number of distinct geographic units
-
-                        tmp = new ArrayList<>();
-                        int[] thematicPerTempSingular = new int[numTempDistinct];
-                        Arrays.fill(thematicPerTempSingular, 0); // prefill with zeros
-                        command = new StringBuilder();
-                        command.append("SELECT ").append(asciiColNameDefine.get(idxTemporal)).append(", COUNT(DISTINCT(").append(asciiColNameDefine.get(idxThematic))
-                                .append(")) FROM ").append(tableNameMasked).append(" WHERE ").append(colNamesAssessment.get(i))
-                                .append(" IS NOT NULL GROUP BY ").append(asciiColNameDefine.get(idxTemporal));
-                        tmpRS = statementAscii.executeQuery(command.toString());
-                        ctAct = -1;
-                        while (tmpRS.next()) {
-                            // only categories with a count!=0 are included here
-                            ctAct++;
-                            thematicPerTempSingular[ctAct] = tmpRS.getInt("count");
-                        }
-
-                        tmp.add(new EmpiricalDistributionProperty("mean", getMean(thematicPerTempSingular)));
-                        tmp.add(new EmpiricalDistributionProperty("min", getQuantile(thematicPerTempSingular, 0)));
-                        tmp.add(new EmpiricalDistributionProperty("5 % quantile", getQuantile(thematicPerTempSingular, .05)));
-                        tmp.add(new EmpiricalDistributionProperty("25 % quantile", getQuantile(thematicPerTempSingular, .25)));
-                        tmp.add(new EmpiricalDistributionProperty("50 % quantile", getQuantile(thematicPerTempSingular, .5)));
-                        tmp.add(new EmpiricalDistributionProperty("75 % quantile", getQuantile(thematicPerTempSingular, .75)));
-                        tmp.add(new EmpiricalDistributionProperty("95 % quantile", getQuantile(thematicPerTempSingular, .95)));
-                        tmp.add(new EmpiricalDistributionProperty("max", getQuantile(thematicPerTempSingular, 1)));
-
-                        thematicPerTemp.add(tmp);
+                        mappability.add(evaluateCommoditiesMappingPossibility(commoditiesAssessmentColsAll.get(i)));
+                        dqNonQuantitativeAttributeCorrectnessCount.add(makeDQNonQuantitativeAttributeCorrectnessCount(colNamesAssessment.get(i), mappability.get(i), now));
+                        dqNonQuantitativeAttributeCorrectnessRate.add(makeDQNonQuantitativeAttributeCorrectnessRate(colNamesAssessment.get(i), mappability.get(i), now));
                     }
+                }
 
 
+                // metaquality - number of polygons per area
+                DQ_Representativity dqRepresentativitySpatial = new DQ_Representativity();
+                if (gpkg.geometryType.contains("polygon")) {
+                    DQ_MeasureReference dqMeasureReference = new DQ_MeasureReference();
+                    dqMeasureReference.addNameOfMeasure("polygons per area");
+                    dqMeasureReference.addMeasureDescription("Number of polygons per 1000 square kilometer. " +
+                            "Area size summarized by all polygons, regardless of overlapping.");
+                    dqMeasureReference.finalizeClass();
+
+                    DQ_FullInspection dqFullInspection = new DQ_FullInspection();
+                    dqFullInspection.addDateTime(now);
+                    dqFullInspection.addEvaluationMethodType(new DQ_EvaluationMethodTypeCode(DQ_EvaluationMethodTypeCode.DQ_EvaluationMethodTypeCodes.directInternal));
+                    dqFullInspection.finalizeClass();
+
+                    Record record = new Record();
+                    record.addField(String.format(Locale.ENGLISH, "%f", polygonPerArea));
+                    record.finalizeClass();
+
+                    DQ_QuantitativeResult dqQuantitativeResult = new DQ_QuantitativeResult();
+                    dqQuantitativeResult.addDateTime(now);
+                    dqQuantitativeResult.addValue(record);
+                    dqQuantitativeResult.addValueUnit("polygons per 1000 square km");
+
+                    dqRepresentativitySpatial.addMeasure(dqMeasureReference);
+                    dqRepresentativitySpatial.addEvaluationMethod(dqFullInspection);
+                    dqRepresentativitySpatial.addResult(dqQuantitativeResult);
+                    dqRepresentativitySpatial.finalizeClass();
+                }
+
+                // metaquality - number of different geographies per attribute
+                List<DQ_Representativity> dqRepresentativitiesSpatial = new ArrayList<>();
+                for (int i = 0; i < csvNumAssessment; i++) {
+                    dqRepresentativitiesSpatial.add(makeDQRepresentativitySpatial(colNamesAssessment.get(i), numGeoAssessmentCols.get(i), now));
+                }
+
+                // metaquality - number of different years per attribute
+                List<DQ_Representativity> dqRepresentativitiesTemporal = new ArrayList<>();
+                for (int i = 0; i < csvNumAssessment; i++) {
+                    dqRepresentativitiesTemporal.add(makeDQRepresentativityTemporal(colNamesAssessment.get(i), numYearsAssessmentCols.get(i), now));
+                }
+
+                // metaquality - number of different commodity elements per attribute
+                List<DQ_Representativity> dqRepresentativitiesThematic = new ArrayList<>();
+                for (int i = 0; i < csvNumAssessment; i++) {
+                    dqRepresentativitiesThematic.add(makeDQRepresentativityThematic(colNamesAssessment.get(i), numCommoditiesAssessmentCols.get(i), now));
+                }
+
+                // metaquality - distribution parameters of different years per geographical unit per attribute
+                List<DQ_Representativity> dqRepresentativitiesTempPerGeo = new ArrayList<>();
+                for (int i = 0; i < csvNumAssessment; i++) {
+                    dqRepresentativitiesTempPerGeo.add(makeDQRepresentativityParamTempPerGeo(colNamesAssessment.get(i), temporalPerGeo.get(i), now));
+                }
+
+                // metaquality - distribution parameters of different commodities per geographical unit per attribute
+                List<DQ_Representativity> dqRepresentativitiesThematicPerGeo = new ArrayList<>();
+                for (int i = 0; i < csvNumAssessment; i++) {
+                    dqRepresentativitiesThematicPerGeo.add(makeDQRepresentativityParamThematicPerGeo(colNamesAssessment.get(i), thematicPerGeo.get(i), now));
+                }
+
+                // metaquality - distribution parameters of different commodities per temporal unit per attribute
+                List<DQ_Representativity> dqRepresentativitiesThematicPerTemp = new ArrayList<>();
+                for (int i = 0; i < csvNumAssessment; i++) {
+                    dqRepresentativitiesThematicPerTemp.add(makeDQRepresentativityParamThematicPerTemp(colNamesAssessment.get(i), thematicPerTemp.get(i), now));
+                }
+
+                // temporal consistency - correct order and regularly distributed time steps
+                List<DQ_TemporalConsistency> dqTemporalConsistencies = new ArrayList<>();
+                for (int i = 0; i < csvNumAssessment; i++) {
+                    dqTemporalConsistencies.add(makeDQTemporalConsistency(colNamesAssessment.get(i), temporalRegularities.get(i).regularity, now));
+                }
+
+                // frame around data quality fields
+                MD_Scope mdScope = new MD_Scope();
+                mdScope.addLevel(new MD_ScopeCode(MD_ScopeCode.MD_ScopeCodes.dataset));
+                mdScope.finalizeClass();
+
+                CI_Date ciDateReport = new CI_Date();
+                ciDateReport.addDate(now);
+                ciDateReport.addDateType(new CI_DateTypeCode(CI_DateTypeCode.CI_DateTypeCodes.creation));
+                ciDateReport.finalizeClass();
+
+                CI_Citation ciCitationReport = new CI_Citation();
+                ciCitationReport.addTitle("Reporting as standalone quality report");
+                ciCitationReport.addDate(ciDateReport);
+                ciCitationReport.finalizeClass();
+
+                DQ_StandaloneQualityReportInformation dqStandaloneQualityReportInformation = new DQ_StandaloneQualityReportInformation();
+                dqStandaloneQualityReportInformation.addReportReference(ciCitationReport);
+                dqStandaloneQualityReportInformation.addAbstract("The standalone quality report attached to this quality evaluation is providing more details on the derivation and aggregation method.");
+                dqStandaloneQualityReportInformation.finalizeClass();
+
+                DQ_DataQuality dqDataQuality = new DQ_DataQuality();
+                dqDataQuality.addScope(mdScope);
+                dqDataQuality.addStandaloneQualityReport(dqStandaloneQualityReportInformation);
+                for (DQ_CompletenessOmission dqCompletenessOmission : dqCompletenessOmissionsCount) {
+                    dqDataQuality.addReport(dqCompletenessOmission);
+                }
+                for (DQ_CompletenessOmission dqCompletenessOmission : dqCompletenessOmissionsRate) {
+                    dqDataQuality.addReport(dqCompletenessOmission);
+                }
+                for (DQ_CompletenessCommission dqCompletenessCommission : dqCompletenessCommissionsCount) {
+                    dqDataQuality.addReport(dqCompletenessCommission);
+                }
+                for (DQ_CompletenessCommission dqCompletenessCommission : dqCompletenessCommissionsRate) {
+                    dqDataQuality.addReport(dqCompletenessCommission);
+                }
+                if (thematicMapping) {
+                    for (DQ_NonQuantitativeAttributeCorrectness dqNonQuantitativeAttributeCorrectness : dqNonQuantitativeAttributeCorrectnessCount) {
+                        dqDataQuality.addReport(dqNonQuantitativeAttributeCorrectness);
+                    }
+                    for (DQ_NonQuantitativeAttributeCorrectness dqNonQuantitativeAttributeCorrectness : dqNonQuantitativeAttributeCorrectnessRate) {
+                        dqDataQuality.addReport(dqNonQuantitativeAttributeCorrectness);
+                    }
+                }
+
+                if (gpkg.geometryType.contains("polygon")) {
+                    dqDataQuality.addReport(dqRepresentativitySpatial);
+                }
+                for (DQ_Representativity dqRepresentativitySpatial2 : dqRepresentativitiesSpatial) {
+                    dqDataQuality.addReport((dqRepresentativitySpatial2));
+                }
+                for (DQ_Representativity dqRepresentativityTemporal : dqRepresentativitiesTemporal) {
+                    dqDataQuality.addReport(dqRepresentativityTemporal);
+                }
+                for (DQ_Representativity dqRepresentativityThematic : dqRepresentativitiesThematic) {
+                    dqDataQuality.addReport(dqRepresentativityThematic);
+                }
+                for (DQ_Representativity dqRepresentativityTempPerGeo : dqRepresentativitiesTempPerGeo) {
+                    dqDataQuality.addReport(dqRepresentativityTempPerGeo);
+                }
+                for (DQ_Representativity dqRepresentativityThematicPerGeo : dqRepresentativitiesThematicPerGeo) {
+                    dqDataQuality.addReport(dqRepresentativityThematicPerGeo);
+                }
+                for (DQ_Representativity dqRepresentativityThematicPerTemp : dqRepresentativitiesThematicPerTemp) {
+                    dqDataQuality.addReport(dqRepresentativityThematicPerTemp);
+                }
+                for (DQ_TemporalConsistency dqTemporalConsistency : dqTemporalConsistencies) {
+                    dqDataQuality.addReport(dqTemporalConsistency);
+                }
+                dqDataQuality.addReport(makeDQFormatConsistency(properties.allowedFileFormat, now));
+
+                dqDataQuality.finalizeClass();
+
+
+                // get (5) metadata contact
+                System.out.println("Metadata Contact:");
+
+                CI_Citation ciCitationMetadataStandard = new CI_Citation();
+                ciCitationMetadataStandard.addTitle("ISO 19115-1");
+                ciCitationMetadataStandard.addEdition("First edition 2014-04-01");
+                ciCitationMetadataStandard.finalizeClass();
+
+
+                // get (6) provenance
+
+
+                // aggregate all data in MD_Metadata
+                MD_Metadata mdMetadata = new MD_Metadata();
+                mdMetadata.addMetadataIdentifier(mdIdentifier);
+                mdMetadata.addContact(ciResponsibility);
+                mdMetadata.addDateInfo(ciDateCreation);
+                mdMetadata.addDateInfo(ciDateLastModified);
+                mdMetadata.addIdentificationInfo(mdDataIdentification);
+                mdMetadata.addMetadataStandard(ciCitationMetadataStandard);
+
+                mdMetadata.addDataQualityInfo(dqDataQuality);
+                mdMetadata.finalizeClass();
+
+                dsDataSet.addHas(mdMetadata);
+            }
+            dsDataSet.finalizeClass();
+
+            if (postgresUse) {
+                try {
+                    statementAscii.executeUpdate("DROP TABLE IF EXISTS " + tableName);
+                    statementAscii.executeUpdate("DROP TABLE IF EXISTS " + tableNameMasked);
                 } catch (SQLException e) {
                     System.out.println(e.getMessage());
                 }
-
-
-            } else {
-                // direct conversion of csv content into Java objects -> suitable for smaller files
-                // -> no use of postgres database
-                CSVReader csvContent = new CSVReader(fileName, ",", asciiColNameJoin, asciiColNameDefine, asciiColNameIgnore);
-                csvContent.getContent();
-                csvNumAssessment = csvContent.headerAssessment.size();
-                colNamesAssessment = csvContent.headerAssessment;
-
-                // get indices of all relevant combinations in asciiColNameJoin
-                List<Integer> idxRelevant = new ArrayList<>();
-                List<String> joinCritGeoExist = new ArrayList<>(); // elements in joinCritGeo used in csv file, too
-                for (int csvCt1 = 0; csvCt1 < csvContent.fileContentJoin.size(); csvCt1++) {
-                    // loop over all entries in csv
-                    StringBuilder joinCritActCsv = new StringBuilder();
-                    for (int csvCt2 = 0; csvCt2 < asciiColNameJoin.size(); csvCt2++) {
-                        // loop over all join criteria in csv
-                        joinCritActCsv.append(csvContent.fileContentJoin.get(csvCt1)[csvCt2]);
-                    }
-                    if (joinCritGeo.contains(joinCritActCsv.toString())) {
-                        // this combination of criteria is valid for current geodata
-                        idxRelevant.add(csvCt1);
-
-                        if (!joinCritGeoExist.contains(joinCritActCsv.toString())) {
-                            joinCritGeoExist.add(joinCritActCsv.toString());
-                        }
-                    }
-                }
-
-                // get a list of relevant csv data in current geodata
-                List<String[]> csvContentMaskedJoin = new ArrayList<>(); // for excess items also join parameters necessary
-                List<String[]> csvContentMaskedDefine = new ArrayList<>();
-                List<String[]> csvContentMaskedAssessment = new ArrayList<>();
-                for (Integer idxRelevantAct : idxRelevant) {
-                    csvContentMaskedJoin.add(csvContent.fileContentJoin.get(idxRelevantAct));
-                    csvContentMaskedDefine.add(csvContent.fileContentDefine.get(idxRelevantAct));
-                    csvContentMaskedAssessment.add(csvContent.fileContentAssessment.get(idxRelevantAct));
-                }
-
-                // get number/rate of missing values in each assessed column of ascii data
-                numDataAll = csvContentMaskedAssessment.size();
-                numDataAssessment = new int[csvNumAssessment];
-                Arrays.fill(numDataAssessment, 0); // preallocate with zero
-                for (String[] tmp : csvContentMaskedAssessment) {
-                    int i = -1;
-                    for (String tmp2 : tmp) {
-                        i++;
-                        if (!tmp2.equals("")) {
-                            numDataAssessment[i]++;
-                        }
-                    }
-                }
-                // TODO: get missing values within secondary criteria (date with increment)
-
-                // get number/rate of excess items in each assessed column of ascii data -> concatenate all definition rows
-                String joinDelimiter = "##";
-                List<String> joinCritAsciiDefined = new ArrayList<>();
-                for (int i = 0; i < csvContentMaskedDefine.size(); i++) {
-                    StringBuilder joinCritAsciiAct = new StringBuilder();
-                    for (String tmp : csvContentMaskedJoin.get(i)) {
-                        joinCritAsciiAct.append(joinDelimiter);
-                        joinCritAsciiAct.append(tmp);
-                    }
-                    for (String tmp : csvContentMaskedDefine.get(i)) {
-                        joinCritAsciiAct.append(joinDelimiter); // delimiter between fields for minimizing cluttered entries
-                        joinCritAsciiAct.append(tmp);
-                    }
-                    joinCritAsciiDefined.add(joinCritAsciiAct.toString());
-                }
-                List<List<Integer>> joinCritAsciiDefinedIndices = getStringOccurrenceIndices(joinCritAsciiDefined);
-                excessDataAll = new int[csvNumAssessment]; // excess data (0 means no duplicate, 1 means one duplicate)
-                Arrays.fill(excessDataAll, 0);
-                for (int ctAssessmentColumn = 0; ctAssessmentColumn < csvNumAssessment; ctAssessmentColumn++) {
-                    // loop over assessment columns
-                    for (List<Integer> idxElementAct : joinCritAsciiDefinedIndices) {
-                        // loop over index list
-                        if (idxElementAct.size() == 1) {
-                            // only one index available -> no duplicates
-                            continue;
-                        }
-                        int[] entriesAct = new int[idxElementAct.size()];
-                        Arrays.fill(entriesAct, 0);
-                        for (int ctDuplicates = 0; ctDuplicates < idxElementAct.size(); ctDuplicates++) {
-                            // loop over potentially duplicate entries
-                            if (!csvContentMaskedAssessment.get(idxElementAct.get(ctDuplicates))[ctAssessmentColumn].equals("")) {
-                                // entry in particular row/column available
-                                entriesAct[ctDuplicates] = 1;
-                            }
-                        }
-                        int entriesActSum = 0;
-                        for (int entriesTmp : entriesAct) {
-                            entriesActSum = entriesActSum + entriesTmp;
-                        }
-                        if (entriesActSum > 0) {
-                            // only add to excess data if some data in this column is available
-                            excessDataAll[ctAssessmentColumn] = excessDataAll[ctAssessmentColumn] + entriesActSum - 1;
-                        }
-                    }
-                }
-
-                // get polygons per area (per 1000 square kilometer)
-                // only polygons with data representations in ascii file are taken into account
-                gpkg.open(geoTableNameAct);
-                if (gpkg.geometryType.equals("polygon")) {
-                    List<FeatureDescriptor> featureDescriptors = gpkg.getCenterArea();
-                    List<Integer> featureDescriptorsUsed = new ArrayList<>();
-                    double areaKm2UTM = 0.0;
-                    int ct = -1;
-                    for (FeatureDescriptor featureDescriptor : featureDescriptors) {
-                        ct++;
-                        String attributeValueMerged = featureDescriptor.getAttributeValuesIntendedMerged(geoColNameJoin);
-                        if (joinCritGeoExist.contains(attributeValueMerged)) {
-                            featureDescriptorsUsed.add(ct);
-                            areaKm2UTM = areaKm2UTM + featureDescriptor.getAreaKm2UTM();
-                        }
-                    }
-                    polygonPerArea = featureDescriptorsUsed.size() / areaKm2UTM * 1000;
-                } else {
-                    polygonPerArea = -999;
-                }
-                gpkg.dispose();
-
-                // get spatial data from csvContentMaskedJoin
-                List<String> csvContentMaskedSpatial = new ArrayList<>();
-                for (String[] tmp : csvContentMaskedJoin) {
-                    StringBuilder tmp2 = new StringBuilder();
-                    for (String tmp3 : tmp) {
-                        tmp2.append(tmp3);
-                    }
-                    csvContentMaskedSpatial.add(tmp2.toString());
-                }
-
-                // get temporal and thematic data from csvContentMaskedDefine
-                List<String> csvContentMaskedTemporal = new ArrayList<>();
-                List<String> csvContentMaskedThematic = new ArrayList<>();
-                for (String[] tmp : csvContentMaskedDefine) {
-                    csvContentMaskedTemporal.add(tmp[idxTemporal]);
-                    csvContentMaskedThematic.add(tmp[idxThematic]);
-                }
-
-                // prepare number of geometries, years, commodities per attribute
-                boolean[][] idxMaskedRelevantAll = new boolean[csvNumAssessment][numDataAll];
-                for (int i = 0; i < csvNumAssessment; i++) {
-                    // preallocate boolean matrix
-                    Arrays.fill(idxMaskedRelevantAll[i], false);
-                }
-                for (int i = 0; i < numDataAll; i++) {
-                    // fill boolean index matrix
-                    String[] tmp = csvContentMaskedAssessment.get(i);
-                    for (int j = 0; j < csvNumAssessment; j++) {
-                        if (!tmp[j].equals("")) {
-                            idxMaskedRelevantAll[j][i] = true;
-                        }
-                    }
-                }
-
-                // get number of geometries per attribute
-                List<List<String>> geoMaskedAssessment = new ArrayList<>();
-                List<List<String>> geoMaskedAssessmentUnique = new ArrayList<>();
-                for (int i = 0; i < csvNumAssessment; i++) {
-                    // get available geometries of all columns of masked assessment data
-                    geoMaskedAssessment.add(getListFromLogicalIndex(csvContentMaskedSpatial, idxMaskedRelevantAll[i]));
-                    geoMaskedAssessmentUnique.add(getStringListUniqueMembers(geoMaskedAssessment.get(i)));
-                    numGeoAssessmentCols.add(geoMaskedAssessmentUnique.get(i).size());
-                }
-
-                // get number of years per attribute
-                List<List<String>> yearsMaskedAssessment = new ArrayList<>();
-                for (int i = 0; i < csvNumAssessment; i++) {
-                    // get available years of all columns of masked assessment data
-                    yearsMaskedAssessment.add(getListFromLogicalIndex(csvContentMaskedTemporal, idxMaskedRelevantAll[i]));
-                    List<String> yearsAssessmentColsAct = getStringListUniqueMembers(yearsMaskedAssessment.get(i));
-                    Collections.sort(yearsAssessmentColsAct);
-                    yearsAssessmentCols.add(yearsAssessmentColsAct);
-                    numYearsAssessmentCols.add(yearsAssessmentCols.get(i).size());
-                }
-
-                // get number of commodities per attribute
-                List<List<String>> commoditiesMaskedAssessment = new ArrayList<>();
-                for (int i = 0; i < csvNumAssessment; i++) {
-                    // get available commodities of all columns of masked assessment data
-                    commoditiesMaskedAssessment.add(getListFromLogicalIndex(csvContentMaskedThematic, idxMaskedRelevantAll[i]));
-                    List<String> commoditiesAssessmentColsAct = getStringListUniqueMembers(commoditiesMaskedAssessment.get(i));
-                    Collections.sort(commoditiesAssessmentColsAct);
-                    commoditiesAssessmentCols.add(commoditiesAssessmentColsAct);
-                    numCommoditiesAssessmentCols.add(commoditiesAssessmentCols.get(i).size());
-                    if (thematicMapping) {
-                        commoditiesAssessmentColsAll.add(commoditiesMaskedAssessment.get(i));
-                    }
-                }
-
-                // prepare for various distribution parameters
-                List<String> csvContentMaskedJoined = new ArrayList<>();
-                for (String[] csvContentMaskedJoinAct : csvContentMaskedJoin) {
-                    StringBuilder tmp = new StringBuilder();
-                    for (String csvContentMaskedJoinActI : csvContentMaskedJoinAct) {
-                        tmp.append(csvContentMaskedJoinActI);
-                    }
-                    csvContentMaskedJoined.add(tmp.toString());
-                }
-
-                CsvMaskedContent csvMaskedContent = new CsvMaskedContent(csvContentMaskedJoined, csvContentMaskedTemporal, csvContentMaskedThematic, csvContentMaskedAssessment, idxMaskedRelevantAll);
-
-                // get distribution parameters of number of years per attribute over all spatial units
-                temporalPerGeo = csvMaskedContent.getTemporalPerGeo();
-
-                // get distribution parameters of number of commodities per attribute over all spatial units
-                thematicPerGeo = csvMaskedContent.getThematicPerGeo();
-
-                // get distribution parameters of number of commodities per attribute over all temporal units
-                thematicPerTemp = csvMaskedContent.getThematicPerTemp();
             }
-
-
-
-            ///////////////////////////////////
-            // Instantiate Metadata Elements //
-            ///////////////////////////////////
-            // order of classes according to MD_Metadata:
-            // metadataIdentifier:           1 basicInformation
-            // defaultLocale:                1 basicInformation
-            // parentMetadata:               1 basicInformation
-            // contact:                      1 basicInformation
-            // dateInfo:                     1 basicInformation
-            // metadataStandard:             5 metadataContact
-            // metadataProfile:              5 metadataContact
-            // alternativeMetadataReference: 5 metadataContact
-            // otherLocale:                  1 basicInformation
-            // metadataLinkage:              1 basicInformation
-            // spatialRepresentationInfo:    3 structureOfSpatialData
-            // referenceSystemInfo:          2 referenceSystem
-            // metadataExtensionInfo:        5 metadataContact
-            // identificationInfo:           3 structureOfSpatialData
-            // contentInfo:                  3 structureOfSpatialData
-            // distributionInfo:             1 basicInformation
-            // dataQualityInfo:              4 dataQuality
-            // portrayalCatalogueInfo:       5 metadataContact
-            // metadataConstraints:          1 basicInformation
-            // applicationSchemaInfo:        5 metadataContact
-            // metadataMaintenance:          5 metadataContact
-            // resourceLineage:              6 provenance
-            // metadataScope:                5 metadataContact
-
-            // get (1) basic information
-            System.out.println("Basic Information:");
-
-            String identifierCode = "pid:" + UUID.randomUUID().toString();
-
-            MD_Identifier mdIdentifier = new MD_Identifier();
-            mdIdentifier.addCode(identifierCode);
-            mdIdentifier.finalizeClass();
-
-            CI_Individual ciIndividual = new CI_Individual();
-            ciIndividual.addName(System.getProperty("user.name"));
-            ciIndividual.finalizeClass();
-
-            CI_Responsibility ciResponsibility = new CI_Responsibility();
-            ciResponsibility.addRole(new CI_RoleCode(CI_RoleCode.CI_RoleCodes.resourceProvider));
-            ciResponsibility.addParty(ciIndividual);
-            ciResponsibility.finalizeClass();
-
-            File csvFile = new File(fileName);
-
-            ZonedDateTime lastModified = ZonedDateTime.ofInstant(Instant.ofEpochMilli(csvFile.lastModified()), ZoneId.systemDefault()); // local timezone
-            lastModified = lastModified.withZoneSameInstant(ZoneId.of("UTC")); // convert to UTC timezone
-            String lastModifiedString = lastModified.format(DateTimeFormatter.ISO_OFFSET_DATE_TIME); // datetime in ISO 8601 format
-
-            CI_Date ciDateLastModified = new CI_Date();
-            ciDateLastModified.addDateType(new CI_DateTypeCode(CI_DateTypeCode.CI_DateTypeCodes.lastUpdate));
-            ciDateLastModified.addDate(lastModifiedString);
-            ciDateLastModified.finalizeClass();
-
-
-            // get (2) reference system
-            System.out.println("Reference System:");
-
-
-            // get (3) structure of spatial data
-            System.out.println("Structure of Spatial Data:");
-
-            String now = ZonedDateTime.now(ZoneOffset.UTC).format(DateTimeFormatter.ISO_INSTANT);
-
-            CI_Date ciDate = new CI_Date();
-            ciDate.addDate(now);
-            ciDate.addDateType(new CI_DateTypeCode(CI_DateTypeCode.CI_DateTypeCodes.creation));
-            ciDate.finalizeClass();
-
-            // TODO: informative title available?
-            CI_Citation ciCitation = new CI_Citation();
-            ciCitation.addTitle("");
-            ciCitation.addDate(ciDate);
-            ciCitation.finalizeClass();
-
-            MD_DataIdentification mdDataIdentification = new MD_DataIdentification();
-            mdDataIdentification.addCitation(ciCitation);
-
-            // TODO: spatial resolution and spatial extent (via flagging in Geopackage class)
-
-            List<TemporalRegularity> temporalRegularities = new ArrayList<>();
-            for (int i = 0; i < csvNumAssessment; i++) {
-                // temporal dimension
-                EX_Extent exExtent = new EX_Extent();
-                exExtent.addDescription("attributeName: " + colNamesAssessment.get(i));
-                TemporalRegularity tr = getRegularity(yearsAssessmentCols.get(i));
-                temporalRegularities.add(tr);
-                // resolution will be -999
-                if (tr.regularity) {
-                    // if temporal resolution is evenly incremented give begin and end and temporal resolution
-                    TM_Instant tmInstantBegin = new TM_Instant();
-                    tmInstantBegin.addPosition(String.valueOf(tr.begin));
-                    TM_Instant tmInstantEnd = new TM_Instant();
-                    tmInstantEnd.addPosition(String.valueOf(tr.end));
-                    TM_Period tmPeriod = new TM_Period();
-                    tmPeriod.addBegin(tmInstantBegin);
-                    tmPeriod.addEnd(tmInstantEnd);
-                    tmPeriod.finalizeClass();
-                    EX_TemporalExtent exTemporalExtent = new EX_TemporalExtent();
-                    exTemporalExtent.addExtent(tmPeriod);
-                    exTemporalExtent.finalizeClass();
-                    exExtent.addTemporalElement(exTemporalExtent);
-                } else {
-                    // give all single temporal data
-                    for (String tmp : yearsAssessmentCols.get(i)) {
-                        TM_Instant tmInstant = new TM_Instant();
-                        tmInstant.addPosition(tmp);
-                        EX_TemporalExtent exTemporalExtent = new EX_TemporalExtent();
-                        exTemporalExtent.addExtent(tmInstant);
-                        exTemporalExtent.finalizeClass();
-                        exExtent.addTemporalElement(exTemporalExtent);
-                    }
-                }
-                exExtent.finalizeClass();
-                mdDataIdentification.addTemporalResolution(String.valueOf(tr.resolution));
-                mdDataIdentification.addExtent(exExtent);
-
-                // thematic dimension
-                MD_Keywords mdKeywords = new MD_Keywords();
-                mdKeywords.addType(new MD_KeywordTypeCode(MD_KeywordTypeCode.MD_KeywordTypeCodes.theme));
-                mdKeywords.addKeyword("attributeName: " + colNamesAssessment.get(i));
-                for (String tmp : commoditiesAssessmentCols.get(i)) {
-                    if (thematicMapping) {
-                        mdKeywords.addKeyword(thematicMappingDictionary.get(tmp));
-                    } else {
-                        mdKeywords.addKeyword(tmp);
-                    }
-                }
-                mdKeywords.finalizeClass();
-                mdDataIdentification.addDescriptiveKeywords(mdKeywords);
-            }
-
-            String environmentalDescription = "file name: " + fileName + "; "
-                    + "file size: " + (int) csvFile.length() + " B; "
-                    + "geographical file: " + fileNameGeodata + "; "
-                    + "layer name: " + geoTableNameAct + "; "
-                    + "os: " + System.getProperty("os.name");
-
-            mdDataIdentification.addSpatialRepresentationType(new MD_SpatialRepresentationTypeCode(MD_SpatialRepresentationTypeCode.MD_SpatialRepresentationTypeCodes.textTable));
-            mdDataIdentification.addEnvironmentalDescription(environmentalDescription);
-            mdDataIdentification.finalizeClass();
-
-
-            // get (4) data quality
-            System.out.println("Data Quality:");
-
-            // completenessOmission of data in attribute rows - count of missing data
-            List<DQ_CompletenessOmission> dqCompletenessOmissionsCount = new ArrayList<>();
-            for (int i = 0; i < csvNumAssessment; i++) {
-                if ((numDataAll - numDataAssessment[i]) > 0) {
-                    dqCompletenessOmissionsCount.add(makeDQCompletenessOmission(colNamesAssessment.get(i), numDataAll, numDataAssessment[i], "count"));
-                }
-            }
-
-            // completenessOmission of data in attribute rows - rate of missing data
-            List<DQ_CompletenessOmission> dqCompletenessOmissionsRate = new ArrayList<>();
-            for (int i = 0; i < csvNumAssessment; i++) {
-                if ((numDataAll - numDataAssessment[i]) > 0) {
-                    dqCompletenessOmissionsRate.add(makeDQCompletenessOmission(colNamesAssessment.get(i), numDataAll, numDataAssessment[i], "rate"));
-                }
-            }
-
-            // completenessCommission of data in attribute rows - count of excess items
-            List<DQ_CompletenessCommission> dqCompletenessCommissionsCount = new ArrayList<>();
-            for (int i = 0; i < csvNumAssessment; i++) {
-                if (excessDataAll[i] > 0) {
-                    dqCompletenessCommissionsCount.add(makeDQCompletenessCommission(colNamesAssessment.get(i), numDataAll, excessDataAll[i], "count"));
-                }
-            }
-
-            // completenessCommission of data in attribute rows - rate of excess items
-            List<DQ_CompletenessCommission> dqCompletenessCommissionsRate = new ArrayList<>();
-            for (int i = 0; i < csvNumAssessment; i++) {
-                if (excessDataAll[i] > 0) {
-                    dqCompletenessCommissionsRate.add(makeDQCompletenessCommission(colNamesAssessment.get(i), numDataAll, excessDataAll[i], "rate"));
-                }
-            }
-
-            // thematicAccuracy -> count incorrect attribute values (commodities not available in mapping dictionary)
-            List<DQ_NonQuantitativeAttributeCorrectness> dqNonQuantitativeAttributeCorrectnessCount = new ArrayList<>();
-            List<DQ_NonQuantitativeAttributeCorrectness> dqNonQuantitativeAttributeCorrectnessRate = new ArrayList<>();
-            List<Integer[]> mappability = new ArrayList<>();
-            if (thematicMapping) {
-                for (int i = 0; i < csvNumAssessment; i++) {
-                    mappability.add(evaluateCommoditiesMappingPossibility(commoditiesAssessmentColsAll.get(i)));
-                    dqNonQuantitativeAttributeCorrectnessCount.add(makeDQNonQuantitativeAttributeCorrectnessCount(colNamesAssessment.get(i), mappability.get(i), now));
-                    dqNonQuantitativeAttributeCorrectnessRate.add(makeDQNonQuantitativeAttributeCorrectnessRate(colNamesAssessment.get(i), mappability.get(i), now));
-                }
-            }
-
-
-            // metaquality - number of polygons per area
-            DQ_Representativity dqRepresentativitySpatial = new DQ_Representativity();
-            if (gpkg.geometryType.equals("polygon")) {
-                DQ_MeasureReference dqMeasureReference = new DQ_MeasureReference();
-                dqMeasureReference.addNameOfMeasure("polygons per area");
-                dqMeasureReference.addMeasureDescription("Number of polygons per 1000 square kilometer. " +
-                        "Area size summarized by all polygons, regardless of overlapping.");
-                dqMeasureReference.finalizeClass();
-
-                DQ_FullInspection dqFullInspection = new DQ_FullInspection();
-                dqFullInspection.addDateTime(now);
-                dqFullInspection.addEvaluationMethodType(new DQ_EvaluationMethodTypeCode(DQ_EvaluationMethodTypeCode.DQ_EvaluationMethodTypeCodes.directInternal));
-                dqFullInspection.finalizeClass();
-
-                Record record = new Record();
-                record.addField(String.format(Locale.ENGLISH, "%f", polygonPerArea));
-                record.finalizeClass();
-
-                DQ_QuantitativeResult dqQuantitativeResult = new DQ_QuantitativeResult();
-                dqQuantitativeResult.addDateTime(now);
-                dqQuantitativeResult.addValue(record);
-                dqQuantitativeResult.addValueUnit("polygons per 1000 square km");
-
-                dqRepresentativitySpatial.addMeasure(dqMeasureReference);
-                dqRepresentativitySpatial.addEvaluationMethod(dqFullInspection);
-                dqRepresentativitySpatial.addResult(dqQuantitativeResult);
-                dqRepresentativitySpatial.finalizeClass();
-            }
-
-            // metaquality - number of different geographies per attribute
-            List<DQ_Representativity> dqRepresentativitiesSpatial = new ArrayList<>();
-            for (int i = 0; i < csvNumAssessment; i++) {
-                dqRepresentativitiesSpatial.add(makeDQRepresentativitySpatial(colNamesAssessment.get(i), numGeoAssessmentCols.get(i), now));
-            }
-
-            // metaquality - number of different years per attribute
-            List<DQ_Representativity> dqRepresentativitiesTemporal = new ArrayList<>();
-            for (int i = 0; i < csvNumAssessment; i++) {
-                dqRepresentativitiesTemporal.add(makeDQRepresentativityTemporal(colNamesAssessment.get(i), numYearsAssessmentCols.get(i), now));
-            }
-
-            // metaquality - number of different commodity elements per attribute
-            List<DQ_Representativity> dqRepresentativitiesThematic = new ArrayList<>();
-            for (int i = 0; i < csvNumAssessment; i++) {
-                dqRepresentativitiesThematic.add(makeDQRepresentativityThematic(colNamesAssessment.get(i), numCommoditiesAssessmentCols.get(i), now));
-            }
-
-            // metaquality - distribution parameters of different years per geographical unit per attribute
-            List<DQ_Representativity> dqRepresentativitiesTempPerGeo = new ArrayList<>();
-            for (int i = 0; i < csvNumAssessment; i++) {
-                dqRepresentativitiesTempPerGeo.add(makeDQRepresentativityParamTempPerGeo(colNamesAssessment.get(i), temporalPerGeo.get(i), now));
-            }
-
-            // metaquality - distribution parameters of different commodities per geographical unit per attribute
-            List<DQ_Representativity> dqRepresentativitiesThematicPerGeo = new ArrayList<>();
-            for (int i = 0; i < csvNumAssessment; i++) {
-                dqRepresentativitiesThematicPerGeo.add(makeDQRepresentativityParamThematicPerGeo(colNamesAssessment.get(i), thematicPerGeo.get(i), now));
-            }
-
-            // metaquality - distribution parameters of different commodities per temporal unit per attribute
-            List<DQ_Representativity> dqRepresentativitiesThematicPerTemp = new ArrayList<>();
-            for (int i = 0; i < csvNumAssessment; i++) {
-                dqRepresentativitiesThematicPerTemp.add(makeDQRepresentativityParamThematicPerTemp(colNamesAssessment.get(i), thematicPerTemp.get(i), now));
-            }
-
-            // temporal consistency - correct order and regularly distributed time steps
-            List<DQ_TemporalConsistency> dqTemporalConsistencies = new ArrayList<>();
-            for (int i = 0; i < csvNumAssessment; i++) {
-                dqTemporalConsistencies.add(makeDQTemporalConsistency(colNamesAssessment.get(i), temporalRegularities.get(i).regularity, now));
-            }
-
-            // frame around data quality fields
-            MD_Scope mdScope = new MD_Scope();
-            mdScope.addLevel(new MD_ScopeCode(MD_ScopeCode.MD_ScopeCodes.dataset));
-            mdScope.finalizeClass();
-
-            CI_Date ciDateReport = new CI_Date();
-            ciDateReport.addDate(now);
-            ciDateReport.addDateType(new CI_DateTypeCode(CI_DateTypeCode.CI_DateTypeCodes.creation));
-            ciDateReport.finalizeClass();
-
-            CI_Citation ciCitationReport = new CI_Citation();
-            ciCitationReport.addTitle("Reporting as standalone quality report");
-            ciCitationReport.addDate(ciDateReport);
-            ciCitationReport.finalizeClass();
-
-            DQ_StandaloneQualityReportInformation dqStandaloneQualityReportInformation = new DQ_StandaloneQualityReportInformation();
-            dqStandaloneQualityReportInformation.addReportReference(ciCitationReport);
-            dqStandaloneQualityReportInformation.addAbstract("The standalone quality report attached to this quality evaluation is providing more details on the derivation and aggregation method.");
-            dqStandaloneQualityReportInformation.finalizeClass();
-
-            DQ_DataQuality dqDataQuality = new DQ_DataQuality();
-            dqDataQuality.addScope(mdScope);
-            dqDataQuality.addStandaloneQualityReport(dqStandaloneQualityReportInformation);
-            for (DQ_CompletenessOmission dqCompletenessOmission : dqCompletenessOmissionsCount) {
-                dqDataQuality.addReport(dqCompletenessOmission);
-            }
-            for (DQ_CompletenessOmission dqCompletenessOmission : dqCompletenessOmissionsRate) {
-                dqDataQuality.addReport(dqCompletenessOmission);
-            }
-            for (DQ_CompletenessCommission dqCompletenessCommission : dqCompletenessCommissionsCount) {
-                dqDataQuality.addReport(dqCompletenessCommission);
-            }
-            for (DQ_CompletenessCommission dqCompletenessCommission : dqCompletenessCommissionsRate) {
-                dqDataQuality.addReport(dqCompletenessCommission);
-            }
-            if (thematicMapping) {
-                for (DQ_NonQuantitativeAttributeCorrectness dqNonQuantitativeAttributeCorrectness : dqNonQuantitativeAttributeCorrectnessCount) {
-                    dqDataQuality.addReport(dqNonQuantitativeAttributeCorrectness);
-                }
-                for (DQ_NonQuantitativeAttributeCorrectness dqNonQuantitativeAttributeCorrectness : dqNonQuantitativeAttributeCorrectnessRate) {
-                    dqDataQuality.addReport(dqNonQuantitativeAttributeCorrectness);
-                }
-            }
-
-            if (gpkg.geometryType.equals("polygon")) {
-                dqDataQuality.addReport(dqRepresentativitySpatial);
-            }
-            for (DQ_Representativity dqRepresentativitySpatial2 : dqRepresentativitiesSpatial) {
-                dqDataQuality.addReport((dqRepresentativitySpatial2));
-            }
-            for (DQ_Representativity dqRepresentativityTemporal : dqRepresentativitiesTemporal) {
-                dqDataQuality.addReport(dqRepresentativityTemporal);
-            }
-            for (DQ_Representativity dqRepresentativityThematic : dqRepresentativitiesThematic) {
-                dqDataQuality.addReport(dqRepresentativityThematic);
-            }
-            for (DQ_Representativity dqRepresentativityTempPerGeo : dqRepresentativitiesTempPerGeo) {
-                dqDataQuality.addReport(dqRepresentativityTempPerGeo);
-            }
-            for (DQ_Representativity dqRepresentativityThematicPerGeo : dqRepresentativitiesThematicPerGeo) {
-                dqDataQuality.addReport(dqRepresentativityThematicPerGeo);
-            }
-            for (DQ_Representativity dqRepresentativityThematicPerTemp : dqRepresentativitiesThematicPerTemp) {
-                dqDataQuality.addReport(dqRepresentativityThematicPerTemp);
-            }
-            for (DQ_TemporalConsistency dqTemporalConsistency : dqTemporalConsistencies) {
-                dqDataQuality.addReport(dqTemporalConsistency);
-            }
-            dqDataQuality.addReport(makeDQFormatConsistency(properties.allowedFileFormat, now));
-
-            dqDataQuality.finalizeClass();
-
-
-            // get (5) metadata contact
-            System.out.println("Metadata Contact:");
-
-            CI_Citation ciCitationMetadataStandard = new CI_Citation();
-            ciCitationMetadataStandard.addTitle("ISO 19115-1");
-            ciCitationMetadataStandard.addEdition("First edition 2014-04-01");
-            ciCitationMetadataStandard.finalizeClass();
-
-
-            // get (6) provenance
-
-
-            // aggregate all data in MD_Metadata
-            MD_Metadata mdMetadata = new MD_Metadata();
-            mdMetadata.addMetadataIdentifier(mdIdentifier);
-            mdMetadata.addContact(ciResponsibility);
-            mdMetadata.addDateInfo(ciDateLastModified);
-            mdMetadata.addIdentificationInfo(mdDataIdentification);
-            mdMetadata.addMetadataStandard(ciCitationMetadataStandard);
-
-            mdMetadata.addDataQualityInfo(dqDataQuality);
-            mdMetadata.finalizeClass();
-
-            dsDataSet.addHas(mdMetadata);
-        }
-        dsDataSet.finalizeClass();
-
-        if (postgresUse) {
-            try {
-                statementAscii.executeUpdate("DROP TABLE IF EXISTS " + tableName);
-                statementAscii.executeUpdate("DROP TABLE IF EXISTS " + tableNameMasked);
-            } catch (SQLException e) {
-                System.out.println(e.getMessage());
-            }
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
         }
 
         return dsDataSet;
@@ -1257,6 +1299,18 @@ public class AsciiMetadata implements Metadata {
             indicesUnique.add(idx);
         }
         return indicesUnique;
+    }
+
+    static List<Integer> indexOfAll(List<String> list, String match) {
+        // return all indices of match in list
+        List<Integer> indexes = new ArrayList<>();
+        for (int i = 0; i < list.size(); i++) {
+            if (list.get(i).equals(match)) {
+                indexes.add(i);
+            }
+        }
+
+        return indexes;
     }
 
     static DQ_CompletenessOmission makeDQCompletenessOmission(String nameAttribute, int numDataTarget, int numDataActual, String method) {
