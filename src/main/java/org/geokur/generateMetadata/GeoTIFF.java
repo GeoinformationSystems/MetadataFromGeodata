@@ -130,6 +130,8 @@ public class GeoTIFF {
 
             Raster image = coverage.getRenderedImage().getData();
             double[] imageData = new double[size[axisX]]; // read whole rows
+            double[] imageDataForMin = new double[size[axisX]]; // same as imageData with all nodata filled as Double.MAX_VALUE
+            double[] imageDataForMax = new double[size[axisX]]; // same as imageData with all nodata filled as Double.MIN_VALUE
             double[] imageMinValues = new double[size[axisY]];
             double[] imageMaxValues = new double[size[axisY]];
             for (int i = 0; i < numBands; i++) {
@@ -141,14 +143,19 @@ public class GeoTIFF {
                         System.out.println(size[axisY] + ": " + j);
                     }
                     image.getSamples(0, j, size[axisX], 1, i, imageData);
-                    for (double tmp : imageData) {
+                    System.arraycopy(imageData, 0, imageDataForMin, 0, imageData.length);
+                    System.arraycopy(imageData, 0, imageDataForMax, 0, imageData.length);
+                    for (int k = 0; k < imageData.length; k++) {
+                        double tmp = imageData[k];
                         if (nodataTag && Math.abs(tmp - bandsNoDataValue[i]) < Math.ulp(bandsNoDataValue[i])) {
                             // nodata values only possible, if nodataTag true
                             numNoData[i] = numNoData[i] + 1;
+                            imageDataForMin[k] = Double.MAX_VALUE;
+                            imageDataForMax[k] = Double.MIN_VALUE;
                         }
                     }
-                    imageMinValues[j] = min(imageData);
-                    imageMaxValues[j] = max(imageData);
+                    imageMinValues[j] = min(imageDataForMin);
+                    imageMaxValues[j] = max(imageDataForMax);
                 }
                 bandsMinValues[i] = min(imageMinValues);
                 bandsMaxValues[i] = max(imageMaxValues);
