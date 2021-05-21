@@ -308,7 +308,7 @@ public class GeoTIFFMetadata implements Metadata {
         return dsDataSet;
     }
 
-    DQ_CompletenessOmission makeDQCompletenessOmission(String bandName, int numDataAll, int numDataMissing, String method) {
+    DQ_CompletenessOmission makeDQCompletenessOmission(String bandName, long numDataAll, long numDataMissing, String method) {
         // instantiate DQ_CompletenessOmission class for count or rate (defined by "method" argument) of missing values
 
         DQ_MeasureReference dqMeasureReference = new DQ_MeasureReference();
@@ -341,7 +341,7 @@ public class GeoTIFFMetadata implements Metadata {
 
         String stringMissing;
         if (method.equals("count")) {
-            stringMissing = Integer.toString(numDataMissing);
+            stringMissing = Long.toString(numDataMissing);
         } else if (method.equals("rate")) {
             stringMissing = Double.toString((double) numDataMissing/numDataAll * 100);
         } else {

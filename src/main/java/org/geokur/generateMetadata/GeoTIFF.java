@@ -7,6 +7,7 @@
 package org.geokur.generateMetadata;
 
 import org.geokur.ISO19103Schema.Coordinate;
+import org.geotools.coverage.grid.GridCoordinates2D;
 import org.geotools.coverage.grid.GridCoverage2D;
 import org.geotools.coverage.grid.GridGeometry2D;
 import org.geotools.coverage.grid.io.AbstractGridFormat;
@@ -14,15 +15,18 @@ import org.geotools.coverage.grid.io.GridCoverage2DReader;
 import org.geotools.coverage.grid.io.GridFormatFinder;
 import org.geotools.gce.geotiff.GeoTiffFormatFactorySpi;
 import org.geotools.referencing.CRS;
+import org.opengis.coverage.grid.GridEnvelope;
 import org.opengis.geometry.Envelope;
 import org.opengis.referencing.FactoryException;
 import org.opengis.referencing.crs.CoordinateReferenceSystem;
 import org.opengis.referencing.operation.MathTransform;
 
+import java.awt.*;
 import java.awt.image.Raster;
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -42,10 +46,10 @@ public class GeoTIFF {
     double resolutionIsotropic;
     double[] resolutionAnisotropic;
     Double[] bandsNoDataValue;
-    int[] numNoData;
+    long[] numNoData;
     double[] bandsMinValues;
     double[] bandsMaxValues;
-    int numCells;
+    long numCells;
 
 
     public GeoTIFF(String fileName) {
@@ -68,7 +72,7 @@ public class GeoTIFF {
             int axisY = geometry.axisDimensionY;
             size[axisX] = geometry.getGridRange().getHigh(axisX) + 1;
             size[axisY] = geometry.getGridRange().getHigh(axisY) + 1;
-            numCells = size[axisX] * size[axisY];
+            numCells = (long) size[axisX] * size[axisY];
 
             Envelope envelope = coverage.getEnvelope();
             cornerLL.addX(envelope.getMinimum(axisX));
@@ -122,43 +126,112 @@ public class GeoTIFF {
                 }
             }
 
-            numNoData = new int[numBands];
+            numNoData = new long[numBands];
             Arrays.fill(numNoData, 0);
 
             bandsMinValues = new double[numBands];
             bandsMaxValues = new double[numBands];
 
-            Raster image = coverage.getRenderedImage().getData();
-            double[] imageData = new double[size[axisX]]; // read whole rows
-            double[] imageDataForMin = new double[size[axisX]]; // same as imageData with all nodata filled as Double.MAX_VALUE
-            double[] imageDataForMax = new double[size[axisX]]; // same as imageData with all nodata filled as Double.MIN_VALUE
-            double[] imageMinValues = new double[size[axisY]];
-            double[] imageMaxValues = new double[size[axisY]];
-            for (int i = 0; i < numBands; i++) {
-                // get count of missing values for each band
+            if ((double) coverage.getRenderedImage().getWidth() * coverage.getRenderedImage().getHeight() < Integer.MAX_VALUE) {
+//            if ((double) coverage.getRenderedImage().getWidth() * coverage.getRenderedImage().getHeight() < 10) {
+                // java.awt.image.raster only allows Integer.MAX_VALUE grid cells, otherwise an error is thrown
+                Raster image = coverage.getRenderedImage().getData();
+                double[] imageData = new double[size[axisX]]; // read whole rows
+                double[] imageDataForMin = new double[size[axisX]]; // same as imageData with all nodata filled as Double.MAX_VALUE
+                double[] imageDataForMax = new double[size[axisX]]; // same as imageData with all nodata filled as Double.MIN_VALUE
+                double[] imageMinValues = new double[size[axisY]];
+                double[] imageMaxValues = new double[size[axisY]];
+                for (int i = 0; i < numBands; i++) {
+                    // get count of missing values for each band
+                    System.out.println("Read values of all GeoTIFF rows.");
+                    System.out.println("Depending on size this may take a while.");
+                    for (int j = 0; j < size[axisY]; j++) {
+                        if (j % 5000 == 0 ) {
+                            System.out.println(size[axisY] + ": " + j);
+                        }
+                        image.getSamples(0, j, size[axisX], 1, i, imageData);
+                        System.arraycopy(imageData, 0, imageDataForMin, 0, imageData.length);
+                        System.arraycopy(imageData, 0, imageDataForMax, 0, imageData.length);
+                        for (int k = 0; k < imageData.length; k++) {
+                            double tmp = imageData[k];
+                            if (nodataTag && Math.abs(tmp - bandsNoDataValue[i]) < Math.ulp(bandsNoDataValue[i])) {
+                                // nodata values only possible, if nodataTag true
+                                numNoData[i] = numNoData[i] + 1;
+                                imageDataForMin[k] = Double.MAX_VALUE;
+                                imageDataForMax[k] = Double.MIN_VALUE;
+                            }
+                        }
+                        imageMinValues[j] = min(imageDataForMin);
+                        imageMaxValues[j] = max(imageDataForMax);
+                    }
+                    bandsMinValues[i] = min(imageMinValues);
+                    bandsMaxValues[i] = max(imageMaxValues);
+                }
+            }
+            else if ((double) coverage.getRenderedImage().getWidth() * coverage.getRenderedImage().getHeight() < (long) 2 * Integer.MAX_VALUE) {
+                // if too much grid cells -> split raster row-wise
+                System.out.println("Raster larger than " + Integer.MAX_VALUE + " grid cells");
+                System.out.println("-> vertically splitting raster into two rasters");
                 System.out.println("Read values of all GeoTIFF rows.");
                 System.out.println("Depending on size this may take a while.");
-                for (int j = 0; j < size[axisY]; j++) {
-                    if (j%5000 == 0) {
-                        System.out.println(size[axisY] + ": " + j);
-                    }
-                    image.getSamples(0, j, size[axisX], 1, i, imageData);
-                    System.arraycopy(imageData, 0, imageDataForMin, 0, imageData.length);
-                    System.arraycopy(imageData, 0, imageDataForMax, 0, imageData.length);
-                    for (int k = 0; k < imageData.length; k++) {
-                        double tmp = imageData[k];
-                        if (nodataTag && Math.abs(tmp - bandsNoDataValue[i]) < Math.ulp(bandsNoDataValue[i])) {
-                            // nodata values only possible, if nodataTag true
-                            numNoData[i] = numNoData[i] + 1;
-                            imageDataForMin[k] = Double.MAX_VALUE;
-                            imageDataForMax[k] = Double.MIN_VALUE;
+
+                double[] imageMinValues = new double[2]; // for two sub rasters
+                double[] imageMaxValues = new double[2];
+
+                int[] sizes = new int[2];
+                int[] startPoints = new int[2];
+                sizes[0] = size[axisY]/2;
+                sizes[1] = size[axisY] - sizes[0];
+                startPoints[1] = sizes[0];
+
+                for (int subRaster = 0; subRaster < 2; subRaster++) {
+                    System.out.println("sub raster: " + subRaster);
+                    double[] imageData = new double[size[axisX]]; // read whole rows
+                    double[] imageDataForMin = new double[size[axisX]]; // same as imageData with all nodata filled as Double.MAX_VALUE
+                    double[] imageDataForMax = new double[size[axisX]]; // same as imageData with all nodata filled as Double.MIN_VALUE
+                    double[] imageMinValuesAct = new double[sizes[subRaster]];
+                    double[] imageMaxValuesAct = new double[sizes[subRaster]];
+
+                    Raster image = coverage.getRenderedImage().getData(new Rectangle(0, startPoints[subRaster], size[axisX], sizes[subRaster]));
+                    for (int i = 0; i < numBands; i++) {
+                        // get count of missing values for each band
+                        for (int j = 0; j < sizes[subRaster]; j++) {
+                            if (j % 5000 == 0) {
+                                System.out.println(size[axisY] + " (" + startPoints[subRaster] + "-" + (startPoints[subRaster] + sizes[subRaster] - 1) + "): " + (j + startPoints[subRaster]));
+                            }
+                            if (subRaster == 0) {
+                                image.getSamples(0, j, size[axisX], 1, i, imageData);
+                            }
+                            else {
+                                image.getSamples(0, j + sizes[subRaster - 1], size[axisX], 1, i, imageData);
+                            }
+                            System.arraycopy(imageData, 0, imageDataForMin, 0, imageData.length);
+                            System.arraycopy(imageData, 0, imageDataForMax, 0, imageData.length);
+                            for (int k = 0; k < imageData.length; k++) {
+                                double tmp = imageData[k];
+                                if (nodataTag && Math.abs(tmp - bandsNoDataValue[i]) < Math.ulp(bandsNoDataValue[i])) {
+                                    // nodata values only possible, if nodataTag true
+                                    numNoData[i] = numNoData[i] + 1;
+                                    imageDataForMin[k] = Double.MAX_VALUE;
+                                    imageDataForMax[k] = Double.MIN_VALUE;
+                                }
+                            }
+                            imageMinValuesAct[j] = min(imageDataForMin);
+                            imageMaxValuesAct[j] = max(imageDataForMax);
                         }
+                        imageMinValues[subRaster] = min(imageMinValuesAct);
+                        imageMaxValues[subRaster] = max(imageMaxValuesAct);
                     }
-                    imageMinValues[j] = min(imageDataForMin);
-                    imageMaxValues[j] = max(imageDataForMax);
                 }
-                bandsMinValues[i] = min(imageMinValues);
-                bandsMaxValues[i] = max(imageMaxValues);
+
+                for (int i = 0; i < numBands; i++) {
+                    bandsMinValues[i] = min(imageMinValues);
+                    bandsMaxValues[i] = max(imageMaxValues);
+                }
+            }
+            else {
+                System.out.println("Raster too large: cannot be interpreted");
+                System.exit(8);
             }
 
         } catch (IOException e) {
