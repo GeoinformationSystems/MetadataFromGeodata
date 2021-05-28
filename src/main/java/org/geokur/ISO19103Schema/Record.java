@@ -50,9 +50,10 @@ public class Record {
                 throw new InstantiationCallException("Record", "field");
             }
             for (RecordEntry recordEntry : this.field) {
-                if (recordEntry.fieldName == null) {
-                    throw new InstantiationCallException("field", "fieldName");
-                }
+                // fieldName can be empty
+//                if (recordEntry.fieldName == null) {
+//                    throw new InstantiationCallException("field", "fieldName");
+//                }
                 if (recordEntry.value == null) {
                     throw new InstantiationCallException("field", "value");
                 }

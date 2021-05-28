@@ -13,6 +13,7 @@ public class Properties {
     public String geodata;
     public String outXML;
     public String outDB;
+    public String outRDF;
     public List<String> allowedFileFormat;
     public String geodataReference;
     public List<String> geoTableNames;
@@ -51,6 +52,10 @@ public class Properties {
 
     public void setOutDB(String outDB) {
         this.outDB = outDB;
+    }
+
+    public void setOutRDF(String outRDF) {
+        this.outRDF = outRDF;
     }
 
     public void setAllowedFileFormat(List<String> allowedFileFormat) {

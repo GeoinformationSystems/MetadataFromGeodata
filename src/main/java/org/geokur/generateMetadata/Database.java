@@ -196,7 +196,9 @@ public class Database {
 
         String[] tmp = datasetFilePath.split("/");
         String datasetFileName = tmp[tmp.length - 1];
-        String datasetTableName = datasetFileName.replace(".", "_").replace(" ", "_") + "_" + numberAdd;
+        String datasetTableName = datasetFileName.replace(".", "_")
+                .replace(" ", "_")
+                .replace("-", "_") + "_" + numberAdd;
 
         listFileNumber.add(numberAdd);
         listFileUUID.add(datasetUUID);

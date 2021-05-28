@@ -108,118 +108,122 @@ public class MetadataGenerator {
 
         // order xml file to SQLite database
         // read xml file with JDOM2 library in order to get a document
-//        try {
-//            Document doc = new SAXBuilder().build(properties.outXML);
-//            Element docRoot = doc.getRootElement();
-//            MetadataDatabase metadataDatabase = new MetadataDatabase();
-//            metadataDatabase.generateFlatFromElement(docRoot);
-//            Database database = new Database(properties.outDB);
-//            database.createNewDatabase();
-//            database.addToDatabase(properties.geodata);
-//            database.writeMetadataToDatabase(properties.geodata, metadataDatabase);
-//        } catch (IOException | JDOMException e) {
+        if (!properties.outDB.isEmpty()) {
+            try {
+                Document doc = new SAXBuilder().build(properties.outXML);
+                Element docRoot = doc.getRootElement();
+                MetadataDatabase metadataDatabase = new MetadataDatabase();
+                metadataDatabase.generateFlatFromElement(docRoot);
+                Database database = new Database(properties.outDB);
+                database.createNewDatabase();
+                database.addToDatabase(properties.geodata);
+                database.writeMetadataToDatabase(properties.geodata, metadataDatabase);
+            } catch (IOException | JDOMException e) {
 //            System.out.println(e.getMessage());
-//        }
+                e.printStackTrace();
+            }
+        }
 
 
         // map to linked data object
-        model.setNsPrefixes(NS.getNS());
+        if (!properties.outRDF.isEmpty()) {
+            model.setNsPrefixes(NS.getNS());
 
-        assert metadata != null;
-        for (MD_Metadata metadataAct : metadata.has) {
-            // loop over all datasets in metadata
-            Resource tmpResource;
-            List<Resource> tmpResourceList;
-            String tmpString;
-            List<String> tmpList;
-            Literal tmpLiteral;
+            assert metadata != null;
+            for (MD_Metadata metadataAct : metadata.has) {
+                // loop over all datasets in metadata
+                Resource tmpResource;
+                List<Resource> tmpResourceList;
+                String tmpString;
+                List<String> tmpList;
+                Literal tmpLiteral;
 
-            String linkBase = "https://link/to/";
-            String datasetID = metadataAct.metadataIdentifier.get(0).code.get(0);
-            Resource dataset = model.createResource(linkBase + datasetID); //TODO: implement correct link base
-            dataset.addProperty(RDF.type, Dataset.resourceInstance);
+                String linkBase = "https://link/to/";
+                String datasetID = metadataAct.metadataIdentifier.get(0).code.get(0);
+                Resource dataset = model.createResource(linkBase + datasetID); //TODO: implement correct link base
+                dataset.addProperty(RDF.type, Dataset.resourceInstance);
 
-            tmpString = mapDatasetTitle(metadataAct);
-            if (tmpString != null) {
-                dataset.addProperty(Dataset.title, tmpString);
-            }
-
-            tmpString = mapDatasetDescription(metadataAct);
-            if (tmpString != null) {
-                dataset.addProperty(Dataset.description, tmpString);
-            }
-
-            tmpResource = mapDatasetContactPoint(metadataAct);
-            if (tmpResource != null) {
-                dataset.addProperty(Dataset.contactPoint, tmpResource);
-            }
-
-            dataset.addProperty(Dataset.datasetDistribution, mapDatasetDistribution(metadataAct));
-
-            tmpList = mapDatasetKeywordTag(metadataAct);
-            if (tmpList != null) {
-                for (String keywordAct : tmpList) {
-                    dataset.addProperty(Dataset.keywordTag, keywordAct);
+                tmpString = mapDatasetTitle(metadataAct);
+                if (tmpString != null) {
+                    dataset.addProperty(Dataset.title, tmpString);
                 }
-            }
 
-            tmpResource = mapDatasetSpatialGeographicCoverage(metadataAct);
-            if (tmpResource != null) {
-                dataset.addProperty(Dataset.spatialGeographicCoverage, tmpResource);
-            }
-
-            tmpResource = mapDatasetTemporalCoverage(metadataAct);
-            if (tmpResource != null) {
-                dataset.addProperty(Dataset.temporalCoverage, tmpResource);
-            }
-
-            tmpResource = mapDatasetThemeCategory(metadataAct);
-            if (tmpResource != null) {
-                dataset.addProperty(Dataset.themeCategory, tmpResource);
-            }
-
-            tmpLiteral = mapDatasetCreationDate(metadataAct);
-            if (tmpLiteral != null) {
-                dataset.addProperty(Dataset.creationDate, tmpLiteral);
-            }
-
-            tmpResourceList = mapDatasetDocumentation(metadataAct);
-            if (tmpResourceList.size() > 0) {
-                for (Resource resource : tmpResourceList) {
-                    dataset.addProperty(Dataset.documentation, resource);
+                tmpString = mapDatasetDescription(metadataAct);
+                if (tmpString != null) {
+                    dataset.addProperty(Dataset.description, tmpString);
                 }
-            }
 
-            tmpString = mapDatasetIdentifier(metadataAct);
-            if (tmpString != null) {
-                dataset.addProperty(Dataset.identifier, tmpString);
-            }
-
-            tmpResource = mapDatasetIsVersionOf(metadataAct);
-            if (tmpResource != null) {
-                dataset.addProperty(Dataset.isVersionOf, tmpResource);
-            }
-
-            tmpResourceList = mapDatasetLandingPage(metadataAct);
-            if (tmpResourceList.size() > 0) {
-                for (Resource resource : tmpResourceList) {
-                    dataset.addProperty(Dataset.landingPage, resource);
+                tmpResource = mapDatasetContactPoint(metadataAct);
+                if (tmpResource != null) {
+                    dataset.addProperty(Dataset.contactPoint, tmpResource);
                 }
-            }
 
-            tmpResourceList = mapDatasetOtherIdentifier(metadataAct);
-            if (tmpResourceList.size() > 0) {
-                for (Resource resource : tmpResourceList) {
-                    dataset.addProperty(Dataset.otherIdentifier, resource);
-                }
-            }
+                dataset.addProperty(Dataset.datasetDistribution, mapDatasetDistribution(metadataAct));
 
-            tmpResourceList = mapDatasetRelatedResource(metadata.partOf, linkBase);
-            if (tmpResourceList.size() > 0) {
-                for (Resource resource : tmpResourceList) {
-                    dataset.addProperty(Dataset.relatedResource, resource);
+                tmpList = mapDatasetKeywordTag(metadataAct);
+                if (tmpList != null) {
+                    for (String keywordAct : tmpList) {
+                        dataset.addProperty(Dataset.keywordTag, keywordAct);
+                    }
                 }
-            }
+
+                tmpResource = mapDatasetSpatialGeographicCoverage(metadataAct);
+                if (tmpResource != null) {
+                    dataset.addProperty(Dataset.spatialGeographicCoverage, tmpResource);
+                }
+
+                tmpResource = mapDatasetTemporalCoverage(metadataAct);
+                if (tmpResource != null) {
+                    dataset.addProperty(Dataset.temporalCoverage, tmpResource);
+                }
+
+                tmpResource = mapDatasetThemeCategory(metadataAct);
+                if (tmpResource != null) {
+                    dataset.addProperty(Dataset.themeCategory, tmpResource);
+                }
+
+                tmpLiteral = mapDatasetCreationDate(metadataAct);
+                if (tmpLiteral != null) {
+                    dataset.addProperty(Dataset.creationDate, tmpLiteral);
+                }
+
+                tmpResourceList = mapDatasetDocumentation(metadataAct);
+                if (tmpResourceList.size() > 0) {
+                    for (Resource resource : tmpResourceList) {
+                        dataset.addProperty(Dataset.documentation, resource);
+                    }
+                }
+
+                tmpString = mapDatasetIdentifier(metadataAct);
+                if (tmpString != null) {
+                    dataset.addProperty(Dataset.identifier, tmpString);
+                }
+
+                tmpResource = mapDatasetIsVersionOf(metadataAct);
+                if (tmpResource != null) {
+                    dataset.addProperty(Dataset.isVersionOf, tmpResource);
+                }
+
+                tmpResourceList = mapDatasetLandingPage(metadataAct);
+                if (tmpResourceList.size() > 0) {
+                    for (Resource resource : tmpResourceList) {
+                        dataset.addProperty(Dataset.landingPage, resource);
+                    }
+                }
+
+                tmpResourceList = mapDatasetOtherIdentifier(metadataAct);
+                if (tmpResourceList.size() > 0) {
+                    for (Resource resource : tmpResourceList) {
+                        dataset.addProperty(Dataset.otherIdentifier, resource);
+                    }
+                }
+
+                tmpResourceList = mapDatasetRelatedResource(metadata.partOf, linkBase);
+                if (tmpResourceList.size() > 0) {
+                    for (Resource resource : tmpResourceList) {
+                        dataset.addProperty(Dataset.relatedResource, resource);
+                    }
+                }
 
 //            tmpResource = mapDatasetReferenceSystem(metadataAct);
 //            if (tmpResource != null) {
@@ -249,14 +253,15 @@ public class MetadataGenerator {
 //            if (tmpResource != null) {
 //                dataset.addProperty(Dataset.wasUsedBy, tmpResource);
 //            }
-        }
+            }
 
-        try {
-            OutputStream outputStream = new FileOutputStream("test.ttl");
-            RDFDataMgr.write(outputStream, model, Lang.TURTLE);
-            outputStream.close();
-        } catch (IOException e) {
-            e.printStackTrace();
+            try {
+                OutputStream outputStream = new FileOutputStream("test.ttl");
+                RDFDataMgr.write(outputStream, model, Lang.TURTLE);
+                outputStream.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -629,11 +634,23 @@ public class MetadataGenerator {
             }
             properties.setOutXML(propertyContent.get(idx));
 
+            // outDB can be empty - no ListContentException and no db output
             idx = propertyName.indexOf("outdb");
             if (idx == -1) {
-                throw new ListContentException("outDB", filenameProperties);
+                properties.setOutDB("");
             }
-            properties.setOutDB(propertyContent.get(idx));
+            else {
+                properties.setOutDB(propertyContent.get(idx));
+            }
+
+            // outRDF can be empty - no ListContentException and no rdf output
+            idx = propertyName.indexOf("outrdf");
+            if (idx == -1) {
+                properties.setOutRDF("");
+            }
+            else {
+                properties.setOutRDF(propertyContent.get(idx));
+            }
 
             // asciiColNameIgnore can be empty - no ListContentException
             idx2 = getIndices(propertyName, "allowedfileformat");
