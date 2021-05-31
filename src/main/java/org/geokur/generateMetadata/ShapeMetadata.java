@@ -107,7 +107,9 @@ public class ShapeMetadata implements Metadata {
             SimpleFeatureIterator iterator = collection.features();
             SimpleFeature simpleFeature = iterator.next();
             String geometryTypeString = simpleFeature.getDefaultGeometry().toString().toLowerCase();
-            if (geometryTypeString.contains("polygon")) {
+            if (geometryTypeString.contains("multipolygon")) {
+                geometryType = "multipolygon";
+            } else if (geometryTypeString.contains("polygon")) {
                 geometryType = "polygon";
             } else if (geometryTypeString.contains("line")) {
                 geometryType = "line";
@@ -240,7 +242,7 @@ public class ShapeMetadata implements Metadata {
             System.out.println("Structure of Spatial Data:");
 
             Extent extent;
-            if (markerTransform && geometryType.equals("polygon")) {
+            if (markerTransform && geometryType.contains("polygon")) {
                 // polygons need finer granular reprojecting for extent calculation
                 extent = getExtentReproject(collection);
             } else if (markerTransform) {
@@ -458,68 +460,81 @@ public class ShapeMetadata implements Metadata {
 
         SimpleFeatureIterator iterator = collection.features();
         CoordinateReferenceSystem srcCRS = collection.getSchema().getCoordinateReferenceSystem();
-        try {
-            MathTransform mathTransformWGS84 = CRS.findMathTransform(srcCRS, DefaultGeographicCRS.WGS84, true);
-
-            int ct = -1;
-            while (iterator.hasNext()) {
-                ct++;
-                SimpleFeature simpleFeature = iterator.next();
-                geometriesOrig.add((Geometry) simpleFeature.getDefaultGeometry());
-                if (!markerTransform) {
-                    geometriesWGS84.add(geometriesOrig.get(ct));
-                } else {
-                    if (geometryType.equals("polygon")) {
-                        Coordinate[] coordinatesWGS84 = JTS.transform(geometriesOrig.get(ct).getBoundary(), mathTransformWGS84).getCoordinates();
-                        GeometryFactory geometryFactory = new GeometryFactory();
-                        geometriesWGS84.add(geometryFactory.createPolygon(coordinatesWGS84));
-//                        geometriesWGS84.add(JTS.transform(geometriesOrig.get(ct).getBoundary(), mathTransformWGS84));
-                    } else {
-                        geometriesWGS84.add(JTS.transform(geometriesOrig.get(ct), mathTransformWGS84));
-                    }
-                }
-                zonesUTM.add(findUTMZone(geometriesWGS84.get(ct)));
+        int ct = -1;
+        while (iterator.hasNext()) {
+            ct++;
+            SimpleFeature simpleFeature = iterator.next();
+            geometriesOrig.add((Geometry) simpleFeature.getDefaultGeometry());
+            if (!markerTransform) {
+                geometriesWGS84.add(geometriesOrig.get(ct));
+            } else {
+                geometriesWGS84.add(reproject(geometriesOrig.get(ct), srcCRS, DefaultGeographicCRS.WGS84, geometryType));
             }
-            iterator.close();
-
-            zoneUTMStandard = median(zonesUTM.toArray(new Integer[0]));
-
-        } catch (FactoryException | TransformException e) {
-            System.out.println(e.getMessage());
+            zonesUTM.add(findUTMZone(geometriesWGS84.get(ct)));
         }
+        iterator.close();
+
+        zoneUTMStandard = median(zonesUTM.toArray(new Integer[0]));
     }
 
     private void projectToUTM() {
         // reproject to UTM at correct zone and to median zone
 
-        // always use EPSG code for south hemisphere (no negative coordinates possible)
+        // always use EPSG code for southern hemisphere (no negative coordinates possible)
         try {
             for (int i = 0; i < geometriesWGS84.size(); i++) {
                 CoordinateReferenceSystem UTMCRS = CRS.decode("EPSG:" + "327" + String.format("%02d", zonesUTM.get(i)));
-                MathTransform mathTransformUTM = CRS.findMathTransform(DefaultGeographicCRS.WGS84, UTMCRS, true);
-                if (geometryType.equals("polygon")) {
-                    Coordinate[] coordinatesUTM = JTS.transform(geometriesWGS84.get(i).getBoundary(), mathTransformUTM).getCoordinates();
-                    GeometryFactory geometryFactory = new GeometryFactory();
-                    geometriesUTM.add(geometryFactory.createPolygon(coordinatesUTM));
-//                    geometriesUTM.add(JTS.transform(geometriesWGS84.get(i).getBoundary(), mathTransformUTM));
-                } else {
-                    geometriesUTM.add(JTS.transform(geometriesWGS84.get(i), mathTransformUTM));
-                }
+                geometriesUTM.add(reproject(geometriesWGS84.get(i), DefaultGeographicCRS.WGS84, UTMCRS, geometryType));
 
                 CoordinateReferenceSystem UTMCRSStandard = CRS.decode("EPSG:" + "327" + String.format("%02d", zoneUTMStandard));
-                MathTransform mathTransformUTMStandard = CRS.findMathTransform(DefaultGeographicCRS.WGS84, UTMCRSStandard, true);
-                if (geometryType.equals("polygon")) {
-                    Coordinate[] coordinatesUTM = JTS.transform(geometriesWGS84.get(i).getBoundary(), mathTransformUTMStandard).getCoordinates();
-                    GeometryFactory geometryFactory = new GeometryFactory();
-                    geometriesUTMStandard.add(geometryFactory.createPolygon(coordinatesUTM));
-//                    geometriesUTMStandard.add(JTS.transform(geometriesWGS84.get(i).getBoundary(), mathTransformUTMStandard));
-                } else {
-                    geometriesUTMStandard.add(JTS.transform(geometriesWGS84.get(i), mathTransformUTMStandard));
+                geometriesUTMStandard.add(reproject(geometriesWGS84.get(i), DefaultGeographicCRS.WGS84, UTMCRSStandard, geometryType));
+            }
+        } catch (FactoryException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    private Geometry reproject(Geometry geometryIn, CoordinateReferenceSystem srcCRS, CoordinateReferenceSystem targetCRS, String geometryType) {
+        // reproject to another CRS
+
+        Geometry geometryOut = null;
+        GeometryFactory geometryFactory = new GeometryFactory();
+        try {
+            MathTransform mathTransformUTM = CRS.findMathTransform(srcCRS, targetCRS, true);
+            if (geometryType.equals("multipolygon")) {
+                Polygon[] polygons = new Polygon[geometryIn.getNumGeometries()];
+                for (int geoCt = 0; geoCt < geometryIn.getNumGeometries(); geoCt++) {
+                    Geometry geoTemp = geometryIn.getGeometryN(geoCt).getBoundary();
+                    if (geoTemp.getGeometryType().equalsIgnoreCase("multilinestring")) {
+                        // boundary contains multiple lines because of holes
+                        // -> assume first linear ring as polygon, all others as holes inside
+                        LinearRing[] linearRingsHoles = new LinearRing[geoTemp.getNumGeometries() - 1];
+                        Geometry geoTemp2 = geoTemp.getGeometryN(0);
+                        Coordinate[] coordinatesTemp = JTS.transform(geoTemp2, mathTransformUTM).getCoordinates();
+                        LinearRing linearRingShell = geometryFactory.createLinearRing(coordinatesTemp);
+                        for (int geoCt2 = 1; geoCt2 < geoTemp.getNumGeometries(); geoCt2++) {
+                            geoTemp2 = geoTemp.getGeometryN(geoCt2);
+                            coordinatesTemp = JTS.transform(geoTemp2, mathTransformUTM).getCoordinates();
+                            linearRingsHoles[geoCt2 - 1] = geometryFactory.createLinearRing(coordinatesTemp);
+                        }
+                        polygons[geoCt] = geometryFactory.createPolygon(linearRingShell, linearRingsHoles);
+                    } else {
+                        Coordinate[] coordinatesUTM = JTS.transform(geoTemp, mathTransformUTM).getCoordinates();
+                        polygons[geoCt] = geometryFactory.createPolygon(coordinatesUTM);
+                    }
                 }
+                geometryOut = geometryFactory.createMultiPolygon(polygons);
+            } else if (geometryType.equals("polygon")) {
+                Coordinate[] coordinatesUTM = JTS.transform(geometryIn.getBoundary(), mathTransformUTM).getCoordinates();
+                geometryOut = geometryFactory.createPolygon(coordinatesUTM);
+            } else {
+                geometryOut = JTS.transform(geometryIn, mathTransformUTM);
             }
         } catch (FactoryException | TransformException e) {
             System.out.println(e.getMessage());
         }
+
+        return geometryOut;
     }
 
     private double getResolution(SimpleFeatureCollection collection) {
@@ -531,7 +546,7 @@ public class ShapeMetadata implements Metadata {
         projectToUTM();
 
         List<Double> distances = new ArrayList<>();
-        if (geometryType.equals("polygon") || geometryType.equals("line")) {
+        if (geometryType.contains("polygon") || geometryType.equals("line")) {
             // for polygons and lines
             for (Geometry geometryAct : geometriesUTM) {
                 Coordinate[] tmp = geometryAct.getCoordinates();
