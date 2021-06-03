@@ -15,6 +15,7 @@ import org.apache.jena.vocabulary.VCARD4;
 import org.geokur.GeoDCAT.*;
 import org.geokur.ISO19108Schema.TM_Period;
 import org.geokur.ISO19115Schema.*;
+import org.geokur.ISO191xxProfile.Profile;
 import org.geokur.ISO191xxProfile.ProfileReader;
 import org.geokur.generateMetadata.*;
 import org.jdom2.Document;
@@ -65,7 +66,15 @@ public class MetadataGenerator {
 
 
         // read profile json file
-        ProfileReader.setProfile(properties.profileFilename);
+        if (!properties.profileFilename.equals("-999")) {
+            // profile given
+            ProfileReader.setProfile(properties.profileFilename);
+        }
+        else {
+            // no profile given - take standard
+            ProfileReader.setProfileStandard();
+        }
+
 
         // read metadata and instantiate according classes
         DS_Resource metadata;
@@ -617,7 +626,8 @@ public class MetadataGenerator {
             idx = propertyName.indexOf("profile");
             if (idx == -1) {
                 System.out.println("No profile given - standard taken");
-                properties.setProfileFilename("config/profileISOall.json");
+//                properties.setProfileFilename("config/profileISOall.json");
+                properties.setProfileFilename("-999");
             } else {
                 properties.setProfileFilename(propertyContent.get(idx));
             }
