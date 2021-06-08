@@ -1,0 +1,16 @@
+## properties for running MetadataGenerator from metadataFromGeodata
+# lines with starting # are comments
+# blank lines are ignored
+
+## filename of geodata
+geodata = spam2010V2r0_global_Y_WHEA_A.tif
+
+## filename of outputs (xml and sqlite database)
+outXML = spam2010V2r0_global_Y_WHEA_A.xml
+outDB = spam2010V2r0_global_Y_WHEA_A.db
+
+## allowed file formats (only interpreted if given)
+allowedFileFormat = gpkg
+allowedFileFormat = shp
+allowedFileFormat = tif
+allowedFileFormat = csv

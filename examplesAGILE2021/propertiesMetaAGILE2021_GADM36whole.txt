@@ -1,0 +1,16 @@
+## properties for running MetadataGenerator from metadataFromGeodata
+# lines with starting # are comments
+# blank lines are ignored
+
+## filename of geodata
+geodata = gadm36_levels.gpkg
+
+## filename of outputs (xml and sqlite database)
+outXML = gadm36AllMetadata.xml
+outDB = gadm36AllMetadata.db
+
+## allowed file formats (only interpreted if given)
+allowedFileFormat = gpkg
+allowedFileFormat = shp
+allowedFileFormat = tif
+allowedFileFormat = csv

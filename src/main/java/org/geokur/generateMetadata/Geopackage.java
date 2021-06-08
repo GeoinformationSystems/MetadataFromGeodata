@@ -370,7 +370,12 @@ public class Geopackage {
             SimpleFeature simpleFeature = collectionIterator.next();
             for (Integer attributeAct : attributeUsage) {
                 // get attributes of actual feature
-                attributeValues.add(simpleFeature.getAttribute(attributeAct).toString());
+                if (simpleFeature.getAttribute(attributeAct) != null) {
+                    attributeValues.add(simpleFeature.getAttribute(attributeAct).toString());
+                }
+                else {
+                    attributeValues.add(null);
+                }
             }
 
             centerWGS84 = geometriesWGS84.get(ct).getCentroid();

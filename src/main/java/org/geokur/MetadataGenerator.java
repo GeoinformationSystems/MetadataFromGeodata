@@ -15,7 +15,6 @@ import org.apache.jena.vocabulary.VCARD4;
 import org.geokur.GeoDCAT.*;
 import org.geokur.ISO19108Schema.TM_Period;
 import org.geokur.ISO19115Schema.*;
-import org.geokur.ISO191xxProfile.Profile;
 import org.geokur.ISO191xxProfile.ProfileReader;
 import org.geokur.generateMetadata.*;
 import org.jdom2.Document;
