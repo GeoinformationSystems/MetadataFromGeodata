@@ -19,35 +19,49 @@ information.
 Use the IDE of your choice and build, e.g., a jar file. The package needs one argument - the filename of a property file.
 This file must contain all information to run the main method. An example is given in config/propertiesExample.txt.
 
-*Minimum content of a property file*:
-- `profile = filenameProfile.json` provides the path (absolute or relative to executing path + file name) to a Json profile
-  containing the used metadata elements for all packages under `org.geokur` plus their obligation. Metadata elements that
-  are not used in the profile can be instantiated, but a warning will occur. If a class is instantiated, but misses mandatory
-  elements, a warning will occur.
+*Minimum content of a property file*: 
 - `geodata = filenameGeodata.xxx` is the file name to geospatial data for metadata extraction
 - `outXML = filenameOut.xml` denotes file name for output in xml format. All extracted metadata follow the nested structure
   given in ISO 19115 and ISO 19157. If the file exists it is replaced without asking.
 - `outDB = filenameOut.db` is the file name for a flattened view on metadata in SQLite format.
 
-In the case of an *ascii file in csv format* more content in the property file shall be provided:
+*Optional content of property file for all formats*:
+- `profile = filenameProfile.json` provides the path (absolute or relative to executing path + file name) to a Json profile
+  containing the used metadata elements for all packages under `org.geokur` plus their obligation. Metadata elements that
+  are not used in the profile can be instantiated, but a warning will occur. If a class is instantiated, but misses mandatory
+  elements, a warning will occur. If the profile is omitted, a standard profile is used. This allows all ISO entries,
+  none of which is mandatory. This results in a run without any notifications about missing or excess metadata elements.
+- `allowedFileFormat = xxx` defines a file extension to be allowed (interpreted in the DQ_FormatConsistency). This entry
+  is allowed an arbitrary number of times.
+
+In the case of an *ascii file in csv format* more content in the property file must be provided:
 - `geodataReference = filenameGeodata.gpkg` gives the file name of the geodata that serves as geographic base data for
   the recent ascii file. Currently only geopackage format is allowed.
-- `geoTableName = tablename` denotes an arbitrary long list of tables in the geopackage to be interpreted.
-- `geoColNameJoin = columnName` an arbitrary long list of column headers in the geopackage to form a concatenated string.
-  This string is used to identify unambiguous elements within the tables in the geopackage.
-- `asciiColNameJoin = columnName` means the same like geoColNameJoin, but for the column names in the ascii file. The
-  order of the entries must be the same in geoColNameJoin and asciiColNameJoin.
-- `asciiColNameDefine = columnName` these entries designate the column name for definition of temporal or thematic contents.
-  Further analysis of data quality use these columns.
-- `descriptionAsciiColNameDefine = thematic/temporal` gives the description whether columns in asciiColNameDefine are of
-  thematic or temporal type. The order of asciiColNameDefine and descriptionAsciiColNameDefine must be given accordingly.
-- `asciiColNameIgnore = columnName` indicates a column to be ignored. Multiple entries with asciiColNameIgnore are possible.
+- `geoTableName = tablename` denotes a table in the geopackage to be interpreted. Multiple entries are allowed.
+- `geoColNameJoin = columnName` a column header in the geopackage. Multiple entries are allowed and are concatenated in
+  the order of appearance. The resulting string is used to identify unambiguous elements within the tables in the geopackage.
+- `asciiColNameJoin = columnName` means the same like geoColNameJoin, but for the column names in the ascii file (can be
+  different names). The order of the entries must be the same as in geoColNameJoin.
+- `asciiColNameDefine = columnName` these entries designate the column name for definition of temporal, thematic, or
+  additional contents. Further analysis of data quality use these columns.
+- `descriptionAsciiColNameDefine = thematic/temporal/additional` gives the description whether columns in asciiColNameDefine
+  are of thematic, temporal, or additional type. The order of asciiColNameDefine and descriptionAsciiColNameDefine must
+  be given accordingly. Multiple entries for each type are allowed and will be concatenated internally.
+- `asciiColNameIgnore = columnName` indicates a column to be ignored. Multiple entries are allowed.
+- `colJoinNumerical = true/false` if the joining criteria can be interpreted numerically and at least one criterion can
+  be interpreted as sequence a faster table masking version is tried. 
+- `colJoinSequential = true/false` indicates whether the columns used to join the table entries to geographic entities
+  can be interpreted as an incremental sequence. The number of entries shall be the same as geoColNameJoin or asciiColNameJoin.
 - `postgresUse = true/false` if true, a postgresql database is used to derive data quality elements from csv content
   -> faster and for larger files the only useful decision
 - `postgresHostname = 127.0.0.1` hostname for postgresql database
 - `postgresDatabase = databaseName` name of postgres database
 - `postgresUser = userName` name of postgres user
 - `postgresPasswd =` password for postgres user (can be left empty if login equals postgres user)
+- `thematicMapping = true/false` if true a mapping from thematic IDs according to a mapping dictionary is done.
+- `thematicMappingFile = filename.csv` ascii file with the mapping from the ID to a string.
+- `thematicMappingColFrom = colname` column name of IDs in thematicMappingFile.
+- `thematicMappingColTo = colname` column name of target strings in thematicMappingFile.
 
 
 ## Structure
