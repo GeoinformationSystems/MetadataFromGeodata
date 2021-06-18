@@ -143,11 +143,23 @@ public class GeoTIFFMetadata implements Metadata {
             MD_Resolution mdResolution = new MD_Resolution();
             MD_Resolution mdResolution2 = new MD_Resolution();
             if (geoTIFF.resolutionIsotropy) {
-                mdResolution.addDistance(geoTIFF.resolutionIsotropic);
+                if (geoTIFF.angularGrid) {
+                    mdResolution.addAngularDistance(geoTIFF.resolutionIsotropic);
+                }
+                else {
+                    mdResolution.addDistance(geoTIFF.resolutionIsotropic);
+                }
             } else {
-                mdResolution.addDistance(geoTIFF.resolutionAnisotropic[0]);
-                mdResolution2.addDistance(geoTIFF.resolutionAnisotropic[1]);
-                mdResolution2.finalizeClass();
+                if (geoTIFF.angularGrid) {
+                    mdResolution.addAngularDistance(geoTIFF.resolutionAnisotropic[0]);
+                    mdResolution2.addAngularDistance(geoTIFF.resolutionAnisotropic[1]);
+                    mdResolution2.finalizeClass();
+                }
+                else {
+                    mdResolution.addDistance(geoTIFF.resolutionAnisotropic[0]);
+                    mdResolution2.addDistance(geoTIFF.resolutionAnisotropic[1]);
+                    mdResolution2.finalizeClass();
+                }
             }
             mdResolution.finalizeClass();
 

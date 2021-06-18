@@ -42,6 +42,7 @@ public class GeoTIFF {
     Coordinate cornerUL = new Coordinate();
     SRSDescription srsDescription;
     String cellRepresentation;
+    boolean angularGrid;
     boolean resolutionIsotropy;
     double resolutionIsotropic;
     double[] resolutionAnisotropic;
@@ -97,6 +98,9 @@ public class GeoTIFF {
             CoordinateReferenceSystem srcCRS = coverage.getCoordinateReferenceSystem2D();
             String srcCRSWKT = srcCRS.toWKT();
             srsDescription = getSrsDescription(srcCRSWKT.split("\n"));
+
+            // angular grid
+            angularGrid = srcCRS.getCoordinateSystem().getAxis(0).getUnit().toString().equals("°");
 
             cellRepresentation = "Area";
 

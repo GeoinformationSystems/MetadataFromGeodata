@@ -228,7 +228,7 @@ public class ShapeMetadata implements Metadata {
             }
 
             MD_Identifier mdIdentifier_MD_ReferenceSystem = new MD_Identifier();
-            mdIdentifier_MD_ReferenceSystem.addCode(authority + "::" + srcCRSepsg);
+            mdIdentifier_MD_ReferenceSystem.addCode(authority + ":" + srcCRSepsg);
             mdIdentifier_MD_ReferenceSystem.addCodeSpace(authority);
             mdIdentifier_MD_ReferenceSystem.addDescription(srcCRS.getName().toString());
             mdIdentifier_MD_ReferenceSystem.finalizeClass();

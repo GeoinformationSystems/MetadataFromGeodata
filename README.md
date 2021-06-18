@@ -24,7 +24,6 @@ to run jar file can be found in the folder examplesAGILE2021.
 - `geodata = filenameGeodata.xxx` is the file name to geospatial data for metadata extraction
 - `outXML = filenameOut.xml` denotes file name for output in xml format. All extracted metadata follow the nested structure
   given in ISO 19115 and ISO 19157. If the file exists it is replaced without asking.
-- `outDB = filenameOut.db` is the file name for a flattened view on metadata in SQLite format.
 
 *Optional content of property file for all formats*:
 - `profile = filenameProfile.json` provides the path (absolute or relative to executing path + file name) to a Json profile
@@ -32,6 +31,10 @@ to run jar file can be found in the folder examplesAGILE2021.
   are not used in the profile can be instantiated, but a warning will occur. If a class is instantiated, but misses mandatory
   elements, a warning will occur. If the profile is omitted, a standard profile is used. This allows all ISO entries,
   none of which is mandatory. This results in a run without any notifications about missing or excess metadata elements.
+- `outDB = filenameOut.db` is the file name for a flattened view on metadata in SQLite format. If not given, no such file
+  is created.
+- `outRDF = filenameOut.ttl` is the file name for mapped metadata to GeoDCAT (https://semiceu.github.io/GeoDCAT-AP/drafts/latest/)
+  compliant rdf format (turtle syntax). If not given, no such file is created.
 - `allowedFileFormat = xxx` defines a file extension to be allowed (interpreted in the DQ_FormatConsistency). This entry
   is allowed an arbitrary number of times.
 
