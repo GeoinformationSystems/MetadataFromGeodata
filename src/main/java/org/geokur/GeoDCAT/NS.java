@@ -39,6 +39,7 @@ public class NS {
     public static final String VCARD = "http://www.w3.org/2006/vcard/ns#";
     public static final String XSD = "http://www.w3.org/2001/XMLSchema#";
     public static final String GEOKUR = "https://geokur-dmp.geo.tu-dresden.de/"; //TODO: adjust if better url is available
+    public static final String GEOQUAL = "https://geokur-dmp.geo.tu-dresden.de/pages/quality-elements#";
 
 
     public static Map<String, String> getNS() {
@@ -72,6 +73,7 @@ public class NS {
         nsMap.put("vcard", NS.VCARD);
         nsMap.put("xsd", NS.XSD);
         nsMap.put("geokur", NS.GEOKUR);
+        nsMap.put("geoqual", NS.GEOQUAL);
 
         return nsMap;
     }

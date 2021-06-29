@@ -1155,7 +1155,7 @@ public class AsciiMetadata implements Metadata {
 
                 // TODO: informative title available?
                 CI_Citation ciCitation = new CI_Citation();
-                ciCitation.addTitle("");
+                ciCitation.addTitle(fileName);
                 ciCitation.addDate(ciDate);
                 ciCitation.finalizeClass();
 
@@ -1199,7 +1199,7 @@ public class AsciiMetadata implements Metadata {
                             }
                         }
                         exExtent.finalizeClass();
-                        mdDataIdentification.addTemporalResolution(String.valueOf(tr.resolution));
+                        mdDataIdentification.addTemporalResolution("P" + String.valueOf(tr.resolution) + "Y");
                         mdDataIdentification.addExtent(exExtent);
                     }
 
@@ -1254,6 +1254,7 @@ public class AsciiMetadata implements Metadata {
                 List<DQ_CompletenessCommission> dqCompletenessCommissionsCount = new ArrayList<>();
                 for (int i = 0; i < csvNumAssessment; i++) {
                     if (excessDataAll[i] > 0) {
+                        // only include completenessCommissionCount if excess items exist (num > 0)
                         dqCompletenessCommissionsCount.add(makeDQCompletenessCommission(colNamesAssessment.get(i), numDataAll, excessDataAll[i], "count"));
                     }
                 }
@@ -1262,6 +1263,7 @@ public class AsciiMetadata implements Metadata {
                 List<DQ_CompletenessCommission> dqCompletenessCommissionsRate = new ArrayList<>();
                 for (int i = 0; i < csvNumAssessment; i++) {
                     if (excessDataAll[i] > 0) {
+                        // only include completenessCommissionRate if excess items exist (num > 0)
                         dqCompletenessCommissionsRate.add(makeDQCompletenessCommission(colNamesAssessment.get(i), numDataAll, excessDataAll[i], "rate"));
                     }
                 }
@@ -1273,8 +1275,11 @@ public class AsciiMetadata implements Metadata {
                 if (availabilityThematic && thematicMapping) {
                     for (int i = 0; i < csvNumAssessment; i++) {
                         mappability.add(evaluateCommoditiesMappingPossibility(commoditiesAssessmentColsAll.get(i)));
-                        dqNonQuantitativeAttributeCorrectnessCount.add(makeDQNonQuantitativeAttributeCorrectnessCount(colNamesAssessment.get(i), mappability.get(i), now));
-                        dqNonQuantitativeAttributeCorrectnessRate.add(makeDQNonQuantitativeAttributeCorrectnessRate(colNamesAssessment.get(i), mappability.get(i), now));
+                        if (mappability.get(i)[0] - mappability.get(i)[1] != 0) {
+                            // only include nonQuantitativeAttributeCorrectness if incorrect attributes occur (num > 0)
+                            dqNonQuantitativeAttributeCorrectnessCount.add(makeDQNonQuantitativeAttributeCorrectnessCount(colNamesAssessment.get(i), mappability.get(i), now));
+                            dqNonQuantitativeAttributeCorrectnessRate.add(makeDQNonQuantitativeAttributeCorrectnessRate(colNamesAssessment.get(i), mappability.get(i), now));
+                        }
                     }
                 }
 
@@ -1322,7 +1327,7 @@ public class AsciiMetadata implements Metadata {
                     }
                 }
 
-                // metaquality - number of different commodity elements per attribute
+                // metaquality - number of different thematic elements per attribute
                 List<DQ_Representativity> dqRepresentativitiesThematic = new ArrayList<>();
                 if (availabilityThematic) {
                     for (int i = 0; i < csvNumAssessment; i++) {
@@ -1808,14 +1813,14 @@ public class AsciiMetadata implements Metadata {
     static DQ_Representativity makeDQRepresentativityThematic(String nameAttribute, int numDataActual, String now) {
         // instantiate DQ_Representativity class for number of different commodities
         DQ_MeasureReference dqMeasureReference = new DQ_MeasureReference();
-        dqMeasureReference.addNameOfMeasure("number of different commodity elements");
-        dqMeasureReference.addMeasureDescription("Number of different commodity elements at given attribute. All commodity elements are equally interpreted");
+        dqMeasureReference.addNameOfMeasure("number of different thematic elements");
+        dqMeasureReference.addMeasureDescription("Number of different thematic elements at given attribute. All thematic elements are equally interpreted");
         dqMeasureReference.finalizeClass();
 
         DQ_EvaluationMethod dqEvaluationMethod = new DQ_FullInspection();
         dqEvaluationMethod.addEvaluationMethodType(new DQ_EvaluationMethodTypeCode(DQ_EvaluationMethodTypeCode.DQ_EvaluationMethodTypeCodes.directInternal));
         dqEvaluationMethod.addDateTime(now);
-        dqEvaluationMethod.addEvaluationMethodDescription("number of different commodity elements at given attribute");
+        dqEvaluationMethod.addEvaluationMethodDescription("number of different thematic elements at given attribute");
         dqEvaluationMethod.finalizeClass();
 
         MD_ScopeDescription mdScopeDescription = new MD_ScopeDescription();
@@ -1838,7 +1843,7 @@ public class AsciiMetadata implements Metadata {
         dqQuantitativeResult.addResultScope(mdScopeAttribute);
         dqQuantitativeResult.addDateTime(now);
         dqQuantitativeResult.addValue(record);
-        dqQuantitativeResult.addValueUnit("number of commodity elements");
+        dqQuantitativeResult.addValueUnit("number of thematic elements");
         dqQuantitativeResult.finalizeClass();
 
         DQ_Representativity dqRepresentativity = new DQ_Representativity();

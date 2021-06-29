@@ -140,7 +140,7 @@ public class MetadataGenerator {
         if (!properties.outRDF.isEmpty() && metadata != null) {
             model.setNsPrefixes(NS.getNS());
 
-            MappedMetadata mappedMetadata = new MappedMetadata(model, fileType);
+            MappedMetadata mappedMetadata = new MappedMetadata(model, fileType, properties.rdfLinkBase);
             model = mappedMetadata.fillModel(metadata);
 
             try {
@@ -183,7 +183,6 @@ public class MetadataGenerator {
             idx = propertyName.indexOf("profile");
             if (idx == -1) {
                 System.out.println("No profile given - standard taken");
-//                properties.setProfileFilename("config/profileISOall.json");
                 properties.setProfileFilename("-999");
             } else {
                 properties.setProfileFilename(propertyContent.get(idx));
@@ -217,6 +216,15 @@ public class MetadataGenerator {
             }
             else {
                 properties.setOutRDF(propertyContent.get(idx));
+            }
+
+            // rdfLinkBase can be empty if no rdf output is requested - otherwise mandatory
+            idx = propertyName.indexOf("rdflinkbase");
+            if (!properties.outRDF.isEmpty() && idx == -1) {
+                throw new ListContentException("rdfLinkBase", filenameProperties);
+            }
+            else {
+                properties.setRdfLinkBase(propertyContent.get(idx));
             }
 
             // asciiColNameIgnore can be empty - no ListContentException

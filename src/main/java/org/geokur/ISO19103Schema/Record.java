@@ -109,18 +109,26 @@ public class Record {
     */
 }
 
-class RecordEntry {
-    @XmlAttribute(name = "name")
-    String fieldName;
-
-    @XmlValue
-    String value;
-
-    void setFieldName(String fieldName) {
-        this.fieldName = fieldName;
-    }
-
-    void setValue(String value) {
-        this.value = value;
-    }
-}
+//class RecordEntry {
+//    @XmlAttribute(name = "name")
+//    String fieldName;
+//
+//    @XmlValue
+//    String value;
+//
+//    void setFieldName(String fieldName) {
+//        this.fieldName = fieldName;
+//    }
+//
+//    void setValue(String value) {
+//        this.value = value;
+//    }
+//
+//    public String getFieldName() {
+//        return fieldName;
+//    }
+//
+//    public String getValue() {
+//        return value;
+//    }
+//}

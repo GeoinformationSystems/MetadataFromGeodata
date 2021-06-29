@@ -135,7 +135,7 @@ public class GeoTIFFMetadata implements Metadata {
             ciDate.finalizeClass();
 
             CI_Citation ciCitation = new CI_Citation();
-            ciCitation.addTitle("");
+            ciCitation.addTitle(fileName);
             ciCitation.addDate(ciDate);
             ciCitation.finalizeClass();
 

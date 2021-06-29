@@ -180,7 +180,7 @@ public class GeopackageMetadata implements Metadata {
 
         // TODO: informative title available?
         CI_Citation ciCitation = new CI_Citation();
-        ciCitation.addTitle("");
+        ciCitation.addTitle(fileName);
         ciCitation.addDate(ciDate);
         ciCitation.finalizeClass();
 

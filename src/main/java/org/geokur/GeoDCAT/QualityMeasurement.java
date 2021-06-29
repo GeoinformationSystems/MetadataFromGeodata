@@ -26,4 +26,9 @@ public class QualityMeasurement {
 
     // optional properties
 
+    // additional properties from GeoKur profile
+    public static final Property confidence = model.createProperty(NS.GEOKUR, "confidence");
+    public static final Property representativity = model.createProperty(NS.GEOKUR, "hasRepresentativity");
+    public static final Property sourceOfInformation = model.createProperty(NS.DQV, "hasQualityMetadata");
+    public static final Property groundTruth = model.createProperty(NS.GEOKUR, "hasGroundTruth");
 }

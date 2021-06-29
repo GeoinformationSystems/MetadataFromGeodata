@@ -74,4 +74,8 @@ public class Dataset {
     public static final Property processor = model.createProperty(NS.GEODCAT, "processor");
     public static final Property resourceProvider = model.createProperty(NS.GEODCAT, "resourceProvider");
     public static final Property user = model.createProperty(NS.GEODCAT, "user");
+
+    // additional properties from GeoKur profile
+    public static final Property hasQualityAnnotation = model.createProperty(NS.DQV, "hasQualityAnnotation");
+    public static final Property hasQualityMeasurement = model.createProperty(NS.DQV, "hasQualityMeasurement");
 }
