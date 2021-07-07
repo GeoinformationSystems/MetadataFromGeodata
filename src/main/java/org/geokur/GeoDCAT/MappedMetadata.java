@@ -12,7 +12,6 @@ import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.vocabulary.RDF;
 import org.apache.jena.vocabulary.VCARD4;
-import org.geokur.ISO19103Schema.Record;
 import org.geokur.ISO19103Schema.RecordEntry;
 import org.geokur.ISO19108Schema.TM_Instant;
 import org.geokur.ISO19108Schema.TM_Period;
