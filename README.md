@@ -14,11 +14,14 @@ The latter serves as an extension point to generate output in other standard com
 This project is one result of the project GeoKur. Look at the project page https://geokur.geo.tu-dresden.de/ for further
 information.
 
+**Publication:** Some results of this tool were published at AGILE 2021. The paper can be found here https://doi.org/10.5194/agile-giss-2-41-2021 .
+All examples from the paper are given in the folder examplesAGILE2021.
+
 
 ## Usage
 Use the IDE of your choice and build, e.g., a jar file. The package needs one argument - the filename of a property file.
-This file must contain all information to run the main method. An example is given in config/propertiesExample.txt. A ready
-to run jar file can be found in the folder examplesAGILE2021.
+This file must contain all information to run the main method. An example is given in config/propertiesExample.txt. A precompiled
+jar file is given in the folder target.
 
 *Minimum content of a property file*: 
 - `geodata = filenameGeodata.xxx` is the file name to geospatial data for metadata extraction
