@@ -38,6 +38,7 @@ jar file is given in the folder target.
   is created.
 - `outRDF = filenameOut.ttl` is the file name for mapped metadata to GeoDCAT (https://semiceu.github.io/GeoDCAT-AP/drafts/latest/)
   compliant rdf format (turtle syntax). If not given, no such file is created.
+- `rdfLinkBase = https://geokur-dmp.geo.tu-dresden.de/datasets/` sets the basis of linked data, needed if an rdf file is requested.
 - `allowedFileFormat = xxx` defines a file extension to be allowed (interpreted in the DQ_FormatConsistency). This entry
   is allowed an arbitrary number of times.
 
@@ -110,6 +111,12 @@ The metadataFromGeodata project is structured into several packages:
   content via metadata_id
 - metadata content table (e.g., exampleGeo_gpkg_1_metadata) summarizes all metadata content
 - properties allows future extensions
+
+*rdf file*
+- mapped content of xml file to GeoDCAT compliant turtle format
+- all namespaces from xml are included
+- each spatial entity is an own dataset
+- the structure of datasets is realised in rdf compliant way, the tree struture is given via `dct:isPartOf`
 
 
 ## Extracted Metadata Elements

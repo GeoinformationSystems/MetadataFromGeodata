@@ -8,10 +8,10 @@ profile = config/profile_GeoKur.json
 
 
 ## filename of geodata
-geodata = examples/exampleGeo.gpkg
+# geodata = examples/exampleGeo.gpkg
 # geodata = examples/exampleGeoPointLine.gpkg
 # geodata = examples/exampleGeoETRS.gpkg
-# geodata = examples/exampleGeoTable.csv
+geodata = examples/exampleGeoTable.csv
 # geodata = examples/exampleGeoShp.shp
 # geodata = examples/exampleGeoShpETRS.shp
 # geodata = examples/rasterExample.tif
@@ -19,8 +19,10 @@ geodata = examples/exampleGeo.gpkg
 
 
 ## filename of outputs (xml and sqlite database)
-outXML = exampleOut.xml
-outDB = exampleOut.db
+outXML = examplesOut/exampleOut.xml
+outDB = examplesOut/exampleOut.db
+outRDF = examplesOut/exampleOut.ttl
+rdfLinkBase = https://geokur-dmp.geo.tu-dresden.de/datasets/
 
 
 ## allowed file formats (only interpreted if given)
@@ -69,6 +71,6 @@ colJoinSequential = false
 
 # mapping of thematic classes
 thematicMapping = true
-thematicMappingFile = examples/exampleIDCommodities.csv
+thematicMappingFile = examples/exampleIDCommodity.csv
 thematicMappingColFrom = commodityID
 thematicMappingColTo = target

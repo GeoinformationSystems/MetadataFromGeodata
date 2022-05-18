@@ -6,26 +6,27 @@
 
 package org.geokur;
 
-import org.apache.jena.datatypes.xsd.XSDDatatype;
+//import org.apache.jena.datatypes.xsd.XSDDatatype;
 import org.apache.jena.rdf.model.*;
 import org.apache.jena.riot.Lang;
 import org.apache.jena.riot.RDFDataMgr;
-import org.apache.jena.vocabulary.RDF;
-import org.apache.jena.vocabulary.VCARD4;
+//import org.apache.jena.riot.RDFFormat;
+//import org.apache.jena.vocabulary.RDF;
+//import org.apache.jena.vocabulary.VCARD4;
 import org.geokur.GeoDCAT.*;
-import org.geokur.ISO19108Schema.TM_Period;
+//import org.geokur.ISO19108Schema.TM_Period;
 import org.geokur.ISO19115Schema.*;
 import org.geokur.ISO191xxProfile.ProfileReader;
 import org.geokur.generateMetadata.*;
-import org.geotools.referencing.CRS;
+//import org.geotools.referencing.CRS;
 import org.jdom2.Document;
 import org.jdom2.Element;
 import org.jdom2.JDOMException;
 import org.jdom2.input.SAXBuilder;
-import org.opengis.referencing.FactoryException;
-import org.opengis.referencing.crs.CoordinateReferenceSystem;
+//import org.opengis.referencing.FactoryException;
+//import org.opengis.referencing.crs.CoordinateReferenceSystem;
 
-import javax.validation.constraints.Null;
+//import javax.validation.constraints.Null;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;

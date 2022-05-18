@@ -1,0 +1,1318 @@
+@prefix schema: <http://schema.org/> .
+@prefix spdx:  <http://spdx.org/rdf/terms#> .
+@prefix geodcat: <http://data.europa.eu/930/> .
+@prefix gsp:   <http://www.opengis.net/ont/geosparql#> .
+@prefix owl:   <http://www.w3.org/2002/07/owl#> .
+@prefix dqv:   <http://www.w3.org/ns/dqv#> .
+@prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
+@prefix skos:  <http://www.w3.org/2004/02/skos/core#> .
+@prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix geokur: <https://geokur-dmp.geo.tu-dresden.de/> .
+@prefix dct:   <http://purl.org/dc/terms/> .
+@prefix dcat:  <http://www.w3.org/ns/dcat#> .
+@prefix locn:  <http://www.w3.org/ns/locn#> .
+@prefix prov:  <http://www.w3.org/ns/prov#> .
+@prefix foaf:  <http://xmlns.com/foaf/0.1/> .
+@prefix adms:  <http://www.w3.org/ns/adms#> .
+@prefix dcatap: <http://data.europa.eu/r5r/> .
+@prefix org:   <http://www.w3.org/ns/org#> .
+@prefix cnt:   <http://www.w3.org/2011/content#> .
+@prefix vcard: <http://www.w3.org/2006/vcard/ns#> .
+@prefix geoqual: <https://geokur-dmp.geo.tu-dresden.de/pages/quality-elements#> .
+@prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix sdmx_attribute: <http://purl.org/linked-data/sdmx/2009/attribute#> .
+@prefix dctype: <http://purl.org/dc/dcmitype/> .
+@prefix time:  <http://www.w3.org/2006/time#> .
+@prefix odrl:  <http://www.w3.org/ns/odrl/2/> .
+@prefix dc:    <http://purl.org/dc/elements/1.1/> .
+
+<attributeName_production_1>
+        rdf:type                   dcat:Dataset ;
+        dct:isPartOf               <layerName_level_2> ;
+        dct:temporal               [ rdf:type        dct:PeriodOfTime ;
+                                     dcat:endDate    "2012"^^xsd:dateTime ;
+                                     dcat:startDate  "2008"^^xsd:dateTime
+                                   ] ;
+        dcat:keyword               "commodity for id 45 " , "commodity for id 244" , "commodity for id 220" , "commodity for id 235" , "commodity for id 150" , "commodity for id 254" , "commodity for id 242" , "commodity for id 185" , "commodity for id 46 " , "commodity for id 228" , "commodity for id 269" , "commodity for id 245" , "commodity for id 84 " ;
+        dcat:temporalResolution    "P1Y"^^xsd:duration ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:completenessOmissionAsNumberOfMissingItems ;
+                                     dqv:value            "68"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfDifferentSpatialElements ;
+                                     dqv:value            "13"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfThematicElementsPerTemporalUnitMean ;
+                                     dqv:value            "12.8"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfTemporalElementsPerGeographicalUnitQuantile25 ;
+                                     dqv:value            "0.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfTemporalElementsPerGeographicalUnitQuantile50 ;
+                                     dqv:value            "0.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfThematicElementsPerGeographicalUnitQuantile05 ;
+                                     dqv:value            "0.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfThematicElementsPerTemporalUnitQuantile05 ;
+                                     dqv:value            "12.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfThematicElementsPerTemporalUnitQuantile75 ;
+                                     dqv:value            "13.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfThematicElementsPerGeographicalUnitMin ;
+                                     dqv:value            "0.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfTemporalElementsPerGeographicalUnitQuantile75 ;
+                                     dqv:value            "5.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfThematicElementsPerGeographicalUnitMean ;
+                                     dqv:value            "5.5"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfThematicElementsPerTemporalUnitQuantile50 ;
+                                     dqv:value            "13.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfTemporalElementsPerGeographicalUnitQuantile05 ;
+                                     dqv:value            "0.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfDifferentTemporalElements ;
+                                     dqv:value            "5"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfDifferentThematicElements ;
+                                     dqv:value            "13"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfThematicElementsPerTemporalUnitMax ;
+                                     dqv:value            "13.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfThematicElementsPerGeographicalUnitQuantile95 ;
+                                     dqv:value            "13.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfThematicElementsPerTemporalUnitQuantile25 ;
+                                     dqv:value            "12.75"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfThematicElementsPerGeographicalUnitQuantile50 ;
+                                     dqv:value            "0.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfThematicElementsPerGeographicalUnitQuantile75 ;
+                                     dqv:value            "13.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:completenessOmissionAsRateOfMissingItems ;
+                                     dqv:value            "8.333333333333343"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfThematicElementsPerTemporalUnitMin ;
+                                     dqv:value            "12.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfTemporalElementsPerGeographicalUnitQuantile95 ;
+                                     dqv:value            "5.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfThematicElementsPerGeographicalUnitQuantile95 ;
+                                     dqv:value            "13.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfTemporalElementsPerGeographicalUnitMin ;
+                                     dqv:value            "0.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfThematicElementsPerGeographicalUnitQuantile25 ;
+                                     dqv:value            "0.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfTemporalElementsPerGeographicalUnitMax ;
+                                     dqv:value            "5.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfThematicElementsPerGeographicalUnitMax ;
+                                     dqv:value            "13.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfTemporalElementsPerGeographicalUnitMean ;
+                                     dqv:value            "2.1666666666666665"
+                                   ] .
+
+<attributeName_harvested_1>
+        rdf:type                   dcat:Dataset ;
+        dct:isPartOf               <layerName_level_2> ;
+        dct:temporal               [ rdf:type        dct:PeriodOfTime ;
+                                     dcat:endDate    "2012"^^xsd:dateTime ;
+                                     dcat:startDate  "2008"^^xsd:dateTime
+                                   ] ;
+        dcat:keyword               "commodity for id 46 " , "commodity for id 244" , "commodity for id 150" , "commodity for id 242" , "commodity for id 45 " , "commodity for id 84 " , "commodity for id 235" , "commodity for id 254" , "commodity for id 185" , "commodity for id 269" , "commodity for id 245" , "commodity for id 228" , "commodity for id 220" ;
+        dcat:temporalResolution    "P1Y"^^xsd:duration ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfThematicElementsPerTemporalUnitQuantile05 ;
+                                     dqv:value            "12.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfThematicElementsPerGeographicalUnitQuantile95 ;
+                                     dqv:value            "13.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfDifferentSpatialElements ;
+                                     dqv:value            "13"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfTemporalElementsPerGeographicalUnitMean ;
+                                     dqv:value            "2.1666666666666665"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfDifferentThematicElements ;
+                                     dqv:value            "13"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfThematicElementsPerTemporalUnitQuantile75 ;
+                                     dqv:value            "13.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfThematicElementsPerTemporalUnitMean ;
+                                     dqv:value            "12.8"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfTemporalElementsPerGeographicalUnitQuantile75 ;
+                                     dqv:value            "5.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfThematicElementsPerTemporalUnitMin ;
+                                     dqv:value            "12.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:completenessOmissionAsRateOfMissingItems ;
+                                     dqv:value            "8.333333333333343"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfThematicElementsPerGeographicalUnitQuantile95 ;
+                                     dqv:value            "13.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfTemporalElementsPerGeographicalUnitQuantile05 ;
+                                     dqv:value            "0.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfTemporalElementsPerGeographicalUnitMax ;
+                                     dqv:value            "5.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:completenessOmissionAsNumberOfMissingItems ;
+                                     dqv:value            "68"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfThematicElementsPerGeographicalUnitMax ;
+                                     dqv:value            "13.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfTemporalElementsPerGeographicalUnitQuantile50 ;
+                                     dqv:value            "0.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfDifferentTemporalElements ;
+                                     dqv:value            "5"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfTemporalElementsPerGeographicalUnitQuantile25 ;
+                                     dqv:value            "0.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfThematicElementsPerGeographicalUnitQuantile75 ;
+                                     dqv:value            "13.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfThematicElementsPerGeographicalUnitQuantile05 ;
+                                     dqv:value            "0.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfThematicElementsPerTemporalUnitQuantile50 ;
+                                     dqv:value            "13.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfThematicElementsPerTemporalUnitMax ;
+                                     dqv:value            "13.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfThematicElementsPerGeographicalUnitQuantile50 ;
+                                     dqv:value            "0.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfThematicElementsPerGeographicalUnitMin ;
+                                     dqv:value            "0.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfThematicElementsPerGeographicalUnitMean ;
+                                     dqv:value            "5.5"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfThematicElementsPerGeographicalUnitQuantile25 ;
+                                     dqv:value            "0.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfTemporalElementsPerGeographicalUnitQuantile95 ;
+                                     dqv:value            "5.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfTemporalElementsPerGeographicalUnitMin ;
+                                     dqv:value            "0.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfThematicElementsPerTemporalUnitQuantile25 ;
+                                     dqv:value            "12.75"
+                                   ] .
+
+<examples/exampleGeoTable.csv>
+        rdf:type  dcat:Dataset .
+
+<attributeName_planted_0>
+        rdf:type                   dcat:Dataset ;
+        dct:isPartOf               <layerName_level_1> ;
+        dct:temporal               [ rdf:type        dct:PeriodOfTime ;
+                                     dcat:endDate    "2015"^^xsd:dateTime ;
+                                     dcat:startDate  "1990"^^xsd:dateTime
+                                   ] ;
+        dcat:keyword               "commodity for id 72 " , "commodity for id 205" , "commodity for id 206" , "commodity for id 256" , "commodity for id 198" ;
+        dcat:temporalResolution    "P5Y"^^xsd:duration ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfThematicElementsPerGeographicalUnitQuantile50 ;
+                                     dqv:value            "5.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfDifferentSpatialElements ;
+                                     dqv:value            "1"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfThematicElementsPerTemporalUnitMean ;
+                                     dqv:value            "0.38596491228070173"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfTemporalElementsPerGeographicalUnitMax ;
+                                     dqv:value            "6.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfThematicElementsPerGeographicalUnitMean ;
+                                     dqv:value            "5.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfThematicElementsPerGeographicalUnitMin ;
+                                     dqv:value            "5.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfTemporalElementsPerGeographicalUnitQuantile05 ;
+                                     dqv:value            "6.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfThematicElementsPerGeographicalUnitQuantile95 ;
+                                     dqv:value            "4.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfThematicElementsPerTemporalUnitMin ;
+                                     dqv:value            "0.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfThematicElementsPerTemporalUnitQuantile50 ;
+                                     dqv:value            "0.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfDifferentThematicElements ;
+                                     dqv:value            "5"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfThematicElementsPerGeographicalUnitMax ;
+                                     dqv:value            "5.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfThematicElementsPerGeographicalUnitQuantile05 ;
+                                     dqv:value            "5.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:completenessOmissionAsRateOfMissingItems ;
+                                     dqv:value            "99.01158827539196"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:completenessCommissionAsNumberOfExcessItems ;
+                                     dqv:value            "7"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfTemporalElementsPerGeographicalUnitMin ;
+                                     dqv:value            "6.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfThematicElementsPerTemporalUnitQuantile25 ;
+                                     dqv:value            "0.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfTemporalElementsPerGeographicalUnitQuantile95 ;
+                                     dqv:value            "6.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:completenessOmissionAsNumberOfMissingItems ;
+                                     dqv:value            "2905"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfTemporalElementsPerGeographicalUnitQuantile50 ;
+                                     dqv:value            "6.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfDifferentTemporalElements ;
+                                     dqv:value            "6"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfThematicElementsPerGeographicalUnitQuantile75 ;
+                                     dqv:value            "5.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfTemporalElementsPerGeographicalUnitMean ;
+                                     dqv:value            "6.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfThematicElementsPerTemporalUnitQuantile75 ;
+                                     dqv:value            "0.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfTemporalElementsPerGeographicalUnitQuantile75 ;
+                                     dqv:value            "6.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:completenessCommissionAsRateOfExcessItems ;
+                                     dqv:value            "0.23858214042263123"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfThematicElementsPerGeographicalUnitQuantile95 ;
+                                     dqv:value            "5.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfThematicElementsPerGeographicalUnitQuantile25 ;
+                                     dqv:value            "5.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfThematicElementsPerTemporalUnitQuantile05 ;
+                                     dqv:value            "0.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfThematicElementsPerTemporalUnitMax ;
+                                     dqv:value            "4.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfTemporalElementsPerGeographicalUnitQuantile25 ;
+                                     dqv:value            "6.0"
+                                   ] .
+
+<layerName_level_1>  rdf:type      dcat:Dataset ;
+        dct:created                "2020-12-09T14:40:59.968417Z"^^xsd:dateTime ;
+        dct:identifier             "pid:0410d5f7-fac1-4ff8-aeb0-a27272b040e9" ;
+        dct:isPartOf               <examples/exampleGeoTable.csv> ;
+        dct:title                  "level_1" ;
+        dcat:distribution          [ rdf:type    dcat:Dataset ;
+                                     dct:format  <http://publications.europa.eu/resource/authority/file-type/CSV>
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsPolygonsPerArea ;
+                                     dqv:value            "0.002453"
+                                   ] .
+
+<attributeName_yield_0>
+        rdf:type                   dcat:Dataset ;
+        dct:isPartOf               <layerName_level_1> ;
+        dct:temporal               [ rdf:type        dct:PeriodOfTime ;
+                                     dcat:endDate    "2017"^^xsd:dateTime ;
+                                     dcat:startDate  "1961"^^xsd:dateTime
+                                   ] ;
+        dcat:keyword               "commodity for id 186" , "commodity for id 182" , "commodity for id 233" , "commodity for id 220" , "commodity for id 260" , "commodity for id 176" , "commodity for id 209" , "commodity for id 150" , "commodity for id 216" , "commodity for id 99 " , "commodity for id 153" , "commodity for id 84 " , "commodity for id 203" , "commodity for id 268" , "commodity for id 244" , "commodity for id 264" , "commodity for id 235" , "commodity for id 98 " , "commodity for id 251" , "commodity for id 66 " , "commodity for id 109" , "commodity for id 241" , "commodity for id 207" , "commodity for id 227" , "commodity for id 193" , "commodity for id 184" , "commodity for id 45 " , "commodity for id 91 " , "commodity for id 255" , "commodity for id 46 " , "commodity for id 11" , "commodity for id 101" , "commodity for id 141" , "commodity for id 269" , "commodity for id 18 " , "commodity for id 245" , "commodity for id 42 " , "commodity for id 155" , "commodity for id 175" , "commodity for id 171" , "commodity for id 21 " , "commodity for id 228" , "commodity for id 116" , "commodity for id 118" , "commodity for id 179" , "commodity for id 199" ;
+        dcat:temporalResolution    "P1Y"^^xsd:duration ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfThematicElementsPerGeographicalUnitQuantile95 ;
+                                     dqv:value            "46.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfThematicElementsPerTemporalUnitQuantile25 ;
+                                     dqv:value            "28.75"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfThematicElementsPerGeographicalUnitQuantile95 ;
+                                     dqv:value            "46.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfThematicElementsPerTemporalUnitQuantile75 ;
+                                     dqv:value            "46.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfThematicElementsPerTemporalUnitMax ;
+                                     dqv:value            "46.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfTemporalElementsPerGeographicalUnitQuantile25 ;
+                                     dqv:value            "57.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfThematicElementsPerTemporalUnitMin ;
+                                     dqv:value            "27.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:completenessOmissionAsRateOfMissingItems ;
+                                     dqv:value            "26.244035446489434"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfTemporalElementsPerGeographicalUnitMean ;
+                                     dqv:value            "57.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfDifferentThematicElements ;
+                                     dqv:value            "46"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfThematicElementsPerTemporalUnitQuantile05 ;
+                                     dqv:value            "27.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfThematicElementsPerGeographicalUnitQuantile05 ;
+                                     dqv:value            "46.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfTemporalElementsPerGeographicalUnitQuantile05 ;
+                                     dqv:value            "57.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfThematicElementsPerTemporalUnitQuantile50 ;
+                                     dqv:value            "44.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfThematicElementsPerGeographicalUnitMin ;
+                                     dqv:value            "46.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfThematicElementsPerGeographicalUnitQuantile25 ;
+                                     dqv:value            "46.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfTemporalElementsPerGeographicalUnitQuantile75 ;
+                                     dqv:value            "57.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfThematicElementsPerGeographicalUnitQuantile50 ;
+                                     dqv:value            "46.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:completenessOmissionAsNumberOfMissingItems ;
+                                     dqv:value            "770"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfDifferentSpatialElements ;
+                                     dqv:value            "1"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfThematicElementsPerGeographicalUnitMean ;
+                                     dqv:value            "46.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfThematicElementsPerGeographicalUnitMax ;
+                                     dqv:value            "46.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfTemporalElementsPerGeographicalUnitMax ;
+                                     dqv:value            "57.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfThematicElementsPerTemporalUnitMean ;
+                                     dqv:value            "37.96491228070175"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfDifferentTemporalElements ;
+                                     dqv:value            "57"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfTemporalElementsPerGeographicalUnitQuantile95 ;
+                                     dqv:value            "57.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfTemporalElementsPerGeographicalUnitQuantile50 ;
+                                     dqv:value            "57.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfThematicElementsPerGeographicalUnitQuantile75 ;
+                                     dqv:value            "46.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfTemporalElementsPerGeographicalUnitMin ;
+                                     dqv:value            "57.0"
+                                   ] .
+
+<attributeName_planted_1>
+        rdf:type                   dcat:Dataset ;
+        dct:isPartOf               <layerName_level_2> ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfThematicElementsPerGeographicalUnitQuantile75 ;
+                                     dqv:value            "0.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfTemporalElementsPerGeographicalUnitQuantile75 ;
+                                     dqv:value            "0.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfThematicElementsPerGeographicalUnitQuantile50 ;
+                                     dqv:value            "0.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfThematicElementsPerGeographicalUnitQuantile05 ;
+                                     dqv:value            "0.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfTemporalElementsPerGeographicalUnitQuantile05 ;
+                                     dqv:value            "0.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfTemporalElementsPerGeographicalUnitMean ;
+                                     dqv:value            "0.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfThematicElementsPerTemporalUnitQuantile25 ;
+                                     dqv:value            "0.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfThematicElementsPerGeographicalUnitQuantile25 ;
+                                     dqv:value            "0.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfThematicElementsPerTemporalUnitQuantile75 ;
+                                     dqv:value            "0.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfTemporalElementsPerGeographicalUnitMin ;
+                                     dqv:value            "0.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfThematicElementsPerTemporalUnitMean ;
+                                     dqv:value            "0.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfThematicElementsPerGeographicalUnitMax ;
+                                     dqv:value            "0.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfThematicElementsPerGeographicalUnitMean ;
+                                     dqv:value            "0.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfTemporalElementsPerGeographicalUnitMax ;
+                                     dqv:value            "0.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfTemporalElementsPerGeographicalUnitQuantile25 ;
+                                     dqv:value            "0.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:completenessOmissionAsRateOfMissingItems ;
+                                     dqv:value            "100.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfTemporalElementsPerGeographicalUnitQuantile50 ;
+                                     dqv:value            "0.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfThematicElementsPerGeographicalUnitMin ;
+                                     dqv:value            "0.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfDifferentTemporalElements ;
+                                     dqv:value            "0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfDifferentThematicElements ;
+                                     dqv:value            "0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfThematicElementsPerTemporalUnitMax ;
+                                     dqv:value            "0.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfDifferentSpatialElements ;
+                                     dqv:value            "0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:completenessOmissionAsNumberOfMissingItems ;
+                                     dqv:value            "816"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfThematicElementsPerGeographicalUnitQuantile95 ;
+                                     dqv:value            "0.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfThematicElementsPerTemporalUnitQuantile05 ;
+                                     dqv:value            "0.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfThematicElementsPerTemporalUnitMin ;
+                                     dqv:value            "0.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfThematicElementsPerTemporalUnitQuantile50 ;
+                                     dqv:value            "0.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfThematicElementsPerGeographicalUnitQuantile95 ;
+                                     dqv:value            "0.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfTemporalElementsPerGeographicalUnitQuantile95 ;
+                                     dqv:value            "0.0"
+                                   ] .
+
+<attributeName_headcount_0>
+        rdf:type                   dcat:Dataset ;
+        dct:isPartOf               <layerName_level_1> ;
+        dct:temporal               [ rdf:type        dct:PeriodOfTime ;
+                                     dcat:endDate    "2017"^^xsd:dateTime ;
+                                     dcat:startDate  "1961"^^xsd:dateTime
+                                   ] ;
+        dcat:keyword               "commodity for id 17 " , "commodity for id 230" , "commodity for id 204" , "commodity for id 261" , "commodity for id 54 " , "commodity for id 190" , "commodity for id 127" , "commodity for id 86 " , "commodity for id 24 " , "commodity for id 47 " , "commodity for id 106" , "commodity for id 160" , "commodity for id 105" ;
+        dcat:temporalResolution    "P1Y"^^xsd:duration ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfThematicElementsPerGeographicalUnitQuantile50 ;
+                                     dqv:value            "13.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfThematicElementsPerTemporalUnitMax ;
+                                     dqv:value            "13.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfTemporalElementsPerGeographicalUnitQuantile75 ;
+                                     dqv:value            "57.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfTemporalElementsPerGeographicalUnitQuantile50 ;
+                                     dqv:value            "57.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfThematicElementsPerTemporalUnitQuantile05 ;
+                                     dqv:value            "13.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfThematicElementsPerGeographicalUnitQuantile95 ;
+                                     dqv:value            "13.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfThematicElementsPerGeographicalUnitQuantile25 ;
+                                     dqv:value            "13.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfTemporalElementsPerGeographicalUnitMax ;
+                                     dqv:value            "57.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:completenessOmissionAsRateOfMissingItems ;
+                                     dqv:value            "74.74437627811861"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfThematicElementsPerGeographicalUnitMin ;
+                                     dqv:value            "13.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfTemporalElementsPerGeographicalUnitQuantile05 ;
+                                     dqv:value            "57.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfThematicElementsPerGeographicalUnitMean ;
+                                     dqv:value            "13.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfThematicElementsPerTemporalUnitQuantile75 ;
+                                     dqv:value            "13.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfThematicElementsPerGeographicalUnitQuantile75 ;
+                                     dqv:value            "13.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:completenessOmissionAsNumberOfMissingItems ;
+                                     dqv:value            "2193"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfThematicElementsPerTemporalUnitMean ;
+                                     dqv:value            "13.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfTemporalElementsPerGeographicalUnitMin ;
+                                     dqv:value            "57.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfThematicElementsPerGeographicalUnitMax ;
+                                     dqv:value            "13.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfTemporalElementsPerGeographicalUnitMean ;
+                                     dqv:value            "57.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfDifferentSpatialElements ;
+                                     dqv:value            "1"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfDifferentThematicElements ;
+                                     dqv:value            "13"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfDifferentTemporalElements ;
+                                     dqv:value            "57"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfThematicElementsPerTemporalUnitQuantile50 ;
+                                     dqv:value            "13.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfTemporalElementsPerGeographicalUnitQuantile95 ;
+                                     dqv:value            "57.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfThematicElementsPerTemporalUnitQuantile25 ;
+                                     dqv:value            "13.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfThematicElementsPerTemporalUnitMin ;
+                                     dqv:value            "13.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfTemporalElementsPerGeographicalUnitQuantile25 ;
+                                     dqv:value            "57.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfThematicElementsPerGeographicalUnitQuantile95 ;
+                                     dqv:value            "13.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfThematicElementsPerGeographicalUnitQuantile05 ;
+                                     dqv:value            "13.0"
+                                   ] .
+
+<layerName_level_2>  rdf:type      dcat:Dataset ;
+        dct:created                "2020-12-09T14:40:59.968417Z"^^xsd:dateTime ;
+        dct:identifier             "pid:ea14bf6f-52cd-49c2-b32f-9ede86daad92" ;
+        dct:isPartOf               <examples/exampleGeoTable.csv> ;
+        dct:title                  "level_2" ;
+        dcat:distribution          [ rdf:type    dcat:Dataset ;
+                                     dct:format  <http://publications.europa.eu/resource/authority/file-type/CSV>
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsPolygonsPerArea ;
+                                     dqv:value            "0.011236"
+                                   ] .
+
+<attributeName_yield_1>
+        rdf:type                   dcat:Dataset ;
+        dct:isPartOf               <layerName_level_2> ;
+        dct:temporal               [ rdf:type        dct:PeriodOfTime ;
+                                     dcat:endDate    "2012"^^xsd:dateTime ;
+                                     dcat:startDate  "2008"^^xsd:dateTime
+                                   ] ;
+        dcat:keyword               "commodity for id 242" , "commodity for id 185" , "commodity for id 269" , "commodity for id 84 " , "commodity for id 45 " , "commodity for id 228" , "commodity for id 220" , "commodity for id 46 " , "commodity for id 150" , "commodity for id 244" , "commodity for id 254" , "commodity for id 235" , "commodity for id 245" ;
+        dcat:temporalResolution    "P1Y"^^xsd:duration ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfThematicElementsPerTemporalUnitMax ;
+                                     dqv:value            "13.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfThematicElementsPerGeographicalUnitQuantile05 ;
+                                     dqv:value            "0.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfThematicElementsPerGeographicalUnitQuantile75 ;
+                                     dqv:value            "13.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfThematicElementsPerGeographicalUnitMean ;
+                                     dqv:value            "5.5"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfTemporalElementsPerGeographicalUnitMax ;
+                                     dqv:value            "5.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfTemporalElementsPerGeographicalUnitMin ;
+                                     dqv:value            "0.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfTemporalElementsPerGeographicalUnitQuantile25 ;
+                                     dqv:value            "0.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfTemporalElementsPerGeographicalUnitQuantile50 ;
+                                     dqv:value            "0.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfThematicElementsPerGeographicalUnitQuantile25 ;
+                                     dqv:value            "0.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfDifferentTemporalElements ;
+                                     dqv:value            "5"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfDifferentThematicElements ;
+                                     dqv:value            "13"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfThematicElementsPerGeographicalUnitMax ;
+                                     dqv:value            "13.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfTemporalElementsPerGeographicalUnitQuantile05 ;
+                                     dqv:value            "0.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfThematicElementsPerTemporalUnitQuantile50 ;
+                                     dqv:value            "13.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfThematicElementsPerTemporalUnitQuantile75 ;
+                                     dqv:value            "13.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfThematicElementsPerTemporalUnitQuantile25 ;
+                                     dqv:value            "12.75"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfTemporalElementsPerGeographicalUnitMean ;
+                                     dqv:value            "2.1666666666666665"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfThematicElementsPerTemporalUnitMean ;
+                                     dqv:value            "12.8"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfThematicElementsPerTemporalUnitMin ;
+                                     dqv:value            "12.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfTemporalElementsPerGeographicalUnitQuantile75 ;
+                                     dqv:value            "5.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfThematicElementsPerGeographicalUnitQuantile95 ;
+                                     dqv:value            "13.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfDifferentSpatialElements ;
+                                     dqv:value            "13"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfThematicElementsPerGeographicalUnitMin ;
+                                     dqv:value            "0.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfThematicElementsPerGeographicalUnitQuantile95 ;
+                                     dqv:value            "13.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfTemporalElementsPerGeographicalUnitQuantile95 ;
+                                     dqv:value            "5.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfThematicElementsPerTemporalUnitQuantile05 ;
+                                     dqv:value            "12.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfThematicElementsPerGeographicalUnitQuantile50 ;
+                                     dqv:value            "0.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:completenessOmissionAsRateOfMissingItems ;
+                                     dqv:value            "8.333333333333343"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:completenessOmissionAsNumberOfMissingItems ;
+                                     dqv:value            "68"
+                                   ] .
+
+<attributeName_headcount_1>
+        rdf:type                   dcat:Dataset ;
+        dct:isPartOf               <layerName_level_2> ;
+        dct:temporal               [ rdf:type        dct:PeriodOfTime ;
+                                     dcat:endDate    "2012"^^xsd:dateTime ;
+                                     dcat:startDate  "2009"^^xsd:dateTime
+                                   ] ;
+        dcat:keyword               "commodity for id 47 " ;
+        dcat:temporalResolution    "P1Y"^^xsd:duration ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfThematicElementsPerTemporalUnitQuantile75 ;
+                                     dqv:value            "1.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfTemporalElementsPerGeographicalUnitQuantile95 ;
+                                     dqv:value            "4.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfTemporalElementsPerGeographicalUnitQuantile25 ;
+                                     dqv:value            "0.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:completenessOmissionAsNumberOfMissingItems ;
+                                     dqv:value            "748"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfDifferentThematicElements ;
+                                     dqv:value            "1"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfTemporalElementsPerGeographicalUnitQuantile75 ;
+                                     dqv:value            "4.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfThematicElementsPerGeographicalUnitMean ;
+                                     dqv:value            "0.5666666666666667"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfThematicElementsPerGeographicalUnitMin ;
+                                     dqv:value            "0.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfTemporalElementsPerGeographicalUnitQuantile05 ;
+                                     dqv:value            "0.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfDifferentTemporalElements ;
+                                     dqv:value            "4"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfThematicElementsPerGeographicalUnitQuantile25 ;
+                                     dqv:value            "0.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfTemporalElementsPerGeographicalUnitQuantile50 ;
+                                     dqv:value            "4.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfThematicElementsPerGeographicalUnitQuantile50 ;
+                                     dqv:value            "1.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfThematicElementsPerGeographicalUnitMax ;
+                                     dqv:value            "1.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfThematicElementsPerTemporalUnitMin ;
+                                     dqv:value            "0.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfDifferentSpatialElements ;
+                                     dqv:value            "17"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfThematicElementsPerGeographicalUnitQuantile95 ;
+                                     dqv:value            "1.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfThematicElementsPerGeographicalUnitQuantile05 ;
+                                     dqv:value            "0.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfTemporalElementsPerGeographicalUnitMax ;
+                                     dqv:value            "4.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfThematicElementsPerTemporalUnitMean ;
+                                     dqv:value            "0.8"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfThematicElementsPerGeographicalUnitQuantile95 ;
+                                     dqv:value            "1.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfThematicElementsPerTemporalUnitMax ;
+                                     dqv:value            "1.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfThematicElementsPerTemporalUnitQuantile25 ;
+                                     dqv:value            "0.75"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfTemporalElementsPerGeographicalUnitMean ;
+                                     dqv:value            "2.2666666666666666"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfThematicElementsPerGeographicalUnitQuantile75 ;
+                                     dqv:value            "1.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfThematicElementsPerTemporalUnitQuantile50 ;
+                                     dqv:value            "1.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfThematicElementsPerTemporalUnitQuantile05 ;
+                                     dqv:value            "0.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfTemporalElementsPerGeographicalUnitMin ;
+                                     dqv:value            "0.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:completenessOmissionAsRateOfMissingItems ;
+                                     dqv:value            "91.66666666666667"
+                                   ] .
+
+<attributeName_production_0>
+        rdf:type                   dcat:Dataset ;
+        dct:isPartOf               <layerName_level_1> ;
+        dct:temporal               [ rdf:type        dct:PeriodOfTime ;
+                                     dcat:endDate    "2017"^^xsd:dateTime ;
+                                     dcat:startDate  "1961"^^xsd:dateTime
+                                   ] ;
+        dcat:keyword               "commodity for id 207" , "commodity for id 84 " , "commodity for id 176" , "commodity for id 199" , "commodity for id 251" , "commodity for id 98 " , "commodity for id 155" , "commodity for id 175" , "commodity for id 18 " , "commodity for id 186" , "commodity for id 268" , "commodity for id 42 " , "commodity for id 150" , "commodity for id 109" , "commodity for id 101" , "commodity for id 235" , "commodity for id 255" , "commodity for id 91 " , "commodity for id 179" , "commodity for id 66 " , "commodity for id 171" , "commodity for id 182" , "commodity for id 241" , "commodity for id 153" , "commodity for id 46 " , "commodity for id 141" , "commodity for id 184" , "commodity for id 245" , "commodity for id 209" , "commodity for id 233" , "commodity for id 11" , "commodity for id 193" , "commodity for id 216" , "commodity for id 99 " , "commodity for id 228" , "commodity for id 260" , "commodity for id 116" , "commodity for id 227" , "commodity for id 203" , "commodity for id 269" , "commodity for id 45 " , "commodity for id 118" , "commodity for id 244" , "commodity for id 264" , "commodity for id 21 " , "commodity for id 220" ;
+        dcat:temporalResolution    "P1Y"^^xsd:duration ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:completenessOmissionAsRateOfMissingItems ;
+                                     dqv:value            "26.244035446489434"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfThematicElementsPerTemporalUnitMean ;
+                                     dqv:value            "37.96491228070175"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfThematicElementsPerGeographicalUnitQuantile25 ;
+                                     dqv:value            "46.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfTemporalElementsPerGeographicalUnitQuantile25 ;
+                                     dqv:value            "57.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfThematicElementsPerGeographicalUnitMean ;
+                                     dqv:value            "46.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfTemporalElementsPerGeographicalUnitQuantile75 ;
+                                     dqv:value            "57.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfTemporalElementsPerGeographicalUnitMax ;
+                                     dqv:value            "57.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfTemporalElementsPerGeographicalUnitMin ;
+                                     dqv:value            "57.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfThematicElementsPerGeographicalUnitMax ;
+                                     dqv:value            "46.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfThematicElementsPerGeographicalUnitQuantile05 ;
+                                     dqv:value            "46.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfThematicElementsPerGeographicalUnitMin ;
+                                     dqv:value            "46.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfThematicElementsPerTemporalUnitQuantile75 ;
+                                     dqv:value            "46.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfTemporalElementsPerGeographicalUnitQuantile95 ;
+                                     dqv:value            "57.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfDifferentSpatialElements ;
+                                     dqv:value            "1"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfThematicElementsPerTemporalUnitQuantile50 ;
+                                     dqv:value            "44.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfDifferentThematicElements ;
+                                     dqv:value            "46"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfDifferentTemporalElements ;
+                                     dqv:value            "57"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfThematicElementsPerGeographicalUnitQuantile95 ;
+                                     dqv:value            "46.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfTemporalElementsPerGeographicalUnitQuantile50 ;
+                                     dqv:value            "57.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfTemporalElementsPerGeographicalUnitQuantile05 ;
+                                     dqv:value            "57.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfThematicElementsPerGeographicalUnitQuantile95 ;
+                                     dqv:value            "46.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfThematicElementsPerTemporalUnitQuantile25 ;
+                                     dqv:value            "28.75"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfThematicElementsPerTemporalUnitMax ;
+                                     dqv:value            "46.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:completenessOmissionAsNumberOfMissingItems ;
+                                     dqv:value            "770"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfThematicElementsPerGeographicalUnitQuantile75 ;
+                                     dqv:value            "46.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfThematicElementsPerTemporalUnitQuantile05 ;
+                                     dqv:value            "27.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfTemporalElementsPerGeographicalUnitMean ;
+                                     dqv:value            "57.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfThematicElementsPerTemporalUnitMin ;
+                                     dqv:value            "27.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfThematicElementsPerGeographicalUnitQuantile50 ;
+                                     dqv:value            "46.0"
+                                   ] .
+
+<attributeName_harvested_0>
+        rdf:type                   dcat:Dataset ;
+        dct:isPartOf               <layerName_level_1> ;
+        dct:temporal               [ rdf:type        dct:PeriodOfTime ;
+                                     dcat:endDate    "2017"^^xsd:dateTime ;
+                                     dcat:startDate  "1961"^^xsd:dateTime
+                                   ] ;
+        dcat:keyword               "commodity for id 84 " , "commodity for id 66 " , "commodity for id 264" , "commodity for id 171" , "commodity for id 209" , "commodity for id 184" , "commodity for id 245" , "commodity for id 203" , "commodity for id 220" , "commodity for id 186" , "commodity for id 235" , "commodity for id 255" , "commodity for id 42 " , "commodity for id 116" , "commodity for id 269" , "commodity for id 207" , "commodity for id 91 " , "commodity for id 227" , "commodity for id 228" , "commodity for id 101" , "commodity for id 155" , "commodity for id 175" , "commodity for id 176" , "commodity for id 109" , "commodity for id 46 " , "commodity for id 244" , "commodity for id 150" , "commodity for id 141" , "commodity for id 241" , "commodity for id 118" , "commodity for id 216" , "commodity for id 179" , "commodity for id 45 " , "commodity for id 199" , "commodity for id 268" , "commodity for id 251" , "commodity for id 233" , "commodity for id 193" , "commodity for id 99 " , "commodity for id 98 " , "commodity for id 260" , "commodity for id 21 " , "commodity for id 182" , "commodity for id 153" , "commodity for id 18 " , "commodity for id 11" ;
+        dcat:temporalResolution    "P1Y"^^xsd:duration ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfThematicElementsPerGeographicalUnitQuantile50 ;
+                                     dqv:value            "46.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfThematicElementsPerTemporalUnitMin ;
+                                     dqv:value            "27.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfThematicElementsPerTemporalUnitMax ;
+                                     dqv:value            "46.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfThematicElementsPerGeographicalUnitQuantile05 ;
+                                     dqv:value            "46.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfTemporalElementsPerGeographicalUnitQuantile50 ;
+                                     dqv:value            "57.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:completenessOmissionAsRateOfMissingItems ;
+                                     dqv:value            "26.244035446489434"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfTemporalElementsPerGeographicalUnitQuantile05 ;
+                                     dqv:value            "57.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfThematicElementsPerGeographicalUnitQuantile95 ;
+                                     dqv:value            "46.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfTemporalElementsPerGeographicalUnitQuantile95 ;
+                                     dqv:value            "57.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfDifferentSpatialElements ;
+                                     dqv:value            "1"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfTemporalElementsPerGeographicalUnitMax ;
+                                     dqv:value            "57.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfTemporalElementsPerGeographicalUnitMean ;
+                                     dqv:value            "57.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfThematicElementsPerGeographicalUnitMean ;
+                                     dqv:value            "46.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfThematicElementsPerTemporalUnitMean ;
+                                     dqv:value            "37.96491228070175"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfTemporalElementsPerGeographicalUnitQuantile75 ;
+                                     dqv:value            "57.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfTemporalElementsPerGeographicalUnitQuantile25 ;
+                                     dqv:value            "57.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfThematicElementsPerTemporalUnitQuantile75 ;
+                                     dqv:value            "46.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfThematicElementsPerGeographicalUnitQuantile95 ;
+                                     dqv:value            "46.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:completenessOmissionAsNumberOfMissingItems ;
+                                     dqv:value            "770"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfThematicElementsPerGeographicalUnitQuantile75 ;
+                                     dqv:value            "46.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfThematicElementsPerTemporalUnitQuantile25 ;
+                                     dqv:value            "28.75"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfDifferentTemporalElements ;
+                                     dqv:value            "57"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfThematicElementsPerGeographicalUnitMin ;
+                                     dqv:value            "46.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfThematicElementsPerTemporalUnitQuantile05 ;
+                                     dqv:value            "27.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfDifferentThematicElements ;
+                                     dqv:value            "46"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfThematicElementsPerGeographicalUnitQuantile25 ;
+                                     dqv:value            "46.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfTemporalElementsPerGeographicalUnitMin ;
+                                     dqv:value            "57.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfThematicElementsPerTemporalUnitQuantile50 ;
+                                     dqv:value            "44.0"
+                                   ] ;
+        dqv:hasQualityMeasurement  [ rdf:type             dqv:QualityMeasurement ;
+                                     dqv:isMeasurementOf  geoqual:representativityAsNumberOfThematicElementsPerGeographicalUnitMax ;
+                                     dqv:value            "46.0"
+                                   ] .

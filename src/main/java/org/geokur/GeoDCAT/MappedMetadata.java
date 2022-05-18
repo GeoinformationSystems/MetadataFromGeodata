@@ -146,7 +146,7 @@ public class MappedMetadata {
                 List<String> contentColumnNames = getContentColumnNames(metadataAct, true);
                 List<String> contentColumnNamesWoDescription = getContentColumnNames(metadataAct, false);
                 for (int i = 0; i < contentColumnNames.size(); i++) {
-                    Resource subsubDataset = model.createResource(contentColumnNames.get(i) + " " + ct)
+                    Resource subsubDataset = model.createResource(contentColumnNames.get(i) + "_" + ct)
                             .addProperty(RDF.type, Dataset.resourceInstance)
                             .addProperty(Dataset.relatedResource, subDataset);
                     fillDatasetKeywordTag(subsubDataset, mapDatasetKeywordTag(metadataAct, i));
@@ -534,8 +534,11 @@ public class MappedMetadata {
 
                 Resource datasetSpatialGeographicCoverage = model.createResource()
                         .addProperty(RDF.type, Location.resourceInstance)
-                        .addProperty(Location.boundingBox, model.createTypedLiteral(bboxWkt, NS.GSP + "wktLiteral"))
-                        .addProperty(Location.geometry, model.createResource("http://www.opengis.net/def/crs/EPSG/0/" + epsgNumbers.get(0)));
+                        .addProperty(Location.boundingBox, model.createTypedLiteral(bboxWkt, NS.GSP + "wktLiteral"));
+                if (!epsgNumbers.get(0).equals("4326")) {
+                    // only include geometry, if CRS is not WGS84 (web standard)
+                    datasetSpatialGeographicCoverage.addProperty(Location.geometry, model.createResource("http://www.opengis.net/def/crs/EPSG/0/" + epsgNumbers.get(0)));
+                }
                 datasetSpatialGeographicCoverages.add(datasetSpatialGeographicCoverage);
             }
         } catch (NullPointerException ignore) {}
@@ -935,6 +938,8 @@ public class MappedMetadata {
             if (environmentalDescription.toLowerCase().contains("layer name")) {
                 if (includeDescription) {
                     layerName = environmentalDescription.replace("layer name", "layerName");
+                    layerName = layerName.replace(":", "_");
+                    layerName = layerName.replace(" ", "");
                 }
                 else {
                     layerName = environmentalDescription.split(":")[1].trim();
@@ -951,7 +956,10 @@ public class MappedMetadata {
         List<EX_Extent> exExtents = mdMetadata.identificationInfo.get(0).extent;
         for (EX_Extent exExtent : exExtents) {
             if (includeDescription) {
-                columnNames.add(exExtent.description.get(0));
+                String tmp = exExtent.description.get(0);
+                tmp = tmp.replace(":", "_");
+                tmp = tmp.replace(" ", "");
+                columnNames.add(tmp);
             }
             else {
                 columnNames.add(exExtent.description.get(0).split(":")[1].trim());
