@@ -20,8 +20,8 @@ All examples from the paper are given in the folder examplesAGILE2021.
 
 ## Usage
 Use the IDE of your choice and build, e.g., a jar file. The package needs one argument - the filename of a property file.
-This file must contain all information to run the main method. An example is given in config/propertiesExample.txt. A precompiled
-jar file is given in the folder target.
+This file must contain all information to run the main method. An example is given in config/propertiesExample.txt. Precompiled
+jar files are given in the folder precompiledPackages.
 
 *Minimum content of a property file*: 
 - `geodata = filenameGeodata.xxx` is the file name to geospatial data for metadata extraction
